@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>HEADING</h1>
+    <h2>MAIN</h2>
     <Button label="TEST" />
-    <NuxtLink to="/about">About</NuxtLink>
   </div>
 </template>
