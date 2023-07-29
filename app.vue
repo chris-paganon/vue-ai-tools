@@ -1,5 +1,6 @@
 <template>
   <div>
-    <h1>TEST</h1>
+    <h1>HEADING</h1>
+    <Button label="TEST" />
   </div>
 </template>
