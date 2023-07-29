@@ -1,13 +1,8 @@
 <template>
   <div>
-    <div v-if="loading">
-      <h1>loading</h1>
-    </div>
-    <div v-else>
-      <AppHeader />
-      <slot />
-      <AppFooter />
-    </div>
+    <AppHeader />
+    <slot />
+    <AppFooter />
   </div>
 </template>
 
