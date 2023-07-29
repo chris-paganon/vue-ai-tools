@@ -2,9 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: [
-    "primevue/resources/themes/lara-light-blue/theme.css"
+    "assets/theme/themes/material/material-dark/standard/indigo/theme.scss"
   ],
   build: {
     transpile: ["primevue"]
   }
-})
+});
