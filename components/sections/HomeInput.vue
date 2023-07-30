@@ -10,6 +10,6 @@
 const inputQuestion = ref('');
 
 const askQuestion = () => {
-  console.log(inputQuestion.value);
+  useAskQuestion(inputQuestion.value);
 }
 </script>

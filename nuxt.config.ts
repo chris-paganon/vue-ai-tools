@@ -8,5 +8,14 @@ export default defineNuxtConfig({
   ],
   build: {
     transpile: ["primevue"]
-  }
+  },
+  runtimeConfig: {
+    // The private keys which are only available server-side
+    apiSecret: '123',
+    // Keys within public are also exposed client-side
+    public: {
+      openaiOrganization: 'org-AB12',
+      openaiApiKey: 'sk-CD34'
+    }
+  },
 });
