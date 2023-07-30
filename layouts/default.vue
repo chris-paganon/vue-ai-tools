@@ -5,9 +5,7 @@
     </div>
     <div class="h-screen">
       <AppHeader />
-      <main class="my-8 mx-auto px-5">
-        <slot />
-      </main>
+      <slot />
       <AppFooter />
     </div>
   </div>
@@ -20,9 +18,3 @@ onBeforeMount(() => {
   loading.value = false;
 });
 </script>
-
-<style scoped>
-main {
-  max-width: 1024px;
-}
-</style>

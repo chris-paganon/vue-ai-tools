@@ -24,10 +24,12 @@ h1, h2 {
 }
 h1 {
   font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 2rem;
 }
 h2 {
   font-size: 2.5rem;
+  font-weight: 500;
   margin-bottom: 1.5rem;
 }
 h3 {
