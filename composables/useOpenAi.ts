@@ -1,12 +1,9 @@
 import { Configuration, OpenAIApi } from "openai";
 
-export async function useAskQuestion(input: string) {
-  console.log(input);
+export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
   const { addAssistantMessage } = useChatStore();
 
-  if (!input || input == 'test') return;
-  
   const runtimeConfig = useRuntimeConfig();
   const configuration = new Configuration({
       organization: runtimeConfig.public.openaiOrganization,
@@ -19,7 +16,7 @@ export async function useAskQuestion(input: string) {
     messages: messages.value,
   });
   
-  console.log(response.data);
+  console.log('Open AI response:', response.data);
   if (!response.data.choices[0].message?.content) return;
   addAssistantMessage(response.data.choices[0].message.content);
 }

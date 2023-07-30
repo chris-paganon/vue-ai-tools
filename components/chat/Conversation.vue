@@ -7,17 +7,21 @@
           'role-user': message.role === 'user',
           'role-assistant': message.role === 'assistant',
         },
-        'message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'
+        defaultMessageClasses,
       ]"
       :key="key"
       v-html="message.content"
     >
     </p>
+    <p v-if="isWaitingAnswer" :class="[defaultMessageClasses, 'role-assistant']">
+      <ProgressSpinner style="width: 40px; height: 40px" strokeWidth="5" />
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
-const { messages } = storeToRefs(useChatStore());
+const { messages, isWaitingAnswer } = storeToRefs(useChatStore());
+const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
 </script>
 
 <style scoped>

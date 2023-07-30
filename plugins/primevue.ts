@@ -3,6 +3,7 @@ import Button from "primevue/button";
 import Menubar from 'primevue/menubar';
 import Textarea from 'primevue/textarea';
 import Dialog from 'primevue/dialog';
+import ProgressSpinner from 'primevue/progressspinner';
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(PrimeVue, { ripple: true, inputStyle: 'filled' });
@@ -10,4 +11,5 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("Menubar", Menubar);
     nuxtApp.vueApp.component("Textarea", Textarea);
     nuxtApp.vueApp.component("Dialog", Dialog);
+    nuxtApp.vueApp.component("ProgressSpinner", ProgressSpinner);
 });
