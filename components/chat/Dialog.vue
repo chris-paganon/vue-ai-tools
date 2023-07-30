@@ -12,5 +12,5 @@
 </template>
 
 <script setup lang="ts">
-const isChatOpened = useIsChatOpened();
+const { isChatOpened } = storeToRefs(useUIStore()); // setIsChatOpened in v-model
 </script>

@@ -7,14 +7,14 @@
         </NuxtLink>
       </template>
       <template #end>
-        <Button @click="isChatOpened=true">Try me</Button>
+        <Button @click="setIsChatOpened(true)">Try me</Button>
       </template>
     </Menubar>
   </header>
 </template>
 
 <script setup lang="ts">
-const isChatOpened = useIsChatOpened();
+const { setIsChatOpened } = useUIStore();
 </script>
 
 <style scoped>

@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-const inputQuestion = useInputQuestion();
-const isChatOpened = useIsChatOpened();
+const { inputQuestion } = storeToRefs(useChatStore());
+const { setIsChatOpened } = useUIStore();
 
 function askQuestion(event?: KeyboardEvent) {
   // Keep writing if shift+enter is pressed
@@ -15,7 +15,7 @@ function askQuestion(event?: KeyboardEvent) {
   // If only enter is pressed, we do not add newline and we send the question
   event?.preventDefault();
 
-  isChatOpened.value = true;
+  setIsChatOpened(true);
   useAskQuestion(inputQuestion.value);
 }
 </script>
