@@ -1,6 +1,6 @@
 <template>
   <header>
-    <Menubar :model="menuItems" class="w-screen">
+    <Menubar :model="menuItems">
       <template #start>
         <NuxtLink to="/">
           <img src="/logo-nobg.png" alt="Logo" class="logo" width="60" />
