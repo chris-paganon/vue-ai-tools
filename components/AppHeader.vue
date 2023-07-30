@@ -1,26 +1,20 @@
 <template>
   <header>
-    <Menubar :model="menuItems" class="border-noround">
+    <Menubar class="border-noround">
       <template #start>
         <NuxtLink to="/">
           <img src="/img/logo-nobg.png" alt="Logo" class="logo" width="60" />
         </NuxtLink>
       </template>
       <template #end>
-        <Button>
-          <NuxtLink to="/try" class="no-underline">
-            Try me
-          </NuxtLink>
-        </Button>
+        <Button @click="isChatOpened=true">Try me</Button>
       </template>
     </Menubar>
   </header>
 </template>
 
 <script setup lang="ts">
-  const menuItems = ref([
-    { label: 'Home', to: '/' }
-  ]);
+const isChatOpened = useIsChatOpened();
 </script>
 
 <style scoped>

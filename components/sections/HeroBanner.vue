@@ -2,7 +2,7 @@
   <section class="hero-banner h-16rem relative">
     <div class="hero-banner-overlay absolute w-full h-full flex flex-column justify-content-center align-items-center">
       <h1 class="text-center">VueTools.ai</h1>
-      <h2 class="text-2xl text-center">Fine-tuned VueJS Documentation GPT-powered Chatbot</h2>
+      <h2 class="text-2xl text-center">GPT-powered Chatbot Fine-tuned for VueJS Documentation</h2>
     </div>
   </section>
 </template>
