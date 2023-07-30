@@ -1,18 +1,20 @@
 <template>
-  <Menubar :model="menuItems">
-    <template #start>
-      <NuxtLink to="/">
-        <img src="/logo-nobg.png" alt="Logo" class="logo" width="60" />
-      </NuxtLink>
-    </template>
-    <template #end>
-      <Button>
-        <NuxtLink to="/try" class="no-underline">
-          Try me
+  <header>
+    <Menubar :model="menuItems" class="w-screen">
+      <template #start>
+        <NuxtLink to="/">
+          <img src="/logo-nobg.png" alt="Logo" class="logo" width="60" />
         </NuxtLink>
-      </Button>
-    </template>
-  </Menubar>
+      </template>
+      <template #end>
+        <Button>
+          <NuxtLink to="/try" class="no-underline">
+            Try me
+          </NuxtLink>
+        </Button>
+      </template>
+    </Menubar>
+  </header>
 </template>
 
 <script setup lang="ts">

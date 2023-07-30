@@ -6,7 +6,6 @@
 }
 
 body {
-  min-height: 100vh;
   color: var(--text-color);
   background: var(--surface-ground);
   line-height: 1.5;
