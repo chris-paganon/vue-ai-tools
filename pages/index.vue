@@ -1,10 +1,8 @@
 <template>
   <main>
     <SectionsHeroBanner />
-    <div class="boxed py-8 px-4">
-      <SectionsIntroduction />
-      <SectionsHomeInput />
-    </div>
+    <SectionsIntroduction />
+    <SectionsHomeInput />
   </main>
 </template>
 
