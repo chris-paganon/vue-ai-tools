@@ -12,8 +12,17 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: [
-      'composables/store/**',
+      'composables/stores/**',
     ],
+  },
+  modules: [
+    '@pinia/nuxt',
+  ],
+  pinia: {
+    autoImports: [
+      'defineStore',
+      'storeToRefs',
+    ]
   },
   runtimeConfig: {
     // The private keys which are only available server-side
