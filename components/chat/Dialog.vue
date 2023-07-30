@@ -7,7 +7,7 @@
     contentStyle="display: flex; flex-direction: column; flex-grow: 1;"
   >
     <ChatConversation />
-    <ControlsChatInput />
+    <ChatInputControl />
   </Dialog>
 </template>
 

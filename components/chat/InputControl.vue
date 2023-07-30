@@ -6,9 +6,11 @@
 </template>
 
 <script setup lang="ts">
-const inputQuestion = ref('');
+const inputQuestion = useInputQuestion();
+const isChatOpened = useIsChatOpened();
 
 const askQuestion = () => {
+  isChatOpened.value = true;
   useAskQuestion(inputQuestion.value);
 }
 </script>
