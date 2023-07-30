@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 export async function useAskQuestion(input: string) {
   console.log(input);
+  if (!input || input == 'test') return;
   const runtimeConfig = useRuntimeConfig();
 
   const configuration = new Configuration({
