@@ -3,7 +3,7 @@
     <Menubar :model="menuItems">
       <template #start>
         <NuxtLink to="/">
-          <img src="/logo-nobg.png" alt="Logo" class="logo" width="60" />
+          <img src="/img/logo-nobg.png" alt="Logo" class="logo" width="60" />
         </NuxtLink>
       </template>
       <template #end>

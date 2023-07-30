@@ -9,7 +9,7 @@
 
 <style scoped>
 .hero-banner {
-  background-image: url('vuejs-banner.jpg');
+  background-image: url('/img/vuejs-banner.jpg');
   background-size: cover;
   background-position: center top;
 }
