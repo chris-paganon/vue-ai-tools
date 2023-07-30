@@ -10,6 +10,11 @@ export default defineNuxtConfig({
   build: {
     transpile: ["primevue"]
   },
+  imports: {
+    dirs: [
+      'composables/store/**',
+    ],
+  },
   runtimeConfig: {
     // The private keys which are only available server-side
     apiSecret: '123',
