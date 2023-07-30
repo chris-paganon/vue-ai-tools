@@ -1,5 +1,5 @@
 <template>
   <section class="max-w-1024 mx-auto px-4 pt-8">
-    <p class="mb-6">Harness the power of Artificial Intelligence to supercharge your VueJS development journey. Our cutting-edge chatbot is finely tuned to provide you with quick and accurate answers to all your VueJS documentation queries. Whether you're a seasoned VueJS developer or just starting out, our AI chatbot is here to assist you every step of the way.</p>
+    <p class="mb-6">Your go-to resource for chatbot assistance tailored specifically for VueJS. Our GPT-powered chatbot is finely tuned to provide more helpful answers and to minimize errors and hallucinations.</p>
   </section>
 </template>
