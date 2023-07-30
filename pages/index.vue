@@ -8,10 +8,6 @@
   </main>
 </template>
 
-<script setup lang="ts">
-const inputQuestion = ref('');
-</script>
-
 <style scoped>
 .boxed {
   max-width: 1024px;
