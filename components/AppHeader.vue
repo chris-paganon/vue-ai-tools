@@ -7,7 +7,7 @@
         </NuxtLink>
       </template>
       <template #end>
-        <Button @click="setIsChatOpened(true)">Try me</Button>
+        <Button @click="setIsChatOpened(true)">Open Chat</Button>
       </template>
     </Menubar>
   </header>
