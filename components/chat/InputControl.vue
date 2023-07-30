@@ -8,6 +8,7 @@
 <script setup lang="ts">
 const { inputQuestion } = storeToRefs(useChatStore());
 const { setIsChatOpened } = useUIStore();
+const { addUserMessage } = useChatStore();
 
 function askQuestion(event?: KeyboardEvent) {
   // Keep writing if shift+enter is pressed
@@ -16,6 +17,7 @@ function askQuestion(event?: KeyboardEvent) {
   event?.preventDefault();
 
   setIsChatOpened(true);
+  addUserMessage(inputQuestion.value);
   useAskQuestion(inputQuestion.value);
 }
 </script>
