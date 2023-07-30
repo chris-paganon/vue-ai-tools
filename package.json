@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@types/marked": "^5.0.1",
+    "marked": "^5.1.2",
     "openai": "^3.3.0",
     "pinia": "^2.1.6",
     "sass": "^1.64.1"

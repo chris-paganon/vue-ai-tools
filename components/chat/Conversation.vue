@@ -10,7 +10,7 @@
         defaultMessageClasses,
       ]"
       :key="key"
-      v-html="message.content"
+      v-html="parsedMessage(message.content)"
     >
     </p>
     <p v-if="isWaitingAnswer" :class="[defaultMessageClasses, 'role-assistant']">
@@ -20,16 +20,35 @@
 </template>
 
 <script setup lang="ts">
+import { marked } from 'marked';
 const { messages, isWaitingAnswer } = storeToRefs(useChatStore());
 const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
+
+function parsedMessage(message: string | undefined) {
+  if (!message) return '';
+  return marked.parse(message);
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .chat-conversation {
   flex-grow: 1;
 }
 .message {
   max-width: 97%;
+
+  :deep(p:not(:last-child)),
+  :deep(ul:not(:last-child)),
+  :deep(pre:not(:last-child)) {
+    margin-bottom: 1rem;
+  }
+
+  :deep(pre) {
+    background-color: var(--surface-ground);
+    color: var(--text-color);
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+  }
 }
 .role-user {
   margin-left: auto;
