@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="flex-grow-1">
     <SectionsHeroBanner />
     <SectionsIntroduction />
     <SectionsHomeInput />
