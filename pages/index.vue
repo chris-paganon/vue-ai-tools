@@ -1,7 +1,7 @@
 <template>
   <main>
     <SectionsHeroBanner />
-    <div class="py-8 px-4">
+    <div class="boxed py-8 px-4">
       <SectionsIntroduction />
       <SectionsHomeInput />
     </div>
@@ -13,7 +13,8 @@ const inputQuestion = ref('');
 </script>
 
 <style scoped>
-main {
+.boxed {
   max-width: 1024px;
+  margin: 0 auto;
 }
 </style>
