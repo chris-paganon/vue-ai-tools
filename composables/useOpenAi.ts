@@ -4,6 +4,10 @@ export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
   const { addAssistantMessage } = useChatStore();
 
+  console.log('messages.value:', messages.value);
+  const { data } = await useFetch('hello');
+  console.log('data:', data);
+  
   const runtimeConfig = useRuntimeConfig();
   const configuration = new Configuration({
       organization: runtimeConfig.public.openaiOrganization,
