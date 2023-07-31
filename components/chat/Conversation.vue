@@ -26,6 +26,10 @@ const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'bord
 
 function parsedMessage(message: string | undefined) {
   if (!message) return '';
+  marked.use({
+    mangle: false,
+    headerIds: false,
+  });
   return marked.parse(message);
 }
 </script>
