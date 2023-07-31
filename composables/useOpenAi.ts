@@ -5,7 +5,7 @@ export async function useAskQuestion() {
   const { addAssistantMessage } = useChatStore();
 
   console.log('messages.value:', messages.value);
-  const { data } = await useFetch('hello');
+  const { data } = await useFetch('/api/hello');
   console.log('data:', data);
   
   const runtimeConfig = useRuntimeConfig();
