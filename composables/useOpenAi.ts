@@ -1,26 +1,14 @@
-import { Configuration, OpenAIApi } from "openai";
-
 export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
   const { addAssistantMessage } = useChatStore();
-
-  console.log('messages.value:', messages.value);
-  const { data } = await useFetch('/api/hello');
-  console.log('data:', data);
   
-  const runtimeConfig = useRuntimeConfig();
-  const configuration = new Configuration({
-      organization: runtimeConfig.public.openaiOrganization,
-      apiKey: runtimeConfig.public.openaiApiKey,
+  const { data } = await useFetch('/api/completion', {
+    method: 'post',
+    body: {
+      messages: messages.value,
+    },
   });
   
-  const openai = new OpenAIApi(configuration);
-  const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: messages.value,
-  });
-  
-  console.log('Open AI response:', response.data);
-  if (!response.data.choices[0].message?.content) return;
-  addAssistantMessage(response.data.choices[0].message.content);
+  if (!data.value) return;
+  addAssistantMessage(data.value);
 }
