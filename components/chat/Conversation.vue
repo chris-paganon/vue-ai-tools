@@ -1,18 +1,18 @@
 <template>
   <div class="chat-conversation">
-    <p 
-      v-for="(message, key) in messages"
-      :class="[
-        {
-          'role-user': message.role === 'user',
-          'role-assistant': message.role === 'assistant',
-        },
-        defaultMessageClasses,
-      ]"
-      :key="key"
-      v-html="parsedMessage(message.content)"
-    >
-    </p>
+    <template v-for="(message, key) in messages" :key="key" >
+      <p 
+        v-if="message.role !== 'system'"
+        v-html="parsedMessage(message.content)"
+        :class="[
+          {
+            'role-user': message.role === 'user',
+            'role-assistant': message.role === 'assistant',
+          },
+          defaultMessageClasses,
+        ]"
+      ></p>
+    </template>
     <p v-if="isWaitingAnswer" :class="[defaultMessageClasses, 'role-assistant']">
       <ProgressSpinner style="width: 40px; height: 40px" strokeWidth="5" />
     </p>
