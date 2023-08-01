@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const messages = body.messages;
   const data = {
-    model: "gpt-3.5-turbo",
+    model: "gpt-3.5-turbo-16k",
     temperature: 1,
     messages: messages,
   };
