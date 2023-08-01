@@ -52,6 +52,7 @@ function parsedMessage(message: string | undefined) {
     color: var(--text-color);
     padding: 1rem 2rem;
     border-radius: var(--border-radius);
+    white-space: pre-wrap; 
   }
 }
 .role-user {
