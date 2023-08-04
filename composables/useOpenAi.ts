@@ -1,48 +1,48 @@
-export async function useAskQuestion() {
-  const { messages, functions } = storeToRefs(useChatStore());
-  const { addAssistantMessage } = useChatStore();
+import type { ChatCompletionRequestMessage, ChatCompletionFunctions, CreateChatCompletionRequestFunctionCall } from 'openai';
 
-  let payload: any = {
-    messages: messages.value,
-  };
+interface ChatCompletionRequest {
+  messages: ChatCompletionRequestMessage[];
+  functions?: ChatCompletionFunctions[];
+  function_call?: CreateChatCompletionRequestFunctionCall;
+}
 
-  if (functions.value) {
-    payload = {
-      ...payload,
-      functions: functions.value,
-      function_call: {
-        name: functions.value[0].name,
-      },
-    };
-  }
-  
+export async function useCompletion(payload: ChatCompletionRequest) {
   const response = await $fetch('/api/completion', {
     method: 'POST',
     body: payload,
   });
-  
+
   if (!response) return;
+  return response;
+}
+
+export async function useAskQuestion() {
+  const { messages } = storeToRefs(useChatStore());
+  const { addAssistantMessage } = useChatStore();
+  
+  const response = await useCompletion({
+    messages: messages.value,
+  });
+  
   if (!response[0]?.message?.content) return;
   addAssistantMessage(response[0].message.content);
 }
 
-// TODO: Finish this function
-// export async function useAskFunction() {
-//   const { messages, functions } = storeToRefs(useChatStore());
+export async function useAskFunction() {
+  const { messages } = storeToRefs(useChatStore());
+  const { functions } = storeToRefs(useChatFunctionsStore());
+  const { handleChatFunction } = useChatFunctionsStore();
 
-//   if (!functions.value) return;
+  if (!functions.value) return;
   
-//   const response = await $fetch('/api/completion', {
-//     method: 'POST',
-//     body: {
-//       messages: messages.value,
-//       functions: functions.value,
-//       function_call: {
-//         name: functions.value[0].name,
-//       },
-//     },
-//   });
+  const response = await useCompletion({
+    messages: messages.value,
+    functions: functions.value,
+    function_call: {
+      name: functions.value[0].name,
+    },
+  });
   
-//   if (!response) return;
-//   handleChatFunction(response);
-// }
+  if (!response) return;
+  handleChatFunction(response);
+}

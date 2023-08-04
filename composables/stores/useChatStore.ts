@@ -10,19 +10,6 @@ export const useChatStore = defineStore('chat', () => {
     role: 'system',
     content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework. Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${docText}.`,
   }]);
-  const functions = ref([{
-    name: 'getVueDocumentationPage',
-    description: 'Returns the relevant VueJS documentation page from its title.',
-    parameters: {
-      "type": 'object', // Should be array of strings to select several pages
-      "properties": {
-        "title": {
-          "type": 'string',
-        },
-      },
-      "required": ['title'],
-    }
-  }]);
 
   function setInputQuestion(value: string) {
     inputQuestion.value = value;
@@ -56,7 +43,6 @@ export const useChatStore = defineStore('chat', () => {
   return {
     inputQuestion,
     messages,
-    functions,
     isWaitingAnswer,
     setInputQuestion,
     replaceSystemMessage,
