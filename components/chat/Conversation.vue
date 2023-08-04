@@ -20,17 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { marked } from 'marked';
 const { messages, isWaitingAnswer } = storeToRefs(useChatStore());
 const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
 
 function parsedMessage(message: string | undefined) {
   if (!message) return '';
-  marked.use({
-    mangle: false,
-    headerIds: false,
-  });
-  return marked.parse(message);
+  return useMarkdownToHtml(message);
 }
 </script>
 

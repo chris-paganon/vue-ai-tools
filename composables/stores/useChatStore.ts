@@ -1,12 +1,15 @@
 import type { ChatCompletionRequestMessage } from 'openai';
+import reactivityFundamentals from '../../assets/vue-docs/reactivity-fundamentals.md?raw';
 
 export const useChatStore = defineStore('chat', () => {
   const inputQuestion = ref('');
+  const isWaitingAnswer = ref(false);
+
+  const docText = useMarkdownToHtml(reactivityFundamentals);
   const messages = ref<ChatCompletionRequestMessage[]>([{
     role: 'system',
-    content: 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework.',
+    content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework. Here is part of the VueJS documentation that is probably relevant to the user's question: ${docText} The user can ask you questions about VueJS, HTML, CSS, Javascript, and you will try to answer them. You can also ask the user questions to clarify their question.`,
   }]);
-  const isWaitingAnswer = ref(false);
 
   function setInputQuestion(value: string) {
     inputQuestion.value = value;
