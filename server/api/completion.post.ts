@@ -1,10 +1,9 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const messages = body.messages;
   const data = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
-    messages: messages,
+    ...body,
   };
 
   let openaiKey = '';
@@ -30,8 +29,8 @@ export default defineEventHandler(async (event) => {
   });
   const response = await responseJson.json();
 
-  if (!response.choices[0].message?.content) return;
-  const answer = response.choices[0].message.content;
-
-  return answer;
+  if (response.choices.length === 0) {
+    return new Response('No choices found', { status: 500 });
+  }
+  return response.choices;
 });

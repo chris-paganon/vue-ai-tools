@@ -1,14 +1,27 @@
 import type { ChatCompletionRequestMessage } from 'openai';
-import reactivityFundamentals from '../../assets/vue-docs/reactivity-fundamentals.md?raw';
+import compositionIndex from '../../assets/vue-docs/compostion-index.json';
 
 export const useChatStore = defineStore('chat', () => {
   const inputQuestion = ref('');
   const isWaitingAnswer = ref(false);
 
-  const docText = useMarkdownToHtml(reactivityFundamentals);
+  const docText = JSON.stringify(compositionIndex);
   const messages = ref<ChatCompletionRequestMessage[]>([{
     role: 'system',
-    content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework. Here is part of the VueJS documentation that is probably relevant to the user's question: ${docText} The user can ask you questions about VueJS, HTML, CSS, Javascript, and you will try to answer them. You can also ask the user questions to clarify their question.`,
+    content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework. Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${docText}.`,
+  }]);
+  const functions = ref([{
+    name: 'getVueDocumentationPage',
+    description: 'Returns the relevant VueJS documentation page from its title.',
+    parameters: {
+      "type": 'object', // Should be array of strings to select several pages
+      "properties": {
+        "title": {
+          "type": 'string',
+        },
+      },
+      "required": ['title'],
+    }
   }]);
 
   function setInputQuestion(value: string) {
@@ -43,6 +56,7 @@ export const useChatStore = defineStore('chat', () => {
   return {
     inputQuestion,
     messages,
+    functions,
     isWaitingAnswer,
     setInputQuestion,
     replaceSystemMessage,
