@@ -24,7 +24,7 @@ export async function useAskQuestion() {
     messages: messages.value,
   });
   
-  if (!response[0]?.message?.content) return;
+  if (!response?.[0].message?.content) return;
   addAssistantMessage(response[0].message.content);
 }
 
