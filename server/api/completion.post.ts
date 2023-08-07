@@ -6,17 +6,9 @@ export default defineEventHandler(async (event) => {
     ...body,
   };
 
-  let openaiKey = '';
-  let openaiOrganization = '';
-  if (event.context.cloudflare) {
-    const { cloudflare } = event.context;
-    openaiKey = cloudflare.env.OPENAI_API_KEY;
-    openaiOrganization = cloudflare.env.OPENAI_ORGANIZATION;
-  } else {
-    const runtimeConfig = useRuntimeConfig();
-    openaiKey = runtimeConfig.public.openaiApiKey;
-    openaiOrganization = runtimeConfig.public.openaiOrganization;
-  }
+  const runtimeConfig = useRuntimeConfig();
+  const openaiKey = runtimeConfig.openaiApiKey;
+  const openaiOrganization = runtimeConfig.openaiOrganization;
   
   const responseJson = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
