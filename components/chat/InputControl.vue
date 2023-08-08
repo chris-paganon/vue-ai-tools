@@ -20,6 +20,7 @@ async function askQuestion(event?: KeyboardEvent) {
   setIsChatOpened(true);
   if (!inputQuestion.value) return;
 
+  // TODO: Make an inputStore that handles the input and selecting the right question type (plainGPT, Composition API, Option API)
   addUserMessage(inputQuestion.value);
   setIsWaitingAnswer(true);
   setInputQuestion('');
