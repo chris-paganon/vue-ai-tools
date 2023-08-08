@@ -58,7 +58,7 @@ export async function useAskDocCompletion(path: string) {
   const { messages } = storeToRefs(useChatStore());
   const { setIsWaitingAnswer, addAssistantMessage } = useChatStore();
 
-  const response = await $fetch('/api/testcompletion', {
+  const response = await $fetch('/api/docCompletion', {
     method: 'POST',
     body: {
       messages: messages.value,
