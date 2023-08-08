@@ -1,57 +1,57 @@
 [
   {
     "title": "component-basics",
-    "url": "https://vuejs.org/guide/essentials/component-basics.html",
+    "url": "https://vuejs.org/guide/essentials/composition/component-basics.html",
     "summary": "- Components allow for splitting the UI into independent and reusable pieces\n- Components can be defined using the `.vue` extension or as a plain JavaScript object\n- Components can be used by importing them in the parent component or globally registering them\n- Props can be used to pass data to a component\n- Events can be used to communicate from a child component to a parent component\n- Slots can be used to pass content to a component\n- Dynamic components can be used to switch between different components\n- DOM template parsing has some caveats such as case insensitivity, explicit closing tags, and element placement restrictions"
   },
   {
     "title": "computed",
-    "url": "https://vuejs.org/guide/essentials/computed.html",
+    "url": "https://vuejs.org/guide/essentials/composition/computed.html",
     "summary": "- Computed properties are used for complex logic that includes reactive data\n- Computed properties automatically track their reactive dependencies\n- Computed properties are cached based on their reactive dependencies\n- Methods are an alternative to computed properties, but they are not cached\n- Computed properties are getter-only by default, but can be made writable by providing a setter\n- Getters in computed properties should be side-effect free and avoid async requests or DOM mutations\n- Computed values should be treated as read-only and not mutated"
   },
   {
     "title": "conditional",
-    "url": "https://vuejs.org/guide/essentials/conditional.html",
+    "url": "https://vuejs.org/guide/essentials/composition/conditional.html",
     "summary": "- The page is about conditional rendering in Vue.js\n- It explains how to use the `v-if` directive to conditionally render a block\n- It mentions the `v-else` directive to indicate an \"else block\" for `v-if`\n- It introduces the `v-else-if` directive to serve as an \"else if block\" for `v-if`\n- It explains how to use `v-if` on a `<template>` element to toggle multiple elements\n- It introduces the `v-show` directive as an alternative to `v-if` for conditional display\n- It compares the differences between `v-if` and `v-show`\n- It warns against using `v-if` and `v-for` on the same element"
   },
   {
     "title": "event-handling",
-    "url": "https://vuejs.org/guide/essentials/event-handling.html",
+    "url": "https://vuejs.org/guide/essentials/composition/event-handling.html",
     "summary": "- The page explains how to handle events in Vue.js using the `v-on` directive or the `@` symbol.\n- It describes how to use inline handlers and method handlers to execute JavaScript code when an event is triggered.\n- The page also explains how to call methods in inline handlers and access the event argument.\n- It introduces event modifiers, such as `.stop`, `.prevent`, `.self`, `.capture`, `.once`, and `.passive`, which can be used with `v-on` to modify the behavior of event handlers.\n- The page also explains key modifiers and system modifier keys that can be used with keyboard and mouse events.\n- It provides examples and links to additional resources for each concept."
   },
   {
     "title": "forms",
-    "url": "https://vuejs.org/guide/essentials/forms.html",
+    "url": "https://vuejs.org/guide/essentials/composition/forms.html",
     "summary": "- The page explains how to use the `v-model` directive to simplify form input bindings in Vue.js\n- It provides examples of using `v-model` with different types of form elements such as text inputs, checkboxes, radio buttons, and select dropdowns\n- The page also mentions modifiers for `v-model` such as `.lazy`, `.number`, and `.trim`\n- It mentions that `v-model` can be used with custom components as well"
   },
   {
     "title": "lifecycle",
-    "url": "https://vuejs.org/guide/essentials/lifecycle.html",
+    "url": "https://vuejs.org/guide/essentials/composition/lifecycle.html",
     "summary": "- Vue component instances go through initialization steps and run lifecycle hooks\n- The `onMounted` hook runs code after the component has finished initial rendering and created DOM nodes\n- Other commonly used hooks include `onUpdated` and `onUnmounted` (or `mounted`, `updated`, and `unmounted` in the options API)\n- Hooks need to be registered synchronously during component setup\n- There is a diagram for the instance lifecycle\n- Consult the Lifecycle Hooks API reference for more details on all lifecycle hooks and their use cases."
   },
   {
     "title": "list",
-    "url": "https://vuejs.org/guide/essentials/list.html",
+    "url": "https://vuejs.org/guide/essentials/composition/list.html",
     "summary": "- `v-for` directive is used to render a list of items based on an array\n- The syntax for `v-for` is `item in items`, where `items` is the source data array and `item` is an alias for the array element being iterated on\n- `v-for` supports an optional second alias for the index of the current item\n- `v-for` can also be used to iterate through the properties of an object\n- `v-for` can take an integer to repeat the template that many times\n- `v-for` can be used with a `<template>` tag to render a block of multiple elements\n- `v-for` and `v-if` should not be used on the same element, but can be used together by wrapping `v-for` in a `<template>` tag\n- `v-for` can be used on a component, but data needs to be passed to the component using props\n- Vue can detect changes to an array when using mutation methods such as `push()`, `pop()`, etc.\n- When replacing an array with a new array, Vue efficiently updates the DOM by reusing existing elements\n- To display filtered or sorted results, computed properties or methods can be used"
   },
   {
     "title": "reactivity-fundamentals",
-    "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html",
+    "url": "https://vuejs.org/guide/essentials/composition/reactivity-fundamentals.html",
     "summary": "- The page explains how to declare reactive state using the `ref()` function in the Composition API\n- It shows how to access and mutate the value of a ref using the `.value` property\n- The page also explains how to use refs in a component's template and how to mutate a ref directly in event handlers\n- It introduces the `<script setup>` syntax as a simplified way to declare reactive state in Single-File Components\n- The page explains the concept of deep reactivity and how refs can hold any value type, including nested objects and arrays\n- It mentions the use of the `nextTick()` function to wait for DOM updates after mutating reactive state\n- The page introduces the `reactive()` function as an alternative way to declare reactive state, making an object itself reactive\n- It explains the difference between a reactive object and its original object, and recommends using the proxied versions of reactive state\n- The page mentions the limitations of the `reactive()` API, such as its limited value types and the inability to replace the entire object\n- It provides additional details about ref unwrapping, including how refs are automatically unwrapped when accessed as properties of reactive objects and caveats when unwrapping in templates"
   },
   {
     "title": "template-refs",
-    "url": "https://vuejs.org/guide/essentials/template-refs.html",
+    "url": "https://vuejs.org/guide/essentials/composition/template-refs.html",
     "summary": "- The `ref` attribute in Vue.js allows direct access to the underlying DOM elements or child component instances\n- The `ref` attribute can be used to obtain a direct reference to a specific DOM element or child component instance after it's mounted\n- The `ref` attribute can be accessed using the `$refs` property in the Options API or the declared ref in the Composition API\n- When using the Composition API, the ref must be declared with the same name as the template ref value\n- The ref can only be accessed after the component is mounted\n- When using a template ref inside a `v-for` loop, the corresponding ref should contain an Array value that will be populated with the elements after mount\n- The ref array does not guarantee the same order as the source array\n- The `ref` attribute can also be bound to a function, which will be called on each component update and gives flexibility on where to store the element reference\n- The `ref` attribute can be used on a child component, and the reference will be that of a component instance\n- The referenced instance of a child component will be identical to the child component's `this`, allowing access to every property and method of the child component\n- Components using `<script setup>` are private by default, but can expose a public interface using the `defineExpose` macro"
   },
   {
     "title": "template-syntax",
-    "url": "https://vuejs.org/guide/essentials/template-syntax.html",
+    "url": "https://vuejs.org/guide/essentials/composition/template-syntax.html",
     "summary": "- Vue uses an HTML-based template syntax for data binding\n- Templates are compiled into optimized JavaScript code\n- Text interpolation is done using double curly braces (`{{ }}`)\n- Raw HTML can be rendered using the `v-html` directive\n- Attribute bindings are done using the `v-bind` directive or its shorthand (`:`)\n- Boolean attributes can be bound using `v-bind` with a truthy value\n- Multiple attributes can be bound using `v-bind` without an argument\n- JavaScript expressions can be used in data bindings\n- Directives are special attributes with the `v-` prefix\n- Directives can have arguments and modifiers for special behavior"
   },
   {
     "title": "watchers",
-    "url": "https://vuejs.org/guide/essentials/watchers.html",
+    "url": "https://vuejs.org/guide/essentials/composition/watchers.html",
     "summary": "- The page is about using the `watch` function in Vue.js to perform side effects in reaction to state changes.\n- It provides a basic example of using `watch` to update the DOM based on the user's input.\n- It explains the different types of reactive sources that can be used with `watch`, such as refs, reactive objects, and getter functions.\n- It mentions that watching a property of a reactive object requires using a getter function instead of passing the property directly.\n- It explains how to create deep watchers that trigger the callback on all nested mutations of a reactive object.\n- It mentions the caution of using deep watchers on large data structures due to performance implications.\n- It explains how to create eager watchers that execute the callback immediately.\n- It introduces the `watchEffect` function as a simplified alternative to `watch` for tracking reactive dependencies.\n- It compares `watch` and `watchEffect`, stating that `watch` allows more precise control over when the callback should fire, while `watchEffect` automatically tracks all reactive properties accessed during its synchronous execution.\n- It explains how to specify the flush timing of watcher callbacks to access the DOM after Vue has updated it.\n- It mentions the automatic stopping of watchers created synchronously inside `setup()` or `<script setup>`, and the need to manually stop watchers created asynchronously to avoid memory leaks."
   }
 ]
