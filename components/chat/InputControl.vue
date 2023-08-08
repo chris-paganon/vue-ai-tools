@@ -23,7 +23,6 @@ async function askQuestion(event?: KeyboardEvent) {
   addUserMessage(inputQuestion.value);
   setIsWaitingAnswer(true);
   setInputQuestion('');
-  await useAskFunction();
-  setIsWaitingAnswer(false);
+  useAskFunction();
 }
 </script>

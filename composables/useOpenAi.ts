@@ -18,14 +18,18 @@ export async function useCompletion(payload: ChatCompletionRequest) {
 
 export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
-  const { addAssistantMessage } = useChatStore();
+  const { setIsWaitingAnswer, addAssistantMessage } = useChatStore();
   
   const response = await useCompletion({
     messages: messages.value,
   });
   
-  if (!response?.[0].message?.content) return;
+  if (!response?.[0].message?.content) {
+    console.log('No response from useAskQuestion');
+    return;
+  }
   addAssistantMessage(response[0].message.content);
+  setIsWaitingAnswer(false);
 }
 
 export async function useAskFunction() {
@@ -43,13 +47,16 @@ export async function useAskFunction() {
     },
   });
   
-  if (!response) return;
+  if (!response) {
+    console.log('No response from useAskFunction');
+    return;
+  }
   handleChatFunction(response);
 }
 
 export async function useAskDocCompletion(path: string) {
   const { messages } = storeToRefs(useChatStore());
-  const { addAssistantMessage } = useChatStore();
+  const { setIsWaitingAnswer, addAssistantMessage } = useChatStore();
 
   const response = await $fetch('/api/testcompletion', {
     method: 'POST',
@@ -59,6 +66,10 @@ export async function useAskDocCompletion(path: string) {
     },
   });
 
-  if (!response?.[0].message?.content) return;
+  if (!response?.[0].message?.content) {
+    console.log('No response from useAskDocCompletion');
+    return;
+  }
   addAssistantMessage(response[0].message.content);
+  setIsWaitingAnswer(false);
 }
