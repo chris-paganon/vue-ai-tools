@@ -1,6 +1,6 @@
 <template>
   <TabMenu v-model:activeIndex="selectedInputOptionTab.index" :model="inputOptionTabs" />
-  <div class="p-3">
+  <div class="options-wrapper text-left p-3">
     <div v-if="selectedInputOptionTab.label === 'PlainGPT'"><p>Simply talk to chatGPT</p></div>
     <div v-else-if="selectedInputOptionTab.label === 'VueJS'">
       <SelectButton v-model="selectedInputOption" :options="inputVueOptions" :unselectable="true" />
@@ -38,3 +38,9 @@ function selecteInputOptionTab(event: MenuItemCommandEvent) {
   }
 }
 </script>
+
+<style scoped>
+.options-wrapper {
+  min-height: 80px;
+}
+</style>
