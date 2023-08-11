@@ -10,6 +10,12 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
       "properties": {
         "title": {
           "type": 'string',
+          "description": 'The title of the VueJS documentation page to return.',
+          "oneOf": compositionIndex.map((compositionPage) => {
+            return {
+              "const": compositionPage.title,
+            };
+          }),
         },
       },
       "required": ['title'],
@@ -19,14 +25,14 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
   function handleChatFunction(response: CreateChatCompletionResponseChoicesInner[]) {
     console.log('handleChatFunction after 1st response: ', response);
     if (! response?.[0]?.message?.function_call?.arguments) return;
-    // Check the function name (response.message.function_call.name) is here
-    const functionArguments = JSON.parse(response[0].message.function_call.arguments);
-    if (! functionArguments.title ) return;
+    const functionArgumentsFromAi = JSON.parse(response[0].message.function_call.arguments);
 
     // TODO: Handle the function dynamically instead of switch statement?
+    // TODO: Add real validation of the arguments with AJV
     switch (response[0].message.function_call.name) {
       case 'answerQuestionWithDocumentation':
-        answerQuestionWithDocumentation(functionArguments);
+        if (! functionArgumentsFromAi.title && typeof functionArgumentsFromAi.title !== 'string' ) return;
+        answerQuestionWithDocumentation(functionArgumentsFromAi);
         break;
       default:
         console.log('Function not found');
@@ -34,7 +40,8 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     }
   }
 
-  function answerQuestionWithDocumentation(functionArguments: any) {
+  // TODO: Infer the functionArguments type from the schema
+  function answerQuestionWithDocumentation(functionArguments: {title: string}) {
     const { addAssistantMessage } = useChatStore();
     const { replaceSystemMessage } = useChatStore();
 
