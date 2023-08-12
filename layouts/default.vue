@@ -1,8 +1,6 @@
 <template>
   <div class="p-input-filled">
-    <div v-if="appLoading" class="fixed top-0 left-0 w-screen h-screen flex justify-content-center align-items-center surface-overlay z-5">
-      <h1>loading</h1>
-    </div>
+    <AppLoader />
     <ChatDialog />
     <div class="min-h-screen flex flex-column">
       <AppHeader />
@@ -11,10 +9,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const appLoading = ref(true);
-onMounted(() => {
-  appLoading.value = false;
-});
-</script>
