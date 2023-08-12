@@ -30,34 +30,50 @@ onNuxtReady(() => {
   height:100%;
   background-image: linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.9) 15%, rgba(0,0,0,0.60) 60%, rgba(0,0,0,0.2));
 }
-.loader-overlay::after {
+.loader-overlay::after,
+.loader-overlay::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height:100%;
-  background: radial-gradient(rgb(0,0,0,1), rgba(0,0,0,1) 17%, rgba(0,0,0,0.7) 100%);
+}
+.loader-overlay::after {
+  background: radial-gradient(rgb(0,0,0,0.9), rgba(0,0,0,1) 83%, rgba(0,0,0,1) 100%);
+}
+.loader-overlay::before {
+  background-color: #000;
 }
 
 .v-leave-active {
-  transition: opacity 1.4s cubic-bezier(0.7, 0, 1, 0.48) 0.5s, max-height 0.8s cubic-bezier(0.52, 0.26, 0, 1) 0.5s;
+  transition: 
+    opacity 1.4s cubic-bezier(0.7, 0, 1, 0.48) 0.5s, 
+    max-height 0.8s cubic-bezier(0.52, 0.26, 0, 1) 0.5s, 
+    scale 0.8s cubic-bezier(0.52, 0.26, 0, 1) 0.4s;
+}
+.v-leave-active .loader-overlay::before {
+  transition: opacity 0.3s cubic-bezier(0.89, 0, 0.68, 0.74);
 }
 .v-leave-active .loader-overlay::after {
-  transition: opacity 0.5s cubic-bezier(0.89, 0, 0.68, 0.74);
+  transition: opacity 0.4s cubic-bezier(0.89, 0, 0.68, 0.74) 0.2s;
 }
 .v-leave-from {
   opacity: 1;
   max-height: 100%;
+  scale: 1.2;
 }
-.v-leave-from .loader-overlay::after {
+.v-leave-from .loader-overlay::after,
+.v-leave-from .loader-overlay::before {
   opacity: 1;
 }
 .v-leave-to {
   opacity: 0;
   max-height: 30rem;
+  scale: 1;
 }
-.v-leave-to .loader-overlay::after {
+.v-leave-to .loader-overlay::after,
+.v-leave-to .loader-overlay::before {
   opacity: 0;
 }
 </style>
