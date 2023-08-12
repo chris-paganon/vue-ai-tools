@@ -41,7 +41,7 @@ onNuxtReady(() => {
 }
 
 .v-leave-active {
-  transition: opacity 1.4s cubic-bezier(1, 0, 1, 0.48) 0.5s, max-height 0.8s cubic-bezier(0.52, 0.26, 0, 1) 0.5s;
+  transition: opacity 1.4s cubic-bezier(0.7, 0, 1, 0.48) 0.5s, max-height 0.8s cubic-bezier(0.52, 0.26, 0, 1) 0.5s;
 }
 .v-leave-active .loader-overlay::after {
   transition: opacity 0.5s cubic-bezier(0.89, 0, 0.68, 0.74);
