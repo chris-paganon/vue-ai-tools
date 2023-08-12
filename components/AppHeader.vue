@@ -10,9 +10,3 @@
 <script setup lang="ts">
 const { setIsChatOpened } = useUIStore();
 </script>
-
-<style scoped>
-header {
-  background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0.55) 70%, rgba(0,0,0,0));
-}
-</style>

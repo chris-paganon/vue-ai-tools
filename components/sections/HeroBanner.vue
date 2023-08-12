@@ -24,7 +24,14 @@ onNuxtReady(() => {
   background-position: center center;
 }
 .hero-banner-overlay {
-  background-image: linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.9) 15%, rgba(0,0,0,0.60) 60%, rgba(0,0,0,0));
+  background-image: linear-gradient(
+    rgba(0,0,0,1) 0%, 
+    rgba(0,0,0,0.98) 10%, 
+    rgba(0,0,0,0.9) 15%, 
+    rgba(0,0,0,0.4) 60%, 
+    rgba(0,0,0,0.1) 80%, 
+    var(--surface-ground) 100%
+  );
 }
 
 .v-enter-active {
