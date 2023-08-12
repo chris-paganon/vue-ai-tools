@@ -14,6 +14,7 @@
   background-position: center center;
 }
 .hero-banner-overlay {
-  background: radial-gradient(rgb(0,0,0,0.78), rgba(0,0,0,0.68) 35%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0.4) 100%);
+  background: radial-gradient(rgb(0,0,0,0.78), rgba(0,0,0,0.6) 35%, rgba(0,0,0,0) 100%);
+  background-image: linear-gradient(rgba(0,0,0,0.95), rgba(0,0,0,0.9) 15%, rgba(0,0,0,0.60) 60%, rgba(0,0,0,0.2));
 }
 </style>
