@@ -11,7 +11,12 @@
 <script setup lang="ts">
 const appLoading = ref(true);
 onNuxtReady(() => {
+  window.scrollTo(0, 0);
+  window.onscroll = function () { window.scrollTo(0, 0); };
   appLoading.value = false;
+  setTimeout(() => {
+    window.onscroll = function () { };
+  }, 1800);
 });
 </script>
 
@@ -61,11 +66,11 @@ onNuxtReady(() => {
 }
 /* Disappearing completely black initial loader overlay */
 .v-leave-active .loader-overlay::before {
-  transition: opacity 0.6s cubic-bezier(0.89, 0, 0.68, 0.74);
+  transition: opacity 1s cubic-bezier(0.89, 0, 0.68, 0.74);
 }
 /* Disappearing fish eye overlay */
 .v-leave-active .loader-overlay::after {
-  transition: opacity 0.4s cubic-bezier(0.89, 0, 0.68, 0.74) 0.2s;
+  transition: opacity 0.6s cubic-bezier(0.89, 0, 0.68, 0.74) 0.4s;
 }
 .v-leave-from {
   opacity: 1;
