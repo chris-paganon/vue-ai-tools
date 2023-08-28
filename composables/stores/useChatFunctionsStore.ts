@@ -1,26 +1,49 @@
 import { CreateChatCompletionResponseChoicesInner } from 'openai';
 import compositionIndex from '@/assets/vue-docs/composition-index.json';
+import optionsIndex from '@/assets/vue-docs/options-index.json';
 
 export const useChatFunctionsStore = defineStore('chatFunctions', () => {
-  const functions = ref([{
-    name: 'answerQuestionWithDocumentation',
-    description: 'Returns the relevant VueJS documentation page from its title.',
-    parameters: {
-      "type": 'object', // Should be array of strings to select several pages and validate the title dynamically. The array of strings may be generated with the python script.
-      "properties": {
-        "title": {
-          "type": 'string',
-          "description": 'The title of the VueJS documentation page to return.',
-          "oneOf": compositionIndex.map((compositionPage) => {
-            return {
-              "const": compositionPage.title,
-            };
-          }),
-        },
-      },
-      "required": ['title'],
+  const { selectedInputOption } = storeToRefs(useInputOptionsStore());
+
+  const summaryIndex = computed(() => {
+    let summaryIndex = [];
+    switch (selectedInputOption.value) {
+      case 'Composition API':
+        summaryIndex = compositionIndex;
+        break;
+      case 'Options API':
+        summaryIndex = optionsIndex;
+        break;
+      default:
+        summaryIndex = compositionIndex;
+        break;
     }
-  }]);
+    return summaryIndex;
+  });
+
+  const functions = computed(() => {
+    const oneOf = summaryIndex.value.map((summaryPage) => {
+      return {
+        "const": summaryPage.title,
+      };
+    });
+
+    return ([{
+      name: 'answerQuestionWithDocumentation',
+      description: 'Returns the relevant VueJS documentation page from its title.',
+      parameters: {
+        "type": 'object', // Should be array of strings to select several pages and validate the title dynamically. The array of strings may be generated with the python script.
+        "properties": {
+          "title": {
+            "type": 'string',
+            "description": 'The title of the VueJS documentation page to return.',
+            "oneOf": oneOf,
+          },
+        },
+        "required": ['title'],
+      }
+    }])
+  });
 
   function handleChatFunction(response: CreateChatCompletionResponseChoicesInner[]) {
     console.log('handleChatFunction after 1st response: ', response);
@@ -44,19 +67,29 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
   function answerQuestionWithDocumentation(functionArguments: {title: string}) {
     const { addAssistantMessage, replaceSystemMessage } = useChatStore();
 
-    // TODO: Check the right index (option vs composition) and validate arguments dynamically
-    const compositionPage = compositionIndex.find((compositionPage) => compositionPage.title === functionArguments.title);
-    if ( !compositionPage ) {
+    const summaryPage = summaryIndex.value.find((summaryPage) => summaryPage.title === functionArguments.title);
+    if ( !summaryPage ) {
       console.log('Function argument invalid');
       useAskQuestion();
       return;
     };
 
-    // TODO: Not strong enough wording. GPT basically doesn't use it.
-    replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}`);
-    // TODO: Have the path in JSON file instead of the URL
-    const path = compositionPage.path;
-    const urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+    const path = summaryPage.path;
+    let urlPath = path;
+    switch (selectedInputOption.value) {
+      case 'Composition API':
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
+        urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+        break;
+      case 'Options API':
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Options API syntax.`);
+        urlPath = path.replace('options/', '').replace('options.md', 'html');
+        break;
+      default:
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
+        urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+        break;
+    }
     const url = `https://vuejs.org/${urlPath}`;
 
     useAskDocCompletion(path);

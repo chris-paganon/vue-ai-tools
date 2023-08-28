@@ -14,17 +14,22 @@ export const useInputOptionsStore = defineStore('input-options', () => {
   }
 
   function askInputQuestion() {
+    const { setPlainGptSystemMessage, setCompositionIndexSystemMessage, setOptionsIndexSystemMessage } = useChatStore();
     switch (selectedInputOption.value) {
       case 'PlainGPT':
+        setPlainGptSystemMessage();
         useAskQuestion();
         break;
       case 'Composition API':
+        setCompositionIndexSystemMessage();
         useAskFunction();
         break;
       case 'Options API':
+        setOptionsIndexSystemMessage();
         useAskFunction();
         break;
       default:
+        setCompositionIndexSystemMessage();
         useAskFunction();
         break;
     }
