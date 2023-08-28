@@ -1,5 +1,5 @@
 import type { ChatCompletionRequestMessage } from 'openai';
-import compositionIndex from '../../assets/vue-docs/compostion-index.json';
+import compositionIndex from '../../assets/vue-docs/composition-index.json';
 
 export const useChatStore = defineStore('chat', () => {
   const inputQuestion = ref('');
@@ -8,7 +8,7 @@ export const useChatStore = defineStore('chat', () => {
   const docText = JSON.stringify(compositionIndex);
   const messages = ref<ChatCompletionRequestMessage[]>([{
     role: 'system',
-    content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, excpert in HTML, CSS, Jasvascript and the VueJS framework. Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${docText}.`,
+    content: `You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework. Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${docText}.`,
   }]);
 
   function setInputQuestion(value: string) {

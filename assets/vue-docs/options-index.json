@@ -1,0 +1,252 @@
+[
+  {
+    "title": "accessibility",
+    "path": "guide/best-practices/options/accessibility.options.md",
+    "summary": "- Web accessibility refers to creating websites that can be used by anyone, including those with disabilities or unfavorable environments\n- Adding a skip link at the top of each page allows users to skip repetitive content\n- Properly structuring content with headings helps users navigate the application\n- Landmarks provide programmatic access to sections within an application\n- Semantic forms use appropriate HTML elements and labels for accessibility\n- Avoid using placeholders in form fields\n- Instructions and descriptions can be provided for form fields using ARIA attributes\n- Functional images can be created using buttons or icons\n- WCAG provides guidelines for web accessibility, including the principles of perceivability, operability, understandability, and robustness\n- WAI-ARIA provides guidance for building dynamic content and advanced user interface controls\n- Various resources and tools are available for testing and improving web accessibility\n- Web accessibility benefits a wide range of users with disabilities, including those with visual, auditory, motor, and cognitive impairments"
+  },
+  {
+    "title": "performance",
+    "path": "guide/best-practices/options/performance.options.md",
+    "summary": "- Vue is designed to be performant for most common use cases without much need for manual optimizations\n- There are two major aspects of web performance: page load performance and update performance\n- To improve performance, you need to measure it using tools like PageSpeed Insights, WebPageTest, Chrome DevTools Performance Panel, and Vue DevTools Extension\n- For page load optimizations, choose the right architecture (SSR or SSG), reduce bundle size and use code splitting\n- For update optimizations, ensure props stability, use v-once and v-memo directives\n- General optimizations include virtualizing large lists, reducing reactivity overhead for large immutable structures, and avoiding unnecessary component abstractions"
+  },
+  {
+    "title": "security",
+    "path": "guide/best-practices/options/security.options.md",
+    "summary": "- Reporting vulnerabilities is a top concern for Vue.js, email [security@vuejs.org](mailto:security@vuejs.org)\n- Never use non-trusted content as component templates\n- Vue automatically escapes HTML content and attribute bindings to prevent script injection\n- User-provided HTML, URLs, styles, and JavaScript can be potential security risks and should be sanitized or avoided\n- Best practices include avoiding unsanitized user-provided content and reviewing dependencies for dangerous patterns\n- Backend coordination is important for addressing HTTP security vulnerabilities\n- Additional security concerns exist when using server-side rendering (SSR)"
+  },
+  {
+    "title": "keep-alive",
+    "path": "guide/built-ins/options/keep-alive.options.md",
+    "summary": "- `<KeepAlive>` is a built-in component in Vue.js\n- It allows us to conditionally cache component instances when dynamically switching between multiple components\n- The basic usage involves wrapping the dynamic component with `<KeepAlive>`\n- The state of the component will be persisted across switches\n- `<KeepAlive>` has `include` and `exclude` props to customize caching behavior\n- The maximum number of cached instances can be limited using the `max` prop\n- Cached instances have lifecycle hooks `activated` and `deactivated`"
+  },
+  {
+    "title": "suspense",
+    "path": "guide/built-ins/options/suspense.options.md",
+    "summary": "- `<Suspense>` is a built-in component for handling async dependencies in a component tree\n- It can render a loading state while waiting for nested async dependencies to be resolved\n- It can wait on components with an async `setup()` hook or async components\n- The loading state is controlled by the `<Suspense>` component and can be customized using slots\n- `<Suspense>` emits events for pending, resolve, and fallback states\n- Error handling can be done using the `errorCaptured` option or the `onErrorCaptured()` hook\n- It can be combined with other components like `<Transition>` and `<KeepAlive>`"
+  },
+  {
+    "title": "teleport",
+    "path": "guide/built-ins/options/teleport.options.md",
+    "summary": "- `<Teleport>` is a built-in component in Vue.js\n- It allows us to \"teleport\" a part of a component's template into a DOM node outside of the component's DOM hierarchy\n- It is useful for scenarios like full-screen modals where the visual placement of an element should be different from its logical placement\n- The `to` attribute of `<Teleport>` specifies the target DOM node where the template fragment should be teleported\n- `<Teleport>` can be combined with `<Transition>` to create animated modals\n- `<Teleport>` does not affect the logical hierarchy of components, props passing and event emitting still work the same way\n- It supports the `disabled` prop to conditionally disable teleportation\n- Multiple `<Teleport>` components can mount their content to the same target element, with later mounts being appended after earlier ones within the target element"
+  },
+  {
+    "title": "transition-group",
+    "path": "guide/built-ins/options/transition-group.options.md",
+    "summary": "- `<TransitionGroup>` is a built-in component for animating elements in a list\n- Supports props, CSS transition classes, and JavaScript hook listeners like `<Transition>`\n- Requires elements inside to have a unique `key` attribute\n- CSS transition classes are applied to individual elements in the list, not the container\n- Can be used to apply enter/leave transitions to a `v-for` list\n- Can be used to create move transitions for smooth insertion and removal of items\n- Can be used to stagger transitions in a list by using data attributes and JavaScript hooks\n- API reference for `<TransitionGroup>`"
+  },
+  {
+    "title": "transition",
+    "path": "guide/built-ins/options/transition.options.md",
+    "summary": "- `<Transition>` is a built-in component in Vue.js for applying animations when an element or component is entering and leaving the DOM\n- It can be triggered by conditional rendering, conditional display, dynamic components toggling, or changing the `key` attribute\n- The component supports CSS-based transitions and animations, with classes such as `v-enter-active`, `v-leave-active`, and `v-enter-to`\n- Custom transition classes can be specified using props like `enter-from-class` and `leave-active-class`\n- JavaScript hooks can be used to hook into the transition process, with events like `before-enter`, `enter`, `after-enter`, and `leave`\n- Transitions can be applied on initial render using the `appear` prop\n- Transitions can be applied between elements using `v-if` / `v-else` / `v-else-if`\n- Transitions can be applied between components using dynamic components and the `is` prop\n- Dynamic transitions can be achieved by using dynamic props for the `name` prop of `<Transition>`"
+  },
+  {
+    "title": "async",
+    "path": "guide/components/options/async.options.md",
+    "summary": "- `defineAsyncComponent` is a function in Vue.js\n- It is used to load a component from the server only when it is needed\n- It accepts a loader function that returns a Promise\n- The Promise's `resolve` callback is called when the component definition is retrieved from the server\n- `defineAsyncComponent` can be used with the ES module dynamic import syntax\n- The resulting component is a wrapper that only calls the loader function when rendered\n- Async components can be registered globally or locally\n- Async components support loading and error states with advanced options\n- Async components can be used with the `<Suspense>` built-in component"
+  },
+  {
+    "title": "attrs",
+    "path": "guide/components/options/attrs.options.md",
+    "summary": "- Fallthrough attributes are attributes or `v-on` event listeners that are passed to a component but not explicitly declared in the receiving component's props or emits.\n- Fallthrough attributes are automatically added to the root element's attributes when a component renders a single root element.\n- Fallthrough attributes like `class` and `style` can be merged with existing attributes on the child component's root element.\n- Fallthrough `v-on` event listeners are added to the root element of the component and will trigger along with any existing listeners.\n- Fallthrough attributes can be forwarded to a nested component if the component renders another component as its root node.\n- Attribute inheritance can be disabled by setting `inheritAttrs: false` in the component's options.\n- Fallthrough attributes can be accessed in template expressions as `$attrs`.\n- Fallthrough attributes preserve their original casing in JavaScript and can be accessed using `$attrs['attribute-name']`.\n- Fallthrough attributes can be applied to specific elements by using `inheritAttrs: false` and `v-bind=\"$attrs\"`.\n- Components with multiple root nodes do not have automatic attribute fallthrough behavior and require explicit binding of `$attrs`.\n- Fallthrough attributes can be accessed in JavaScript using the `$attrs` instance property."
+  },
+  {
+    "title": "events",
+    "path": "guide/components/options/events.options.md",
+    "summary": "- The page is about component events in Vue.js\n- It explains how to emit and listen to events in a component\n- The `$emit` method is used to emit custom events in a component\n- Events can be listened to using the `v-on` directive\n- The page mentions the `.once` modifier for event listeners\n- Event names are automatically transformed to kebab-case\n- Component emitted events do not bubble like native DOM events\n- Extra arguments can be passed to `$emit` to provide specific values with the event\n- The page explains how to declare emitted events using the `emits` option\n- Emitted events can be validated using the object syntax in the `emits` option"
+  },
+  {
+    "title": "props",
+    "path": "guide/components/options/props.options.md",
+    "summary": "- Props in Vue.js components require explicit declaration\n- Props can be declared using an array of strings or an object syntax\n- Props can have different value types such as string, number, boolean, array, and object\n- Props can be passed as static values or assigned dynamically using `v-bind` or `:`\n- Props form a one-way data flow from parent to child components\n- Mutating a prop inside a child component is not allowed and will result in a warning\n- Object and array props can be mutated, but it is not recommended\n- Props can be validated using the `props` option with an object syntax\n- Prop validation can specify types, required fields, default values, and custom validators\n- Props with a `Boolean` type have special casting rules to mimic native boolean attributes"
+  },
+  {
+    "title": "provide-inject",
+    "path": "guide/components/options/provide-inject.options.md",
+    "summary": "- `provide` and `inject` can be used to solve the problem of prop drilling in Vue.js\n- `provide` option is used to provide data to a component's descendants\n- `inject` option is used to inject data provided by an ancestor component\n- App-level provides can be used to provide data at the app level\n- Injection aliasing can be used to inject properties using a different local key\n- Default values can be declared for injected properties\n- Reactivity can be achieved by providing a computed property using the `computed()` function\n- Symbol injection keys can be used to avoid potential collisions when working with multiple dependency providers"
+  },
+  {
+    "title": "registration",
+    "path": "guide/components/options/registration.options.md",
+    "summary": "- Component Registration page explains the two ways to register components in Vue.js: global and local\n- Global registration is done using the `app.component()` method and makes the component available globally in the Vue application\n- Local registration is done using the `components` option and scopes the availability of the registered components to the current component only\n- Locally registered components are not available in descendant components\n- The page also mentions the recommended naming convention for components, which is PascalCase"
+  },
+  {
+    "title": "slots",
+    "path": "guide/components/options/slots.options.md",
+    "summary": "- Slots allow passing template fragments to a child component\n- The `<slot>` element is a slot outlet that indicates where the parent-provided slot content should be rendered\n- Slot content can be any valid template content, including multiple elements or other components\n- Slots can have fallback content that is rendered when no content is provided\n- Named slots allow for multiple slot outlets in a single component\n- Dynamic slot names can be used with the `v-slot` directive\n- Scoped slots allow slot content to access data from both the parent and child components\n- Scoped slots can be used with default slots or named slots\n- Renderless components are components that encapsulate logic but do not render anything themselves, delegating visual output to the consumer component with scoped slots"
+  },
+  {
+    "title": "v-model",
+    "path": "guide/components/options/v-model.options.md",
+    "summary": "- `v-model` can be used on a component to implement a two-way binding\n- `v-model` on a component expands to `:modelValue` and `@update:modelValue`\n- The component must bind the `value` attribute of a native `<input>` element to the `modelValue` prop and emit an `update:modelValue` event\n- Multiple `v-model` bindings can be created on a single component instance\n- Custom modifiers can be added to `v-model` on a component using the `modelModifiers` prop\n- Modifiers for `v-model` with arguments are declared using the `arg + \"Modifiers\"` naming convention"
+  },
+  {
+    "title": "application",
+    "path": "guide/essentials/options/application.options.md",
+    "summary": "- The page explains how to create a Vue application instance using the `createApp` function.\n- It mentions that every app requires a \"root component\" that can contain other components as its children.\n- It explains how to mount the app using the `.mount()` method.\n- It mentions that the template for the root component can be provided separately or written directly inside the mount container.\n- It explains how to configure the app using the `.config` object and register app-scoped assets.\n- It mentions that multiple application instances can co-exist on the same page."
+  },
+  {
+    "title": "class-and-style",
+    "path": "guide/essentials/options/class-and-style.options.md",
+    "summary": "- `v-bind` can be used to dynamically assign class and style attributes to an element\n- `:class` can be used to bind classes to an element based on the truthiness of a data property\n- Multiple classes can be toggled using an object syntax or an array syntax\n- `:class` can also be used with components to add classes to the component's root element\n- `:style` can be used to bind inline styles to an element using an object syntax\n- Multiple style objects can be merged and applied to the same element using an array syntax\n- Vue automatically adds vendor prefixes to CSS properties that require them\n- Multiple (prefixed) values can be provided to a style property, and the browser will render the last value it supports"
+  },
+  {
+    "title": "component-basics",
+    "path": "guide/essentials/options/component-basics.options.md",
+    "summary": "- Components allow us to split the UI into independent and reusable pieces\n- Components can be defined in a dedicated file using the `.vue` extension or as a plain JavaScript object\n- Components can be used by importing them in the parent component and registering them with the `components` option\n- Components can be globally registered to make them available to all components in an app\n- Props allow data to be passed to a component as custom attributes\n- Props can be declared in the component's options or using the `defineProps` macro\n- Events can be emitted from a child component and listened to in the parent component using `v-on` or `@`\n- Slots allow content to be passed to a component and rendered in a specific place using the `<slot>` element\n- Dynamic components allow for switching between different components based on a value\n- DOM templates have some caveats, such as case insensitivity, explicit closing tags, and element placement restrictions"
+  },
+  {
+    "title": "computed",
+    "path": "guide/essentials/options/computed.options.md",
+    "summary": "- Computed properties are used for complex logic that includes reactive data\n- They are recommended for reducing clutter in templates and avoiding repetition\n- Computed properties are declared using the `computed` option in the component\n- They are cached based on their reactive dependencies, so they only re-evaluate when necessary\n- Methods can achieve the same result as computed properties, but they are not cached\n- Computed properties are getter-only by default, but can be made writable by providing a setter\n- Getters in computed properties should be side-effect free and not mutate the DOM\n- Computed properties should be treated as read-only and not be mutated"
+  },
+  {
+    "title": "conditional",
+    "path": "guide/essentials/options/conditional.options.md",
+    "summary": "- The `v-if` directive is used to conditionally render a block based on the truthiness of an expression.\n- The `v-else` directive is used to indicate an \"else block\" for `v-if`.\n- The `v-else-if` directive serves as an \"else if block\" for `v-if` and can be chained multiple times.\n- `v-if` can be used on a `<template>` element to toggle multiple elements.\n- The `v-show` directive can also be used to conditionally display an element, but it always remains in the DOM and only toggles the `display` CSS property.\n- `v-if` ensures proper destruction and recreation of event listeners and child components, while `v-show` is simpler and has higher initial render costs.\n- It is not recommended to use `v-if` and `v-for` on the same element due to implicit precedence."
+  },
+  {
+    "title": "event-handling",
+    "path": "guide/essentials/options/event-handling.options.md",
+    "summary": "- The page explains how to listen to events in Vue.js using the `v-on` directive or the `@` symbol.\n- It describes inline handlers and method handlers, which can be used to execute JavaScript code when an event is triggered.\n- Inline handlers are used for simple cases, while method handlers are used for more complex logic.\n- The page also explains how to call methods in inline handlers and access the event argument.\n- It introduces event modifiers, such as `.stop`, `.prevent`, and `.self`, which can be used to modify the behavior of event handlers.\n- Key modifiers and system modifier keys are also explained, allowing specific key combinations or modifier keys to trigger event listeners.\n- Mouse button modifiers are introduced to restrict event handlers to specific mouse buttons."
+  },
+  {
+    "title": "forms",
+    "path": "guide/essentials/options/forms.options.md",
+    "summary": "- The `v-model` directive simplifies syncing the state of form input elements with JavaScript\n- `v-model` can be used on different types of input elements, including text, checkboxes, radios, and selects\n- The `v-model` directive automatically handles different DOM properties and events based on the element type\n- The initial value of the form element is ignored by `v-model`, the JavaScript state is treated as the source of truth\n- Examples are provided for using `v-model` with text inputs, checkboxes, radios, and selects\n- Modifiers like `.lazy`, `.number`, and `.trim` can be added to `v-model` to modify its behavior\n- `v-model` can also be used with custom components for completely customized inputs"
+  },
+  {
+    "title": "lifecycle",
+    "path": "guide/essentials/options/lifecycle.options.md",
+    "summary": "- Vue component instances go through initialization steps and run lifecycle hooks\n- The `mounted` hook is used to run code after the component has finished rendering and created the DOM nodes\n- Other commonly used hooks include `onUpdated` and `onUnmounted` (or `updated` and `unmounted` for options API)\n- Lifecycle hooks are called with the `this` context pointing to the current active instance\n- There is a diagram illustrating the instance lifecycle\n- Consult the Lifecycle Hooks API reference for more details on all lifecycle hooks and their use cases."
+  },
+  {
+    "title": "list",
+    "path": "guide/essentials/options/list.options.md",
+    "summary": "- The page is about list rendering in Vue.js\n- It explains how to use the `v-for` directive to render a list of items based on an array\n- It shows examples of using `v-for` with an array, an object, and a range\n- It explains how to use `v-for` with a component and how to pass data to the component\n- It discusses array change detection and the mutation methods that trigger updates\n- It explains how to display filtered or sorted results using computed properties or methods"
+  },
+  {
+    "title": "reactivity-fundamentals",
+    "path": "guide/essentials/options/reactivity-fundamentals.options.md",
+    "summary": "- The page explains how to declare reactive state using the `data` option and the `data` function\n- It mentions that properties added directly to `this` without including them in `data` cannot trigger reactive updates\n- It explains the difference between a reactive proxy and the original object in Vue 3\n- The page introduces the concept of refs and how to use them to declare reactive state and mutate it\n- It shows how to use the `<script setup>` syntax to simplify the usage of refs and methods in Single-File Components\n- It explains the use of refs and the `.value` property in Vue's reactivity system\n- The page explains how to declare methods using the `methods` option and how to bind the `this` value correctly\n- It mentions that state in Vue is deeply reactive by default, even for nested objects and arrays\n- It explains that DOM updates are not applied synchronously and introduces the `nextTick()` global API to wait for the DOM update to complete\n- The page explains how to create stateful methods, such as debounced event handlers, using the `created` lifecycle hook"
+  },
+  {
+    "title": "template-refs",
+    "path": "guide/essentials/options/template-refs.options.md",
+    "summary": "- The `ref` attribute allows direct access to DOM elements or child component instances\n- `ref` is a special attribute similar to the `key` attribute\n- The resulting ref is exposed on `this.$refs`\n- Refs can be accessed after the component is mounted\n- Refs inside `v-for` result in an array of corresponding elements\n- Function refs can be used to store element references\n- `ref` can be used on child components, providing access to the component instance\n- The `expose` option can limit access to specific properties and methods of a child component instance"
+  },
+  {
+    "title": "template-syntax",
+    "path": "guide/essentials/options/template-syntax.options.md",
+    "summary": "- Vue uses an HTML-based template syntax for data binding\n- Vue compiles templates into optimized JavaScript code\n- Text interpolation is done using double curly braces (`{{ }}`)\n- Raw HTML can be output using the `v-html` directive\n- Attribute bindings are done using the `v-bind` directive or its shorthand `:`\n- Boolean attributes can be bound using `v-bind` or `:`\n- Multiple attributes can be bound using `v-bind` without an argument\n- JavaScript expressions can be used in templates\n- Directives are special attributes with the `v-` prefix\n- Directives can have arguments and modifiers"
+  },
+  {
+    "title": "watchers",
+    "path": "guide/essentials/options/watchers.options.md",
+    "summary": "- The page explains how to use the `watch` option in Vue.js to perform side effects in reaction to state changes\n- It provides a basic example of using the `watch` option to trigger a function whenever a reactive property changes\n- It shows how to use a dot-delimited path as the key for the `watch` option\n- It explains how to use a deep watcher to trigger the callback on all nested mutations of a watched property\n- It warns about the performance implications of using deep watchers on large data structures\n- It explains how to use the `immediate: true` option to force a watcher's callback to be executed immediately\n- It explains the callback flush timing and how to access the DOM in a watcher callback after Vue has updated it\n- It explains how to create watchers imperatively using the `$watch()` instance method\n- It mentions that watchers declared using the `watch` option or the `$watch()` instance method are automatically stopped when the owner component is unmounted\n- It explains how to manually stop a watcher before the owner component unmounts by calling the function returned by the `$watch()` API"
+  },
+  {
+    "title": "animation",
+    "path": "guide/extras/options/animation.options.md",
+    "summary": "- The page discusses animation techniques in Vue.js\n- It mentions the `<Transition>` and `<TransitionGroup>` components for handling transitions\n- It explains how to trigger animations by dynamically adding a CSS class\n- It shows an example of class-based animations using the `shake` class\n- It demonstrates state-driven animations by interpolating values using style bindings\n- It provides an example of animating the background color of an element based on mouse movement\n- It mentions that you can animate transform, width, height, and SVG paths using style bindings\n- It explains how to animate using watchers and provides an example of animating a number based on some numerical state"
+  },
+  {
+    "title": "composition-api-faq",
+    "path": "guide/extras/options/composition-api-faq.options.md",
+    "summary": "- Composition API is a set of APIs for authoring Vue components using imported functions instead of declaring options\n- It includes the Reactivity API with functions like `ref()` and `reactive()`\n- It includes Lifecycle Hooks with functions like `onMounted()` and `onUnmounted()`\n- It includes Dependency Injection with functions like `provide()` and `inject()`\n- Composition API allows for better logic reuse and more flexible code organization\n- It provides better type inference and a smaller production bundle\n- Composition API can be used alongside the Options API in the same component\n- Options API will not be deprecated and is still a solid choice for many scenarios\n- Class API is no longer recommended in Vue 3\n- Composition API provides similar logic composition capabilities as React Hooks, but with some important differences"
+  },
+  {
+    "title": "reactivity-in-depth",
+    "path": "guide/extras/options/reactivity-in-depth.options.md",
+    "summary": "- Vue.js has an unobtrusive reactivity system\n- Reactivity allows for adjusting to changes in a declarative manner\n- JavaScript doesn't usually work with reactivity like Vue.js does\n- Vue.js uses Proxies and getter/setters to intercept property access and enable reactivity\n- Vue provides APIs like `ref()`, `computed()`, and `watchEffect()` to create reactive effects\n- Reactive effects automatically track their dependencies and re-run when a dependency changes\n- Vue's reactivity system can be integrated with external state systems like Immer and RxJS\n- Vue provides debugging hooks to track dependencies and triggers in components, computed properties, and watchers\n- Vue's reactivity system can be used with signals, similar to other frameworks like Solid and Angular"
+  },
+  {
+    "title": "reactivity-transform",
+    "path": "guide/extras/options/reactivity-transform.options.md",
+    "summary": "- Reactivity Transform is a deprecated experimental feature in Vue.js\n- It can be migrated away from using a command line tool or used with the Vue Macros plugin\n- Reactivity Transform is Composition-API-specific and requires a build step\n- The `$ref()` method is a compile-time macro that treats a variable as a reactive variable\n- Reactive variables can be accessed and reassigned like normal variables, but operations are compiled into refs with `.value`\n- Other reactivity APIs have `$`-prefixed macro equivalents, such as `$computed` and `$toRef`\n- The `$()` macro is used for destructuring reactive objects and plain objects containing refs\n- The `$()` macro can also convert existing refs into reactive variables\n- There is a compile-time transform for using `defineProps()` with destructuring, called `$()`\n- Reactivity can be retained across function boundaries using `$$()` on reactive variables\n- `$$()` can be used on destructured props as well\n- TypeScript integration is supported and typings are provided for the macros\n- The reactivity transform can be explicitly enabled in Vite and Vue CLI configurations"
+  },
+  {
+    "title": "render-function",
+    "path": "guide/extras/options/render-function.options.md",
+    "summary": "- The page explains the usage of render functions and JSX in Vue.js\n- It shows how to create vnodes using the `h()` function\n- It demonstrates the basic usage of render functions and how to declare them\n- It explains that all vnodes in the component tree must be unique\n- It provides examples of using JSX and TSX in Vue.js\n- It explains how to create render function recipes for common template features like `v-if`, `v-for`, and `v-on`\n- It shows how to work with components in render functions\n- It explains how to render slots in render functions\n- It demonstrates how to use built-in components like `<KeepAlive>`, `<Transition>`, `<Teleport>`, and `<Suspense>`\n- It explains how to use the `v-model` directive in render functions\n- It shows how to use custom directives in render functions\n- It explains how to use template refs in render functions\n- It provides information on functional components and how to create them\n- It explains how to type functional components in TypeScript"
+  },
+  {
+    "title": "rendering-mechanism",
+    "path": "guide/extras/options/rendering-mechanism.options.md",
+    "summary": "- Vue's rendering system is based on the concept of virtual DOM\n- Virtual DOM is a programming concept where an ideal representation of a UI is kept in memory and synced with the real DOM\n- Vue's runtime renderer can walk a virtual DOM tree and construct a real DOM tree from it (mount)\n- The renderer can also compare two virtual DOM trees and apply necessary updates to the actual DOM (patch)\n- Templates in Vue are compiled into render functions that return virtual DOM trees\n- Render functions provide more flexibility than templates for dynamic logic\n- Vue recommends templates by default because they are closer to HTML and easier to analyze and optimize\n- Vue's compiler-informed virtual DOM allows for compile-time optimizations to improve runtime performance\n- Some optimizations include static hoisting, patch flags, tree flattening, and impact on SSR hydration"
+  },
+  {
+    "title": "ways-of-using-vue",
+    "path": "guide/extras/options/ways-of-using-vue.options.md",
+    "summary": "- Vue can be used as a standalone script file without a build step\n- Vue can be used to build embedded web components that can be used in any HTML page\n- Vue is suitable for building single-page applications (SPAs) with rich interactivity and non-trivial stateful logic\n- Vue provides support for server-side rendering (SSR) to improve SEO and time-to-content\n- Vue can be used for static-site generation (SSG) to pre-render an entire application into static HTML files\n- Vue can be used to build desktop apps with Electron or Tauri, mobile apps with Ionic Vue, and cross-platform apps with Quasar\n- Vue's Custom Renderer API allows for building custom renderers targeting WebGL or the terminal."
+  },
+  {
+    "title": "web-components",
+    "path": "guide/extras/options/web-components.options.md",
+    "summary": "- Vue and Web Components are complementary technologies\n- Vue has excellent support for consuming and creating custom elements\n- Vue scores 100% in the Custom Elements Everywhere tests\n- Vue can treat certain elements as custom elements and skip component resolution\n- Complex data can be passed to custom elements as DOM properties using the .prop modifier\n- Vue supports creating custom elements using the defineCustomElement method\n- Custom elements can be defined using Vue component APIs\n- Lifecycle, props, events, and slots are supported in Vue-defined custom elements\n- Provide/Inject API works between Vue-defined custom elements\n- SFCs can be used as custom elements by using the defineCustomElement method\n- Tips for building a Vue custom elements library\n- Type support for Vue components registered as custom elements can be provided\n- Web Components APIs are low-level and lack additional capabilities provided by Vue components\n- Custom elements have limitations in component composition and styling"
+  },
+  {
+    "title": "composables",
+    "path": "guide/reusability/options/composables.options.md",
+    "summary": "- A \"composable\" is a function that encapsulates and reuses stateful logic in Vue applications using the Composition API\n- Composables can be used to extract and reuse logic for common tasks\n- The example shows how to create a composable for tracking the mouse position on a page\n- Composables can be used in multiple components by extracting the logic into an external file and importing the composable function\n- Composables can be nested, allowing for the composition of complex logic using small, isolated units\n- The page also discusses conventions and best practices for naming, accepting input arguments, returning values, handling side effects, and usage restrictions of composables\n- Composables can be used in the Options API by calling them inside the `setup()` function and returning the bindings\n- Composables are compared to mixins, renderless components, and React hooks\n- Further reading is provided for more in-depth information on reactivity, state management, testing composables, and a collection of Vue composables called VueUse."
+  },
+  {
+    "title": "custom-directives",
+    "path": "guide/reusability/options/custom-directives.options.md",
+    "summary": "- Custom directives allow for reusing logic that involves low-level DOM access on plain elements\n- Custom directives are defined as objects containing lifecycle hooks\n- The `mounted` hook focuses an input element when it is inserted into the DOM\n- Custom directives can be locally or globally registered\n- Directive hooks include `created`, `beforeMount`, `mounted`, `beforeUpdate`, `updated`, `beforeUnmount`, and `unmounted`\n- Directive hooks receive arguments such as the element, binding, vnode, and prevVnode\n- Custom directives can have function shorthand for `mounted` and `updated` behavior\n- Multiple values can be passed to a directive using an object literal\n- When used on components, custom directives apply to the component's root node"
+  },
+  {
+    "title": "plugins",
+    "path": "guide/reusability/options/plugins.options.md",
+    "summary": "- Plugins are self-contained code that add app-level functionality to Vue.js\n- Plugins can be installed using the `app.use()` method\n- A plugin can be defined as an object with an `install()` method or as a function that acts as the install function itself\n- Common scenarios where plugins are useful include registering global components or directives, making a resource injectable throughout the app, adding global instance properties or methods, and combining multiple functionalities\n- To create a plugin, define an object with an `install()` method and export it\n- The plugin can define a translation function that is globally available in all templates by attaching it to `app.config.globalProperties`\n- The translation function takes a dot-delimited key string and looks up the translated string in the user-provided options\n- The translated keys should be passed to the plugin during installation via additional parameters to `app.use()`\n- Plugins can also use `app.provide()` to provide a function or attribute to the plugin's users, which can be injected using the `inject` option in components"
+  },
+  {
+    "title": "routing",
+    "path": "guide/scaling-up/options/routing.options.md",
+    "summary": "- Routing can be done on the server side or the client side\n- In a Single-Page Application (SPA), client-side routing is used for a more responsive user experience\n- The official router for Vue.js is the Vue Router library\n- If simple routing is needed without a full-featured router library, it can be done using dynamic components and browser APIs like the History API or hashchange events"
+  },
+  {
+    "title": "sfc",
+    "path": "guide/scaling-up/options/sfc.options.md",
+    "summary": "- Vue Single-File Components (SFC) allow encapsulation of template, logic, and styling in a single file\n- SFCs use `<template>`, `<script>`, and `<style>` blocks to colocate the view, logic, and styling\n- Benefits of SFC include modularization, pre-compiled templates, component-scoped CSS, ergonomic syntax for Composition API, IDE support, and Hot-Module Replacement (HMR)\n- SFC is recommended for Single-Page Applications (SPA), Static Site Generation (SSG), and non-trivial frontends\n- SFCs must be pre-compiled into JavaScript and CSS using the `@vue/compiler-sfc`\n- `<style>` tags in SFCs can be injected as native `<style>` tags during development and extracted into a single CSS file for production\n- SFCs can be integrated with build tools like Vite or Vue CLI\n- Separation of concerns in SFCs is achieved by dividing code into loosely-coupled components and composing them"
+  },
+  {
+    "title": "ssr",
+    "path": "guide/scaling-up/options/ssr.options.md",
+    "summary": "- Server-Side Rendering (SSR) allows rendering Vue components into HTML strings on the server\n- SSR is useful for faster time-to-content, unified mental model, and better SEO\n- SSR has trade-offs such as development constraints and more server-side load\n- SSR can be implemented using the `createSSRApp` and `renderToString` functions\n- Client-side hydration is needed to make the app interactive\n- Code structure in an SSR app involves sharing the same app implementation between server and client\n- Higher-level solutions for SSR include Nuxt, Quasar, and Vite SSR\n- SSR-friendly code involves considerations for reactivity, component lifecycle hooks, platform-specific APIs, cross-request state pollution, hydration mismatch, custom directives, and teleports"
+  },
+  {
+    "title": "state-management",
+    "path": "guide/scaling-up/options/state-management.options.md",
+    "summary": "- State management in Vue.js involves managing the reactive state of a component\n- State consists of the data, view, and actions of a component\n- When multiple components share a common state, it can lead to issues like prop drilling and unmaintainable code\n- A solution is to extract the shared state into a global singleton using the `reactive()` function\n- The shared state can be imported into multiple components and any changes to the state will update all components automatically\n- It is recommended to define methods on the store to centralize the state-mutating logic\n- Other reactivity APIs like `ref()` and `computed()` can also be used to create shared reactive state\n- Considerations for server-side rendering (SSR) are discussed in the documentation\n- Pinia is a state management library recommended for large-scale production applications, providing stronger conventions, integration with Vue DevTools, and SSR support"
+  },
+  {
+    "title": "testing",
+    "path": "guide/scaling-up/options/testing.options.md",
+    "summary": "- The page is about testing in Vue.js\n- It covers the importance of automated tests in building complex Vue applications\n- It explains when to start testing and the different types of testing: unit, component, and end-to-end\n- It provides an overview of each type of testing and their role in a testing strategy\n- It focuses on unit testing and provides an example of how to write a unit test for a function\n- It mentions that unit testing can be applied to Vue-specific features such as composables and components\n- It explains how to unit test components in two ways: whitebox (unit testing) and blackbox (component testing)\n- It recommends using Vitest as a unit testing framework for Vue applications\n- It mentions other options for unit testing such as Peeky and Jest\n- It discusses component testing in Vue applications and provides recommendations on how to test components\n- It recommends using Vitest or Cypress Component Testing for component testing\n- It mentions other options for component testing such as Nightwatch and WebdriverIO\n- It discusses end-to-end (E2E) testing in Vue applications and its importance in validating application behavior\n- It provides recommendations on choosing an E2E testing solution and recommends using Cypress\n- It mentions other options for E2E testing such as Playwright, Nightwatch, and WebdriverIO\n- It provides recipes for adding Vitest to a project and testing composables\n- It mentions the need to test composables that rely on a host component instance\n- It provides a helper function for testing composables that rely on lifecycle hooks or Provide / Inject"
+  },
+  {
+    "title": "TestingApiSwitcher.vue",
+    "path": "guide/scaling-up/options/TestingApiSwitcher.vue.options.md",
+    "summary": "- This page contains a Vue.js component for displaying code examples with tabs.\n- The component uses the `ref` function from Vue.js to create a reactive reference to the active tab.\n- The component renders a list of tabs based on the `testingLangs` array.\n- Clicking on a tab updates the active tab reference.\n- The component renders a code example based on the active tab.\n- The component includes CSS styles for the tabs and code examples.\n- The component includes media queries for responsive design.\n- The component includes CSS styles for dark mode.\n- The component includes logic for showing and hiding code blocks based on the active tab."
+  },
+  {
+    "title": "tooling",
+    "path": "guide/scaling-up/options/tooling.options.md",
+    "summary": "- Online playgrounds for trying out Vue SFCs in the browser: Vue SFC Playground, Vue + Vite on StackBlitz\n- Project scaffolding options: Vite (using `npm init vue@latest`), Vue CLI\n- In-browser template compilation options: runtime-only builds, full builds\n- IDE support: VSCode with Vue Language Features (Volar) extension, WebStorm, other LSP-supported IDEs\n- Browser devtools for Vue: Vue browser devtools extension\n- TypeScript support: Volar, vue-tsc\n- Testing options: Cypress, Vitest, Jest with vite-jest\n- Linting with eslint-plugin-vue\n- Formatting with Volar or Prettier\n- SFC custom block integrations with Vite or Vue CLI/webpack\n- Lower-level packages: `@vue/compiler-sfc`, `@vitejs/plugin-vue`, `vue-loader`\n- Other online playgrounds for Vue: VueUse Playground, Vue + Vite on Repl.it, Vue on CodeSandbox, Vue on Codepen, Vue on Components.studio, Vue on WebComponents.dev"
+  },
+  {
+    "title": "composition-api",
+    "path": "guide/typescript/options/composition-api.options.md",
+    "summary": "- The page is about TypeScript with Composition API in Vue.js\n- It explains how to type component props using `<script setup>` and `defineProps()`\n- It discusses the syntax limitations of the `defineProps()` function\n- It explains how to set default values for props using the `withDefaults` compiler macro\n- It explains how to type component emits using `<script setup>` and `defineEmits()`\n- It explains how to type `ref()` and specify complex types for a ref's inner value\n- It explains how to type `reactive()` and explicitly type a reactive property\n- It explains how to type `computed()` and specify an explicit type via a generic argument\n- It explains how to type event handlers and recommends explicitly annotating the argument\n- It explains how to type provide/inject and use the `InjectionKey` interface\n- It explains how to type template refs and template refs for child components\n- It provides examples and code snippets for each topic"
+  },
+  {
+    "title": "options-api",
+    "path": "guide/typescript/options/options-api.options.md",
+    "summary": "- Use `defineComponent()` to enable type inference for props in Options API\n- Annotate complex props types using the `PropType` utility type\n- Be careful when using function values for `validator` and `default` prop options if TypeScript version is less than 4.7\n- Declare expected payload type for emitted events using the `emits` option\n- Computed properties infer their type based on their return value\n- Explicitly annotate the type of a computed property when necessary\n- Type the argument of event handlers to avoid implicit `any` type\n- Augment global properties using `ComponentCustomProperties` interface\n- Augment custom component options using `ComponentCustomOptions` interface"
+  },
+  {
+    "title": "overview",
+    "path": "guide/typescript/options/overview.options.md",
+    "summary": "- Vue provides first-class TypeScript support\n- TypeScript reduces runtime errors and improves developer ergonomics\n- `create-vue` offers options to scaffold a TypeScript-ready Vue project\n- Use `vue-tsc` utility for command line type checking and declaration generation\n- Recommended IDEs for TypeScript support: Visual Studio Code and WebStorm\n- Configure `tsconfig.json` for TypeScript project setup\n- Volar provides improved performance with takeover mode in VSCode\n- Vue CLI and `ts-loader` are not recommended for type checking\n- Use `defineComponent()` to enable type inference for component options\n- Use `lang=\"ts\"` in SFCs to enable TypeScript support\n- TypeScript can be used in template expressions with `<script lang=\"ts\">` or `<script setup lang=\"ts\">`\n- Vue supports JSX / TSX for component authoring\n- Generic components are supported in SFCs and render function / JSX components\n- API-specific recipes for using TypeScript with Composition API and Options API"
+  }
+]
