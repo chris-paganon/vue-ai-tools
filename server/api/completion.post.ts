@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  console.log('completion request received: ', body);
   const data = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
