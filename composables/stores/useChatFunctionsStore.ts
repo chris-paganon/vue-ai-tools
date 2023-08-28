@@ -1,5 +1,5 @@
 import { CreateChatCompletionResponseChoicesInner } from 'openai';
-import compositionIndex from '@/assets/vue-docs/compostion-index.json';
+import compositionIndex from '@/assets/vue-docs/composition-index.json';
 
 export const useChatFunctionsStore = defineStore('chatFunctions', () => {
   const functions = ref([{
@@ -42,8 +42,7 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
 
   // TODO: Infer the functionArguments type from the schema
   function answerQuestionWithDocumentation(functionArguments: {title: string}) {
-    const { addAssistantMessage } = useChatStore();
-    const { replaceSystemMessage } = useChatStore();
+    const { addAssistantMessage, replaceSystemMessage } = useChatStore();
 
     // TODO: Check the right index (option vs composition) and validate arguments dynamically
     const compositionPage = compositionIndex.find((compositionPage) => compositionPage.title === functionArguments.title);
@@ -56,9 +55,12 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     // TODO: Not strong enough wording. GPT basically doesn't use it.
     replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}`);
     // TODO: Have the path in JSON file instead of the URL
-    const path = compositionPage.url.replace('https://vuejs.org/', '').replace('.html', '.composition.md');
+    const path = compositionPage.path;
+    const urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+    const url = `https://vuejs.org/${urlPath}`;
+
     useAskDocCompletion(path);
-    addAssistantMessage(`<p>Here are relevant URLs from the documentation: <a target="_blank" href="${compositionPage.url}">${compositionPage.url}</a>.</p> <p>Feeding the pages to GPT to give you a more precise answer...</p>`); 
+    addAssistantMessage(`<p>Here are relevant URLs from the documentation: <a target="_blank" href="${url}">${url}</a>.</p> <p>Feeding the pages to GPT to give you a more precise answer...</p>`); 
   }
 
   return {
