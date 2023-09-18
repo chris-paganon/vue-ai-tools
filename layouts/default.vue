@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 useHead({
+  title: 'VueAI.tools',
   script: [
     {
       async: true,
