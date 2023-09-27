@@ -28,3 +28,5 @@ jobs:
         source: .output/*
         target: /opt/vueai.tools/html
         rm: true
+    - name: restart pm2 on Droplet
+      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.DROPLET_KEY }} ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js"
