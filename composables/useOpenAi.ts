@@ -20,16 +20,18 @@ export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
   const { setIsWaitingAnswer, addAssistantMessage } = useChatStore();
   
-  const response = await useCompletion({
-    messages: messages.value,
-  });
+  // const response = await useCompletion({
+  //   messages: messages.value,
+  // });
   
-  if (!response?.[0].message?.content) {
-    console.log('No response from useAskQuestion');
-    return;
-  }
-  addAssistantMessage(response[0].message.content);
-  setIsWaitingAnswer(false);
+  // if (!response?.[0].message?.content) {
+  //   console.log('No response from useAskQuestion');
+  //   return;
+  // }
+  setTimeout(() => {
+    addAssistantMessage('<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&si=SrxNqPEMrjODMXof&amp;controls=0&amp" title="YouTube video player" frameborder="0" allow="autoplay" allowfullscreen></iframe>');
+    setIsWaitingAnswer(false);
+  }, 4000);
 }
 
 export async function useAskFunction() {
