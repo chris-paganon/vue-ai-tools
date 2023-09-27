@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build-nuxt:
+    name: Build nuxt on node
+    runs-on: ubuntu-latest
+    steps:
+    - name: Use Node
+      uses: actions/setup-node@v3.8.1
+      with:
+        node-vertsion: '18.x'
+    - name: npm install & build
+      run: |
+        npm ci
+        npm run build
