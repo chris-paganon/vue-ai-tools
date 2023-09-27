@@ -34,4 +34,4 @@ jobs:
       run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
         ssh-add - <<< "${{ secrets.DROPLET_KEY }}"
-        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js && exit"
