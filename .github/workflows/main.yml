@@ -20,7 +20,7 @@ jobs:
         npm ci
         npm run build
     - name: Send files to Droplet
-      uses: appleboy/scp-action@v0.1.4
+      uses: appleboy/scp-action@v0.1.3
       with:
         host: ${{ secrets.DROPLET_HOST }}
         username: ${{ secrets.DROPLET_USERNAME }}
