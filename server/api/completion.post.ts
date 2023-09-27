@@ -1,36 +1,24 @@
+import { Configuration, OpenAIApi } from "openai";
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
+  console.log('completion request received: ', body);
   const data = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
     ...body,
   };
 
-  let openaiKey = '';
-  let openaiOrganization = '';
-  if (event.context.cloudflare) {
-    const { cloudflare } = event.context;
-    openaiKey = cloudflare.env.OPENAI_API_KEY;
-    openaiOrganization = cloudflare.env.OPENAI_ORGANIZATION;
-  } else {
-    const runtimeConfig = useRuntimeConfig();
-    openaiKey = runtimeConfig.public.openaiApiKey;
-    openaiOrganization = runtimeConfig.public.openaiOrganization;
-  }
-  
-  const responseJson = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${openaiKey}`,
-      'Openai-Organization': openaiOrganization,
-    },
-    body: JSON.stringify(data),
-  });
-  const response = await responseJson.json();
+  const runtimeConfig = useRuntimeConfig();
 
-  if (response.choices.length === 0) {
-    return new Response('No choices found', { status: 500 });
-  }
-  return response.choices;
+  const configuration = new Configuration({
+    organization: runtimeConfig.openaiOrganization,
+    apiKey: runtimeConfig.openaiApiKey,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  const completion = await openai.createChatCompletion(data);
+
+  if (completion.data.choices.length === 0) return;
+  return completion.data.choices;
 });

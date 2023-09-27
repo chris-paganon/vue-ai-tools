@@ -1,8 +1,6 @@
 <template>
   <div class="p-input-filled">
-    <div v-if="appLoading" class="fixed top-0 left-0 w-screen h-screen flex justify-content-center align-items-center surface-overlay z-5">
-      <h1>loading</h1>
-    </div>
+    <AppLoader />
     <ChatDialog />
     <div class="min-h-screen flex flex-column">
       <AppHeader />
@@ -13,8 +11,14 @@
 </template>
 
 <script setup lang="ts">
-const appLoading = ref(true);
-onMounted(() => {
-  appLoading.value = false;
+useHead({
+  title: 'VueAI.tools',
+  script: [
+    {
+      async: true,
+      src: 'https://umami.vueai.tools/script.js',
+      'data-website-id': '716766be-9975-4463-be2d-2a8b39c8d4cb',
+    }
+  ],
 });
 </script>

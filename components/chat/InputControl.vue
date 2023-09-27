@@ -1,4 +1,5 @@
 <template>
+  <ChatToolBar />
   <div class="flex flex-column md:flex-row justify-content-between gap-3 my-3">
     <Textarea v-model="inputQuestion" @keydown.enter="askQuestion($event)" autoResize rows="2" class="md:w-10" />
     <Button @click="askQuestion()" :loading="isWaitingAnswer" label="Ask" size="large" class="flex-grow-1" />
@@ -10,6 +11,7 @@ const { inputQuestion, isWaitingAnswer } = storeToRefs(useChatStore());
 const { setInputQuestion, setIsWaitingAnswer } = useChatStore();
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage } = useChatStore();
+const { askInputQuestion } = useInputOptionsStore();
 
 async function askQuestion(event?: KeyboardEvent) {
   // Keep writing if shift+enter is pressed
@@ -23,7 +25,6 @@ async function askQuestion(event?: KeyboardEvent) {
   addUserMessage(inputQuestion.value);
   setIsWaitingAnswer(true);
   setInputQuestion('');
-  await useAskQuestion();
-  setIsWaitingAnswer(false);
+  askInputQuestion();
 }
 </script>
