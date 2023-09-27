@@ -19,12 +19,6 @@ jobs:
       run: |
         npm ci
         npm run build
-  deploy-nuxt:
-    name: Deploy to Droplet
-    needs: build-nuxt
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4.1.0
     - name: Send files to Droplet
       uses: appleboy/scp-action@v0.1.4
       with:
