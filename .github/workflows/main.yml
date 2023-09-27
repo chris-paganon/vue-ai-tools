@@ -29,4 +29,11 @@ jobs:
         target: /opt/vueai.tools/html
         rm: true
     - name: restart pm2 on Droplet
-      run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.DROPLET_KEY }} ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js"
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        echo "${{ secrets.DROPLET_KEY }}" > /home/runner/.ssh/github_actions
+        chmod 600 /home/runner/.ssh/github_actions
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+        ssh-add /home/runner/.ssh/github_actions
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js"
