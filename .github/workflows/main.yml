@@ -26,4 +26,4 @@ jobs:
         username: ${{ secrets.DROPLET_USERNAME }}
         key: ${{ secrets.DROPLET_KEY }}
         source: .output/*
-        target: /opt/vueai.tools/test
+        target: /opt/vueai.tools/
