@@ -22,15 +22,15 @@ export const useInputOptionsStore = defineStore('input-options', () => {
         break;
       case 'Composition API':
         setCompositionIndexSystemMessage();
-        useAskQuestion();
+        useAskFunction();
         break;
       case 'Options API':
         setOptionsIndexSystemMessage();
-        useAskQuestion();
+        useAskFunction();
         break;
       default:
         setCompositionIndexSystemMessage();
-        useAskQuestion();
+        useAskFunction();
         break;
     }
   }
