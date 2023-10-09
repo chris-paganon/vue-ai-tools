@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
@@ -11,14 +11,13 @@ export default defineEventHandler(async (event) => {
 
   const runtimeConfig = useRuntimeConfig();
 
-  const configuration = new Configuration({
+  const openai = new OpenAI({
     organization: runtimeConfig.openaiOrganization,
     apiKey: runtimeConfig.openaiApiKey,
   });
-  const openai = new OpenAIApi(configuration);
 
-  const completion = await openai.createChatCompletion(data);
+  const completion = await openai.chat.completions.create(data);
 
-  if (completion.data.choices.length === 0) return;
-  return completion.data.choices;
+  if (completion.choices.length === 0) return;
+  return completion.choices;
 });

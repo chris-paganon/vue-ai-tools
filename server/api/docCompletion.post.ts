@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
+import OpenAI from "openai";
 
 export default defineEventHandler(async (event) => {
   
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   } 
 
   const relevantDocPage: string = await $fetch(`https://vue-docs.nyc3.cdn.digitaloceanspaces.com/${body.path}`);
-  const messages = body.messages.map((message: ChatCompletionRequestMessage) => {
+  const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
     if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {
       message.content = message.content.replace('{{VAI_DOC_PAGE}}', relevantDocPage);
     }
@@ -25,14 +25,13 @@ export default defineEventHandler(async (event) => {
 
   const runtimeConfig = useRuntimeConfig();
 
-  const configuration = new Configuration({
+  const openai = new OpenAI({
     organization: runtimeConfig.openaiOrganization,
     apiKey: runtimeConfig.openaiApiKey,
   });
-  const openai = new OpenAIApi(configuration);
 
-  const completion = await openai.createChatCompletion(data);
+  const completion = await openai.chat.completions.create(data);
 
-  if (completion.data.choices.length === 0) return;
-  return completion.data.choices;
+  if (completion.choices.length === 0) return;
+  return completion.choices;
 });
