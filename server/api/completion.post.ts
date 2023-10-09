@@ -29,6 +29,6 @@ export default defineEventHandler(async (event) => {
     } else {
       console.log(error);
     }
-    return 'An error occued while trying to reach the OpenAI API.'
+    return;
   }
 });

@@ -12,6 +12,8 @@ export async function useCompletion(payload: ChatCompletionRequest) {
     body: payload,
   });
 
+  // TODO: handle errors
+
   if (!response) return;
   return response;
 }
