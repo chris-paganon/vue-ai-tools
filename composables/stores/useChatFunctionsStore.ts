@@ -1,4 +1,4 @@
-import { CreateChatCompletionResponseChoicesInner } from 'openai';
+import OpenAI from 'openai';
 import compositionIndex from '@/assets/vue-docs/composition-index.json';
 import optionsIndex from '@/assets/vue-docs/options-index.json';
 
@@ -45,7 +45,7 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     }])
   });
 
-  function handleChatFunction(response: CreateChatCompletionResponseChoicesInner[]) {
+  function handleChatFunction(response: OpenAI.Chat.ChatCompletion.Choice[]) {
     console.log('handleChatFunction after 1st response: ', response);
     if (! response?.[0]?.message?.function_call?.arguments) return;
     const functionArgumentsFromAi = JSON.parse(response[0].message.function_call.arguments);

@@ -1,4 +1,4 @@
-import type { ChatCompletionRequestMessage } from 'openai';
+import OpenAI from 'openai';
 import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
 
@@ -9,7 +9,7 @@ export const useChatStore = defineStore('chat', () => {
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
   const baseSystemMessage = 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.'
-  const messages = ref<ChatCompletionRequestMessage[]>([{
+  const messages = ref<OpenAI.Chat.ChatCompletionMessage[]>([{
     role: 'system',
     content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}.`,
   }]);
@@ -17,7 +17,7 @@ export const useChatStore = defineStore('chat', () => {
   function setInputQuestion(value: string) {
     inputQuestion.value = value;
   }
-  function addMessage(message: ChatCompletionRequestMessage) {
+  function addMessage(message: OpenAI.Chat.ChatCompletionMessage) {
     messages.value.push(message);
     console.log('message added to the list:', messages.value);
   }

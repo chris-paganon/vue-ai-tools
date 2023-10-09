@@ -1,9 +1,9 @@
-import type { ChatCompletionRequestMessage, ChatCompletionFunctions, CreateChatCompletionRequestFunctionCall } from 'openai';
+import OpenAI from 'openai';
 
 interface ChatCompletionRequest {
-  messages: ChatCompletionRequestMessage[];
-  functions?: ChatCompletionFunctions[];
-  function_call?: CreateChatCompletionRequestFunctionCall;
+  messages: OpenAI.Chat.ChatCompletionMessage[];
+  functions?: OpenAI.Chat.ChatCompletionCreateParams.Function[];
+  function_call?: OpenAI.Chat.ChatCompletionCreateParams.FunctionCallOption;
 }
 
 export async function useCompletion(payload: ChatCompletionRequest) {
