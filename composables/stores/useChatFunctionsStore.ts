@@ -32,15 +32,20 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
       name: 'answerQuestionWithDocumentation',
       description: 'Returns the relevant VueJS documentation page from its title.',
       parameters: {
-        "type": 'object', // Should be array of strings to select several pages and validate the title dynamically. The array of strings may be generated with the python script.
+        "type": 'object',
         "properties": {
-          "title": {
-            "type": 'string',
-            "description": 'The title of the VueJS documentation page to return.',
-            "oneOf": oneOf,
-          },
+          "titles": {
+            "type": 'array',
+            "items": {
+              "type": 'string',
+              "oneOf": oneOf,
+            },
+            "minItems": 1,
+            "maxItems": 3,
+            "description": 'The titles of the VueJS documentation pages to return.',
+          }
         },
-        "required": ['title'],
+        "required": ['titles'],
       }
     }])
   });
@@ -54,7 +59,7 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     // TODO: Add real validation of the arguments with AJV
     switch (response[0].message.function_call.name) {
       case 'answerQuestionWithDocumentation':
-        if (! functionArgumentsFromAi.title && typeof functionArgumentsFromAi.title !== 'string' ) return;
+        if (! functionArgumentsFromAi.titles && Array.isArray(functionArgumentsFromAi.titles) && functionArgumentsFromAi.titles.some((title: unknown) => typeof title !== 'string')) return;
         answerQuestionWithDocumentation(functionArgumentsFromAi);
         break;
       default:
@@ -64,36 +69,47 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
   }
 
   // TODO: Infer the functionArguments type from the schema
-  function answerQuestionWithDocumentation(functionArguments: {title: string}) {
+  function answerQuestionWithDocumentation(functionArguments: {titles: string[]}) {
     const { addAssistantMessage, replaceSystemMessage } = useChatStore();
 
-    const summaryPage = summaryIndex.value.find((summaryPage) => summaryPage.title === functionArguments.title);
-    if ( !summaryPage ) {
+    // Get functionArguments.titles that exist in summaryIndex.value
+    const summaryPages = summaryIndex.value.filter((summaryPage) => {
+      return functionArguments.titles.some((title) => title === summaryPage.title);
+    });
+
+    if ( !summaryPages || summaryPages.length === 0 ) {
       console.log('Function argument invalid');
       useAskQuestion();
       return;
     };
 
-    const path = summaryPage.path;
-    let urlPath = path;
+    const paths = summaryPages.map((summaryPage) => summaryPage.path);
+    let urlPaths = paths;
     switch (selectedInputOption.value) {
       case 'Composition API':
-        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
-        urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.titles} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
+        urlPaths = paths.map(path => path.replace('composition/', '').replace('composition.md', 'html'));
         break;
       case 'Options API':
-        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Options API syntax.`);
-        urlPath = path.replace('options/', '').replace('options.md', 'html');
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.titles} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Options API syntax.`);
+        urlPaths = paths.map(path => path.replace('options/', '').replace('options.md', 'html'));
         break;
       default:
-        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.title} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
-        urlPath = path.replace('composition/', '').replace('composition.md', 'html');
+        replaceSystemMessage(`Here is the VueJS documentation page called ${functionArguments.titles} that may be relevant to the user question: {{VAI_DOC_PAGE}}. Use this page to answer the user question. Code examples must use the Composition API and <script setup> syntax.`);
+        urlPaths = paths.map(path => path.replace('composition/', '').replace('composition.md', 'html'));
         break;
     }
-    const url = `https://vuejs.org/${urlPath}`;
+    const urls = urlPaths.map(urlPath => `https://vuejs.org/${urlPath}`);
 
-    useAskDocCompletion(path);
-    addAssistantMessage(`<p>Here are relevant URLs from the documentation: <a target="_blank" href="${url}">${url}</a>.</p> <p>Feeding the pages to GPT to give you a more precise answer...</p>`); 
+    useAskDocCompletion(paths);
+
+    let urlHtmlList = '<ul>';
+    urls.forEach((url) => {
+      urlHtmlList += `<li><a target="_blank" href="${url}">${url}</a></li>`;
+    });
+    urlHtmlList += '</ul>';
+
+    addAssistantMessage(`<p>Here are relevant URLs from the documentation:</p> ${urlHtmlList} <p>Feeding the pages to GPT to give you a more precise answer...</p>`); 
   }
 
   return {

@@ -4,12 +4,15 @@ export default defineEventHandler(async (event) => {
   
   const body = await readBody(event)
   console.log('docCompletion request received: ', body);
-  if (!body.path || !body.messages) {
+  if (!body.paths || !body.messages) {
     console.log('Missing path or messages');
     return;
   } 
 
-  const relevantDocPage: string = await $fetch(`https://vue-docs.nyc3.cdn.digitaloceanspaces.com/${body.path}`);
+  let relevantDocPage: string = '';
+  await body.paths.forEach(async (path: string) => {
+    relevantDocPage += await $fetch(`https://vue-docs.nyc3.cdn.digitaloceanspaces.com/${path}`);
+  });
   const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
     if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {
       message.content = message.content.replace('{{VAI_DOC_PAGE}}', relevantDocPage);

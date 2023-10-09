@@ -56,7 +56,7 @@ export async function useAskFunction() {
   handleChatFunction(response);
 }
 
-export async function useAskDocCompletion(path: string) {
+export async function useAskDocCompletion(paths: string[]) {
   const { messages } = storeToRefs(useChatStore());
   const { setIsWaitingAnswer, addAssistantMessage } = useChatStore();
 
@@ -64,7 +64,7 @@ export async function useAskDocCompletion(path: string) {
     method: 'POST',
     body: {
       messages: messages.value,
-      path: path,
+      paths: paths,
     },
   });
 
