@@ -3,10 +3,13 @@
     <NuxtLink to="/">
       <img src="/img/logo-nobg.png" alt="Logo" class="logo" width="60" />
     </NuxtLink>
-    <Button @click="setIsChatOpened(true)">Open Chat</Button>
+    <div class="flex gap-4">
+      <Button @click="setIsLoginModalOpened(true)" severity="secondary" outlined>Login</Button>
+      <Button @click="setIsSignUpModalOpened(true)">Sign Up</Button>
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
-const { setIsChatOpened } = useUIStore();
+const { setIsSignUpModalOpened, setIsLoginModalOpened } = useUIStore();
 </script>

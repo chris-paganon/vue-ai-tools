@@ -2,6 +2,8 @@
   <div class="p-input-filled">
     <AppLoader />
     <ChatDialog />
+    <AppLogin />
+    <AppSignUp />
     <div class="min-h-screen flex flex-column">
       <AppHeader />
       <slot />
