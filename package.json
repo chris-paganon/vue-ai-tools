@@ -27,8 +27,5 @@
   },
   "overrides": {
     "vue": "latest"
-  },
-  "engines": {
-    "node": "16.18.0"
   }
 }
