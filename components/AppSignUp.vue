@@ -41,6 +41,8 @@ async function signUp() {
     password: password.value,
     passwordConfirm: passwordConfirm.value,
   });
+
+  //TODO: Verify email https://www.programonaut.com/how-to-use-pocketbase-auth-for-a-login-screen-step-by-step/
   console.log(signUp);
 }
 </script>
