@@ -27,6 +27,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // The private keys which are only available server-side
     openaiOrganization: 'org-AB12',
-    openaiApiKey: 'sk-CD34'
+    openaiApiKey: 'sk-CD34',
+    public: {
+      pocketbaseUrl: 'http://localhost:8080'
+    }
   },
 });
