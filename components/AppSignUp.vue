@@ -8,15 +8,15 @@
       <div class="flex flex-column gap-2">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
-          <InputText id="email" v-model="email" />
+          <InputText id="email" required v-model="email" />
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
-          <Password id="password" v-model="password" />
+          <Password id="password" required v-model="password" toggleMask />
         </div>
         <div class="flex flex-column gap-2">
           <label for="password-confirm">Confirm password</label>
-          <Password id="password-confirm" v-model="passwordConfirm" />
+          <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false"/>
         </div>
         <Button label="Sign Up" class="mt-4" @click="signUp" />
       </div>

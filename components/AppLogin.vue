@@ -12,7 +12,7 @@
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
-          <Password id="password" v-model="password" />
+          <Password id="password" v-model="password" toggleMask :feedback="false"/>
         </div>
         <Button label="Login" class="mt-4" @click="login" />
       </div>
