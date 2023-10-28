@@ -77,3 +77,14 @@ async function signUp() {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.p-password {
+  :deep(.p-password-input) {
+    width: 100%;
+  }
+  :deep(.p-input-icon-right) {
+    top: 38%;
+  }
+}
+</style>
