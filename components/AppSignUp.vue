@@ -19,6 +19,8 @@
           <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false"/>
         </div>
         <Button label="Sign Up" class="mt-4" @click="signUp" />
+        <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
+        <Message v-if="infoMessage" severity="info">{{ infoMessage }}</Message>
       </div>
     </Dialog>
   </div>
@@ -26,6 +28,7 @@
 
 <script setup lang="ts">
 import PocketBase from 'pocketbase';
+import { ClientResponseError } from 'pocketbase';
 const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 const pb = new PocketBase(pbUrl);
 
@@ -35,15 +38,42 @@ const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 
-async function signUp() {
-  console.log('signin');
-  const signUp = await pb.collection('users').create({
-    email: email.value,
-    password: password.value,
-    passwordConfirm: passwordConfirm.value,
-  });
+const errorMessage = ref('');
+const infoMessage = ref('');
 
-  //TODO: Verify email https://www.programonaut.com/how-to-use-pocketbase-auth-for-a-login-screen-step-by-step/
-  console.log(signUp);
+async function signUp() {
+  try {
+    await pb.collection('users').create({
+      email: email.value,
+      password: password.value,
+      passwordConfirm: passwordConfirm.value,
+    });
+    
+    await pb.collection("users").requestVerification(email.value);
+    infoMessage.value = "Please check your email to verify your account";
+
+  } catch (error) {
+    if (! (error instanceof Error) ) {
+      errorMessage.value = "Unknown error";
+      return;
+    }
+    if (! (error instanceof ClientResponseError) ) {
+      errorMessage.value = error.message;
+      return;
+    }
+    if (error.response.data.email) {
+      errorMessage.value = error.response.data.email.message;
+      return;
+    }
+    if (error.response.data.password) {
+      errorMessage.value = error.response.data.password.message;
+      return;
+    }
+    if (error.response.data.passwordConfirm) {
+      errorMessage.value = error.response.data.passwordConfirm.message;
+      return;
+    }
+    errorMessage.value = error.message;
+  }
 }
 </script>
