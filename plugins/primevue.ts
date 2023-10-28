@@ -9,6 +9,7 @@ import ProgressSpinner from 'primevue/progressspinner';
 import TabMenu from 'primevue/tabmenu';
 import SelectButton from 'primevue/selectbutton';
 import Message from 'primevue/message';
+import Checkbox from 'primevue/checkbox';
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.use(PrimeVue, { ripple: true, inputStyle: 'filled' });
@@ -22,4 +23,5 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("TabMenu", TabMenu);
     nuxtApp.vueApp.component("SelectButton", SelectButton);
     nuxtApp.vueApp.component("Message", Message);
+    nuxtApp.vueApp.component("Checkbox", Checkbox);
 });

@@ -18,6 +18,10 @@
           <label for="password-confirm">Confirm password</label>
           <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false"/>
         </div>
+        <div class="flex gap-2 mt-4">
+          <Checkbox id="email-consent" v-model="emailConsent" value="email-consent" />
+          <label for="email-consent">I agree to receive e-mails from VueAi.tools about new features.</label>
+        </div>
         <Button label="Sign Up" class="mt-4" @click="signUp" />
         <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
         <Message v-if="infoMessage" severity="info">{{ infoMessage }}</Message>
@@ -37,6 +41,7 @@ const { isSignUpModalOpened } = storeToRefs(useUIStore());
 const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
+const emailConsent = ref(false);
 
 const errorMessage = ref('');
 const infoMessage = ref('');
@@ -47,6 +52,7 @@ async function signUp() {
       email: email.value,
       password: password.value,
       passwordConfirm: passwordConfirm.value,
+      emailConsent: emailConsent.value ? true : false,
     });
     
     await pb.collection("users").requestVerification(email.value);
