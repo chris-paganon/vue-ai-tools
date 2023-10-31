@@ -18,8 +18,8 @@
           <label for="password-confirm">Confirm password</label>
           <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false"/>
         </div>
-        <div class="flex gap-2">
-          <Checkbox id="email-consent" v-model="emailConsent" value="email-consent" />
+        <div class="flex align-items-center gap-2">
+          <Checkbox inputId="email-consent" v-model="emailConsent" value="email-consent" />
           <label for="email-consent">I agree to receive e-mails from VueAi.tools about new features.</label>
         </div>
         <Button label="Sign Up" class="mt-2" @click="signUp" />
