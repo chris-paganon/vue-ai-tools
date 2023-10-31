@@ -5,7 +5,7 @@
       position="center" modal :draggable="false" :dismissableMask="true"
       header="Sign Up"
     >
-      <div class="flex flex-column gap-2">
+      <div class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText id="email" required v-model="email" />
@@ -18,11 +18,11 @@
           <label for="password-confirm">Confirm password</label>
           <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false"/>
         </div>
-        <div class="flex gap-2 mt-4">
+        <div class="flex gap-2">
           <Checkbox id="email-consent" v-model="emailConsent" value="email-consent" />
           <label for="email-consent">I agree to receive e-mails from VueAi.tools about new features.</label>
         </div>
-        <Button label="Sign Up" class="mt-4" @click="signUp" />
+        <Button label="Sign Up" class="mt-2" @click="signUp" />
         <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
         <Message v-if="infoMessage" severity="info">{{ infoMessage }}</Message>
       </div>
@@ -83,14 +83,3 @@ async function signUp() {
   }
 }
 </script>
-
-<style scoped lang="scss">
-.p-password {
-  :deep(.p-password-input) {
-    width: 100%;
-  }
-  :deep(.p-input-icon-right) {
-    top: 38%;
-  }
-}
-</style>

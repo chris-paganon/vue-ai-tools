@@ -13,8 +13,8 @@
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.1",
     "nuxt": "^3.6.5",
-    "primeflex": "^3.3.1",
-    "primevue": "^3.31.0"
+    "nuxt-primevue": "^0.1.0",
+    "primeflex": "^3.3.1"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
