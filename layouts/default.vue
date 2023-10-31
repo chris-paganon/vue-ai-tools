@@ -1,6 +1,5 @@
 <template>
   <div class="p-input-filled">
-    <AppLoader />
     <ChatDialog />
     <AppLogin />
     <AppSignUp />
