@@ -5,3 +5,9 @@
     <SectionsHomeInput />
   </main>
 </template>
+
+<style scoped lang="scss">
+main {
+  margin-top: -$headerHeight;
+}
+</style>
