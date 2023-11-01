@@ -8,24 +8,24 @@
       <div class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
-          <InputText id="email" required v-model="email" :class="{'p-invalid': emailErrorMessage}" />
-          <small v-if="emailErrorMessage" id="email-help" class="text-red-500">{{ emailErrorMessage }}</small>
+          <InputText id="email" required v-model="email" :class="{'p-invalid': showErrors && emailErrorMessage}" />
+          <small v-if="showErrors && emailErrorMessage" id="email-help" class="text-red-500">{{ emailErrorMessage }}</small>
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
           <Password 
             id="password" required v-model="password" 
-            toggleMask :class="{'p-invalid': passwordErrorMessage}" 
+            toggleMask :class="{'p-invalid': showErrors && passwordErrorMessage}" 
             :pt="{
               root: ({state}) => passwordPT(state),
             }" 
           />
-          <small v-if="passwordErrorMessage" id="password-help" class="text-red-500">{{ passwordErrorMessage }}</small>
+          <small v-if="showErrors && passwordErrorMessage" id="password-help" class="text-red-500">{{ passwordErrorMessage }}</small>
         </div>
         <div class="flex flex-column gap-2">
           <label for="password-confirm">Confirm password</label>
-          <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false" :class="{'p-invalid': passwordConfirmErrorMessage}" />
-          <small v-if="passwordConfirmErrorMessage" id="password-confirm-help" class="text-red-500">{{ passwordConfirmErrorMessage }}</small>
+          <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false" :class="{'p-invalid': showErrors && passwordConfirmErrorMessage}" />
+          <small v-if="showErrors && passwordConfirmErrorMessage" id="password-confirm-help" class="text-red-500">{{ passwordConfirmErrorMessage }}</small>
         </div>
         <div class="flex align-items-center gap-2">
           <Checkbox inputId="email-consent" v-model="emailConsent" value="email-consent" />
@@ -56,14 +56,18 @@ const passwordConfirm = ref('');
 const emailConsent = ref(false);
 
 const passwordStrength = ref('');
+const signUpClickedOnce = ref(false);
+const formFilledOnce = ref(false);
+
 const localErrors = ref<localSignupErrors>({});
 const pbErrors = ref<PocketbaseSignupErrors>({});
 
 const globalInfoMessage = ref('');
 const globalErrorMessage = ref('');
 
-const isFormFieldEmpty = computed(() => {
-  if (!email.value || !password.value || !passwordConfirm.value) return true;
+const showErrors = computed(() => {
+  if (signUpClickedOnce.value) return true;
+  if (formFilledOnce.value) return true;
   return false;
 });
 
@@ -75,33 +79,41 @@ const hasLocalError = computed(() => {
 });
 
 const emailErrorMessage = computed(() => {
-  if (isFormFieldEmpty.value) return '';
   if (localErrors.value.email) return localErrors.value.email;
   if (pbErrors.value.email?.message) return pbErrors.value.email.message;
   return '';
 });
 const passwordErrorMessage = computed(() => {
-  if (isFormFieldEmpty.value) return '';
   if (localErrors.value.password) return localErrors.value.password;
   if (pbErrors.value.password?.message) return pbErrors.value.password.message;
   return '';
 });
 const passwordConfirmErrorMessage = computed(() => {
-  if (isFormFieldEmpty.value) return '';
-  if (passwordConfirm.value !== password.value) return 'Passwords do not match';
+  if (localErrors.value.passwordConfirm) return localErrors.value.passwordConfirm;
   if (pbErrors.value.passwordConfirm?.message) return pbErrors.value.passwordConfirm.message;
   return '';
 });
 
 watch(email, (newEmail) => {
+  delete pbErrors.value.email;
+  if (newEmail === '') {
+    localErrors.value.email = 'Email cannot be empty';
+    return;
+  }
   const regex = /\S+@\S+\.\S+/;
   if (!regex.test(newEmail)) {
     localErrors.value.email = 'Email is invalid';
     return;
   }
   delete localErrors.value.email;
-});
+}, { immediate: true });
+
 watch([password, passwordStrength], ([newPassword, newPasswordStrength]) => {
+  delete pbErrors.value.password;
+  if (newPassword === '') {
+    localErrors.value.password = 'Password cannot be empty';
+    return;
+  }
   if (newPasswordStrength !== 'strong' && newPasswordStrength !== 'medium') {
     localErrors.value.password = "Password strength can't be weak";
     return;
@@ -111,15 +123,29 @@ watch([password, passwordStrength], ([newPassword, newPasswordStrength]) => {
     return;
   }
   delete localErrors.value.password;
-});
-watch(passwordConfirm, (newPasswordConfirm) => {
-  if (newPasswordConfirm !== password.value) {
+}, { immediate: true });
+
+watch([password, passwordConfirm], ([newPassword, newPasswordConfirm]) => {
+  delete pbErrors.value.passwordConfirm;
+  if (newPasswordConfirm === '') {
+    localErrors.value.passwordConfirm = 'Please confirm the password above';
+    return;
+  }
+  if (newPasswordConfirm !== newPassword) {
     localErrors.value.passwordConfirm = 'Passwords do not match';
     return;
   }
   delete localErrors.value.passwordConfirm;
+}, { immediate: true });
+
+watch([email, password, passwordConfirm], ([newEmail,  newPassword, newPasswordConfirm]) => {
+  if (formFilledOnce.value) return;
+  if (newEmail !== '' && newPassword !== '' && newPasswordConfirm !== '') {
+    formFilledOnce.value = true;
+  }
 });
 
+// Use primevue password strength meter from PasswordPassThroughMethodOption 'state'
 function passwordPT(state: PasswordState) {
   if (state.meter?.strength) {
     passwordStrength.value = state.meter.strength;
@@ -129,6 +155,7 @@ function passwordPT(state: PasswordState) {
 }
 
 async function signUp() {
+  signUpClickedOnce.value = true;
   try {
     globalErrorMessage.value = '';
     delete pbErrors.value.email;
