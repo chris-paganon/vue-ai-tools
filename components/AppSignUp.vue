@@ -43,12 +43,15 @@
 import PocketBase from 'pocketbase';
 import { ClientResponseError } from 'pocketbase';
 import { PasswordState } from 'primevue/password';
+import { useToast } from "primevue/usetoast";
 import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types'
 
 const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 const pb = new PocketBase(pbUrl);
+const toast = useToast();
 
 const { isSignUpModalOpened } = storeToRefs(useUIStore());
+const { setIsSignUpModalOpened } = useUIStore();
 
 const email = ref('');
 const password = ref('');
@@ -170,8 +173,12 @@ async function signUp() {
     });
     
     await pb.collection("users").requestVerification(email.value);
-    globalInfoMessage.value = "Please check your email to verify your account";
-
+    toast.add({
+      severity: "info",
+      summary: "Info",
+      detail: "Please check your email to verify your account",
+    });
+    setIsSignUpModalOpened(false);
   } catch (error) {
     if (! (error instanceof Error) ) {
       globalErrorMessage.value = "There is an unknown error in the system. Please try again later.";

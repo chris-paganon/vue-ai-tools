@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         'SelectButton',
         'Message',
         'Checkbox',
+        'Toast',
       ]
     },
   },
