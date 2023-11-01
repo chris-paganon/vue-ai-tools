@@ -33,7 +33,6 @@
         </div>
         <Button label="Sign Up" class="mt-2" @click="signUp" :disabled="hasLocalError" />
         <Message v-if="globalErrorMessage" severity="error">{{ globalErrorMessage }}</Message>
-        <Message v-if="globalInfoMessage" severity="info">{{ globalInfoMessage }}</Message>
       </div>
     </Dialog>
   </div>
@@ -65,7 +64,6 @@ const formFilledOnce = ref(false);
 const localErrors = ref<localSignupErrors>({});
 const pbErrors = ref<PocketbaseSignupErrors>({});
 
-const globalInfoMessage = ref('');
 const globalErrorMessage = ref('');
 
 const showErrors = computed(() => {
