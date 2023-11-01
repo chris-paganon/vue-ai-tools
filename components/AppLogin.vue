@@ -15,6 +15,7 @@
           <Password id="password" v-model="password" toggleMask :feedback="false"/>
         </div>
         <Button label="Login" class="mt-4" @click="login" />
+        <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
       </div>
     </Dialog>
   </div>
@@ -22,6 +23,8 @@
 
 <script setup lang="ts">
 import PocketBase from 'pocketbase';
+import { ClientResponseError } from 'pocketbase';
+
 const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 const pb = new PocketBase(pbUrl);
 
@@ -29,9 +32,34 @@ const { isLoginModalOpened } = storeToRefs(useUIStore());
 
 const email = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 async function login() {
-  const userData = await pb.collection('users').authWithPassword(email.value, password.value);
-  console.log(userData);
+  try {
+    errorMessage.value = '';
+    await pb.collection('users').authWithPassword(email.value, password.value);
+    window.location.reload();
+  } catch (error) {
+    if (! (error instanceof Error) ) {
+      errorMessage.value = "There is an unknown error in the system. Please try again later.";
+      return;
+    }
+    if (! (error instanceof ClientResponseError) ) {
+      errorMessage.value = error.message;
+      return;
+    }
+    if (error.response.data.identity) {
+      errorMessage.value = error.response.data.identity.message;
+      return;
+    }
+    if (error.response.data.password) {
+      errorMessage.value = error.response.data.password.message;
+      return;
+    }
+    if (error.response.message) {
+      errorMessage.value = error.response.message;
+      return;
+    }
+  }
 };
 </script>
