@@ -13,6 +13,8 @@
 </template>
 
 <script setup lang="ts">
+const { verifyAuth } = useAuthStore();
+
 useHead({
   title: 'VueAI.tools',
   script: [
@@ -22,5 +24,9 @@ useHead({
       'data-website-id': '716766be-9975-4463-be2d-2a8b39c8d4cb',
     }
   ],
+});
+
+onMounted(() => {  
+  verifyAuth();
 });
 </script>

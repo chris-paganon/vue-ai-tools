@@ -16,38 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import PocketBase from 'pocketbase';
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
+const { isSignedIn, isLoadingAuth } = storeToRefs(useAuthStore());
+const { logout } = useAuthStore();
 
 const { setIsSignUpModalOpened, setIsLoginModalOpened } = useUIStore();
-
-function logout() {
-  if (pb.authStore.isValid) {
-    pb.authStore.clear();
-    window.location.reload();
-  }
-}
-
-const isSignedIn = ref(false);
-const isLoadingAuth = ref(true);
-
-onMounted(async () => {  
-  if (!pb.authStore.isValid) {
-    isSignedIn.value = false;
-    isLoadingAuth.value = false;
-    return;
-  }
-  isSignedIn.value = true
-
-  // Refresh auth just in case
-  await pb.collection('users').authRefresh();
-  if (pb.authStore.isValid) {
-    isSignedIn.value = true;
-    isLoadingAuth.value = false;
-    return;
-  };
-  isSignedIn.value = false;
-  isLoadingAuth.value = false;
-});
 </script>
