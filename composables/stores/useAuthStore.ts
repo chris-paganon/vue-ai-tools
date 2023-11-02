@@ -26,10 +26,11 @@ export const useAuthStore = defineStore('auth', () => {
     isLoadingAuth.value = false;
   }
 
-  function logout() {
+  async function logout() {
     if (pb.authStore.isValid) {
       pb.authStore.clear();
-      window.location.reload();
+      await verifyAuth();
+      await navigateTo('/');
     }
   }
 

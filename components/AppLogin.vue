@@ -29,6 +29,8 @@ const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 const pb = new PocketBase(pbUrl);
 
 const { isLoginModalOpened } = storeToRefs(useUIStore());
+const { setIsLoginModalOpened } = useUIStore();
+const { verifyAuth } = useAuthStore();
 
 const email = ref('');
 const password = ref('');
@@ -38,7 +40,9 @@ async function login() {
   try {
     errorMessage.value = '';
     await pb.collection('users').authWithPassword(email.value, password.value);
-    window.location.reload();
+    setIsLoginModalOpened(false);
+    await verifyAuth();
+    await navigateTo('/dashboard');
   } catch (error) {
     if (! (error instanceof Error) ) {
       errorMessage.value = "There is an unknown error in the system. Please try again later.";
