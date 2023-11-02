@@ -177,6 +177,10 @@ async function signUp() {
       detail: "Please check your email to verify your account",
     });
     setIsSignUpModalOpened(false);
+    email.value = '';
+    password.value = '';
+    passwordConfirm.value = '';
+    emailConsent.value = false;
   } catch (error) {
     if (! (error instanceof Error) ) {
       globalErrorMessage.value = "There is an unknown error in the system. Please try again later.";

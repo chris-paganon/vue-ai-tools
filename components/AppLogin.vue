@@ -41,6 +41,8 @@ async function login() {
     errorMessage.value = '';
     await pb.collection('users').authWithPassword(email.value, password.value);
     setIsLoginModalOpened(false);
+    email.value = '';
+    password.value = '';
     await verifyAuth();
     await navigateTo('/dashboard');
   } catch (error) {
