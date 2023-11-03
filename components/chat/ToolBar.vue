@@ -1,5 +1,5 @@
 <template>
-  <TabMenu v-model:activeIndex="selectedInputOptionTab.index" :model="inputOptionTabs" />
+  <TabMenu v-model:activeIndex="selectedInputOptionTab.index" :model="inputOptionTabs" class="border-top-1 border-500" />
   <div class="options-wrapper text-left p-3">
     <div v-if="selectedInputOptionTab.label === 'PlainGPT'"><p>Simply talk to chatGPT</p></div>
     <div v-else-if="selectedInputOptionTab.label === 'VueJS'">
