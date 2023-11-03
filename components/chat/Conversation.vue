@@ -2,7 +2,7 @@
   <div class="chat-conversation">
     <template v-for="(message, key) in messages" :key="key" >
       <p 
-        v-if="message.role !== 'system'"
+        v-if="message.role !== 'system' && message.content !== null"
         v-html="parsedMessage(message.content)"
         :class="[
           {
