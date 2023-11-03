@@ -52,6 +52,7 @@ export default defineNuxtConfig({
         'Message',
         'Checkbox',
         'Toast',
+        'Card',
       ]
     },
   },
