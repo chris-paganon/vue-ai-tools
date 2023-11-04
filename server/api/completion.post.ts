@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { useCreateConversation } from "@/server/utils/usePbConversations";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
@@ -8,6 +9,8 @@ export default defineEventHandler(async (event) => {
     temperature: 0.4,
     ...body,
   };
+
+  useCreateConversation(event, body.messages.pop().content);
 
   const runtimeConfig = useRuntimeConfig();
 

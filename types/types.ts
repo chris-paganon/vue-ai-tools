@@ -1,3 +1,5 @@
+import { RecordModel } from 'pocketbase';
+
 export interface PocketbaseSignupErrors {
   email?: PocketbaseErrorItem;
   password?: PocketbaseErrorItem;
@@ -13,3 +15,6 @@ export interface localSignupErrors {
   password?: string;
   passwordConfirm?: string;
 }
+export interface PbConversation extends RecordModel {
+  name?: string;
+};
