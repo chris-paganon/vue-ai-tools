@@ -1,6 +1,7 @@
 import { H3Event } from 'h3';
 import { useVerifyPb } from '@/server/utils/usePb';
 import type { PbConversation } from '@/types/types';
+import { fixTypesSerialization } from '@/server/utils/useServerUtils';
 
 export function useCreateConversation(event: H3Event, message: string) {
   const pb = useVerifyPb(event);
@@ -24,6 +25,6 @@ export async function useGetConversations(event: H3Event) {
     const conversations = await pb.collection('conversations').getFullList<PbConversation>({
       filter: `user="${pb.authStore.model.id}"`,
     });
-    return conversations;
+    return fixTypesSerialization(conversations);
   }
 }
