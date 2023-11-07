@@ -20,19 +20,15 @@
 
 <script setup lang="ts">
 import { MenuItem } from 'primevue/menuitem';
-import { PbConversation } from '@/types/types';
 
 const items = ref<MenuItem[]>([]);
+const { data } = await useFetch('/api/conversations', { method: 'GET' });
 
-// TODO: Use Suspense component instead of onMounted here
-onMounted(async () => {
-  const conversations = await $fetch<PbConversation[]>('/api/conversations', {
-    method: 'GET',
-  });
-  items.value = conversations
+if (data.value) {
+  items.value = data.value
     .filter(conversation => conversation.name)
     .map(conversation => {
-      return {label: conversation.name}
+      return { label: conversation.name };
     });
-});
+}
 </script>
