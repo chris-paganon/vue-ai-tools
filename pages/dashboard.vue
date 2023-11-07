@@ -26,7 +26,9 @@ const items = ref<MenuItem[]>([]);
 
 // TODO: Use Suspense component instead of onMounted here
 onMounted(async () => {
-  const conversations = await $fetch<PbConversation[]>('/api/conversations');
+  const conversations = await $fetch<PbConversation[]>('/api/conversations', {
+    method: 'GET',
+  });
   items.value = conversations
     .filter(conversation => conversation.name)
     .map(conversation => {
