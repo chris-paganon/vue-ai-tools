@@ -5,7 +5,7 @@
       position="center" modal :draggable="false" :dismissableMask="true"
       header="Sign Up"
     >
-      <div class="flex flex-column gap-4">
+      <form @submit="signUp" class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText id="email" required v-model="email" :class="{'p-invalid': showErrors && emailErrorMessage}" />
@@ -33,7 +33,7 @@
         </div>
         <Button label="Sign Up" class="mt-2" @click="signUp" :disabled="hasLocalError" />
         <Message v-if="globalErrorMessage" severity="error">{{ globalErrorMessage }}</Message>
-      </div>
+      </form>
     </Dialog>
   </div>
 </template>

@@ -5,7 +5,7 @@
       position="center" modal :draggable="false" :dismissableMask="true"
       header="Login"
     >
-      <div class="flex flex-column gap-2">
+      <form @submit="login" class="flex flex-column gap-2">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText id="email" v-model="email" />
@@ -16,7 +16,7 @@
         </div>
         <Button label="Login" class="mt-4" @click="login" />
         <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
-      </div>
+      </form>
     </Dialog>
   </div>
 </template>
