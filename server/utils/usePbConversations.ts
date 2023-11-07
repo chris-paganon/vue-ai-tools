@@ -4,12 +4,14 @@ import type { PbConversation } from '@/types/types';
 
 export function useCreateConversation(event: H3Event, message: string) {
   const pb = useVerifyPb(event);
+  // TODO: Do not create new conversation if we can update existing one
   if ( pb.authStore.isValid && pb.authStore.model) {
     pb.collection('conversations').create({
       user: pb.authStore.model.id,
       name: message,
     });
   } else {
+    // TODO: Probably need some sort of session to avoid creating new conversation every time
     pb.collection('conversations').create({
       name: message,
     });

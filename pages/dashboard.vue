@@ -24,6 +24,7 @@ import { PbConversation } from '@/types/types';
 
 const items = ref<MenuItem[]>([]);
 
+// TODO: Use Suspense component instead of onMounted here
 onMounted(async () => {
   const conversations = await $fetch<PbConversation[]>('/api/conversations');
   items.value = conversations
