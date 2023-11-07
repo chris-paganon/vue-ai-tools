@@ -50,7 +50,7 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     }])
   });
 
-  function handleChatFunction(response: OpenAI.Chat.ChatCompletion.Choice[]) {
+  async function handleChatFunction(response: OpenAI.Chat.ChatCompletion.Choice[]) {
     console.log('handleChatFunction after 1st response: ', response);
     if (! response?.[0]?.message?.function_call?.arguments) return;
     const functionArgumentsFromAi = JSON.parse(response[0].message.function_call.arguments);
@@ -60,16 +60,15 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
     switch (response[0].message.function_call.name) {
       case 'answerQuestionWithDocumentation':
         if (! functionArgumentsFromAi.titles && Array.isArray(functionArgumentsFromAi.titles) && functionArgumentsFromAi.titles.some((title: unknown) => typeof title !== 'string')) return;
-        answerQuestionWithDocumentation(functionArgumentsFromAi);
-        break;
+        return await answerQuestionWithDocumentation(functionArgumentsFromAi);
       default:
         console.log('Function not found');
-        useAskQuestion();
+        return await useAskQuestion();
     }
   }
 
   // TODO: Infer the functionArguments type from the schema
-  function answerQuestionWithDocumentation(functionArguments: {titles: string[]}) {
+  async function answerQuestionWithDocumentation(functionArguments: {titles: string[]}) {
     const { addAssistantMessage, replaceSystemMessage } = useChatStore();
 
     // Get functionArguments.titles that exist in summaryIndex.value
@@ -79,8 +78,7 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
 
     if ( !summaryPages || summaryPages.length === 0 ) {
       console.log('Function argument invalid');
-      useAskQuestion();
-      return;
+      return await useAskQuestion();
     };
 
     const paths = summaryPages.map((summaryPage) => summaryPage.path);
@@ -99,17 +97,16 @@ export const useChatFunctionsStore = defineStore('chatFunctions', () => {
         urlPaths = paths.map(path => path.replace('composition/', '').replace('composition.md', 'html'));
         break;
     }
+
     const urls = urlPaths.map(urlPath => `https://vuejs.org/${urlPath}`);
-
-    useAskDocCompletion(paths);
-
     let urlHtmlList = '<ul>';
     urls.forEach((url) => {
       urlHtmlList += `<li><a target="_blank" href="${url}">${url}</a></li>`;
     });
     urlHtmlList += '</ul>';
+    addAssistantMessage(`<p>Here are relevant URLs from the documentation:</p> ${urlHtmlList} <p>Feeding the pages to GPT to give you a more precise answer...</p>`);
 
-    addAssistantMessage(`<p>Here are relevant URLs from the documentation:</p> ${urlHtmlList} <p>Feeding the pages to GPT to give you a more precise answer...</p>`); 
+    return await useAskDocCompletion(paths);
   }
 
   return {

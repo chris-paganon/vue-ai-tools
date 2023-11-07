@@ -10,28 +10,24 @@
 const { inputQuestion, isWaitingAnswer } = storeToRefs(useChatStore());
 const { setInputQuestion, setIsWaitingAnswer } = useChatStore();
 const { setIsChatOpened } = useUIStore();
-const { addUserMessage } = useChatStore();
+const { addUserMessage, addAssistantMessage } = useChatStore();
 const { selectedInputOption } = storeToRefs(useInputOptionsStore());
 
-function askInputQuestion() {
+async function askInputQuestion() {
   const { setPlainGptSystemMessage, setCompositionIndexSystemMessage, setOptionsIndexSystemMessage } = useChatStore();
   switch (selectedInputOption.value) {
     case 'PlainGPT':
       setPlainGptSystemMessage();
-      useAskQuestion();
-      break;
+      return await useAskQuestion();
     case 'Composition API':
       setCompositionIndexSystemMessage();
-      useAskFunction();
-      break;
+      return await useAskFunction();
     case 'Options API':
       setOptionsIndexSystemMessage();
-      useAskFunction();
-      break;
+      return await useAskFunction();
     default:
       setCompositionIndexSystemMessage();
-      useAskFunction();
-      break;
+      return await useAskFunction();
   }
 }
 
@@ -47,6 +43,13 @@ async function askQuestion(event?: KeyboardEvent) {
   addUserMessage(inputQuestion.value);
   setIsWaitingAnswer(true);
   setInputQuestion('');
-  askInputQuestion();
+  const assistantAnswer = await askInputQuestion();
+  if (!assistantAnswer) {
+    setIsWaitingAnswer(false);
+    return;
+  };
+
+  addAssistantMessage(assistantAnswer);
+  setIsWaitingAnswer(false);
 }
 </script>
