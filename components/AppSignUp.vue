@@ -8,13 +8,13 @@
       <form @submit="signUp" class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
-          <InputText id="email" required v-model="email" :class="{'p-invalid': showErrors && emailErrorMessage}" />
+          <InputText id="email" required v-model="email" @keyup.enter="signUp" :class="{'p-invalid': showErrors && emailErrorMessage}" />
           <small v-if="showErrors && emailErrorMessage" id="email-help" class="text-red-500">{{ emailErrorMessage }}</small>
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
           <Password 
-            id="password" required v-model="password" 
+            id="password" required v-model="password" @keyup.enter="signUp"
             toggleMask :class="{'p-invalid': showErrors && passwordErrorMessage}" 
             :pt="{
               root: ({state}) => passwordPT(state),
@@ -24,7 +24,7 @@
         </div>
         <div class="flex flex-column gap-2">
           <label for="password-confirm">Confirm password</label>
-          <Password id="password-confirm" required v-model="passwordConfirm" toggleMask :feedback="false" :class="{'p-invalid': showErrors && passwordConfirmErrorMessage}" />
+          <Password id="password-confirm" required v-model="passwordConfirm" @keyup.enter="signUp" toggleMask :feedback="false" :class="{'p-invalid': showErrors && passwordConfirmErrorMessage}" />
           <small v-if="showErrors && passwordConfirmErrorMessage" id="password-confirm-help" class="text-red-500">{{ passwordConfirmErrorMessage }}</small>
         </div>
         <div class="flex align-items-center gap-2">

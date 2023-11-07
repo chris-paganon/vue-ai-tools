@@ -8,11 +8,11 @@
       <form @submit="login" class="flex flex-column gap-2">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
-          <InputText id="email" v-model="email" />
+          <InputText id="email" v-model="email" @keyup.enter="login" />
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
-          <Password id="password" v-model="password" toggleMask :feedback="false"/>
+          <Password id="password" v-model="password" @keyup.enter="login" toggleMask :feedback="false"/>
         </div>
         <Button label="Login" class="mt-4" @click="login" />
         <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
