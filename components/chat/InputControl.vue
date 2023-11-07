@@ -11,7 +11,29 @@ const { inputQuestion, isWaitingAnswer } = storeToRefs(useChatStore());
 const { setInputQuestion, setIsWaitingAnswer } = useChatStore();
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage } = useChatStore();
-const { askInputQuestion } = useInputOptionsStore();
+const { selectedInputOption } = storeToRefs(useInputOptionsStore());
+
+function askInputQuestion() {
+  const { setPlainGptSystemMessage, setCompositionIndexSystemMessage, setOptionsIndexSystemMessage } = useChatStore();
+  switch (selectedInputOption.value) {
+    case 'PlainGPT':
+      setPlainGptSystemMessage();
+      useAskQuestion();
+      break;
+    case 'Composition API':
+      setCompositionIndexSystemMessage();
+      useAskFunction();
+      break;
+    case 'Options API':
+      setOptionsIndexSystemMessage();
+      useAskFunction();
+      break;
+    default:
+      setCompositionIndexSystemMessage();
+      useAskFunction();
+      break;
+  }
+}
 
 async function askQuestion(event?: KeyboardEvent) {
   // Keep writing if shift+enter is pressed
