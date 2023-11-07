@@ -64,6 +64,7 @@ export async function useAskDocCompletion(paths: string[]) {
       paths: paths,
     },
   });
+  // TODO: If response says too many tokens, send it again after dropping the last path from the list.
 
   if (!response?.[0].message?.content) {
     console.log('No response from useAskDocCompletion');
