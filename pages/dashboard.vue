@@ -21,6 +21,8 @@
 <script setup lang="ts">
 import { MenuItem } from 'primevue/menuitem';
 
+const { setConversationId } = useChatStore();
+
 const items = ref<MenuItem[]>([]);
 const { data } = await useFetch('/api/conversations', { method: 'GET' });
 
@@ -28,7 +30,11 @@ if (data.value) {
   items.value = data.value
     .filter(conversation => conversation.name)
     .map(conversation => {
-      return { label: conversation.name };
+      return { 
+        key: conversation.id,
+        label: conversation.name,
+        command: () => setConversationId(conversation.id),
+      };
     });
 }
 </script>

@@ -8,6 +8,8 @@ export const useChatStore = defineStore('chat', () => {
 
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
+
+  const conversationId = ref('');
   const baseSystemMessage = 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.'
   const messages = ref<OpenAI.Chat.ChatCompletionMessage[]>([{
     role: 'system',
@@ -36,6 +38,9 @@ export const useChatStore = defineStore('chat', () => {
   function setOptionsIndexSystemMessage() {
     replaceSystemMessage(`Here is an index of all the pages in the Vue documentation (using the Options API): VUE_DOCUMENTATION_INDEX: ${optionsIndexString}.`);
   }
+  function setConversationId(value: string) {
+    conversationId.value = value;
+  }
   function addUserMessage(message: string) {
     addMessage({
       role: 'user',
@@ -54,6 +59,7 @@ export const useChatStore = defineStore('chat', () => {
 
   return {
     inputQuestion,
+    conversationId,
     messages,
     isWaitingAnswer,
     setInputQuestion,
@@ -61,6 +67,7 @@ export const useChatStore = defineStore('chat', () => {
     setPlainGptSystemMessage,
     setCompositionIndexSystemMessage,
     setOptionsIndexSystemMessage,
+    setConversationId,
     addUserMessage,
     addAssistantMessage,
     setIsWaitingAnswer,

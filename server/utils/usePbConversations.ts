@@ -3,11 +3,17 @@ import { useVerifyPb } from '@/server/utils/usePb';
 import type { PbConversation } from '@/types/types';
 import { fixTypesSerialization } from '@/server/utils/useServerUtils';
 
-export function useCreateConversation(event: H3Event, message: string) {
+export function useCreateConversation(event: H3Event, message: string, id: string) {
   const pb = useVerifyPb(event);
-  // TODO: Do not create new conversation if we can update existing one
   if ( pb.authStore.isValid && pb.authStore.model) {
-    pb.collection('conversations').create({
+    if (!id) {
+      pb.collection('conversations').create({
+        user: pb.authStore.model.id,
+        name: message,
+      });
+      return;
+    }
+    pb.collection('conversations').update(id, {
       user: pb.authStore.model.id,
       name: message,
     });
