@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     ...body,
   };
 
-  useCreateConversation(event, body.messages.pop().content, body.conversationId);
+  useCreateConversation(event, body.conversationId, body.messages);
 
   const runtimeConfig = useRuntimeConfig();
 
