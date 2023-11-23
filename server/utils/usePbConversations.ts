@@ -1,7 +1,5 @@
 import { H3Event } from 'h3';
 import { useVerifyPb } from '@/server/utils/usePb';
-import type { PbConversation } from '@/types/types';
-import { fixTypesSerialization } from '@/server/utils/useServerUtils';
 import OpenAI from 'openai';
 
 export function useCreateConversation(event: H3Event, id: string, messages: OpenAI.Chat.ChatCompletionMessage[]) {
@@ -38,15 +36,5 @@ export function useCreateConversation(event: H3Event, id: string, messages: Open
     pb.collection('conversations').create({
       name,
     });
-  }
-}
-
-export async function useGetConversations(event: H3Event) {
-  const pb = useVerifyPb(event);
-  if ( pb.authStore.isValid && pb.authStore.model) {
-    const conversations = await pb.collection('conversations').getFullList<PbConversation>({
-      filter: `user="${pb.authStore.model.id}"`,
-    });
-    return fixTypesSerialization(conversations);
   }
 }

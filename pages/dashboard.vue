@@ -21,20 +21,23 @@
 <script setup lang="ts">
 import { MenuItem } from 'primevue/menuitem';
 import PocketBase from 'pocketbase';
-
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
+import type { PbConversation, PbChatMessage } from '@/types/types';
 
 const { conversationId } = storeToRefs(useChatStore());
 const { setMessages, setConversationId } = useChatStore();
 
-const items = ref<MenuItem[]>([]);
-const { data } = await useFetch('/api/conversations', { method: 'GET' });
+const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
+const pb = new PocketBase(pbUrl);
 
-if (data.value) {
-  items.value = data.value
-    .filter(conversation => conversation.name)
-    .map(conversation => {
+const items = ref<MenuItem[]>([]);
+
+onMounted(async () => {
+  const conversations = await pb.collection('conversations').getFullList<PbConversation>({
+    filter: `user="${pb.authStore.model!.id}"`,
+  });
+  
+  if (conversations) {
+    items.value = conversations.map(conversation => {
       return { 
         key: conversation.id,
         label: conversation.name,
@@ -44,7 +47,8 @@ if (data.value) {
         },
       };
     });
-}
+  }
+});
 
 async function getConversationMessages() {
   const pbMessages = await pb.collection('chat_messages').getFullList<PbChatMessage>({
