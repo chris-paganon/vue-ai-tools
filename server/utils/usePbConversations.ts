@@ -12,6 +12,7 @@ export function useCreateConversation(event: H3Event, id: string, messages: Open
   const name = first_user_message.content.slice(0, 30);
   const message = messages.pop()?.content;
 
+  // TODO: Seperate create conversation and create message
   const pb = useVerifyPb(event);
   if ( pb.authStore.isValid && pb.authStore.model) {
     if (!id) {

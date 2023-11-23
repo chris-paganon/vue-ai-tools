@@ -3,9 +3,12 @@ import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
 
 export const useChatStore = defineStore('chat', () => {
+
+  // TODO: Move inputQuestion and waitingAnswer to useChatInputStore (renamed from useInputOptionsStore)
   const inputQuestion = ref('');
   const isWaitingAnswer = ref(false);
 
+  // TODO: Probably want to move this to the ChatToolBar component level instead
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
 
