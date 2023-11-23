@@ -47,7 +47,7 @@ if (data.value) {
 }
 
 async function getConversationMessages() {
-  const pbMessages = await pb.collection('chat_messages').getFullList({
+  const pbMessages = await pb.collection('chat_messages').getFullList<PbChatMessage>({
     filter: `conversation="${conversationId.value}"`
   });
   setMessages(pbMessages.map(pbMessage => {

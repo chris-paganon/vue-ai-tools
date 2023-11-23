@@ -18,3 +18,8 @@ export interface localSignupErrors {
 export interface PbConversation extends RecordModel {
   name?: string;
 };
+export interface PbChatMessage extends RecordModel {
+  conversation?: string;
+  role: 'system' | 'user' | 'assistant' | 'function';
+  message: string;
+};
