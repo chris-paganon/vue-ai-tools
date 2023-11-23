@@ -3,16 +3,16 @@ import { useCreateConversation } from "@/server/utils/usePbConversations";
 
 export default defineEventHandler(async (event) => {
   console.log('completion request received');
-  
+
   const body = await readBody(event)
-  const { conversationId, messages } = body;
+  const { currentChatId, messages } = body;
   const data = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
     messages,
   };
 
-  useCreateConversation(event, conversationId, messages);
+  useCreateConversation(event, currentChatId, messages);
 
   const runtimeConfig = useRuntimeConfig();
 

@@ -23,8 +23,8 @@ import { MenuItem } from 'primevue/menuitem';
 import PocketBase from 'pocketbase';
 import type { PbConversation, PbChatMessage } from '@/types/types';
 
-const { conversationId } = storeToRefs(useChatStore());
-const { setMessages, setConversationId } = useChatStore();
+const { currentChatId } = storeToRefs(useChatStore());
+const { setMessages, setCurrentChatId } = useChatStore();
 
 const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 const pb = new PocketBase(pbUrl);
@@ -42,7 +42,7 @@ onMounted(async () => {
         key: conversation.id,
         label: conversation.name,
         command: () => {
-          setConversationId(conversation.id);
+          setCurrentChatId(conversation.id);
           getConversationMessages();
         },
       };
@@ -52,7 +52,7 @@ onMounted(async () => {
 
 async function getConversationMessages() {
   const pbMessages = await pb.collection('chat_messages').getFullList<PbChatMessage>({
-    filter: `conversation="${conversationId.value}"`
+    filter: `conversation="${currentChatId.value}"`
   });
   setMessages(pbMessages.map(pbMessage => {
     return {

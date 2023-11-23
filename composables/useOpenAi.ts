@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 interface ChatCompletionRequest {
-  conversationId?: string;
+  currentChatId?: string;
   messages: OpenAI.Chat.ChatCompletionMessage[];
   functions?: OpenAI.Chat.ChatCompletionCreateParams.Function[];
   function_call?: OpenAI.Chat.ChatCompletionCreateParams.FunctionCallOption;
@@ -20,10 +20,10 @@ export async function useCompletion(payload: ChatCompletionRequest) {
 }
 
 export async function useAskQuestion() {
-  const { conversationId, messages } = storeToRefs(useChatStore());
+  const { currentChatId, messages } = storeToRefs(useChatStore());
   
   const response = await useCompletion({
-    conversationId: conversationId.value,
+    currentChatId: currentChatId.value,
     messages: messages.value,
   });
   
@@ -35,14 +35,14 @@ export async function useAskQuestion() {
 }
 
 export async function useAskFunction() {
-  const { conversationId, messages } = storeToRefs(useChatStore());
+  const { currentChatId, messages } = storeToRefs(useChatStore());
   const { functions } = storeToRefs(useChatFunctionsStore());
   const { handleChatFunction } = useChatFunctionsStore();
 
   if (!functions.value) return;
   
   const response = await useCompletion({
-    conversationId: conversationId.value,
+    currentChatId: currentChatId.value,
     messages: messages.value,
     functions: functions.value,
     function_call: {
@@ -58,12 +58,12 @@ export async function useAskFunction() {
 }
 
 export async function useAskDocCompletion(paths: string[]) {
-  const { conversationId, messages } = storeToRefs(useChatStore());
+  const { currentChatId, messages } = storeToRefs(useChatStore());
 
   const response = await $fetch('/api/docCompletion', {
     method: 'POST',
     body: {
-      conversationId: conversationId.value,
+      currentChatId: currentChatId.value,
       messages: messages.value,
       paths: paths,
     },
