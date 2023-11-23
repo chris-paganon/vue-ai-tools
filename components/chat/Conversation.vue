@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-const { messages, isWaitingAnswer } = storeToRefs(useChatStore());
+const { messages } = storeToRefs(useChatStore());
+const { isWaitingAnswer } = storeToRefs(useChatInputStore());
 const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
 
 function parsedMessage(message: string | undefined) {
