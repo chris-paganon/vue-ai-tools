@@ -2,15 +2,17 @@ import OpenAI from "openai";
 import { useCreateConversation } from "@/server/utils/usePbConversations";
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
   console.log('completion request received');
+  
+  const body = await readBody(event)
+  const { conversationId, messages } = body;
   const data = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
-    ...body,
+    messages,
   };
 
-  useCreateConversation(event, body.conversationId, body.messages);
+  useCreateConversation(event, conversationId, messages);
 
   const runtimeConfig = useRuntimeConfig();
 

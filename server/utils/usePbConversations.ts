@@ -8,8 +8,9 @@ export function useCreateConversation(event: H3Event, id: string, messages: Open
   const first_user_message = messages.find((message: any) => message.role === 'user');
   if (!first_user_message?.content) return;
   const name = first_user_message.content.slice(0, 30);
-  const message = messages.pop()?.content;
+  const message = messages.pop();
 
+  console.log('useCreateConversation 1st:', id, name, message);
   // TODO: Seperate create conversation and create message
   const pb = useVerifyPb(event);
   if ( pb.authStore.isValid && pb.authStore.model) {
@@ -26,10 +27,13 @@ export function useCreateConversation(event: H3Event, id: string, messages: Open
       user: pb.authStore.model.id,
       name: name,
     });
+
+    // TODO: Need to add all messages that are not already in the database (instead of just the last one)
+    if (!message) return;
     pb.collection('chat_messages').create({
       conversation: id,
-      user: 'assistant',
-      message,
+      role: message.role,
+      message: message.content,
     });
   } else {
     // TODO: Probably need some sort of session to avoid creating new conversation every time
