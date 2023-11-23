@@ -11,8 +11,8 @@
 <script setup lang="ts">
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
-const { selectedInputOptionTab, selectedInputOption } = storeToRefs(useInputOptionsStore());
-const { setSelectedInputOptionTab, setSelectedInputOption } = useInputOptionsStore();
+const { selectedInputOptionTab, selectedInputOption } = storeToRefs(useChatInputStore());
+const { setSelectedInputOptionTab, setSelectedInputOption } = useChatInputStore();
 
 const inputOptionTabs = ref([
   {

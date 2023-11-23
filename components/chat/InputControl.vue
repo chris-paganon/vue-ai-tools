@@ -7,11 +7,10 @@
 </template>
 
 <script setup lang="ts">
-const { inputQuestion, isWaitingAnswer } = storeToRefs(useChatStore());
-const { setInputQuestion, setIsWaitingAnswer } = useChatStore();
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage, addAssistantMessage } = useChatStore();
-const { selectedInputOption } = storeToRefs(useInputOptionsStore());
+const { inputQuestion, isWaitingAnswer, selectedInputOption } = storeToRefs(useChatInputStore());
+const { setInputQuestion, setIsWaitingAnswer } = useChatInputStore();
 
 async function askInputQuestion() {
   const { setPlainGptSystemMessage, setCompositionIndexSystemMessage, setOptionsIndexSystemMessage } = useChatStore();

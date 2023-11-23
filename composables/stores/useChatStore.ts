@@ -4,10 +4,6 @@ import optionsIndex from '../../assets/vue-docs/options-index.json';
 
 export const useChatStore = defineStore('chat', () => {
 
-  // TODO: Move inputQuestion and waitingAnswer to useChatInputStore (renamed from useInputOptionsStore)
-  const inputQuestion = ref('');
-  const isWaitingAnswer = ref(false);
-
   // TODO: Probably want to move this to the ChatToolBar component level instead
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
@@ -19,9 +15,6 @@ export const useChatStore = defineStore('chat', () => {
     content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}.`,
   }]);
 
-  function setInputQuestion(value: string) {
-    inputQuestion.value = value;
-  }
   function addMessage(message: OpenAI.Chat.ChatCompletionMessage) {
     messages.value.push(message);
     console.log('message added to the list:', messages.value);
@@ -59,16 +52,10 @@ export const useChatStore = defineStore('chat', () => {
       content: message,
     });
   }
-  function setIsWaitingAnswer(value: boolean) {
-    isWaitingAnswer.value = value;
-  }
 
   return {
-    inputQuestion,
     currentChatId,
     messages,
-    isWaitingAnswer,
-    setInputQuestion,
     replaceSystemMessage,
     setPlainGptSystemMessage,
     setCompositionIndexSystemMessage,
@@ -77,6 +64,5 @@ export const useChatStore = defineStore('chat', () => {
     addUserMessage,
     setMessages,
     addAssistantMessage,
-    setIsWaitingAnswer,
   };
 });

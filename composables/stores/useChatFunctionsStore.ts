@@ -3,7 +3,7 @@ import compositionIndex from '@/assets/vue-docs/composition-index.json';
 import optionsIndex from '@/assets/vue-docs/options-index.json';
 
 export const useChatFunctionsStore = defineStore('chatFunctions', () => {
-  const { selectedInputOption } = storeToRefs(useInputOptionsStore());
+  const { selectedInputOption } = storeToRefs(useChatInputStore());
 
   const summaryIndex = computed(() => {
     let summaryIndex = [];
