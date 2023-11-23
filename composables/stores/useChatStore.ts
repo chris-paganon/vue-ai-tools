@@ -4,7 +4,6 @@ import optionsIndex from '../../assets/vue-docs/options-index.json';
 
 export const useChatStore = defineStore('chat', () => {
 
-  // TODO: Probably want to move this to the ChatToolBar component level instead
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
 
