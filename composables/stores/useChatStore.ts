@@ -26,6 +26,9 @@ export const useChatStore = defineStore('chat', () => {
     messages.value.push(message);
     console.log('message added to the list:', messages.value);
   }
+  function setMessages(value: OpenAI.Chat.ChatCompletionMessage[]) {
+    messages.value = value;
+  }
   function replaceSystemMessage(message: string) {
     messages.value[0] = {
       role: 'system',
@@ -72,6 +75,7 @@ export const useChatStore = defineStore('chat', () => {
     setOptionsIndexSystemMessage,
     setConversationId,
     addUserMessage,
+    setMessages,
     addAssistantMessage,
     setIsWaitingAnswer,
   };
