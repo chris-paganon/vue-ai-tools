@@ -22,7 +22,7 @@
 <script setup lang="ts">
 const { messages } = storeToRefs(useChatStore());
 const { isWaitingAnswer } = storeToRefs(useChatInputStore());
-const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
+const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'border-round'];
 
 function parsedMessage(message: string | undefined) {
   if (!message) return '';
@@ -36,6 +36,7 @@ function parsedMessage(message: string | undefined) {
 }
 .message {
   max-width: 97%;
+  width: fit-content;
 
   :deep(p:not(:last-child)),
   :deep(ul:not(:last-child)),
