@@ -31,7 +31,10 @@ const pb = new PocketBase(pbUrl);
 
 const { data, pending, error } = await useAsyncData(
   'db-chats',
-  () => pb.collection('conversations').getFullList<PbConversation>()
+  () => {
+    console.log('fetching chats');
+    return pb.collection('chats').getFullList<PbConversation>()
+  }
 );
 
 const items = computed<MenuItem[] | undefined>(() => {
@@ -52,7 +55,7 @@ const items = computed<MenuItem[] | undefined>(() => {
 
 async function getConversationMessages() {
   const pbMessages = await pb.collection('chat_messages').getFullList<PbChatMessage>({
-    filter: `conversation="${currentChatId.value}"`
+    filter: `chat="${currentChatId.value}"`
   });
   setMessages(pbMessages.map(pbMessage => {
     return {

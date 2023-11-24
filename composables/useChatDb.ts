@@ -14,19 +14,19 @@ export async function useMaybeAddChatToDb(currentChatId: string, currentChatName
 
 	console.log('useMaybeAddChatToDb: ', pb.authStore.model, currentChatId, currentChatName);
 	if (!pb.authStore.isValid || !pb.authStore.model) {
-			const pbChatRecord = await pb.collection('conversations').create({
+			const pbChatRecord = await pb.collection('chats').create({
 					name: currentChatName,
 			});
 			return pbChatRecord.id;
 	}
 	if (!currentChatId) {
-			const pbChatRecord = await pb.collection('conversations').create({
+			const pbChatRecord = await pb.collection('chats').create({
 					user: pb.authStore.model.id,
 					name: currentChatName,
 			});
 			return pbChatRecord.id;
 	}
-	const pbChatRecord = await pb.collection('conversations').update(currentChatId, {
+	const pbChatRecord = await pb.collection('chats').update(currentChatId, {
 			user: pb.authStore.model.id,
 			name: currentChatName,
 	});
