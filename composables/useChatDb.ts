@@ -12,23 +12,29 @@ export async function useMaybeAddChatToDb(currentChatId: string, currentChatName
 	const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
 	const pb = new Pocketbase(pbUrl);
 
-	console.log('useMaybeAddChatToDb: ', pb.authStore.model, currentChatId, currentChatName);
-	if (!pb.authStore.isValid || !pb.authStore.model) {
-			const pbChatRecord = await pb.collection('chats').create({
-					name: currentChatName,
-			});
-			return pbChatRecord.id;
+	if ( (!pb.authStore.isValid || !pb.authStore.model) && !currentChatId ) {
+		const pbChatRecord = await pb.collection('chats').create({
+			name: currentChatName,
+		});
+		return pbChatRecord.id;
 	}
+	
+	if ( !pb.authStore.isValid || !pb.authStore.model ) {
+		// If not connected, no need to update the chat in DB. We only create one above.
+		return currentChatId;
+	}
+
 	if (!currentChatId) {
-			const pbChatRecord = await pb.collection('chats').create({
-					user: pb.authStore.model.id,
-					name: currentChatName,
-			});
-			return pbChatRecord.id;
-	}
-	const pbChatRecord = await pb.collection('chats').update(currentChatId, {
+		const pbChatRecord = await pb.collection('chats').create({
 			user: pb.authStore.model.id,
 			name: currentChatName,
+		});
+		return pbChatRecord.id;
+	}
+
+	const pbChatRecord = await pb.collection('chats').update(currentChatId, {
+		user: pb.authStore.model.id,
+		name: currentChatName,
 	});
 	return pbChatRecord.id;
 }
