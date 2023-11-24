@@ -34,7 +34,8 @@ const { data, pending, error } = await useAsyncData(
   () => {
     console.log('fetching chats');
     return pb.collection('chats').getFullList<PbConversation>()
-  }
+  },
+  { server: false } // Server doesn't have access to PocketBase authStore so we only fetch from client
 );
 
 const items = computed<MenuItem[] | undefined>(() => {
