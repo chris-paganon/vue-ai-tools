@@ -1,22 +1,14 @@
 import OpenAI from "openai";
-import { useCreateConversation } from "@/server/utils/usePbConversations";
 
 export default defineEventHandler(async (event) => {
   console.log('completion request received');
 
   const body = await readBody(event)
-  const { currentChatId, messages, functions, function_call } = body;
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
-    messages,
+    ...body,
   };
-  if (functions && function_call) {
-    data.functions = functions;
-    data.function_call = function_call;
-  }
-
-  useCreateConversation(event, currentChatId, messages);
 
   const runtimeConfig = useRuntimeConfig();
 

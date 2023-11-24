@@ -23,12 +23,18 @@ export const useChatStore = defineStore('chat', () => {
   const currentChatId = computed(() => {
     return chats.value[currentChatIndex.value].id;
   });
+  const currentChatName = computed(() => {
+    return chats.value[currentChatIndex.value].name;
+  });
   const messages = computed(() => {
     return chats.value[currentChatIndex.value].messages;
   });
 
   function addMessage(message: OpenAI.Chat.ChatCompletionMessage) {
     chats.value[currentChatIndex.value].messages.push(message);
+    useHandleChatDb(message, currentChatId.value, currentChatName.value).then((id) => {
+      setCurrentChatId(id);
+    });
     console.log('message added to the list:', messages.value);
   }
   function setMessages(value: OpenAI.Chat.ChatCompletionMessage[]) {
@@ -53,6 +59,9 @@ export const useChatStore = defineStore('chat', () => {
     chats.value[currentChatIndex.value].id = value;
   }
   function addUserMessage(message: string) {
+    if (!currentChatName.value) {
+      chats.value[currentChatIndex.value].name = message.slice(0, 30);
+    }
     addMessage({
       role: 'user',
       content: message,
@@ -67,6 +76,7 @@ export const useChatStore = defineStore('chat', () => {
 
   return {
     currentChatId,
+    currentChatName,
     messages,
     replaceSystemMessage,
     setPlainGptSystemMessage,
