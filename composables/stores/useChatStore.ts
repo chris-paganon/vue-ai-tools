@@ -85,7 +85,6 @@ export const useChatStore = defineStore('chat', () => {
     const chatsFromDb = await pb.collection('chats').getFullList<PbConversation>({expand: 'chat_messages(chat)'});
     
     chats.value = chatsFromDb.map((chatFromDb) => {
-      console.log("🚀 ~ file: useChatStore.ts:86 ~ chats.value=chatsFromDb.map ~ chatFromDb:", chatFromDb)
       return {
         id: chatFromDb.id,
         name: chatFromDb.name,
