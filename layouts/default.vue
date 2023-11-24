@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 const { verifyAuth } = useAuthStore();
-const { getChatsFromDb } = useChatStore();
+const { setNewChat, getChatsFromDb } = useChatStore();
 
 useHead({
   title: 'VueAI.tools',
@@ -27,8 +27,9 @@ useHead({
   ],
 });
 
-onMounted(() => {  
+onMounted(async () => {  
   verifyAuth();
-  getChatsFromDb();
+  await getChatsFromDb();
+  setNewChat();
 });
 </script>

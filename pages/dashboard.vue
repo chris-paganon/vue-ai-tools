@@ -3,6 +3,7 @@
     <div class="py-4 px-6 border-right-1 border-50">
       <h2>Menu</h2>
       <Menu v-if="items && items.length > 0" :model="items" />
+      <Button @click="setNewChat()" label="New chat" class="mt-4 w-full" />
     </div>
     <div class="flex-grow-1 flex flex-column ml-4 mr-2 mb-2">
       <h1 class="ml-4">Dashboard</h1>
@@ -22,17 +23,19 @@
 import type { MenuItem } from 'primevue/menuitem';
 
 const { chats } = storeToRefs(useChatStore());
-const { setCurrentChatIndex } = useChatStore();
+const { setCurrentChatIndex, setNewChat } = useChatStore();
 
 const items = computed<MenuItem[] | undefined>(() => {
-  return chats.value?.map((conversation, index) => {
-    return { 
-      key: conversation.id,
-      label: conversation.name,
-      command: () => {
-        setCurrentChatIndex(index);
-      },
-    };
-  });
+  return chats.value
+    .filter((chat) => chat.name)
+    .map((chat, index) => {
+      return { 
+        key: chat.id,
+        label: chat.name,
+        command: () => {
+          setCurrentChatIndex(index);
+        },
+      };
+    });
 });
 </script>
