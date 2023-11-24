@@ -22,7 +22,7 @@ export interface Chat {
   messages: OpenAI.Chat.ChatCompletionMessage[];
 }
 export interface PbConversation extends RecordModel {
-  name?: string;
+  name: string;
 };
 export interface PbChatMessage extends RecordModel {
   chat?: string;

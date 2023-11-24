@@ -1,5 +1,6 @@
+import PocketBase from 'pocketbase';
 import OpenAI from 'openai';
-import { Chat } from '@/types/types';
+import { Chat, PbConversation } from '@/types/types';
 import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
 
@@ -58,6 +59,9 @@ export const useChatStore = defineStore('chat', () => {
   function setCurrentChatId(value: string) {
     chats.value[currentChatIndex.value].id = value;
   }
+  function setCurrentChatIndex(value: number) {
+    currentChatIndex.value = value;
+  }
   function addUserMessage(message: string) {
     if (!currentChatName.value) {
       chats.value[currentChatIndex.value].name = message.slice(0, 30);
@@ -74,17 +78,41 @@ export const useChatStore = defineStore('chat', () => {
     });
   }
 
+  async function getChatsFromDb() {
+    const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
+    const pb = new PocketBase(pbUrl);
+
+    const chatsFromDb = await pb.collection('chats').getFullList<PbConversation>({expand: 'chat_messages(chat)'});
+    
+    chats.value = chatsFromDb.map((chatFromDb) => {
+      console.log("🚀 ~ file: useChatStore.ts:86 ~ chats.value=chatsFromDb.map ~ chatFromDb:", chatFromDb)
+      return {
+        id: chatFromDb.id,
+        name: chatFromDb.name,
+        messages: (chatFromDb.expand?.["chat_messages(chat)"] as OpenAI.Chat.ChatCompletionMessage[]).map((messageFromDb) => {
+          return {
+            role: messageFromDb.role,
+            content: messageFromDb.content,
+          };
+        }),
+      };
+    });
+  }
+
   return {
     currentChatId,
     currentChatName,
+    chats,
     messages,
     replaceSystemMessage,
     setPlainGptSystemMessage,
     setCompositionIndexSystemMessage,
     setOptionsIndexSystemMessage,
+    setCurrentChatIndex,
     setCurrentChatId,
     addUserMessage,
     setMessages,
     addAssistantMessage,
+    getChatsFromDb,
   };
 });

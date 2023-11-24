@@ -20,49 +20,19 @@
 
 <script setup lang="ts">
 import { MenuItem } from 'primevue/menuitem';
-import PocketBase from 'pocketbase';
-import type { PbConversation, PbChatMessage } from '@/types/types';
 
-const { currentChatId } = storeToRefs(useChatStore());
-const { setMessages, setCurrentChatId } = useChatStore();
-
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
-
-const { data, pending, error } = await useAsyncData(
-  'db-chats',
-  () => {
-    console.log('fetching chats');
-    return pb.collection('chats').getFullList<PbConversation>()
-  },
-  { server: false } // Server doesn't have access to PocketBase authStore so we only fetch from client
-);
+const { chats } = storeToRefs(useChatStore());
+const { setCurrentChatIndex, getChatsFromDb } = useChatStore();
 
 const items = computed<MenuItem[] | undefined>(() => {
-  if (pending.value) return;
-  if (error.value) return;
-
-  return data.value?.map(conversation => {
+  return chats.value?.map((conversation, index) => {
     return { 
       key: conversation.id,
       label: conversation.name,
       command: () => {
-        setCurrentChatId(conversation.id);
-        getConversationMessages();
+        setCurrentChatIndex(index);
       },
     };
   });
 });
-
-async function getConversationMessages() {
-  const pbMessages = await pb.collection('chat_messages').getFullList<PbChatMessage>({
-    filter: `chat="${currentChatId.value}"`
-  });
-  setMessages(pbMessages.map(pbMessage => {
-    return {
-      role: pbMessage.role,
-      content: pbMessage.message
-    }
-  }));
-}
 </script>
