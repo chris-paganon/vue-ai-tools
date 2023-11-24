@@ -38,8 +38,8 @@ export async function useAddMessageToDb(message: OpenAI.Chat.Completions.ChatCom
 	const pb = new Pocketbase(pbUrl);
 
 	pb.collection('chat_messages').create({
-    conversation: chatId,
+    chat: chatId,
     role: message.role,
-    message: message.content,
+    content: message.content,
   });
 }
