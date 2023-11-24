@@ -87,6 +87,7 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getChatsFromDb() {
+    // TODO: See if we can do this server-side on 1st load with useAsyncData by making a Nuxt plugin and using a custom $pb in both context. This is kind of unnecessary though.
     const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
     const pb = new PocketBase(pbUrl);
 
