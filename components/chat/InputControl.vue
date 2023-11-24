@@ -7,6 +7,13 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps({
+  openChatDialog: {
+    type: Boolean,
+    default: false,
+  }
+})
+
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage, addAssistantMessage } = useChatStore();
 const { inputQuestion, isWaitingAnswer, selectedInputOption } = storeToRefs(useChatInputStore());
@@ -36,7 +43,9 @@ async function askQuestion(event?: KeyboardEvent) {
   // If only enter is pressed, we do not add newline and we send the question
   event?.preventDefault();
 
-  setIsChatOpened(true);
+  if (props.openChatDialog) {
+    setIsChatOpened(true);
+  }
   if (!inputQuestion.value) return;
 
   addUserMessage(inputQuestion.value);
