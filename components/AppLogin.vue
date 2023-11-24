@@ -31,6 +31,7 @@ const pb = new PocketBase(pbUrl);
 const { isLoginModalOpened } = storeToRefs(useUIStore());
 const { setIsLoginModalOpened } = useUIStore();
 const { verifyAuth } = useAuthStore();
+const { setNewChat, getChatsFromDb } = useChatStore();
 
 const email = ref('');
 const password = ref('');
@@ -44,6 +45,8 @@ async function login() {
     email.value = '';
     password.value = '';
     await verifyAuth();
+    await getChatsFromDb();
+    setNewChat();
     await navigateTo('/dashboard');
   } catch (error) {
     if (! (error instanceof Error) ) {

@@ -31,6 +31,10 @@ export const useChatStore = defineStore('chat', () => {
     return chats.value[currentChatIndex.value].messages;
   });
 
+  function $reset() {
+    chats.value = [defaultChat.value];
+    currentChatIndex.value = 0;
+  }
   function setNewChat() {
     // Reuse an existing empty chat if it exists
     let newChatIndex = chats.value.findIndex((chat) => chat.name === defaultChat.value.name && chat.id === defaultChat.value.id);
@@ -113,6 +117,7 @@ export const useChatStore = defineStore('chat', () => {
     currentChatName,
     chats,
     messages,
+    $reset,
     setNewChat,
     replaceSystemMessage,
     setPlainGptSystemMessage,

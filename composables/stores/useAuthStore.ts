@@ -4,6 +4,8 @@ export const useAuthStore = defineStore('auth', () => {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
   const pb = new PocketBase(pbUrl);
 
+  const chatStore = useChatStore();
+
   const isSignedIn = ref(false);
   const isLoadingAuth = ref(true);
 
@@ -44,6 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
       pb.authStore.clear();
       useCookie('pb_auth').value = '';
       isSignedIn.value = false;
+      chatStore.$reset();
       await navigateTo('/');
     }
   }
