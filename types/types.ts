@@ -16,6 +16,8 @@ export interface localSignupErrors {
   password?: string;
   passwordConfirm?: string;
 }
+
+// TODO: Verify these types or get them directly from JS migrations
 export interface Chat {
   id: string;
   name: string;
