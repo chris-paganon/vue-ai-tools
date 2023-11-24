@@ -28,7 +28,7 @@ useHead({
 });
 
 onMounted(async () => {  
-  verifyAuth();
+  await verifyAuth();
   await getChatsFromDb();
   setNewChat();
 });

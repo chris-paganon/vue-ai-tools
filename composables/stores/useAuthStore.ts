@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
     });
     
     if (!pb.authStore.isValid) {
-      logout();
+      await logout();
       isLoadingAuth.value = false;
       return;
     }
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
       isLoadingAuth.value = false;
       return;
     };
-    logout();
+    await logout();
     isLoadingAuth.value = false;
   }
 
