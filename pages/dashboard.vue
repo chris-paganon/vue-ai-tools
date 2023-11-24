@@ -22,7 +22,7 @@
 import { MenuItem } from 'primevue/menuitem';
 
 const { chats } = storeToRefs(useChatStore());
-const { setCurrentChatIndex, getChatsFromDb } = useChatStore();
+const { setCurrentChatIndex } = useChatStore();
 
 const items = computed<MenuItem[] | undefined>(() => {
   return chats.value?.map((conversation, index) => {
