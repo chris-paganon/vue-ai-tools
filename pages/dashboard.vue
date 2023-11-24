@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { MenuItem } from 'primevue/menuitem';
+import type { MenuItem } from 'primevue/menuitem';
 
 const { chats } = storeToRefs(useChatStore());
 const { setCurrentChatIndex } = useChatStore();
