@@ -1,0 +1,8 @@
+- `<Teleport>` is a built-in component in Vue.js
+- It allows us to "teleport" a part of a component's template outside of the DOM hierarchy
+- It is useful for scenarios like full-screen modals
+- The `to` attribute of `<Teleport>` specifies the target DOM node
+- `<Teleport>` can be combined with `<Transition>` to create animated modals
+- `<Teleport>` does not affect the logical hierarchy of components
+- It can be disabled conditionally using the `disabled` prop
+- Multiple `<Teleport>` components can mount their content to the same target element

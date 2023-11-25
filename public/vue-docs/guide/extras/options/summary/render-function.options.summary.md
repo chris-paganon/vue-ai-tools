@@ -1,0 +1,14 @@
+- The page explains the usage of render functions and JSX in Vue.js
+- It shows how to create vnodes using the `h()` function
+- It demonstrates the basic usage of render functions and how to declare them
+- It explains that all vnodes in the component tree must be unique
+- It provides examples of using JSX and TSX in Vue.js
+- It explains how to create render function recipes for common template features like `v-if`, `v-for`, and `v-on`
+- It shows how to work with components in render functions
+- It explains how to render slots in render functions
+- It demonstrates how to use built-in components like `<KeepAlive>`, `<Transition>`, `<Teleport>`, and `<Suspense>`
+- It explains how to use the `v-model` directive in render functions
+- It shows how to use custom directives in render functions
+- It explains how to use template refs in render functions
+- It provides information on functional components and how to create them
+- It explains how to type functional components in TypeScript

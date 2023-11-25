@@ -1,0 +1,5 @@
+- The page discusses animation techniques in Vue.js
+- It mentions the `<Transition>` and `<TransitionGroup>` components for handling transitions
+- It explains how to use class-based animations by dynamically adding a CSS class
+- It demonstrates state-driven animations by interpolating values and binding styles to elements
+- It shows how to animate with watchers by using numerical state and the `watch` function

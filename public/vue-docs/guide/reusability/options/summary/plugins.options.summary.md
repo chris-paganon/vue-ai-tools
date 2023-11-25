@@ -1,0 +1,9 @@
+- Plugins are self-contained code that add app-level functionality to Vue.js
+- Plugins can be installed using the `app.use()` method
+- A plugin can be defined as an object with an `install()` method or as a function that acts as the install function itself
+- Common scenarios where plugins are useful include registering global components or directives, making a resource injectable throughout the app, adding global instance properties or methods, and combining multiple functionalities
+- To create a plugin, define an object with an `install()` method and export it
+- The plugin can define a translation function that is globally available in all templates by attaching it to `app.config.globalProperties`
+- The translation function takes a dot-delimited key string and looks up the translated string in the user-provided options
+- The translated keys should be passed to the plugin during installation via additional parameters to `app.use()`
+- Plugins can also use `app.provide()` to provide a function or attribute to the plugin's users, which can be injected using the `inject` option in components

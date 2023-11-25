@@ -1,0 +1,10 @@
+- Vue uses an HTML-based template syntax for data binding
+- Vue compiles templates into optimized JavaScript code
+- Text interpolation is done using double curly braces (`{{ }}`)
+- Raw HTML can be output using the `v-html` directive
+- Attribute bindings are done using the `v-bind` directive or its shorthand `:`
+- Boolean attributes can be bound using `v-bind` or `:`
+- Multiple attributes can be bound using `v-bind` without an argument
+- JavaScript expressions can be used in templates
+- Directives are special attributes with the `v-` prefix
+- Directives can have arguments and modifiers

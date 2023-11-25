@@ -1,0 +1,6 @@
+- `defineAsyncComponent` function is used to load a component from the server only when it's needed
+- The function accepts a loader function that returns a Promise
+- The resulting component is a wrapper that calls the loader function when rendered
+- Async components can be registered globally or defined directly inside their parent component
+- Loading and error states can be handled using advanced options such as loadingComponent, delay, errorComponent, and timeout
+- Async components can be used with the `<Suspense>` built-in component.

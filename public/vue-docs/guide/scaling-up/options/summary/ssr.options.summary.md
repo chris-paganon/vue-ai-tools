@@ -1,0 +1,8 @@
+- Server-Side Rendering (SSR) allows rendering Vue components into HTML strings on the server
+- SSR is useful for faster time-to-content, unified mental model, and better SEO
+- SSR has trade-offs such as development constraints and more server-side load
+- SSR can be implemented using the `createSSRApp` and `renderToString` functions
+- Client-side hydration is needed to make the app interactive
+- Code structure in an SSR app involves sharing the same app implementation between server and client
+- Higher-level solutions for SSR include Nuxt, Quasar, and Vite SSR
+- SSR-friendly code involves considerations for reactivity, component lifecycle hooks, platform-specific APIs, cross-request state pollution, hydration mismatch, custom directives, and teleports

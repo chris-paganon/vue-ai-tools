@@ -1,0 +1,11 @@
+- The `ref` attribute in Vue.js allows direct access to the underlying DOM elements or child component instances
+- The `ref` attribute can be used to obtain a direct reference to a specific DOM element or child component instance after it's mounted
+- The `ref` attribute can be accessed using the `$refs` property in the Options API or the declared ref in the Composition API
+- When using the Composition API, the ref must be declared with the same name as the template ref value
+- The ref can only be accessed after the component is mounted
+- When using a template ref inside a `v-for` loop, the corresponding ref should contain an Array value that will be populated with the elements after mount
+- The ref array does not guarantee the same order as the source array
+- The `ref` attribute can also be bound to a function, which will be called on each component update and gives flexibility on where to store the element reference
+- The `ref` attribute can be used on a child component, and the reference will be that of a component instance
+- The referenced instance of a child component will be identical to the child component's `this`, allowing access to every property and method of the child component
+- Components using `<script setup>` are private by default, but can expose a public interface using the `defineExpose` macro

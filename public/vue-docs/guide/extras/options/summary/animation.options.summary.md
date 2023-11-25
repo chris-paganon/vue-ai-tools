@@ -1,0 +1,8 @@
+- The page discusses animation techniques in Vue.js
+- It mentions the `<Transition>` and `<TransitionGroup>` components for handling transitions
+- It explains how to trigger animations by dynamically adding a CSS class
+- It shows an example of class-based animations using the `shake` class
+- It demonstrates state-driven animations by interpolating values using style bindings
+- It provides an example of animating the background color of an element based on mouse movement
+- It mentions that you can animate transform, width, height, and SVG paths using style bindings
+- It explains how to animate using watchers and provides an example of animating a number based on some numerical state

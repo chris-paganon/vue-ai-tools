@@ -1,4 +1,6 @@
 import OpenAI from "openai";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 export default defineEventHandler(async (event) => {
   
@@ -10,8 +12,9 @@ export default defineEventHandler(async (event) => {
   } 
 
   let relevantDocPage: string = '';
-  await body.paths.forEach(async (path: string) => {
-    relevantDocPage += await $fetch(`https://vue-docs.nyc3.cdn.digitaloceanspaces.com/${path}`);
+  await body.paths.forEach((path: string) => {
+    const docPageBuffer = readFileSync(resolve(`public/vue-docs/${path}`));
+    relevantDocPage += docPageBuffer.toString();
   });
   const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
     if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {

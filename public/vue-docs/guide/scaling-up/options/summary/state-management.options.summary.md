@@ -1,0 +1,9 @@
+- State management in Vue.js involves managing the reactive state of a component
+- State consists of the data, view, and actions of a component
+- When multiple components share a common state, it can lead to issues like prop drilling and unmaintainable code
+- A solution is to extract the shared state into a global singleton using the `reactive()` function
+- The shared state can be imported into multiple components and any changes to the state will update all components automatically
+- It is recommended to define methods on the store to centralize the state-mutating logic
+- Other reactivity APIs like `ref()` and `computed()` can also be used to create shared reactive state
+- Considerations for server-side rendering (SSR) are discussed in the documentation
+- Pinia is a state management library recommended for large-scale production applications, providing stronger conventions, integration with Vue DevTools, and SSR support

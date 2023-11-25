@@ -1,0 +1,8 @@
+- Components allow for splitting the UI into independent and reusable pieces
+- Components can be defined using the `.vue` extension or as a plain JavaScript object
+- Components can be used by importing them in the parent component or globally registering them
+- Props can be used to pass data to a component
+- Events can be used to communicate from a child component to a parent component
+- Slots can be used to pass content to a component
+- Dynamic components can be used to switch between different components
+- DOM template parsing has some caveats such as case insensitivity, explicit closing tags, and element placement restrictions

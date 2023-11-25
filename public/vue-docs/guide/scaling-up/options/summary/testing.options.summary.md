@@ -1,0 +1,18 @@
+- The page is about testing in Vue.js
+- It covers the importance of automated tests in building complex Vue applications
+- It explains when to start testing and the different types of testing: unit, component, and end-to-end
+- It provides an overview of each type of testing and their role in a testing strategy
+- It focuses on unit testing and provides an example of how to write a unit test for a function
+- It mentions that unit testing can be applied to Vue-specific features such as composables and components
+- It explains how to unit test components in two ways: whitebox (unit testing) and blackbox (component testing)
+- It recommends using Vitest as a unit testing framework for Vue applications
+- It mentions other options for unit testing such as Peeky and Jest
+- It discusses component testing in Vue applications and provides recommendations on how to test components
+- It recommends using Vitest or Cypress Component Testing for component testing
+- It mentions other options for component testing such as Nightwatch and WebdriverIO
+- It discusses end-to-end (E2E) testing in Vue applications and its importance in validating application behavior
+- It provides recommendations on choosing an E2E testing solution and recommends using Cypress
+- It mentions other options for E2E testing such as Playwright, Nightwatch, and WebdriverIO
+- It provides recipes for adding Vitest to a project and testing composables
+- It mentions the need to test composables that rely on a host component instance
+- It provides a helper function for testing composables that rely on lifecycle hooks or Provide / Inject

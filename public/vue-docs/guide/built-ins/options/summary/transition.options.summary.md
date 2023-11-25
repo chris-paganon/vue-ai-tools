@@ -1,0 +1,9 @@
+- `<Transition>` is a built-in component in Vue.js for applying animations when an element or component is entering and leaving the DOM
+- It can be triggered by conditional rendering, conditional display, dynamic components toggling, or changing the `key` attribute
+- The component supports CSS-based transitions and animations, with classes such as `v-enter-active`, `v-leave-active`, and `v-enter-to`
+- Custom transition classes can be specified using props like `enter-from-class` and `leave-active-class`
+- JavaScript hooks can be used to hook into the transition process, with events like `before-enter`, `enter`, `after-enter`, and `leave`
+- Transitions can be applied on initial render using the `appear` prop
+- Transitions can be applied between elements using `v-if` / `v-else` / `v-else-if`
+- Transitions can be applied between components using dynamic components and the `is` prop
+- Dynamic transitions can be achieved by using dynamic props for the `name` prop of `<Transition>`

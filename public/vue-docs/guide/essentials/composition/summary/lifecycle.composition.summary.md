@@ -1,0 +1,6 @@
+- Vue component instances go through initialization steps and run lifecycle hooks
+- The `onMounted` hook runs code after the component has finished initial rendering and created DOM nodes
+- Other commonly used hooks include `onUpdated` and `onUnmounted` (or `mounted`, `updated`, and `unmounted` in the options API)
+- Hooks need to be registered synchronously during component setup
+- There is a diagram for the instance lifecycle
+- Consult the Lifecycle Hooks API reference for more details on all lifecycle hooks and their use cases.
