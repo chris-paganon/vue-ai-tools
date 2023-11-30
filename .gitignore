@@ -19,8 +19,9 @@ logs
 
 # Local env files
 .env
-.env.*
+*.env
 !.env.example
+!.env.sample
 
 # Pocketbase
 pb_data
