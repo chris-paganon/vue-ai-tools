@@ -1,10 +1,11 @@
 version: '3.8'
-name: vue-tools-ai-dev
+name: vue-ai-tools-local
 
 services:
   db:
-    build: .
-    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ../base/Dockerfile.pb-db
     ports:
       - 8080:8080
     volumes:
