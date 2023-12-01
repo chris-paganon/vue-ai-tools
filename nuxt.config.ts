@@ -62,7 +62,8 @@ export default defineNuxtConfig({
     openaiOrganization: 'org-AB12',
     openaiApiKey: 'sk-CD34',
     public: {
-      pocketbaseUrl: 'http://localhost:8080'
+      pocketbaseUrl: 'http://localhost:8080',
+      publicFolderUrl: 'http://localhost:3000/_nuxt',
     }
   },
 });

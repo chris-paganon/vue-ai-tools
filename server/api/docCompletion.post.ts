@@ -1,7 +1,4 @@
 import OpenAI from "openai";
-import { readFileSync } from "fs";
-import { resolve } from "path";
-import * as path from 'node:path'
 
 export default defineEventHandler(async (event) => {
   
@@ -12,12 +9,12 @@ export default defineEventHandler(async (event) => {
     return;
   } 
 
+  const runtimeConfig = useRuntimeConfig();
+
   let relevantDocPage: string = '';
-  await body.paths.forEach((docPath: string) => {
-    const filePath = path.join(process.cwd(), 'public', `vue-docs/${docPath}`);
-    console.log("🚀 ~ file: docCompletion.post.ts:19 ~ awaitbody.paths.forEach ~ filePath:", filePath);
-    const docPageBuffer = readFileSync(filePath);
-    relevantDocPage += docPageBuffer.toString();
+  await body.paths.forEach(async (docPath: string) => {
+    const docPage = await $fetch(`${runtimeConfig.public.publicFolderUrl}/vue-docs/${docPath}`);
+    relevantDocPage += docPage;
   });
   const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
     if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {
@@ -31,8 +28,6 @@ export default defineEventHandler(async (event) => {
     temperature: 0.4,
     messages: messages,
   };
-
-  const runtimeConfig = useRuntimeConfig();
 
   const openai = new OpenAI({
     organization: runtimeConfig.openaiOrganization,
