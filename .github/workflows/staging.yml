@@ -26,7 +26,7 @@ jobs:
         username: ${{ secrets.DROPLET_USERNAME }}
         key: ${{ secrets.DROPLET_KEY }}
         source: .output/*
-        target: /opt/nuxter/vue-ai-tools/.output.staging
+        target: /opt/nuxter/vue-ai-tools/.output.staging/
         rm: true
     - name: restart docker on Droplet
       env:
