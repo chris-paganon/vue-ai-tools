@@ -3,6 +3,7 @@ name: vue-ai-tools-staging
 
 include:
   - path: ../../base/nuxt-app-compose.yml
+    project_directory: ../../
     env_file: staging.env
   - path: ../../base/pb-db-compose.yml
     env_file: staging.env
