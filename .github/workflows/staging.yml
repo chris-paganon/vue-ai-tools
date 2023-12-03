@@ -27,7 +27,7 @@ jobs:
         DEPLOY_KEY: ${{ secrets.DROPLET_KEY }}
         LOCALPATH: .output/
         REMOTEPATH: /opt/nuxter/vue-ai-tools/.output.staging
-        FLAGS: --delete -d
+        FLAGS: -avzr --delete
     - name: restart docker on Droplet
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
