@@ -3,6 +3,7 @@ name: vue-ai-tools-production
 
 include:
   - path: ../../base/nuxt-app-compose.yml
+    project_directory: ../../
     env_file: ./production.env
   - path: ../../base/umami-compose.yml
     env_file: ./production.env
