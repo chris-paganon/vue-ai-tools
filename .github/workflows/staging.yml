@@ -19,7 +19,7 @@ jobs:
       run: |
         npm ci
         npm run build
-    - name: rsync to Droplet
+    - name: Copy built nuxt app to Droplet
       uses: contention/rsync-deployments@v2.0.0
       with:
         USER: ${{ secrets.DROPLET_USERNAME }}
