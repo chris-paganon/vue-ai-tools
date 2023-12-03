@@ -7,7 +7,7 @@ on:
       - stage
 jobs:
   build-nuxt:
-    uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml
+    uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml@master
     with:
       app_name: vue-ai-tools
     secrets:
