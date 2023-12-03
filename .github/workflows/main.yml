@@ -10,6 +10,7 @@ jobs:
     uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml@master
     with:
       app_name: vue-ai-tools
+      app_env: production
     secrets:
       DROPLET_USERNAME: ${{ secrets.DROPLET_USERNAME }}
       DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
