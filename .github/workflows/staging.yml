@@ -7,35 +7,10 @@ on:
       - stage
 jobs:
   build-nuxt:
-    name: Build nuxt on node and send files to Droplet
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4.1.0
-    - name: Use Node
-      uses: actions/setup-node@v3.8.1
-      with:
-        node-version: 18
-    - name: npm install & build
-      run: |
-        npm ci
-        npm run build
-    - name: Copy built nuxt app to Droplet
-      uses: contention/rsync-deployments@v2.0.0
-      with:
-        USER: ${{ secrets.DROPLET_USERNAME }}
-        HOST: ${{ secrets.DROPLET_HOST }}
-        DEPLOY_KEY: ${{ secrets.DROPLET_KEY }}
-        LOCALPATH: .output/
-        REMOTEPATH: /opt/nuxter/vue-ai-tools/.output.staging
-        FLAGS: -avzr --delete
-    - name: Restart docker on Droplet
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.DROPLET_HOST }}
-        username: ${{ secrets.DROPLET_USERNAME }}
-        key: ${{ secrets.DROPLET_KEY }}
-        script: |
-          cd /opt/nuxter/vue-ai-tools
-          git pull
-          cd nuxter-config
-          docker compose -f vue-ai-tools-staging-compose.yml up -d --build nuxt-app
+    uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml
+    with:
+      app_name: vue-ai-tools
+    secrets:
+      DROPLET_USERNAME: ${{ secrets.DROPLET_USERNAME }}
+      DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+      DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
