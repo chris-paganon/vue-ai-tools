@@ -35,5 +35,7 @@ jobs:
         username: ${{ secrets.DROPLET_USERNAME }}
         key: ${{ secrets.DROPLET_KEY }}
         script: |
-          cd /opt/nuxter/vue-ai-tools/nuxter-config
+          cd /opt/nuxter/vue-ai-tools
+          git pull
+          cd nuxter-config
           docker compose -f vue-ai-tools-staging-compose.yml up -d --build nuxt-app
