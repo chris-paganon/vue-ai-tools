@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-grow-1 flex justify-content-center py-5">
+  <main class="flex-grow-1 flex justify-content-center py-5 px-3">
 		<section>
 			<h1>Privacy Policy</h1>
 			<p>Last updated: December 03, 2023</p>
