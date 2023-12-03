@@ -25,8 +25,8 @@ jobs:
         host: ${{ secrets.DROPLET_HOST }}
         username: ${{ secrets.DROPLET_USERNAME }}
         key: ${{ secrets.DROPLET_KEY }}
-        source: .output/*
-        target: /opt/nuxter/vue-ai-tools/.output.staging/
+        source: .output
+        target: /opt/nuxter/vue-ai-tools/.output
         rm: true
     - name: restart docker on Droplet
       env:
@@ -34,4 +34,4 @@ jobs:
       run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
         ssh-add - <<< "${{ secrets.DROPLET_KEY }}"
-        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/nuxter/vue-ai-tools/nuxter-config && docker compose -f vue-ai-tools-staging-compose.yml up --build nuxt-app && exit"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/nuxter/vue-ai-tools && mv .output .output.staging && cd nuxter-config && docker compose -f vue-ai-tools-staging-compose.yml up --build nuxt-app && exit"
