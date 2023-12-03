@@ -19,19 +19,19 @@ jobs:
       run: |
         npm ci
         npm run build
-    - name: scp to Droplet
-      uses: appleboy/scp-action@v0.1.3
+    - name: rsync to Droplet
+      uses: contention/rsync-deployments@v2.0.0
       with:
-        host: ${{ secrets.DROPLET_HOST }}
-        username: ${{ secrets.DROPLET_USERNAME }}
-        key: ${{ secrets.DROPLET_KEY }}
-        source: .output
-        target: /opt/nuxter/vue-ai-tools/.output
-        rm: true
+        USER: ${{ secrets.DROPLET_USERNAME }}
+        HOST: ${{ secrets.DROPLET_HOST }}
+        DEPLOY_KEY: ${{ secrets.DROPLET_KEY }}
+        LOCALPATH: .output/
+        REMOTEPATH: /opt/nuxter/vue-ai-tools/.output.staging
+        FLAGS: --delete
     - name: restart docker on Droplet
       env:
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
         ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
         ssh-add - <<< "${{ secrets.DROPLET_KEY }}"
-        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/nuxter/vue-ai-tools && mv .output .output.staging && cd nuxter-config && docker compose -f vue-ai-tools-staging-compose.yml up --build nuxt-app && exit"
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/nuxter/vue-ai-tools/nuxter-config && docker compose -f vue-ai-tools-staging-compose.yml up --build nuxt-app && exit"
