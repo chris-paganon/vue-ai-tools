@@ -1,0 +1,12 @@
+- Web accessibility refers to creating websites that can be used by anyone, including those with disabilities or unfavorable environments
+- Adding a skip link at the top of each page allows users to skip repetitive content
+- Properly structuring content with headings helps users navigate the application
+- Landmarks provide programmatic access to sections within an application
+- Semantic forms use appropriate HTML elements and labels for accessibility
+- Avoid using placeholders in form fields
+- Instructions and descriptions can be provided for form fields using ARIA attributes
+- Functional images can be created using buttons or icons
+- WCAG provides guidelines for web accessibility, including the principles of perceivability, operability, understandability, and robustness
+- WAI-ARIA provides guidance for building dynamic content and advanced user interface controls
+- Various resources and tools are available for testing and improving web accessibility
+- Web accessibility benefits a wide range of users with disabilities, including those with visual, auditory, motor, and cognitive impairments

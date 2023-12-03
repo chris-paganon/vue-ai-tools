@@ -1,0 +1,7 @@
+- Server-Side Rendering (SSR) allows rendering Vue components into HTML strings on the server
+- SSR provides faster time-to-content, unified mental model, and better SEO
+- Trade-offs of SSR include development constraints, more involved build setup, and increased server-side load
+- SSR can be used when time-to-content is critical for the app
+- Static Site Generation (SSG) is an alternative technique for fast websites that generates static HTML files
+- Nuxt, Quasar, and Vite SSR are recommended higher-level solutions for SSR in the Vue ecosystem
+- SSR-friendly code requires considerations for reactivity on the server, component lifecycle hooks, access to platform-specific APIs, cross-request state pollution, hydration mismatch, custom directives, and teleports

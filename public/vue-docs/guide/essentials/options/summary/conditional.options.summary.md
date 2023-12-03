@@ -1,0 +1,7 @@
+- The `v-if` directive is used to conditionally render a block based on the truthiness of an expression.
+- The `v-else` directive is used to indicate an "else block" for `v-if`.
+- The `v-else-if` directive serves as an "else if block" for `v-if` and can be chained multiple times.
+- `v-if` can be used on a `<template>` element to toggle multiple elements.
+- The `v-show` directive can also be used to conditionally display an element, but it always remains in the DOM and only toggles the `display` CSS property.
+- `v-if` ensures proper destruction and recreation of event listeners and child components, while `v-show` is simpler and has higher initial render costs.
+- It is not recommended to use `v-if` and `v-for` on the same element due to implicit precedence.

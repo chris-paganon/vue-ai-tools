@@ -2,7 +2,7 @@
   <div class="chat-conversation">
     <template v-for="(message, key) in messages" :key="key" >
       <p 
-        v-if="message.role !== 'system'"
+        v-if="message.role !== 'system' && message.content !== null"
         v-html="parsedMessage(message.content)"
         :class="[
           {
@@ -20,8 +20,9 @@
 </template>
 
 <script setup lang="ts">
-const { messages, isWaitingAnswer } = storeToRefs(useChatStore());
-const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'w-max', 'border-round'];
+const { messages } = storeToRefs(useChatStore());
+const { isWaitingAnswer } = storeToRefs(useChatInputStore());
+const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'border-round'];
 
 function parsedMessage(message: string | undefined) {
   if (!message) return '';
@@ -35,6 +36,7 @@ function parsedMessage(message: string | undefined) {
 }
 .message {
   max-width: 97%;
+  width: fit-content;
 
   :deep(p:not(:last-child)),
   :deep(ul:not(:last-child)),

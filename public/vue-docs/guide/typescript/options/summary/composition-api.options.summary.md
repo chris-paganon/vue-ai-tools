@@ -1,0 +1,12 @@
+- The page is about TypeScript with Composition API in Vue.js
+- It explains how to type component props using `<script setup>` and `defineProps()`
+- It discusses the syntax limitations of the `defineProps()` function
+- It explains how to set default values for props using the `withDefaults` compiler macro
+- It explains how to type component emits using `<script setup>` and `defineEmits()`
+- It explains how to type `ref()` and specify complex types for a ref's inner value
+- It explains how to type `reactive()` and explicitly type a reactive property
+- It explains how to type `computed()` and specify an explicit type via a generic argument
+- It explains how to type event handlers and recommends explicitly annotating the argument
+- It explains how to type provide/inject and use the `InjectionKey` interface
+- It explains how to type template refs and template refs for child components
+- It provides examples and code snippets for each topic

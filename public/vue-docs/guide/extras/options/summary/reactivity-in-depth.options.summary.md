@@ -1,0 +1,9 @@
+- Vue.js has an unobtrusive reactivity system
+- Reactivity allows for adjusting to changes in a declarative manner
+- JavaScript doesn't usually work with reactivity like Vue.js does
+- Vue.js uses Proxies and getter/setters to intercept property access and enable reactivity
+- Vue provides APIs like `ref()`, `computed()`, and `watchEffect()` to create reactive effects
+- Reactive effects automatically track their dependencies and re-run when a dependency changes
+- Vue's reactivity system can be integrated with external state systems like Immer and RxJS
+- Vue provides debugging hooks to track dependencies and triggers in components, computed properties, and watchers
+- Vue's reactivity system can be used with signals, similar to other frameworks like Solid and Angular

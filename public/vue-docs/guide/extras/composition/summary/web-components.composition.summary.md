@@ -1,0 +1,16 @@
+- Vue and Web Components are complementary technologies
+- Vue has excellent support for consuming and creating custom elements
+- Vue scores a perfect 100% in the Custom Elements Everywhere tests
+- Vue can skip component resolution for certain elements using `compilerOptions.isCustomElement` option
+- Complex data can be passed to custom elements as DOM properties using `.prop` modifier
+- Vue supports creating custom elements using the `defineCustomElement` method
+- Vue custom elements mount an internal Vue component instance inside their shadow root
+- Props declared using the `props` option are defined on the custom element as properties
+- Events emitted in Vue custom elements are dispatched as native CustomEvents
+- Slots can be rendered using the `<slot/>` element in Vue custom elements
+- Provide/Inject API works between Vue-defined custom elements
+- Vue Single-File Components (SFCs) can be used as custom elements
+- Vue custom elements rely on Vue's runtime and have a baseline size cost
+- Global component typings can be registered for Vue components used as custom elements
+- Web Components APIs are low-level and lack certain capabilities provided by Vue components
+- Custom elements have limitations in component composition and scoped CSS

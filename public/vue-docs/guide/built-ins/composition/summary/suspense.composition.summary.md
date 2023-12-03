@@ -1,0 +1,7 @@
+- `<Suspense>` is a built-in component in Vue.js for handling async dependencies in a component tree
+- It can render a loading state while waiting for multiple nested async dependencies to be resolved
+- There are two types of async dependencies that `<Suspense>` can wait on: components with an async `setup()` hook and async components
+- The `<Suspense>` component has two slots: `#default` and `#fallback`, which allow for displaying content and a loading state respectively
+- `<Suspense>` emits three events: `pending`, `resolve`, and `fallback`, which can be used for showing loading indicators or handling errors
+- Error handling can be done using the `errorCaptured` option or the `onErrorCaptured()` hook in the parent component of `<Suspense>`
+- `<Suspense>` can be combined with other components like `<Transition>` and `<KeepAlive>` for more advanced functionality

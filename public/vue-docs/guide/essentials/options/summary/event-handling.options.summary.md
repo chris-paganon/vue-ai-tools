@@ -1,0 +1,7 @@
+- The page explains how to listen to events in Vue.js using the `v-on` directive or the `@` symbol.
+- It describes inline handlers and method handlers, which can be used to execute JavaScript code when an event is triggered.
+- Inline handlers are used for simple cases, while method handlers are used for more complex logic.
+- The page also explains how to call methods in inline handlers and access the event argument.
+- It introduces event modifiers, such as `.stop`, `.prevent`, and `.self`, which can be used to modify the behavior of event handlers.
+- Key modifiers and system modifier keys are also explained, allowing specific key combinations or modifier keys to trigger event listeners.
+- Mouse button modifiers are introduced to restrict event handlers to specific mouse buttons.

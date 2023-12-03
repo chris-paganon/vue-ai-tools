@@ -13,8 +13,8 @@
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.1",
     "nuxt": "^3.6.5",
-    "primeflex": "^3.3.1",
-    "primevue": "^3.31.0"
+    "nuxt-primevue": "^0.1.0",
+    "primeflex": "^3.3.1"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
@@ -22,12 +22,10 @@
     "marked": "^5.1.2",
     "openai": "^4.11.1",
     "pinia": "^2.1.6",
+    "pocketbase": "^0.19.0",
     "sass": "^1.64.1"
   },
   "overrides": {
     "vue": "latest"
-  },
-  "engines": {
-    "node": "16.18.0"
   }
 }

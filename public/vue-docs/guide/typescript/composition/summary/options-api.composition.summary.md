@@ -1,0 +1,10 @@
+- The page discusses typing component props in the Options API
+- It explains how to use the `defineComponent()` function to enable type inference for props
+- It mentions the `PropType` utility type for annotating complex props types
+- The page mentions a caveat for TypeScript versions less than 4.7 when using function values for `validator` and `default` prop options
+- It explains how to type emitted events using the `emits` option
+- The page discusses typing computed properties and when explicit annotations may be required
+- It explains how to type event handlers and recommends annotating the argument of event handlers
+- The page discusses augmenting global properties using the `ComponentCustomProperties` interface
+- It explains the placement of type augmentations and the need to be in a TypeScript module
+- The page also discusses augmenting custom options for plugins like `vue-router`

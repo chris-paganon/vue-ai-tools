@@ -1,0 +1,6 @@
+- Vue is designed to be performant for most common use cases without much need for manual optimizations
+- There are two major aspects of web performance: page load performance and update performance
+- To improve performance, you need to measure it using tools like PageSpeed Insights, WebPageTest, Chrome DevTools Performance Panel, and Vue DevTools Extension
+- For page load optimizations, choose the right architecture (SSR or SSG), reduce bundle size and use code splitting
+- For update optimizations, ensure props stability, use v-once and v-memo directives
+- General optimizations include virtualizing large lists, reducing reactivity overhead for large immutable structures, and avoiding unnecessary component abstractions

@@ -40,3 +40,11 @@ h4 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
+/* PrimeVue overwrites */
+.p-password .p-password-input {
+  width: 100%;
+}
+.p-password .p-icon {
+  top: 38%;
+}

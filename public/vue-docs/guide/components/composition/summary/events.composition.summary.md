@@ -1,0 +1,14 @@
+- The page is about component events in Vue.js
+- It explains how to emit and listen to events in a component
+- It mentions the `$emit` method for emitting events in a component template
+- It shows how to listen to emitted events using `v-on`
+- It mentions the `.once` modifier for listening to an event only once
+- It explains how to pass arguments to emitted events using `$emit`
+- It shows how to access the event argument in the parent component
+- It mentions that all extra arguments passed to `$emit` will be forwarded to the listener
+- It explains how to declare emitted events using the `defineEmits` macro or the `emits` option
+- It shows how to use the `emit` function to emit events in the `<script setup>` section or the `setup()` function
+- It mentions that the `emits` option supports runtime validation of the payload of emitted events
+- It explains that defining emitted events is recommended for better documentation and to exclude known listeners from fallthrough attributes
+- It mentions that if a native event is defined in the `emits` option, the listener will only respond to component-emitted events of that type
+- It explains how to validate emitted events using a function that receives the event arguments and returns a boolean indicating validity.

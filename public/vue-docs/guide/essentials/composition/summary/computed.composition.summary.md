@@ -1,0 +1,7 @@
+- Computed properties are used for complex logic that includes reactive data
+- Computed properties automatically track their reactive dependencies
+- Computed properties are cached based on their reactive dependencies
+- Methods are an alternative to computed properties, but they are not cached
+- Computed properties are getter-only by default, but can be made writable by providing a setter
+- Getters in computed properties should be side-effect free and avoid async requests or DOM mutations
+- Computed values should be treated as read-only and not mutated

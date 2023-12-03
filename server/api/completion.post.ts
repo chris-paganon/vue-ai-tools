@@ -1,9 +1,10 @@
 import OpenAI from "openai";
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
   console.log('completion request received');
-  const data = {
+
+  const body = await readBody(event)
+  const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
     model: "gpt-3.5-turbo-16k",
     temperature: 0.4,
     ...body,

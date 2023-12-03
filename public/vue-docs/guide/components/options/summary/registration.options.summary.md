@@ -1,0 +1,5 @@
+- Component Registration page explains the two ways to register components in Vue.js: global and local
+- Global registration is done using the `app.component()` method and makes the component available globally in the Vue application
+- Local registration is done using the `components` option and scopes the availability of the registered components to the current component only
+- Locally registered components are not available in descendant components
+- The page also mentions the recommended naming convention for components, which is PascalCase

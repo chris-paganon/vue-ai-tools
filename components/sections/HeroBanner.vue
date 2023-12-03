@@ -1,11 +1,9 @@
 <template>
   <section class="hero-banner h-30rem relative">
     <div class="hero-banner-overlay absolute w-full h-full">
-      <Transition>
-        <div v-if="!appLoading" class="w-full h-full">
-          <SectionsHeroBannerContent />
-        </div>
-      </Transition>
+      <div class="w-full h-full">
+        <SectionsHeroBannerContent />
+      </div>
     </div>
   </section>
 </template>
@@ -32,15 +30,5 @@ onNuxtReady(() => {
     rgba(0,0,0,0.1) 80%, 
     var(--surface-ground) 100%
   );
-}
-
-.v-enter-active {
-  transition: opacity 0.5s cubic-bezier(0.55, 0, 0.99, 0.42) 1.3s;
-}
-.v-enter-from {
-  opacity: 0;
-}
-.v-enter-to {
-  opacity: 1;
 }
 </style>

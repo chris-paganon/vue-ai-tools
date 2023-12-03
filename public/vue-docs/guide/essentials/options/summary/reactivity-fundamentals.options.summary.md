@@ -1,0 +1,10 @@
+- The page explains how to declare reactive state using the `data` option and the `data` function
+- It mentions that properties added directly to `this` without including them in `data` cannot trigger reactive updates
+- It explains the difference between a reactive proxy and the original object in Vue 3
+- The page introduces the concept of refs and how to use them to declare reactive state and mutate it
+- It shows how to use the `<script setup>` syntax to simplify the usage of refs and methods in Single-File Components
+- It explains the use of refs and the `.value` property in Vue's reactivity system
+- The page explains how to declare methods using the `methods` option and how to bind the `this` value correctly
+- It mentions that state in Vue is deeply reactive by default, even for nested objects and arrays
+- It explains that DOM updates are not applied synchronously and introduces the `nextTick()` global API to wait for the DOM update to complete
+- The page explains how to create stateful methods, such as debounced event handlers, using the `created` lifecycle hook

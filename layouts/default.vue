@@ -1,7 +1,9 @@
 <template>
   <div class="p-input-filled">
-    <AppLoader />
+    <Toast />
     <ChatDialog />
+    <AppLogin />
+    <AppSignUp />
     <div class="min-h-screen flex flex-column">
       <AppHeader />
       <slot />
@@ -11,6 +13,9 @@
 </template>
 
 <script setup lang="ts">
+const { verifyAuth } = useAuthStore();
+const { setNewChat, getChatsFromDb } = useChatStore();
+
 useHead({
   title: 'VueAI.tools',
   script: [
@@ -20,5 +25,11 @@ useHead({
       'data-website-id': '716766be-9975-4463-be2d-2a8b39c8d4cb',
     }
   ],
+});
+
+onMounted(async () => {  
+  await verifyAuth();
+  await getChatsFromDb();
+  setNewChat();
 });
 </script>

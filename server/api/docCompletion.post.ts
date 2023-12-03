@@ -9,9 +9,12 @@ export default defineEventHandler(async (event) => {
     return;
   } 
 
+  const runtimeConfig = useRuntimeConfig();
+
   let relevantDocPage: string = '';
-  await body.paths.forEach(async (path: string) => {
-    relevantDocPage += await $fetch(`https://vue-docs.nyc3.cdn.digitaloceanspaces.com/${path}`);
+  await body.paths.forEach(async (docPath: string) => {
+    const docPage = await $fetch(`${runtimeConfig.public.publicFolderUrl}/vue-docs/${docPath}`);
+    relevantDocPage += docPage;
   });
   const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
     if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {
@@ -25,8 +28,6 @@ export default defineEventHandler(async (event) => {
     temperature: 0.4,
     messages: messages,
   };
-
-  const runtimeConfig = useRuntimeConfig();
 
   const openai = new OpenAI({
     organization: runtimeConfig.openaiOrganization,

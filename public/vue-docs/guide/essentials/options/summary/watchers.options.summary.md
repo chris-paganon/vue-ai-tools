@@ -1,0 +1,10 @@
+- The page explains how to use the `watch` option in Vue.js to perform side effects in reaction to state changes
+- It provides a basic example of using the `watch` option to trigger a function whenever a reactive property changes
+- It shows how to use a dot-delimited path as the key for the `watch` option
+- It explains how to use a deep watcher to trigger the callback on all nested mutations of a watched property
+- It warns about the performance implications of using deep watchers on large data structures
+- It explains how to use the `immediate: true` option to force a watcher's callback to be executed immediately
+- It explains the callback flush timing and how to access the DOM in a watcher callback after Vue has updated it
+- It explains how to create watchers imperatively using the `$watch()` instance method
+- It mentions that watchers declared using the `watch` option or the `$watch()` instance method are automatically stopped when the owner component is unmounted
+- It explains how to manually stop a watcher before the owner component unmounts by calling the function returned by the `$watch()` API

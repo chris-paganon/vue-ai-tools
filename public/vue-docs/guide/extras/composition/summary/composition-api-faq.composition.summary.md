@@ -1,0 +1,8 @@
+- Composition API is a set of APIs for authoring Vue components using imported functions instead of declaring options
+- It includes the Reactivity API with functions like `ref()` and `reactive()`, Lifecycle Hooks with functions like `onMounted()` and `onUnmounted()`, and Dependency Injection with functions like `provide()` and `inject()`
+- Composition API allows for better logic reuse and more flexible code organization
+- It provides better type inference and a smaller production bundle compared to the Options API
+- Composition API can be used alongside the Options API in the same component
+- Options API will not be deprecated and remains a solid choice for low-to-medium complexity scenarios
+- Class API is no longer recommended in Vue 3, as Composition API provides similar capabilities with additional benefits
+- Composition API provides the same level of logic composition as React Hooks, but with some important differences, such as not being call-order sensitive and not requiring manual dependency management

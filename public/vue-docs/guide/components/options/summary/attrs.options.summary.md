@@ -1,0 +1,11 @@
+- Fallthrough attributes are attributes or `v-on` event listeners that are passed to a component but not explicitly declared in the receiving component's props or emits.
+- Fallthrough attributes are automatically added to the root element's attributes when a component renders a single root element.
+- Fallthrough attributes like `class` and `style` can be merged with existing attributes on the child component's root element.
+- Fallthrough `v-on` event listeners are added to the root element of the component and will trigger along with any existing listeners.
+- Fallthrough attributes can be forwarded to a nested component if the component renders another component as its root node.
+- Attribute inheritance can be disabled by setting `inheritAttrs: false` in the component's options.
+- Fallthrough attributes can be accessed in template expressions as `$attrs`.
+- Fallthrough attributes preserve their original casing in JavaScript and can be accessed using `$attrs['attribute-name']`.
+- Fallthrough attributes can be applied to specific elements by using `inheritAttrs: false` and `v-bind="$attrs"`.
+- Components with multiple root nodes do not have automatic attribute fallthrough behavior and require explicit binding of `$attrs`.
+- Fallthrough attributes can be accessed in JavaScript using the `$attrs` instance property.

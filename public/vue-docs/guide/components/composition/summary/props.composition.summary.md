@@ -1,0 +1,13 @@
+- Props in Vue.js components require explicit declaration
+- Props can be declared using the `defineProps()` macro in SFCs using `<script setup>`
+- Props can also be declared using the `props` option in non-`<script setup>` components
+- Props can be declared using an array of strings or an object syntax
+- Props can have different value types such as number, boolean, array, and object
+- Props can be passed as static values or assigned dynamically using `v-bind` or `:`
+- Props form a one-way data flow from parent to child
+- Mutating a prop inside a child component is not allowed and will result in a warning
+- Object and array props can be mutated, but it is not recommended unless the parent and child are tightly coupled
+- Props can be validated using an object with validation requirements
+- Prop validation can include basic type checks, multiple possible types, required props, default values, and custom validator functions
+- Runtime type checks can be performed using native constructors or custom classes
+- Props with `Boolean` type have special casting rules to mimic native boolean attributes

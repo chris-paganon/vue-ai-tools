@@ -7,31 +7,11 @@ on:
       - master
 jobs:
   build-nuxt:
-    name: Build nuxt on node and send files to Droplet
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4.1.0
-    - name: Use Node
-      uses: actions/setup-node@v3.8.1
-      with:
-        node-version: '16.18.0'
-    - name: npm install & build
-      run: |
-        npm ci
-        npm run build
-    - name: scp to Droplet
-      uses: appleboy/scp-action@v0.1.3
-      with:
-        host: ${{ secrets.DROPLET_HOST }}
-        username: ${{ secrets.DROPLET_USERNAME }}
-        key: ${{ secrets.DROPLET_KEY }}
-        source: .output/*
-        target: /opt/vueai.tools/html
-        rm: true
-    - name: restart pm2 on Droplet
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
-        ssh-add - <<< "${{ secrets.DROPLET_KEY }}"
-        ssh -o StrictHostKeyChecking=no ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} "cd /opt/vueai.tools && pm2 restart ecosystem.config.js && exit"
+    uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml@master
+    with:
+      app_name: vue-ai-tools
+      app_env: production
+    secrets:
+      DROPLET_USERNAME: ${{ secrets.DROPLET_USERNAME }}
+      DROPLET_HOST: ${{ secrets.DROPLET_HOST }}
+      DROPLET_KEY: ${{ secrets.DROPLET_KEY }}
