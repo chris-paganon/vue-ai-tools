@@ -22,7 +22,7 @@ useHead({
     {
       async: true,
       src: 'https://umami.vueai.tools/script.js',
-      'data-website-id': '716766be-9975-4463-be2d-2a8b39c8d4cb',
+      'data-website-id': '26f8c670-c065-4261-b86e-cbca5ed11822',
     }
   ],
 });
