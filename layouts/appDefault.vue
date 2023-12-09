@@ -1,7 +1,7 @@
 <template>
 	<div class="flex min-h-screen">
 		<AppSidebar />
-		<div class="flex-grow-1 h-100 flex flex-column">
+		<div class="flex-grow-1 h-100 flex flex-column mb-4 mr-2">
 			<div class="flex justify-content-end p-4">
 				<NavMenu />
 			</div>
@@ -10,4 +10,5 @@
 			</main>
 		</div>
 	</div>
+	<AppFooter />
 </template>
