@@ -10,3 +10,13 @@
     </Card>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import 'primeflex/primeflex.scss';
+
+@media (max-width: $sm) {
+  :deep(.p-card-body) {
+    padding: 0.2rem;
+  }
+}
+</style>
