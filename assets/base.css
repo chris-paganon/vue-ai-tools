@@ -48,3 +48,6 @@ h4 {
 .p-password .p-icon {
   top: 38%;
 }
+.p-dialog-header {
+  align-items: start;
+}

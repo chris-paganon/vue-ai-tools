@@ -3,8 +3,13 @@
     <Dialog 
       v-model:visible="isSignUpModalOpened"
       position="center" modal :draggable="false" :dismissableMask="true"
-      header="Sign Up"
     >
+      <template #header>
+        <div>
+          <h4>Sign Up</h4>
+          <p>Create an account to save your conversations with chat GPT.</p>
+        </div>
+      </template>
       <form @submit="signUp" class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
