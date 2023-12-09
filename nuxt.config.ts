@@ -14,7 +14,8 @@ export default defineNuxtConfig({
     "assets/base.css",
     "assets/utils.css",
     "primeflex/primeflex.css",
-    "assets/theme/themes/material/material-dark/standard/indigo/theme.scss"
+    "assets/theme/themes/material/material-dark/standard/indigo/theme.scss",
+    'primeicons/primeicons.css',
   ],
   imports: {
     dirs: [
