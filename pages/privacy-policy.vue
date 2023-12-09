@@ -189,6 +189,12 @@
 	</main>
 </template>
 
+<script setup lang="ts">
+definePageMeta({
+  layout: 'home',
+})
+</script>
+
 <style scoped>
 section {
 	max-width: 1024px;
