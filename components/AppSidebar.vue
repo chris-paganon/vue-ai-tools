@@ -33,7 +33,7 @@ const items = computed<MenuItem[] | undefined>(() => {
     });
 });
 
-const showSidebar = ref(true);
+const showSidebar = ref(false);
 const toggleSibarIcon = computed(() => (showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'));
 const sidebarHeadFlexDirection = computed(() => (showSidebar.value ? 'flex-row' : 'flex-column'));
 
