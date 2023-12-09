@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-column ml-4 mr-2 mb-2">
+  <div class="h-full flex flex-column">
     <Card class="flex-grow-1 flex flex-column justify-content-end">
       <template #content>
         <ChatConversation />
