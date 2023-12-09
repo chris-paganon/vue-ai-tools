@@ -1,6 +1,6 @@
 <template>
   <ChatToolBar />
-  <div class="flex flex-column md:flex-row justify-content-between gap-3 mt-0 mb-3">
+  <div class="flex flex-column md:flex-row justify-content-between gap-3 mt-0 mb-3 p-input-filled">
     <Textarea v-model="inputQuestion" @keydown.enter="askQuestion($event)" autoResize rows="2" class="md:w-10" />
     <Button @click="askQuestion()" :loading="isWaitingAnswer" label="Ask" size="large" class="flex-grow-1" />
   </div>
