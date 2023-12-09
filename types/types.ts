@@ -15,6 +15,7 @@ export interface localSignupErrors {
   email?: string;
   password?: string;
   passwordConfirm?: string;
+  privacyConsent?: string;
 }
 
 // TODO: Verify these types or get them directly from JS migrations

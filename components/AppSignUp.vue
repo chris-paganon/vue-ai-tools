@@ -28,8 +28,12 @@
           <small v-if="showErrors && passwordConfirmErrorMessage" id="password-confirm-help" class="text-red-500">{{ passwordConfirmErrorMessage }}</small>
         </div>
         <div class="flex align-items-center gap-2">
-          <Checkbox inputId="email-consent" v-model="emailConsent" value="email-consent" />
+          <Checkbox inputId="email-consent" binary v-model="emailConsent" value="email-consent" />
           <label for="email-consent">I agree to receive e-mails from VueAi.tools about new features.</label>
+        </div>
+        <div class="flex align-items-center gap-2">
+          <Checkbox inputId="privacy-policy-consent" binary v-model="privacyConsent" value="privacy-policy-consent" />
+          <label for="privacy-policy-consent">I have read and agree to the <NuxtLink to="/privacy-policy" target="_blank">Privacy Policy</NuxtLink>.</label>
         </div>
         <Button label="Sign Up" class="mt-2" @click="signUp" :disabled="hasLocalError" />
         <Message v-if="globalErrorMessage" severity="error">{{ globalErrorMessage }}</Message>
@@ -56,6 +60,7 @@ const email = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 const emailConsent = ref(false);
+const privacyConsent = ref(false);
 
 const passwordStrength = ref('');
 const signUpClickedOnce = ref(false);
@@ -76,6 +81,7 @@ const hasLocalError = computed(() => {
   if (localErrors.value.email) return true;
   if (localErrors.value.password) return true;
   if (localErrors.value.passwordConfirm) return true;
+  if (localErrors.value.privacyConsent) return true;
   return false;
 });
 
@@ -137,6 +143,15 @@ watch([password, passwordConfirm], ([newPassword, newPasswordConfirm]) => {
     return;
   }
   delete localErrors.value.passwordConfirm;
+}, { immediate: true });
+
+watch(privacyConsent, (newPrivacyConsent) => {
+  delete localErrors.value.privacyConsent;
+  if (!newPrivacyConsent) {
+    localErrors.value.privacyConsent = 'Please agree to the privacy policy';
+    return;
+  }
+  delete localErrors.value.privacyConsent;
 }, { immediate: true });
 
 watch([email, password, passwordConfirm], ([newEmail,  newPassword, newPasswordConfirm]) => {
