@@ -37,6 +37,7 @@ function parsedMessage(message: string | undefined) {
 .message {
   max-width: 97%;
   width: fit-content;
+  word-break: break-word;
 
   :deep(p:not(:last-child)),
   :deep(ul:not(:last-child)),
