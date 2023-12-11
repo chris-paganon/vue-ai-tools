@@ -11,4 +11,13 @@ export default defineNuxtPlugin(() => {
 			}
 		],
 	});
+
+	const publicFolderUrl = useRuntimeConfig().public.publicFolderUrl;
+	useSeoMeta({
+		title: 'VueAI.tools',
+		ogTitle: 'VueAI.tools',
+		description: 'GPT-Powered Assistant for VueJS Documentation',
+		ogDescription: 'GPT-Powered Assistant for VueJS Documentation',
+		ogImage: `${publicFolderUrl}/img/Hero-banner_midjourney.png`,
+	});
 });
