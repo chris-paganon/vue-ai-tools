@@ -51,3 +51,6 @@ h4 {
 .p-dialog-header {
   align-items: start;
 }
+.p-sidebar-header {
+  justify-content: space-between;
+}

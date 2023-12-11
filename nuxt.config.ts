@@ -55,6 +55,7 @@ export default defineNuxtConfig({
         'Toast',
         'Card',
         'Menu',
+        'Sidebar',
       ]
     },
   },
