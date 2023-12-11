@@ -4,7 +4,7 @@
 			<template #header>
 				<AppLogo />
 			</template>
-			<div v-if="!isLoadingAuth" class="flex flex-column align-items-center gap-4">
+			<div class="flex flex-column align-items-center gap-4">
 				<AuthLoginButtons />
 				<div v-if="isSignedIn" class="flex flex-column align-items-center gap-4 w-full">
 					<NuxtLink to="/dashboard" class="w-full">
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-const { isSignedIn, isLoadingAuth } = storeToRefs(useAuthStore());
+const { isSignedIn } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 
 const mobileSidebarVisible = ref(false);

@@ -1,5 +1,5 @@
 <template>
-	<nav v-if="!isLoadingAuth">
+	<nav>
 		<AuthLoginButtons />
 		<div v-if="isSignedIn" class="flex align-items-center gap-4">
 			<Button @click="logout" link >Log out</Button>
@@ -14,6 +14,6 @@
 </template>
 
 <script setup lang="ts">
-const { isSignedIn, isLoadingAuth } = storeToRefs(useAuthStore());
+const { isSignedIn } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 </script>
