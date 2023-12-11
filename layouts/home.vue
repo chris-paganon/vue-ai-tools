@@ -2,8 +2,8 @@
   <div class="p-input-filled">
     <Toast />
     <ChatDialog />
-    <AppLogin />
-    <AppSignUp />
+    <AuthLoginPopup />
+    <AuthSignUpPopup />
     <div class="min-h-screen flex flex-column">
       <AppHeader />
       <slot />
