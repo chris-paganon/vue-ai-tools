@@ -48,14 +48,12 @@
 </template>
 
 <script setup lang="ts">
-import PocketBase from 'pocketbase';
 import { ClientResponseError } from 'pocketbase';
 import { PasswordState } from 'primevue/password';
 import { useToast } from "primevue/usetoast";
 import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types'
 
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
+const { $pb } = useNuxtApp();
 const toast = useToast();
 
 const { isSignUpModalOpened } = storeToRefs(useUIStore());
@@ -183,14 +181,14 @@ async function signUp() {
     delete pbErrors.value.password;
     delete pbErrors.value.passwordConfirm;
 
-    await pb.collection('users').create({
+    await $pb.collection('users').create({
       email: email.value,
       password: password.value,
       passwordConfirm: passwordConfirm.value,
       emailConsent: emailConsent.value ? true : false,
     });
     
-    await pb.collection("users").requestVerification(email.value);
+    await $pb.collection("users").requestVerification(email.value);
     toast.add({
       severity: "info",
       summary: "Info",

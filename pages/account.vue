@@ -26,16 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import PocketBase from 'pocketbase';
-
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
+const { $pb } = useNuxtApp();
 
 const email = ref('');
 const password = ref('');
 
 // I need to set the authStore properly in inititateAuth plugin to make pb available globally instead (because this below won't work)
-console.log(pb.authStore);
+console.log($pb.authStore);
 
 function modifyEmail() {
 	console.log('modifyEmail');

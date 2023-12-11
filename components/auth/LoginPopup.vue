@@ -22,15 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import PocketBase from 'pocketbase';
 import { ClientResponseError } from 'pocketbase';
+const { $pb } = useNuxtApp();
 
-const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-const pb = new PocketBase(pbUrl);
-
+const { isSignedIn } = storeToRefs(useAuthStore());
 const { isLoginModalOpened } = storeToRefs(useUIStore());
 const { setIsLoginModalOpened } = useUIStore();
-const { verifyAuth } = useAuthStore();
 const { setNewChat, getChatsFromDb } = useChatStore();
 
 const email = ref('');
@@ -40,11 +37,11 @@ const errorMessage = ref('');
 async function login() {
   try {
     errorMessage.value = '';
-    await pb.collection('users').authWithPassword(email.value, password.value);
+    await $pb.collection('users').authWithPassword(email.value, password.value);
     setIsLoginModalOpened(false);
     email.value = '';
     password.value = '';
-    await verifyAuth();
+    isSignedIn.value = true;
     await getChatsFromDb();
     setNewChat();
     await navigateTo('/dashboard');
