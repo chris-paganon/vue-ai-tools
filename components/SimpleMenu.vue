@@ -1,8 +1,11 @@
 <template>
 	<nav v-if="!isLoadingAuth">
 		<AuthLoginButtons />
-		<div v-if="isSignedIn" class="flex gap-4">
+		<div v-if="isSignedIn" class="flex align-items-center gap-4">
 			<Button @click="logout" link >Log out</Button>
+			<NuxtLink to="/account">
+				<Button icon="pi pi-user" rounded outlined aria-label="User" />
+			</NuxtLink>
 			<NuxtLink to="/dashboard">
 				<Button>Dashboard</Button>
 			</NuxtLink>

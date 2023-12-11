@@ -11,6 +11,9 @@
 						<Button label="Dashboard" class="w-full" />
 					</NuxtLink>
 					<ToolbarChatHistory />
+					<NuxtLink to="/account" class="w-full">
+						<Button outlined icon="pi pi-user" label="My account" aria-label="User" class="w-full" />
+					</NuxtLink>
 					<Button v-if="isSignedIn" @click="logout" link >Log out</Button>
 				</div>
 			</div>
