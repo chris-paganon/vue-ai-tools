@@ -90,12 +90,19 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getChatsFromDb() {
-    // TODO: See if we can do this server-side on 1st load with useAsyncData by making a Nuxt plugin and using a custom $pb in both context. This is kind of unnecessary though.
     const { $pb } = useNuxtApp();
 
-    const chatsFromDb = await $pb.collection('chats').getFullList<PbConversation>({expand: 'chat_messages(chat)'});
+    const { data: chatsFromDb } = await useAsyncData(
+      'getChatsFromDb',
+      () => $pb.collection('chats').getFullList<PbConversation>({expand: 'chat_messages(chat)'}),
+    );
     
-    chats.value = chatsFromDb.map((chatFromDb) => {
+    if (!chatsFromDb.value) {
+      console.log('No chats found in DB');
+      return;
+    }
+
+    chats.value = chatsFromDb.value.map((chatFromDb) => {
       return {
         id: chatFromDb.id,
         name: chatFromDb.name,
