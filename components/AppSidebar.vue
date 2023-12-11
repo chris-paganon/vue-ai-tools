@@ -1,9 +1,7 @@
 <template>
 	<div class="surface-card py-4 px-1 sm:px-3">
 		<div :class="['flex', 'justify-content-between', 'align-items-center', sidebarHeadFlexDirection]">
-			<NuxtLink to="/" class="w-3rem sm:w-4rem">
-				<img src="/img/logo-nobg.png" alt="Logo" class="logo w-full" />
-			</NuxtLink>
+			<AppLogo />
 			<Button :icon="toggleSibarIcon" text rounded severity="secondary" @click="toggleSidebar()" />
 		</div>
 		<div v-if="showSidebar">
