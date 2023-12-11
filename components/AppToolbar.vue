@@ -4,7 +4,7 @@
 			<AppLogo />
 			<Button :icon="toggleSibarIcon" text rounded severity="secondary" @click="toggleSidebar()" />
 		</div>
-		<div v-if="showSidebar">
+		<div v-if="showSidebar" id="app-toolbar-content">
 			<ToolbarChatHistory />
 		</div>
 	</div>
@@ -20,3 +20,9 @@ function toggleSidebar() {
 	showSidebar.value = !showSidebar.value;
 }
 </script>
+
+<style scoped>
+#app-toolbar-content {
+	min-width: 250px;
+}
+</style>
