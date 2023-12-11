@@ -1,5 +1,5 @@
 <template>
-	<div class="surface-card py-4 px-1 sm:px-3">
+	<div class="hidden sm:block surface-card py-4 px-1 sm:px-3">
 		<div :class="['flex', 'justify-content-between', 'align-items-center', sidebarHeadFlexDirection]">
 			<AppLogo />
 			<Button :icon="toggleSibarIcon" text rounded severity="secondary" @click="toggleSidebar()" />
