@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'VueAI.tools',
+    },
+  },
   devtools: { enabled: true },
   vite: {
     css: {
@@ -64,6 +69,7 @@ export default defineNuxtConfig({
     openaiOrganization: 'org-AB12',
     openaiApiKey: 'sk-CD34',
     public: {
+      environment: 'dev',
       pocketbaseUrl: 'http://localhost:8080',
       publicFolderUrl: 'http://localhost:3000/_nuxt',
     }

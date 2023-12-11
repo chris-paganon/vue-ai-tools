@@ -3,7 +3,6 @@ export default defineNuxtPlugin(() => {
 	if (environment !== 'production') return;
 
 	useHead({
-		title: 'VueAI.tools',
 		script: [
 			{
 				async: true,
