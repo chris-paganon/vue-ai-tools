@@ -25,7 +25,7 @@
 import { ClientResponseError } from 'pocketbase';
 const { $pb } = useNuxtApp();
 
-const { isSignedIn } = storeToRefs(useAuthStore());
+const { setIsSignedIn } = useAuthStore();
 const { isLoginModalOpened } = storeToRefs(useUIStore());
 const { setIsLoginModalOpened } = useUIStore();
 const { setNewChat, getChatsFromDb } = useChatStore();
@@ -41,7 +41,7 @@ async function login() {
     setIsLoginModalOpened(false);
     email.value = '';
     password.value = '';
-    isSignedIn.value = true;
+    setIsSignedIn(true);
     await getChatsFromDb();
     setNewChat();
     await navigateTo('/dashboard');

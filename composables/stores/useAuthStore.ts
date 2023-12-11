@@ -3,20 +3,25 @@ export const useAuthStore = defineStore('auth', () => {
   const chatStore = useChatStore();
   const isSignedIn = ref(false);
 
+  function setIsSignedIn(value: boolean) {
+    isSignedIn.value = value;
+  }
+
   async function logout() {
     const { $pb } = useNuxtApp();
     $pb.authStore.clear();
     await resetAfterLogout();
+    await navigateTo('/');
   }
 
   async function resetAfterLogout() {
-    isSignedIn.value = false;
+    setIsSignedIn(false);
     chatStore.$reset();
-    await navigateTo('/');
   }
 
   return {
     isSignedIn,
+    setIsSignedIn,
     logout,
     resetAfterLogout,
   };

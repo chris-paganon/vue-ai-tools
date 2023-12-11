@@ -31,14 +31,16 @@ export default defineNuxtPlugin(async () => {
     };
   });
 
-	const { isSignedIn } = storeToRefs(useAuthStore());
+	const { setIsSignedIn } = useAuthStore();
 	try {
 		// get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-		pb.authStore.isValid && await pb.collection('users').authRefresh();
-		isSignedIn.value = true;
+    await pb.collection('users').authRefresh();
+		if (!pb.authStore.isValid) {
+      throw new Error('Invalid or expired auth');
+    }
+    setIsSignedIn(true);
   } catch (error) {
 		// clear the auth store on failed refresh
-		console.log('failed to refresh auth, error: ', error);
 		const { resetAfterLogout } = useAuthStore();
 		await resetAfterLogout();
   }
