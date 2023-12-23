@@ -54,3 +54,6 @@ h4 {
 .p-sidebar-header {
   justify-content: space-between;
 }
+.p-divider.p-divider-horizontal::before {
+	border-top-style: solid;
+}
