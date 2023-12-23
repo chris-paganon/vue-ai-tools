@@ -5,7 +5,7 @@
       position="center" modal :draggable="false" :dismissableMask="true"
       header="Login"
     >
-      <form @submit="login" class="flex flex-column gap-2">
+      <form v-if="!isForgotPassordForm" @submit="login" class="flex flex-column gap-2">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText id="email" v-model="email" @keyup.enter="login" />
@@ -15,8 +15,14 @@
           <Password id="password" v-model="password" @keyup.enter="login" toggleMask :feedback="false"/>
         </div>
         <Button label="Login" class="mt-4" @click="login" />
+        <Button label="Forgot password?" text @click="isForgotPassordForm = true;" />
         <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
       </form>
+      <AuthResetPasswordForm 
+        v-if="isForgotPassordForm"
+        @cancel-passord-reset="isForgotPassordForm = false"
+        @password-reset-success="isForgotPassordForm = false; setIsLoginModalOpened(false); "
+      />
     </Dialog>
   </div>
 </template>
@@ -33,6 +39,8 @@ const { setNewChat, getChatsFromDb } = useChatStore();
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+const isForgotPassordForm = ref(false);
 
 async function login() {
   try {
