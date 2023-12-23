@@ -11,8 +11,8 @@
 				<InputText id="new-email" v-model="newEmail" @keyup.enter="modifyEmail" />
 			</label>
 			<div class="flex flex-wrap gap-2">
-				<Button label="Request email modification" @click="modifyEmail" :loading="isRequestEmailChangeLoading"/>
-				<Button label="Cancel" outlined @click="isModifyingEmail = false" />
+				<Button label="Request email modification" @click="modifyEmail" :loading="isRequestEmailChangeLoading" />
+				<Button label="Cancel" outlined @click="isModifyingEmail = false" :loading="isRequestEmailChangeLoading" />
 			</div>
 		</form>
 		<Divider type="solid" />
@@ -53,6 +53,8 @@ async function modifyEmail() {
 			summary: 'Email change requested',
 			detail: 'Please check your inbox for a confirmation email.',
 		});
+		isModifyingEmail.value = false;
+		newEmail.value = '';
 	} catch (error) {
 		if (! (error instanceof Error) ) {
 			toast.add({
