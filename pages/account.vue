@@ -96,12 +96,11 @@ async function modifyPassword() {
 			});
       return;
     }
-		console.log('error.response', error.response);
-		if (error.response?.data?.newEmail?.message) {
+		if (error.response?.data?.email?.message) {
 			toast.add({
 				severity: 'error',
 				summary: 'Password reset failed',
-				detail: error.response.data.newEmail.message,
+				detail: error.response.data.email.message,
 			});
 			return;
 		}
