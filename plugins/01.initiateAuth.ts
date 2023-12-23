@@ -41,6 +41,7 @@ export default defineNuxtPlugin(async () => {
     setIsSignedIn(true);
   } catch (error) {
 		// clear the auth store on failed refresh
+    pb.authStore.clear();
 		const { resetAfterLogout } = useAuthStore();
 		await resetAfterLogout();
   }
