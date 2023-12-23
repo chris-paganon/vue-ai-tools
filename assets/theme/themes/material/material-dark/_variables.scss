@@ -20,7 +20,7 @@ $emphasis-lower:rgba(255,255,255,.12) !default;
 $overlayColor:#ffffff !default;
 
 //global
-$fontFamily:Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif !default;
+$fontFamily:Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif !default;
 $fontSize:1rem !default;
 $fontWeight:normal !default;
 $textColor:$emphasis-high !default;
@@ -247,19 +247,19 @@ $colorPickerHandleColor:#ffffff !default;
 $toggleButtonBg:#2f2f2f !default;
 $toggleButtonBorder:$secondaryButtonBorder !default;
 $toggleButtonTextColor:$textColor !default;
-$toggleButtonIconColor:$textSecondaryColor !default;
+$toggleButtonIconColor:$textColor !default;
 $toggleButtonHoverBg:$primaryColor !default;
 $toggleButtonHoverBorderColor:$secondaryButtonHoverBorderColor !default;
 $toggleButtonTextHoverColor:$secondaryButtonTextHoverColor !default;
-$toggleButtonIconHoverColor:$textSecondaryColor !default;
+$toggleButtonIconHoverColor:$secondaryButtonTextHoverColor !default;
 $toggleButtonActiveBg:$secondaryButtonActiveBg !default;
 $toggleButtonActiveBorderColor:$secondaryButtonActiveBorderColor !default;
-$toggleButtonTextActiveColor:$textColor !default;
-$toggleButtonIconActiveColor:$textSecondaryColor !default;
+$toggleButtonTextActiveColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonIconActiveColor:$secondaryButtonTextHoverColor !default;
 $toggleButtonActiveHoverBg:$primaryColor !default;
 $toggleButtonActiveHoverBorderColor:rgba(255,255,255,.12) !default;
-$toggleButtonTextActiveHoverColor:$secondaryButtonTextActiveColor !default;
-$toggleButtonIconActiveHoverColor:$textSecondaryColor !default;
+$toggleButtonTextActiveHoverColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonIconActiveHoverColor:$secondaryButtonTextHoverColor !default;
 
 //inplace
 $inplacePadding:$inputPadding !default;
@@ -420,6 +420,7 @@ $tabviewContentPadding:$panelContentPadding !default;
 //upload
 $fileUploadProgressBarHeight:4px !default;
 $fileUploadContentPadding: 2rem 1rem !default;
+$fileUploadContentHoverBorder: 1px dashed $primaryColor !default;
 $fileUploadFileBorder: 1px solid hsla(0,0%,100%,.12) !default;
 $fileUploadFilePadding: 1rem !default;
 
@@ -525,12 +526,6 @@ $dataViewContentPadding:1rem 0 !default;
 $dataViewContentBorder:0 none !default;
 $dataViewListItemBorder:solid rgba(255,255,255,.12) !default;
 $dataViewListItemBorderWidth:0 0 1px 0 !default;
-
-//schedule
-$fullCalendarEventBg:$highlightBg !default;
-$fullCalendarEventBorderColor:$highlightBg !default;
-$fullCalendarEventBorder:1px solid $highlightBg !default;
-$fullCalendarEventTextColor:$highlightTextColor !default;
 
 //tree
 $treeNodePadding:.25rem !default;
@@ -840,6 +835,8 @@ $imagePreviewActionIconFontSize:1.5rem !default;
 $imagePreviewActionIconBorderRadius:50% !default;
 
 :root {
+    font-family:Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    --font-family:Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
     --surface-a:#1e1e1e;
     --surface-b:#121212;
     --surface-c:hsla(0,0%,100%,.04);
@@ -850,7 +847,6 @@ $imagePreviewActionIconBorderRadius:50% !default;
     --text-color-secondary:#{$textSecondaryColor};
     --primary-color:#{$primaryColor};
     --primary-color-text:#{$primaryTextColor};
-    --font-family:#{$fontFamily};
     --surface-0: #121212;
     --surface-50: #2a2a2a;
     --surface-100: #414141;

@@ -91,7 +91,7 @@
             }
         }
 
-        &:focus {
+        &:focus-visible {
             box-shadow: $inputListItemFocusShadow;
             outline: 0 none;
         }
@@ -125,7 +125,7 @@
                 }
             }
 
-            &:focus {
+            &:focus-visible {
                 outline: 0.15rem solid $focusOutlineColor;
                 outline-offset: -0.15rem;
             }
@@ -154,11 +154,6 @@
 
     .p-column-resizer-helper {
         background: $tableResizerHelperBg;
-    }
-
-    .p-datatable-scrollable-header,
-    .p-datatable-scrollable-footer {
-        background: $panelHeaderBg;
     }
 
     &.p-datatable-scrollable > .p-datatable-wrapper > .p-datatable-table,
