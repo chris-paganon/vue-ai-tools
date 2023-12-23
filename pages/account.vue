@@ -1,45 +1,116 @@
 <template>
 	<div class="mx-auto max-w-1024">
 		<h1>My account</h1>
-		<form class="flex flex-column gap-4">
+		<form class="flex flex-column gap-4 mb-4">
 			<p>My email: {{ email }}</p>
 			<label for="modify-email" class="flex flex-column">
 				Modify email:
-				<InputText id="modify-email" v-model="email" @keyup.enter="modifyEmail" />
+				<InputText id="modify-email" v-model="newEmail" @keyup.enter="modifyEmail" />
 			</label>
 			<Button label="Save new email" @click="modifyEmail" />
-			<label for="modify-password" class="flex flex-column">
-				New password:
-				<Password id="modify-password" v-model="password" @keyup.enter="modifyPassword" toggleMask :feedback="false"/>
-			</label>
-			<label for="modify-password-confirm" class="flex flex-column">
-				Confirm new password:
-				<Password id="modify-password-confirm" v-model="password" @keyup.enter="modifyPassword" toggleMask :feedback="false"/>
-			</label>
-			<label for="confirm-old-password" class="flex flex-column">
-				Confirm old password:
-				<Password id="confirm-old-password" v-model="password" @keyup.enter="modifyPassword" toggleMask :feedback="false"/>
-			</label>
-			<Button id="modify-password-button" label="Save new password" @click="modifyPassword" />
 		</form>
+		<Button label="Modify password" @click="modifyPassword" />
 	</div>
 </template>
 
 <script setup lang="ts">
+import { ClientResponseError } from "pocketbase";
+import { useToast } from "primevue/usetoast";
+
 const { $pb } = useNuxtApp();
+const toast = useToast();
 
-const email = ref('');
-const password = ref('');
+const email = ref($pb.authStore.model?.email);
+const newEmail = ref('');
 
-// I need to set the authStore properly in inititateAuth plugin to make pb available globally instead (because this below won't work)
-console.log($pb.authStore);
-
-function modifyEmail() {
-	console.log('modifyEmail');
+async function modifyEmail() {
+	if (!newEmail.value) {
+		toast.add({
+			severity: 'error',
+			summary: 'Email change failed',
+			detail: 'Please enter a new email',
+		});
+	};
+	try {
+		await $pb.collection('users').requestEmailChange(newEmail.value);
+		toast.add({
+			severity: 'success',
+			summary: 'Email change requested',
+			detail: 'Please check your inbox for a confirmation email',
+		});
+	} catch (error) {
+		if (! (error instanceof Error) ) {
+			toast.add({
+				severity: 'error',
+				summary: 'Email change failed',
+				detail: 'There is an unknown error in the system. Please try again later.',
+			});
+			return;
+    }
+    if (! (error instanceof ClientResponseError) ) {
+			toast.add({
+				severity: 'error',
+				summary: 'Email change failed',
+				detail: error.message,
+			});
+      return;
+    }
+		if (error.response?.data?.newEmail?.message) {
+			toast.add({
+				severity: 'error',
+				summary: 'Email change failed',
+				detail: error.response.data.newEmail.message,
+			});
+			return;
+		}
+		toast.add({
+			severity: 'error',
+			summary: 'Email change failed',
+			detail: error.message,
+		});
+	}
 }
 
-function modifyPassword() {
-	console.log('modifyPassword');
+async function modifyPassword() {
+	try {
+		await $pb.collection('users').requestPasswordReset($pb.authStore.model?.email);
+		toast.add({
+			severity: 'success',
+			summary: 'Password reset requested',
+			detail: 'Please check your inbox for a password reset link',
+		});
+	} catch (error) {
+		if (! (error instanceof Error) ) {
+			toast.add({
+				severity: 'error',
+				summary: 'Password reset failed',
+				detail: 'There is an unknown error in the system. Please try again later.',
+			});
+			return;
+    }
+    if (! (error instanceof ClientResponseError) ) {
+			toast.add({
+				severity: 'error',
+				summary: 'Password reset failed',
+				detail: error.message,
+			});
+      return;
+    }
+		console.log('error.response', error.response);
+		if (error.response?.data?.newEmail?.message) {
+			toast.add({
+				severity: 'error',
+				summary: 'Password reset failed',
+				detail: error.response.data.newEmail.message,
+			});
+			return;
+		}
+		toast.add({
+			severity: 'error',
+			summary: 'Password reset failed',
+			detail: error.message,
+		});
+	}
 }
 </script>
 
