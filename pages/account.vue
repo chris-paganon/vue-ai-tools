@@ -16,8 +16,8 @@
 			</div>
 		</form>
 		<Divider type="solid" />
-		<form class="flex flex-column gap-4 my-4">
-			<p>Request a password reset: we will send you an email with a link to reset your password.</p>
+		<form class="my-4">
+			<p class="mb-4">Request a password reset: we will send you an email with a link to reset your password.</p>
 			<Button label="Request password reset" @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
 		</form>
 	</div>
