@@ -61,6 +61,7 @@ export default defineNuxtConfig({
         'Card',
         'Menu',
         'Sidebar',
+        'Divider',
       ]
     },
   },

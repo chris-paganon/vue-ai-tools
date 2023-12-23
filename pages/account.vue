@@ -1,15 +1,25 @@
 <template>
 	<div class="mx-auto max-w-1024">
 		<h1>My account</h1>
-		<form class="flex flex-column gap-4 mb-4">
-			<p>My email: {{ email }}</p>
-			<label for="modify-email" class="flex flex-column">
-				Modify email:
-				<InputText id="modify-email" v-model="newEmail" @keyup.enter="modifyEmail" />
+		<div class="flex align-items-center gap-2">
+			<p class="py-3">My email: {{ email }}</p>
+			<Button v-if="!isModifyingEmail" icon="pi pi-pencil" text rounded @click="isModifyingEmail = true" />
+		</div>
+		<form v-if="isModifyingEmail" class="flex flex-column gap-4 mb-4">
+			<label for="new-email" class="flex flex-column">
+				My new email:
+				<InputText id="new-email" v-model="newEmail" @keyup.enter="modifyEmail" />
 			</label>
-			<Button label="Request email modification" @click="modifyEmail" :loading="isRequestEmailChangeLoading"/>
+			<div class="flex flex-wrap gap-2">
+				<Button label="Request email modification" @click="modifyEmail" :loading="isRequestEmailChangeLoading"/>
+				<Button label="Cancel" outlined @click="isModifyingEmail = false" />
+			</div>
 		</form>
-		<Button label="Request password reset" @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
+		<Divider type="solid" />
+		<form class="flex flex-column gap-4 my-4">
+			<p>Request a password reset: we will send you an email with a link to reset your password.</p>
+			<Button label="Request password reset" @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
+		</form>
 	</div>
 </template>
 
@@ -20,7 +30,8 @@ import { useToast } from "primevue/usetoast";
 const { $pb } = useNuxtApp();
 const toast = useToast();
 
-const email = ref($pb.authStore.model?.email);
+const email: string | undefined = ref($pb.authStore.model?.email);
+const isModifyingEmail = ref(false);
 const newEmail = ref('');
 
 const isRequestEmailChangeLoading = ref(false);
