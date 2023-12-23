@@ -7,9 +7,9 @@
 				Modify email:
 				<InputText id="modify-email" v-model="newEmail" @keyup.enter="modifyEmail" />
 			</label>
-			<Button label="Save new email" @click="modifyEmail" />
+			<Button label="Request email modification" @click="modifyEmail" :loading="isRequestEmailChangeLoading"/>
 		</form>
-		<Button label="Modify password" @click="modifyPassword" />
+		<Button label="Request password reset" @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
 	</div>
 </template>
 
@@ -23,6 +23,9 @@ const toast = useToast();
 const email = ref($pb.authStore.model?.email);
 const newEmail = ref('');
 
+const isRequestEmailChangeLoading = ref(false);
+const isRequestPasswordResetLoading = ref(false);
+
 async function modifyEmail() {
 	if (!newEmail.value) {
 		toast.add({
@@ -32,11 +35,12 @@ async function modifyEmail() {
 		});
 	};
 	try {
+		isRequestEmailChangeLoading.value = true;
 		await $pb.collection('users').requestEmailChange(newEmail.value);
 		toast.add({
 			severity: 'success',
 			summary: 'Email change requested',
-			detail: 'Please check your inbox for a confirmation email',
+			detail: 'Please check your inbox for a confirmation email.',
 		});
 	} catch (error) {
 		if (! (error instanceof Error) ) {
@@ -68,11 +72,14 @@ async function modifyEmail() {
 			summary: 'Email change failed',
 			detail: error.message,
 		});
+	} finally {
+		isRequestEmailChangeLoading.value = false;
 	}
 }
 
 async function modifyPassword() {
 	try {
+		isRequestPasswordResetLoading.value = true;
 		await $pb.collection('users').requestPasswordReset($pb.authStore.model?.email);
 		toast.add({
 			severity: 'success',
@@ -109,6 +116,8 @@ async function modifyPassword() {
 			summary: 'Password reset failed',
 			detail: error.message,
 		});
+	} finally {
+		isRequestPasswordResetLoading.value = false;
 	}
 }
 </script>
