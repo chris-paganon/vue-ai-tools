@@ -70,6 +70,7 @@ export default defineNuxtConfig({
     openaiOrganization: 'org-AB12',
     openaiApiKey: 'sk-CD34',
     stripeSecretKey: 'sk_test_cd34',
+    stripeWebhookSecret: 'whsec_efGh',
     public: {
       environment: 'dev',
       pocketbaseUrl: 'http://localhost:8080',
