@@ -1,9 +1,14 @@
 <template>
 	<div class="mx-auto max-w-1024">
 		<h1>My account</h1>
-		<NuxtLink to="/subscribe">
-			<Button label="Subscribe" />
-		</NuxtLink>
+		<div class="flex flex-wrap gap-2">
+			<NuxtLink to="/subscribe">
+				<Button label="Subscribe" />
+			</NuxtLink>
+			<NuxtLink to="https://billing.stripe.com/p/login/28o7tya2Yh30gtWbII" target="_blank">
+				<Button label="Manage subscription" outlined />
+			</NuxtLink>
+		</div>
 		<div class="flex align-items-center gap-2">
 			<p class="py-3">My email: {{ email }}</p>
 			<Button v-if="!isModifyingEmail" icon="pi pi-pencil" text rounded @click="isModifyingEmail = true" />
