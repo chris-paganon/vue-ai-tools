@@ -1,6 +1,9 @@
 <template>
 	<div class="mx-auto max-w-1024">
 		<h1>My account</h1>
+		<NuxtLink to="/subscribe">
+			<Button label="Subscribe" />
+		</NuxtLink>
 		<div class="flex align-items-center gap-2">
 			<p class="py-3">My email: {{ email }}</p>
 			<Button v-if="!isModifyingEmail" icon="pi pi-pencil" text rounded @click="isModifyingEmail = true" />
