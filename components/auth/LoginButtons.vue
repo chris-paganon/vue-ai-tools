@@ -1,5 +1,5 @@
 <template>
-	<div v-if="!isSignedIn" class="flex flex-column sm:flex-row gap-4">
+	<div v-if="!isSignedIn" class="flex flex-row gap-4">
 		<Button @click="setIsLoginModalOpened(true)" severity="secondary" outlined label="Login" />
 		<Button @click="setIsSignUpModalOpened(true)" label="Sign Up" />
 	</div>
