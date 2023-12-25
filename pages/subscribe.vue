@@ -1,35 +1,5 @@
 <template>
-	<h1>Subscribe</h1>
-	<div id="checkout"></div>
+	<h1>Help the dev!</h1>
+	<p class="mb-4">There are currently no paid features, concider this a donation. Your help is very much appreciated!</p>
+	<StripeCheckout />
 </template>
-
-<script setup lang="ts">
-import { loadStripe, type StripeEmbeddedCheckout} from '@stripe/stripe-js';
-
-const stripePublishableKey = useRuntimeConfig().public.stripePublishableKey;
-const stripe = await loadStripe(stripePublishableKey);
-
-const { data } = await useFetch('/api/createCheckoutSession', {
-	method: 'POST',
-});
-
-let checkout: StripeEmbeddedCheckout | undefined = undefined;
-
-watch(data,
-	async () => {
-		if (!data.value?.clientSecret) return;
-		checkout = await stripe?.initEmbeddedCheckout({
-			clientSecret: data.value.clientSecret,
-		});
-		if (!checkout) return;
-		checkout.mount('#checkout');
-	},
-	{ immediate: true }
-);
-
-onBeforeUnmount(() => {
-	if (!checkout) return true;
-	checkout.destroy();
-	return true;
-});
-</script>
