@@ -40,12 +40,10 @@ export default defineEventHandler(async (event) => {
 		if (! (error instanceof ClientResponseError)) {
 			throw createError({
 				statusCode: 500,
-				statusMessage: error.message
 			});
 		}
 		throw createError({
 			statusCode: 500,
-			statusMessage: error.response.message
 		});
 	}
 });
