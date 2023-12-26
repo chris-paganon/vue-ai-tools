@@ -71,6 +71,8 @@ export default defineNuxtConfig({
     openaiApiKey: 'sk-CD34',
     stripeSecretKey: 'sk_test_cd34',
     stripeWebhookSecret: 'whsec_efGh',
+    pbAdminEmail: 'example@mail.com',
+    pbAdminPassword: 'password',
     public: {
       environment: 'dev',
       pocketbaseUrl: 'http://localhost:8080',

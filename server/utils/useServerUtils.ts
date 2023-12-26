@@ -23,3 +23,11 @@ export function useGetVerifiedUserPb(event: H3Event) {
 
   return pb;
 }
+
+export async function useGetAdminPb() {
+  const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
+  const { pbAdminEmail, pbAdminPassword } = useRuntimeConfig();
+  const pb = new PocketBase(pbUrl);
+  await pb.admins.authWithPassword(pbAdminEmail, pbAdminPassword);
+  return pb;
+}
