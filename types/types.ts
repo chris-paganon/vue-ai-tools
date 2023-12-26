@@ -32,3 +32,8 @@ export interface PbChatMessage extends RecordModel {
   role: 'system' | 'user' | 'assistant' | 'function';
   content: string;
 };
+export interface PbTransaction extends RecordModel {
+  user: string;
+  session_id: string;
+  status: 'started' | 'pending' | 'completed' | 'failed';
+};
