@@ -103,15 +103,22 @@ export const useChatStore = defineStore('chat', () => {
     }
 
     chats.value = chatsFromDb.value.map((chatFromDb) => {
+      if (!chatFromDb.expand?.["chat_messages(chat)"]) {
+        return {
+          id: chatFromDb.id,
+          name: chatFromDb.name,
+          messages: [],
+        };
+      }
       return {
         id: chatFromDb.id,
         name: chatFromDb.name,
-        messages: (chatFromDb.expand?.["chat_messages(chat)"] as OpenAI.Chat.ChatCompletionMessage[]).map((messageFromDb) => {
+        messages: (chatFromDb.expand["chat_messages(chat)"] as OpenAI.Chat.ChatCompletionMessage[]).map((messageFromDb) => {
           return {
             role: messageFromDb.role,
             content: messageFromDb.content,
           };
-        }),
+        })
       };
     });
   }
