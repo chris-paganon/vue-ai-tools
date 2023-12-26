@@ -1,5 +1,6 @@
 <template>
 	<p v-if="error">{{ error.statusMessage }}</p>
+	<!-- TODO: Handle loading state -->
 	<div v-else id="checkout"></div>
 </template>
 
@@ -11,6 +12,7 @@ const stripe = await loadStripe(stripePublishableKey);
 
 const { error, data } = await useFetch('/api/createCheckoutSession', {
 	method: 'POST',
+	server: false,
 });
 
 let checkout: StripeEmbeddedCheckout | undefined = undefined;

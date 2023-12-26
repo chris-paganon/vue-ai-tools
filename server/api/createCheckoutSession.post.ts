@@ -5,6 +5,7 @@ import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
 export default defineEventHandler(async (event) => {
 	const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
 	const stripe = new Stripe(stripeSecretKey);
+	const url = getRequestURL(event)
 	
 	try {
 		const session = await stripe.checkout.sessions.create({
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
 				}
 			],
 			mode: 'subscription',
-			return_url: 'http://localhost:3000/payment-confirm?session_id={CHECKOUT_SESSION_ID}',
+			return_url: `${url.origin}/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
 		});
 
 		const $pb = useGetVerifiedUserPb(event);
