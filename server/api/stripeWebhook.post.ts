@@ -38,20 +38,28 @@ export default defineEventHandler(async (event) => {
 });
 
 async function updateTransactionStatus(stripe: Stripe, stripeEvent: Stripe.CheckoutSessionCompletedEvent) {
-	const pb = await useGetAdminPb();
-
-	const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-		stripeEvent.data.object.id,
-		{expand: ['line_items']}
-	);
-	console.log("🚀 ~ file: stripeWebhook.post.ts:48 ~ updateTransactionStatus ~ sessionWithLineItems:")
-	// const lineItems = sessionWithLineItems.line_items;
-	const sessionId = sessionWithLineItems.id;
-
-	const transaction = await pb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
-		fields: 'id',
-	});
-	await pb.collection('transactions').update(transaction.id, {
-		status: sessionWithLineItems.status,
-	});
+	try {
+		const pb = await useGetAdminPb();
+	
+		const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+			stripeEvent.data.object.id,
+			{expand: ['line_items']}
+		);
+		// const lineItems = sessionWithLineItems.line_items;
+		const sessionId = sessionWithLineItems.id;
+	
+		const transaction = await pb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
+			fields: 'id',
+		});
+		await pb.collection('transactions').update(transaction.id, {
+			status: sessionWithLineItems.status,
+		});
+	} catch (error) {
+		console.log('Error updating transaction status from Stripe webhook');
+		if ( error instanceof Error ) {
+			console.log(error.message);
+		} else {
+			console.log(error);
+		}
+	}
 }
