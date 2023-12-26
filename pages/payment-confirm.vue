@@ -1,4 +1,5 @@
 <template>
+	<!-- TODO: Show better messages -->
 	<h1>Payment Confirm</h1>
 	<p>{{ status }}</p>
 </template>
@@ -23,6 +24,7 @@ const { data } = await useFetch('/api/checkoutSessionStatus', {
 
 watch(data,
 	async () => {
+		// TODO: Handle error
 		if (!data.value?.status) return;
 		status.value = data.value.status;
 	},
