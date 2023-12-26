@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { useGetAdminPb } from '@/server/utils/useServerUtils';
+import { isEnabledStripeWebhookEvents, type EnabledStripeWebhookEvents } from '@/types/types';
 
 export default defineEventHandler(async (event) => {
 	const body = await readRawBody(event);
@@ -17,10 +18,10 @@ export default defineEventHandler(async (event) => {
 	const stripe = new Stripe(stripeSecretKey);
 
 	try {
-		const stripeEvent = stripe.webhooks.constructEvent(body, sig, stripeWebhookSecret) as Stripe.CheckoutSessionCompletedEvent;
+		const stripeEvent = stripe.webhooks.constructEvent(body, sig, stripeWebhookSecret);
 		sendNoContent(event);
 
-		if (stripeEvent.type === 'checkout.session.completed' || stripeEvent.type === 'checkout.session.expired') {
+		if (isEnabledStripeWebhookEvents(stripeEvent)) {
 			updateTransactionStatus(stripe, stripeEvent);
 		}
   } catch (err) {
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-async function updateTransactionStatus(stripe: Stripe, stripeEvent: Stripe.CheckoutSessionCompletedEvent) {
+async function updateTransactionStatus(stripe: Stripe, stripeEvent: EnabledStripeWebhookEvents) {
 	try {
 		const pb = await useGetAdminPb();
 	

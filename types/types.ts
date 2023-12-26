@@ -1,5 +1,6 @@
 import { RecordModel } from 'pocketbase';
 import OpenAI from 'openai';
+import Stripe from 'stripe';
 
 export interface PocketbaseSignupErrors {
   email?: PocketbaseErrorItem;
@@ -37,3 +38,12 @@ export interface PbTransaction extends RecordModel {
   session_id: string;
   status: 'open' | 'complete' | 'expired';
 };
+
+/**
+ * Stripe
+ */
+export type EnabledStripeWebhookEvents = Stripe.CheckoutSessionCompletedEvent | Stripe.CheckoutSessionExpiredEvent;
+
+export function isEnabledStripeWebhookEvents(event: Stripe.Event): event is EnabledStripeWebhookEvents {
+  return event.type === 'checkout.session.completed' || event.type === 'checkout.session.expired';
+}
