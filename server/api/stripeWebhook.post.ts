@@ -16,9 +16,13 @@ export default defineEventHandler(async (event) => {
 	const { stripeSecretKey, stripeWebhookSecret } = useRuntimeConfig();
 	const stripe = new Stripe(stripeSecretKey);
 
-	let stripeEvent;
 	try {
-		stripeEvent = stripe.webhooks.constructEvent(body, sig, stripeWebhookSecret);
+		const stripeEvent = stripe.webhooks.constructEvent(body, sig, stripeWebhookSecret) as Stripe.CheckoutSessionCompletedEvent;
+		sendNoContent(event);
+
+		if (stripeEvent.type === 'checkout.session.completed' || stripeEvent.type === 'checkout.session.expired') {
+			updateTransactionStatus(stripe, stripeEvent);
+		}
   } catch (err) {
 		if ( !(err instanceof Error) ) {
 			throw createError({
@@ -31,23 +35,23 @@ export default defineEventHandler(async (event) => {
 			message: `Webhook error: ${err.message}`
 		});
   }
-
-	if (stripeEvent.type === 'checkout.session.completed' || stripeEvent.type === 'checkout.session.expired') {
-		// TODO: Return 200 response to Stripe before waiting for PocketBase to prevent timeouts.
-		const pb = await useGetAdminPb();
-
-		const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-			stripeEvent.data.object.id,
-			{expand: ['line_items']}
-		);
-		// const lineItems = sessionWithLineItems.line_items;
-		const sessionId = sessionWithLineItems.id;
-
-		const transaction = await pb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
-			fields: 'id',
-		});
-		await pb.collection('transactions').update(transaction.id, {
-			status: sessionWithLineItems.status,
-		});
-	}
 });
+
+async function updateTransactionStatus(stripe: Stripe, stripeEvent: Stripe.CheckoutSessionCompletedEvent) {
+	const pb = await useGetAdminPb();
+
+	const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+		stripeEvent.data.object.id,
+		{expand: ['line_items']}
+	);
+	console.log("🚀 ~ file: stripeWebhook.post.ts:48 ~ updateTransactionStatus ~ sessionWithLineItems:")
+	// const lineItems = sessionWithLineItems.line_items;
+	const sessionId = sessionWithLineItems.id;
+
+	const transaction = await pb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
+		fields: 'id',
+	});
+	await pb.collection('transactions').update(transaction.id, {
+		status: sessionWithLineItems.status,
+	});
+}
