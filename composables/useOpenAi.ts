@@ -7,6 +7,7 @@ interface ChatCompletionRequest {
 }
 
 export async function useCompletion(payload: ChatCompletionRequest) {
+  // TODO: Add error handling. $fetch needs to be wrapped in a try/catch block. throw createError needs to be added in API. Do the same for all other API endpoints.
   const response = await $fetch('/api/completion', {
     method: 'POST',
     body: payload,
