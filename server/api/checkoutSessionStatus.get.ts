@@ -23,9 +23,9 @@ export default defineEventHandler(async (event) => {
 		const transaction = await $pb.collection('transactions').getFirstListItem(`session_id="${session.id}"`, {
 			fields: 'id',
 		});
-		// TODO: Match DB transaction status with Stripe session status
+		// TODO: Make sure not to overwrite a completed transaction
 		await $pb.collection('transactions').update(transaction.id, {
-			status: 'pending',
+			status: session.status,
 		});
 	
 		return {

@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 		});
   }
 
-	if (stripeEvent.type === 'checkout.session.completed') {
+	if (stripeEvent.type === 'checkout.session.completed' || stripeEvent.type === 'checkout.session.expired') {
 		// TODO: Return 200 response to Stripe before waiting for PocketBase to prevent timeouts.
 		const pb = await useGetAdminPb();
 
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
 			fields: 'id',
 		});
 		await pb.collection('transactions').update(transaction.id, {
-			status: 'completed',
+			status: sessionWithLineItems.status,
 		});
 	}
 });

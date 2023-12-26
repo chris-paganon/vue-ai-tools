@@ -49,10 +49,9 @@ migrate((db) => {
         "options": {
           "maxSelect": 1,
           "values": [
-            "started",
-            "pending",
-            "completed",
-            "failed"
+            "open",
+            "complete",
+            "expired"
           ]
         }
       }

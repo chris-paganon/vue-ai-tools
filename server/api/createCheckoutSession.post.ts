@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
 		await $pb.collection('transactions').create({
 			user: $pb.authStore.model.id,
 			session_id: session.id,
-			status: 'started',
+			status: 'open',
 		});
 
 		return { clientSecret: session.client_secret };
