@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { useGetAdminPb } from '@/server/utils/useServerUtils';
 
 export default defineEventHandler(async (event) => {
 	const body = await readRawBody(event);
@@ -32,11 +33,21 @@ export default defineEventHandler(async (event) => {
   }
 
 	if (stripeEvent.type === 'checkout.session.completed') {
+		// TODO: Return 200 response to Stripe before waiting for PocketBase to prevent timeouts.
+		const pb = await useGetAdminPb();
+
 		const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
 			stripeEvent.data.object.id,
 			{expand: ['line_items']}
 		);
-		const lineItems = sessionWithLineItems.line_items;
-		console.log('lineItems', lineItems);
+		// const lineItems = sessionWithLineItems.line_items;
+		const sessionId = sessionWithLineItems.id;
+
+		const transaction = await pb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
+			fields: 'id',
+		});
+		await pb.collection('transactions').update(transaction.id, {
+			status: 'completed',
+		});
 	}
 });
