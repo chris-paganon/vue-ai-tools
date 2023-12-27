@@ -3,7 +3,7 @@
 		<h1>My account</h1>
 		<div class="flex flex-wrap gap-2">
 			<NuxtLink to="/subscribe">
-				<Button label="Subscribe" />
+				<Button label="Subscribe" :loading="isSubscribeLoading" @click="isSubscribeLoading=true" />
 			</NuxtLink>
 			<!-- TODO: Pass info (probably email or subscription ID) so the user can manage subscription directly -->
 			<!-- TODO: Add link to customer portal session https://stripe.com/docs/billing/quickstart#portal -->
@@ -26,7 +26,7 @@
 		<Divider type="solid" />
 		<form class="my-4">
 			<p class="mb-4">Request a password reset: we will send you an email with a link to reset your password.</p>
-			<Button label="Request password reset" @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
+			<Button label="Request password reset" outlined @click="modifyPassword" :loading="isRequestPasswordResetLoading" />
 		</form>
 	</div>
 </template>
@@ -42,6 +42,7 @@ const email: string | undefined = ref($pb.authStore.model?.email);
 const isModifyingEmail = ref(false);
 const newEmail = ref('');
 
+const isSubscribeLoading = ref(false);
 const isRequestEmailChangeLoading = ref(false);
 const isRequestPasswordResetLoading = ref(false);
 
