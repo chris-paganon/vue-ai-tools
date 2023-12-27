@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { ClientResponseError } from 'pocketbase';
-import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
+import { useGetVerifiedUserPbId } from '@/server/utils/useServerUtils';
 
 export default defineEventHandler(async (event) => {
 	const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
@@ -20,11 +20,12 @@ export default defineEventHandler(async (event) => {
 			return_url: `${url.origin}/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
 		});
 
-		const $pb = useGetVerifiedUserPb(event);
-		if (!$pb.authStore.model?.id) throw new Error('User id not found');
+		const userId = await useGetVerifiedUserPbId(event);
+		const adminPb = await useGetAdminPb();
+		if (!userId) throw new Error('User id not found');
 
-		await $pb.collection('transactions').create({
-			user: $pb.authStore.model.id,
+		await adminPb.collection('transactions').create({
+			user: userId,
 			session_id: session.id,
 			status: 'open',
 		});

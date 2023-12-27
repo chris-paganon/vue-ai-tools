@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
+import { useGetVerifiedUserPbId } from '@/server/utils/useServerUtils';
 
 export default defineEventHandler(async (event) => {
 	const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
@@ -17,14 +17,15 @@ export default defineEventHandler(async (event) => {
 	try {
 		const session = await stripe.checkout.sessions.retrieve(session_id);
 	
-		const $pb = useGetVerifiedUserPb(event);
-		if (!$pb.authStore.model?.id) throw new Error('User id not found');
+		const userId = useGetVerifiedUserPbId(event);
+		const adminPb = await useGetAdminPb();
+		if (!userId) throw new Error('User id not found');
 	
-		const transaction = await $pb.collection('transactions').getFirstListItem(`session_id="${session.id}"`, {
+		const transaction = await adminPb.collection('transactions').getFirstListItem(`session_id="${session.id}"`, {
 			fields: 'id',
 		});
 		// TODO: Make sure not to overwrite a completed transaction
-		await $pb.collection('transactions').update(transaction.id, {
+		await adminPb.collection('transactions').update(transaction.id, {
 			status: session.status,
 		});
 	

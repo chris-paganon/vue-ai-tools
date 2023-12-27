@@ -10,18 +10,23 @@ export function fixTypesSerialization<T>(object: T[]): ({toJSON(): T[]}) {
   return data;
 }
 
-export function useGetVerifiedUserPb(event: H3Event) {
+export async function useGetVerifiedUserPbId(event: H3Event) {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
   const pb = new PocketBase(pbUrl);
   
   const rawPbCookie = getCookie(event, 'pb_auth');
-  if (!rawPbCookie) return pb;
+  if (!rawPbCookie) return;
   const pbCookie = JSON.parse(rawPbCookie);
-  if (!pbCookie.token || !pbCookie.model) return pb;
-  
+  if (!pbCookie.token || !pbCookie.model.id) return;
+
   pb.authStore.save(pbCookie.token, pbCookie.model);
 
-  return pb;
+  try {
+    await pb.collection('users').authRefresh();
+  } catch (error) {
+    return;
+  }  
+  return pb.authStore.model?.id;
 }
 
 export async function useGetAdminPb() {

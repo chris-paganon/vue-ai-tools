@@ -61,9 +61,9 @@ migrate((db) => {
     ],
     "listRule": "@request.auth = user.id && @request.auth.id != ''",
     "viewRule": "@request.auth = user.id && @request.auth.id != ''",
-    "createRule": "@request.auth = user.id && @request.auth.id != ''",
-    "updateRule": "@request.auth = user.id && @request.auth.id != ''",
-    "deleteRule": "@request.auth = user.id && @request.auth.id != ''",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "options": {}
   });
 
