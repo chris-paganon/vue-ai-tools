@@ -123,7 +123,7 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 				level: 'basic',
 				status: eventObject.status,
 			});
-			console.log('Subscription created');
+			console.log('Subscription created in createSubscription');
 		}
 	} catch (error) {
 		if ( !(error instanceof Error) ) {
@@ -145,7 +145,6 @@ async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 		const pb = await useGetAdminPb();
 		const eventObject = stripeEvent.data.object;
 		const eventObjectId = eventObject.id;
-		console.log("🚀 ~ file: stripeWebhook.post.ts:142 ~ updateSubscription ~ eventObject:", eventObject)
 		
 		try {
 			const subscription = await pb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
@@ -169,13 +168,7 @@ async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 			const customerEmail = customer.email;
 			const pbUser = await pb.collection('users').getFirstListItem(`email="${customerEmail}"`);
 			
-			await pb.collection('subscriptions').create({
-				stripe_id: eventObjectId,
-				user: pbUser.id,
-				level: 'basic',
-				status: eventObject.status,
-			});
-			console.log('Subscription created in updateSubscription because it was faster than the subscription created webhook');
+			await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject.status);
 		}
 	} catch (error) {
 		if ( !(error instanceof Error) ) {
@@ -188,5 +181,26 @@ async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 		}
 		console.log('Error updating subscription from Stripe webhook', error.response);
 		return;
+	}
+}
+
+async function createOrUpdateSubscription(stripeId: string, userId: string, subscriptionStatus: string) {
+	const adminPb = await useGetAdminPb();
+	try {
+		const subscription = await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${stripeId}"`);
+		// Subscription found, so we update it.
+		await adminPb.collection('subscriptions').update(subscription.id, {
+			status: subscriptionStatus,
+		});
+		console.log('Subscription updated in maybeCreateSubscription');
+	} catch (error) {
+		// No subscription found, so we create one.
+		await adminPb.collection('subscriptions').create({
+			stripe_id: stripeId,
+			user: userId,
+			level: 'basic',
+			status: subscriptionStatus,
+		});
+		console.log('Subscription created in maybeCreateSubscription');
 	}
 }
