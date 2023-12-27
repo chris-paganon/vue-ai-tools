@@ -5,9 +5,9 @@
 			<NuxtLink to="/subscribe">
 				<Button label="Subscribe" />
 			</NuxtLink>
-			<NuxtLink to="https://billing.stripe.com/p/login/28o7tya2Yh30gtWbII" target="_blank">
-				<Button label="Manage subscription" outlined />
-			</NuxtLink>
+			<!-- TODO: Pass info (probably email or subscription ID) so the user can manage subscription directly -->
+			<!-- TODO: Add link to customer portal session https://stripe.com/docs/billing/quickstart#portal -->
+			<StripePortalButton />
 		</div>
 		<div class="flex align-items-center gap-2">
 			<p class="py-3">My email: {{ email }}</p>

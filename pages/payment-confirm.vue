@@ -2,7 +2,7 @@
 	<!-- TODO: Show better messages -->
 	<h1>Payment Confirm</h1>
 	<p>{{ status }}</p>
-	<Button @click="openPortalSession()">Manage my subscription</Button>
+	<StripePortalButton />
 </template>
 
 <script setup lang="ts">
@@ -31,19 +31,4 @@ watch(data,
 	},
 	{ immediate: true },
 );
-
-async function openPortalSession() {
-	try {
-		const redirectUrl = await $fetch('/api/createPortalSession', {
-			method: 'POST',
-			body: {
-				sessionId,
-			},
-		});
-		// Redirect to Stripe portal
-		window.location.href = redirectUrl;
-	} catch (error) {
-		console.error(error);
-	}
-}
 </script>
