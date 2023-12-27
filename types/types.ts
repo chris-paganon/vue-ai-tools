@@ -42,8 +42,28 @@ export interface PbTransaction extends RecordModel {
 /**
  * Stripe
  */
-export type EnabledStripeWebhookEvents = Stripe.CheckoutSessionCompletedEvent | Stripe.CheckoutSessionExpiredEvent;
+export type EnabledStripeWebhookEvents = Stripe.CheckoutSessionCompletedEvent
+  | Stripe.CheckoutSessionExpiredEvent
+  | Stripe.CustomerSubscriptionCreatedEvent
+  | Stripe.CustomerSubscriptionUpdatedEvent
+  | Stripe.CustomerSubscriptionDeletedEvent;
 
 export function isEnabledStripeWebhookEvents(event: Stripe.Event): event is EnabledStripeWebhookEvents {
-  return event.type === 'checkout.session.completed' || event.type === 'checkout.session.expired';
+  return event.type === 'checkout.session.completed' 
+    || event.type === 'checkout.session.expired'
+    || event.type === 'customer.subscription.created'
+    || event.type === 'customer.subscription.updated'
+    || event.type === 'customer.subscription.deleted';
+}
+
+export function isSubscriptionCreatedEvent(event: Stripe.Event): event is Stripe.CustomerSubscriptionCreatedEvent {
+  return event.type === 'customer.subscription.created';
+}
+export function isSubscriptionUpdatedEvent(event: Stripe.Event): event is Stripe.CustomerSubscriptionUpdatedEvent {
+  return event.type === 'customer.subscription.updated';
+}
+
+export function isStripeCustomer(event: Stripe.Event.Data | string): event is Stripe.Customer {
+  if (typeof event === 'string') return false;
+  return event.object === 'customer';
 }
