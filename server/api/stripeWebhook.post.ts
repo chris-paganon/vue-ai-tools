@@ -98,7 +98,7 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 	const stripe = new Stripe(stripeSecretKey);
 
 	try {
-		const pb = await useGetAdminPb();
+		const adminPb = await useGetAdminPb();
 		const eventObject = stripeEvent.data.object;
 		const eventObjectId = eventObject.id;
 
@@ -109,15 +109,15 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 
 		if (! isStripeCustomer(customer)) throw new Error('Is not a Stripe customer');
 		const customerEmail = customer.email;
-		const pbUser = await pb.collection('users').getFirstListItem(`email="${customerEmail}"`);
+		const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
 		
 		try {
-			await pb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
+			await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
 				fields: 'id',
 			});
 		} catch (error) {
 			// No subscription found, so we create one.
-			await pb.collection('subscriptions').create({
+			await adminPb.collection('subscriptions').create({
 				stripe_id: eventObjectId,
 				user: pbUser.id,
 				level: 'basic',
@@ -142,15 +142,15 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 	if (!isSubscriptionUpdatedEvent(stripeEvent)) throw new Error('Is not a subscription updated event');
 	try {
-		const pb = await useGetAdminPb();
+		const adminPb = await useGetAdminPb();
 		const eventObject = stripeEvent.data.object;
 		const eventObjectId = eventObject.id;
 		
 		try {
-			const subscription = await pb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
+			const subscription = await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
 				fields: 'id',
 			});
-			await pb.collection('subscriptions').update(subscription.id, {
+			await adminPb.collection('subscriptions').update(subscription.id, {
 				status: eventObject.status,
 			});
 			console.log('Subscription updated');
@@ -166,7 +166,7 @@ async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 	
 			if (! isStripeCustomer(customer)) throw new Error('Is not a Stripe customer');
 			const customerEmail = customer.email;
-			const pbUser = await pb.collection('users').getFirstListItem(`email="${customerEmail}"`);
+			const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
 			
 			await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject.status);
 		}
