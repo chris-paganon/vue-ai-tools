@@ -8,7 +8,11 @@ export default defineEventHandler(async (event) => {
 	const url = getRequestURL(event)
 	
 	try {
+		const pbUser = await useGetVerifiedUserPbId(event);
+		if (!pbUser) throw new Error('User id not found');
+
 		const session = await stripe.checkout.sessions.create({
+			customer_email: pbUser.email,
 			ui_mode: 'embedded',
 			line_items: [
 				{
@@ -20,12 +24,9 @@ export default defineEventHandler(async (event) => {
 			return_url: `${url.origin}/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
 		});
 
-		const userId = await useGetVerifiedUserPbId(event);
 		const adminPb = await useGetAdminPb();
-		if (!userId) throw new Error('User id not found');
-
 		await adminPb.collection('transactions').create({
-			user: userId,
+			user: pbUser.id,
 			session_id: session.id,
 			status: 'open',
 		});
@@ -34,16 +35,19 @@ export default defineEventHandler(async (event) => {
 
 	} catch (error) {
 		if (! (error instanceof Error)) {
+			console.log('Unknown error createCheckoutSession', error);
 			throw createError({
 				statusCode: 500,
 				statusMessage: 'Unknown error'
 			});
 		}
 		if (! (error instanceof ClientResponseError)) {
+			console.log('Error createCheckoutSession', error);
 			throw createError({
 				statusCode: 500,
 			});
 		}
+		console.log('PB error createCheckoutSession', error.response);
 		throw createError({
 			statusCode: 500,
 		});
