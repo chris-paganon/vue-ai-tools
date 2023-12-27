@@ -6,4 +6,5 @@ include:
     project_directory: ../../
     env_file: staging.env
   - path: ../../base/pb-db-compose.yml
+    project_directory: ../../
     env_file: staging.env
