@@ -10,7 +10,7 @@ export function fixTypesSerialization<T>(object: T[]): ({toJSON(): T[]}) {
   return data;
 }
 
-export async function useGetVerifiedUserPbId(event: H3Event) {
+export async function useGetVerifiedUserPb(event: H3Event) {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
   const pb = new PocketBase(pbUrl);
   
@@ -26,7 +26,7 @@ export async function useGetVerifiedUserPbId(event: H3Event) {
   } catch (error) {
     return;
   }  
-  return pb.authStore.model?.id;
+  return pb.authStore.model;
 }
 
 export async function useGetAdminPb() {

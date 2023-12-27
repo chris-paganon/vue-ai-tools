@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { ClientResponseError } from 'pocketbase';
-import { useGetVerifiedUserPbId } from '@/server/utils/useServerUtils';
+import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
 
 export default defineEventHandler(async (event) => {
 	const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 	const url = getRequestURL(event)
 	
 	try {
-		const pbUser = await useGetVerifiedUserPbId(event);
+		const pbUser = await useGetVerifiedUserPb(event);
 		if (!pbUser) throw new Error('User id not found');
 
 		const session = await stripe.checkout.sessions.create({
