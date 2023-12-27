@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
 import { ClientResponseError } from 'pocketbase';
+import { isStripeCustomer, isStripeDeletedCustomer } from '@/types/types';
 
 export default defineEventHandler(async (event) => {
 	const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
@@ -17,6 +18,7 @@ export default defineEventHandler(async (event) => {
 
 	try {
 		const session = await stripe.checkout.sessions.retrieve(session_id);
+		console.log("🚀 ~ file: checkoutSessionStatus.get.ts:20 ~ defineEventHandler ~ session:", session)
 	
 		const pbUser = await useGetVerifiedUserPb(event);
 		const adminPb = await useGetAdminPb();
@@ -29,6 +31,16 @@ export default defineEventHandler(async (event) => {
 		await adminPb.collection('transactions').update(transaction.id, {
 			status: session.status,
 		});
+
+		let customerId = session.customer;
+		if (customerId && !isStripeDeletedCustomer(customerId)) {
+			if (isStripeCustomer(customerId)) {
+				customerId = customerId.id;
+			}
+			await adminPb.collection('users').update(pbUser.id, {
+				stripe_id: customerId,
+			});
+		}
 	
 		return {
 			status: session.status,

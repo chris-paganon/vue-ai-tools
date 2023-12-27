@@ -63,7 +63,11 @@ export function isSubscriptionUpdatedEvent(event: Stripe.Event): event is Stripe
   return event.type === 'customer.subscription.updated';
 }
 
-export function isStripeCustomer(event: Stripe.Event.Data | string): event is Stripe.Customer {
+export function isStripeCustomer(event: Stripe.Customer | Stripe.DeletedCustomer | string): event is Stripe.Customer {
   if (typeof event === 'string') return false;
-  return event.object === 'customer';
+  return event.object === 'customer' && !event.deleted;
+}
+export function isStripeDeletedCustomer(event: Stripe.Customer | Stripe.DeletedCustomer | string): event is Stripe.DeletedCustomer {
+  if (typeof event === 'string') return false;
+  return event.deleted === true;
 }
