@@ -47,6 +47,9 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 		case 'checkout.session.completed':
 			await updateTransactionStatus(stripeEvent);
 			break;
+		case 'checkout.session.expired':
+			await updateTransactionStatus(stripeEvent);
+			break;
 		case 'customer.subscription.created':
 			await createSubscription(stripeEvent);
 			break;
@@ -55,7 +58,6 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 			break;
 		// case 'customer.subscription.deleted':
 		// 	await deleteSubscription(stripe, stripeEvent);
-		// 	console.log('Subscription deleted');
 		// 	break;
 		default:
 			console.log('Stripe webhook received with unknown event type');
@@ -68,19 +70,13 @@ async function updateTransactionStatus(stripeEvent: EnabledStripeWebhookEvents) 
 	const stripe = new Stripe(stripeSecretKey);
 	try {
 		const adminPb = await useGetAdminPb();
-	
-		const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-			stripeEvent.data.object.id,
-			{expand: ['line_items']}
-		);
-		// const lineItems = sessionWithLineItems.line_items;
-		const sessionId = sessionWithLineItems.id;
-	
-		const transaction = await adminPb.collection('transactions').getFirstListItem(`session_id="${sessionId}"`, {
+		const session = await stripe.checkout.sessions.retrieve(stripeEvent.data.object.id);
+
+		const transaction = await adminPb.collection('transactions').getFirstListItem(`session_id="${session.id}"`, {
 			fields: 'id',
 		});
 		await adminPb.collection('transactions').update(transaction.id, {
-			status: sessionWithLineItems.status,
+			status: session.status,
 		});
 	} catch (error) {
 		console.log('Error updating transaction status from Stripe webhook');
