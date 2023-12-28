@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 export default defineEventHandler(async (event) => {
 	try {
 		const pbUser = await useGetVerifiedUserPb(event);
-		if (!pbUser) throw new Error('User not found');
+		if (!pbUser?.stripe_id) throw new Error('User stripe_id not found');
 		const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
 		const stripe = new Stripe(stripeSecretKey);
 		const url = getRequestURL(event)
