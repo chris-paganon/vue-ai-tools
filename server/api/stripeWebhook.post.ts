@@ -45,8 +45,6 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 	console.log('Stripe webhook received with event type:', stripeEvent.type);	
 	switch (stripeEvent.type) {
 		case 'checkout.session.completed':
-			await updateTransactionStatus(stripeEvent);
-			break;
 		case 'checkout.session.expired':
 			await updateTransactionStatus(stripeEvent);
 			break;
@@ -65,7 +63,7 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 	}
 }
 
-async function updateTransactionStatus(stripeEvent: EnabledStripeWebhookEvents) {
+async function updateTransactionStatus(stripeEvent: Stripe.CheckoutSessionCompletedEvent | Stripe.CheckoutSessionExpiredEvent) {
 	const { stripeSecretKey } = useRuntimeConfig();
 	const stripe = new Stripe(stripeSecretKey);
 	try {
@@ -88,8 +86,7 @@ async function updateTransactionStatus(stripeEvent: EnabledStripeWebhookEvents) 
 	}
 }
 
-async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
-	if (!isSubscriptionCreatedEvent(stripeEvent)) throw new Error('Is not a subscription created event');
+async function createSubscription(stripeEvent: Stripe.CustomerSubscriptionCreatedEvent) {
 	const { stripeSecretKey } = useRuntimeConfig();
 	const stripe = new Stripe(stripeSecretKey);
 
@@ -107,7 +104,7 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 		const customerEmail = customer.email;
 		const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
 		// TODO: Check if pbUser has stripe_id matching the Stripe customer id. If not, add the stripe_id to the user (one email can have mutliple ids in Stripe).
-		
+
 		try {
 			await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
 				fields: 'id',
@@ -136,8 +133,7 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 	}
 }
 
-async function updateSubscription(stripeEvent: EnabledStripeWebhookEvents) {
-	if (!isSubscriptionUpdatedEvent(stripeEvent)) throw new Error('Is not a subscription updated event');
+async function updateSubscription(stripeEvent: Stripe.CustomerSubscriptionUpdatedEvent) {
 	try {
 		const adminPb = await useGetAdminPb();
 		const eventObject = stripeEvent.data.object;
