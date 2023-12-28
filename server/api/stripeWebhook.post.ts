@@ -133,34 +133,24 @@ async function createSubscription(stripeEvent: Stripe.CustomerSubscriptionCreate
 	}
 }
 
-async function updateSubscription(stripeEvent: Stripe.CustomerSubscriptionUpdatedEvent) {
+async function updateSubscription(stripeEvent: Stripe.CustomerSubscriptionUpdatedEvent | Stripe.CustomerSubscriptionDeletedEvent) {
+	const { stripeSecretKey } = useRuntimeConfig();
+	const stripe = new Stripe(stripeSecretKey);
+	
 	try {
 		const adminPb = await useGetAdminPb();
 		const eventObject = stripeEvent.data.object;
 		const eventObjectId = eventObject.id;
-		
-		try {
-			const subscription = await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
-				fields: 'id',
-			});
-			await adminPb.collection('subscriptions').update(subscription.id, {
-				status: eventObject.status,
-			});
-			console.log('Subscription updated');
-		} catch (error) {
-			// No subscription found, so we create one.
-			const { stripeSecretKey } = useRuntimeConfig();
-			const stripe = new Stripe(stripeSecretKey);
 
-			let customer = eventObject.customer;
-			if (typeof eventObject.customer === 'string') {
-				customer = await stripe.customers.retrieve(eventObject.customer);
-			}
-	
-			if (! isStripeCustomer(customer)) throw new Error('Is not a Stripe customer');
-			const customerEmail = customer.email;
-			const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
-			
+		let customer = eventObject.customer;
+		if (typeof eventObject.customer === 'string') {
+			customer = await stripe.customers.retrieve(eventObject.customer);
+		}
+
+		if (! isStripeCustomer(customer)) throw new Error('Is not a Stripe customer');
+		const customerEmail = customer.email;
+		const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
+		
 			await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject.status);
 		}
 	} catch (error) {
