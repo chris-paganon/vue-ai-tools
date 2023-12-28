@@ -22,6 +22,9 @@ export async function useGetVerifiedUserPb(event: H3Event) {
   pb.authStore.save(pbCookie.token, pbCookie.model);
 
   try {
+    if (!pb.authStore.isValid) {
+      throw new Error('Invalid or expired auth');
+    }
     await pb.collection('users').authRefresh();
   } catch (error) {
     return;
