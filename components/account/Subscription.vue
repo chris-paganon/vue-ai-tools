@@ -1,9 +1,19 @@
 <template>
 	<div class="my-4">
 		<h2>Subscription</h2>
-		<NuxtLink v-if="!isSubscribed" to="/subscribe">
-			<Button label="Subscribe" :loading="isSubscribeLoading" @click="isSubscribeLoading = true" />
-		</NuxtLink>
+		<div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
+			<p>There are currently no paid features, the subscription is <strong>just a donation</strong> for now. Your help is very much appreciated!</p>
+			<p>What you get:</p>
+			<ul>
+				<li>Unconditional love & recognition from the dev.</li>
+				<li>Street cred for helping out a fellow dev.</li>
+				<li>Access to upcoming pro features.</li>
+			</ul>
+			<p>$5/month</p>
+			<NuxtLink to="/subscribe">
+				<Button label="Subscribe" :loading="isSubscribeLoading" @click="isSubscribeLoading = true" />
+			</NuxtLink>
+		</div>
 		<!-- TODO: Add subscription price & level -->
 		<div v-if="isSubscribed && subscription" class="flex flex-column align-items-start gap-3">
 			<p>Status: {{ subscription.status }}</p>
