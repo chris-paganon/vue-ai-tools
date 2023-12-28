@@ -5,8 +5,7 @@
 			<NuxtLink to="/subscribe">
 				<Button label="Subscribe" :loading="isSubscribeLoading" @click="isSubscribeLoading=true" />
 			</NuxtLink>
-			<!-- TODO: Pass info (probably email or subscription ID) so the user can manage subscription directly -->
-			<!-- TODO: Add link to customer portal session https://stripe.com/docs/billing/quickstart#portal -->
+			<!-- TODO: Only show if user has subscription -->
 			<StripePortalButton />
 		</div>
 		<div class="flex align-items-center gap-2">
@@ -56,6 +55,7 @@ async function modifyEmail() {
 	};
 	try {
 		isRequestEmailChangeLoading.value = true;
+		// TODO: Also modify email in Stripe if Stripe customer exists
 		await $pb.collection('users').requestEmailChange(newEmail.value);
 		toast.add({
 			severity: 'success',

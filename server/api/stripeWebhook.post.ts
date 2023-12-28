@@ -59,11 +59,11 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 		// case 'customer.subscription.deleted':
 		// 	await deleteSubscription(stripe, stripeEvent);
 		// 	break;
+		// TODO: Handle all subscription events
 		default:
 			console.log('Stripe webhook received with unknown event type');
 	}
 }
-
 
 async function updateTransactionStatus(stripeEvent: EnabledStripeWebhookEvents) {
 	const { stripeSecretKey } = useRuntimeConfig();
@@ -106,6 +106,7 @@ async function createSubscription(stripeEvent: EnabledStripeWebhookEvents) {
 		if (! isStripeCustomer(customer)) throw new Error('Is not a Stripe customer');
 		const customerEmail = customer.email;
 		const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
+		// TODO: Check if pbUser has stripe_id matching the Stripe customer id. If not, add the stripe_id to the user (one email can have mutliple ids in Stripe).
 		
 		try {
 			await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
