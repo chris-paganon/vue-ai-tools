@@ -12,7 +12,13 @@
 
 <script setup lang="ts">
 
-const showSidebar = ref(false);
+const showSidebar = ref(true);
+onMounted	(() => {
+	if (window.innerWidth < 1024) {
+		showSidebar.value = false;
+	}
+});
+
 const toggleSibarIcon = computed(() => (showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'));
 const sidebarHeadFlexDirection = computed(() => (showSidebar.value ? 'flex-row' : 'flex-column'));
 
