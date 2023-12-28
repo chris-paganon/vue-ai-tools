@@ -11,8 +11,7 @@ export default defineEventHandler(async (event) => {
 		const pbUser = await useGetVerifiedUserPb(event);
 		if (!pbUser) throw new Error('User id not found');
 
-		const session = await stripe.checkout.sessions.create({
-			customer_email: pbUser.email,
+		let createSessionObj: Stripe.Checkout.SessionCreateParams = {
 			ui_mode: 'embedded',
 			line_items: [
 				{
@@ -22,7 +21,14 @@ export default defineEventHandler(async (event) => {
 			],
 			mode: 'subscription',
 			return_url: `${url.origin}/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
-		});
+		}
+		if (pbUser.stripe_id) {
+			createSessionObj.customer = pbUser.stripe_id;
+		} else {
+			createSessionObj.customer_email = pbUser.email;
+		}
+
+		const session = await stripe.checkout.sessions.create(createSessionObj);
 
 		const adminPb = await useGetAdminPb();
 		await adminPb.collection('transactions').create({
