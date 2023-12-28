@@ -4,6 +4,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const chatStore = useChatStore();
   const isSignedIn = ref(false);
+  // TODO: Move subscription handling to a separate store when more logic is added.
   const isSubscribed = ref(false);
 
   function setIsSignedIn(value: boolean) {

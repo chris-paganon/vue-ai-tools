@@ -43,8 +43,8 @@ export interface PbSubscription extends RecordModel {
   stripe_id: string;
   level: 'basic';
   status: Stripe.Subscription.Status;
-  current_period_end: string;
-  cancel_at: string;
+  current_period_end?: string;
+  cancel_at?: string;
 };
 
 /**
