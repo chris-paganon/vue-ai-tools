@@ -80,4 +80,15 @@ export default defineNuxtConfig({
       stripePublishableKey: 'pk_test_12ab',
     }
   },
+  $production: {
+    modules: [
+      'nuxt-security',
+    ],
+    // @ts-ignore
+    security: {
+      headers: {
+        crossOriginEmbedderPolicy: false,
+      }
+    },
+  },
 });
