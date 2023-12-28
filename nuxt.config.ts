@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     'nuxt-primevue',
+    'nuxt-security',
   ],
   pinia: {
     autoImports: [
@@ -65,6 +66,14 @@ export default defineNuxtConfig({
       ]
     },
   },
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: {
+        'script-src': ["'self'", 'https:', "'unsafe-inline'", "'unsafe-eval'", "'strict-dynamic'", "'nonce-{{nonce}}'"],
+      }
+    }
+  },
   runtimeConfig: {
     // The private keys which are only available server-side
     openaiOrganization: 'org-AB12',
@@ -79,16 +88,5 @@ export default defineNuxtConfig({
       publicFolderUrl: 'http://localhost:3000/_nuxt',
       stripePublishableKey: 'pk_test_12ab',
     }
-  },
-  $production: {
-    modules: [
-      'nuxt-security',
-    ],
-    // @ts-ignore
-    security: {
-      headers: {
-        crossOriginEmbedderPolicy: false,
-      }
-    },
   },
 });
