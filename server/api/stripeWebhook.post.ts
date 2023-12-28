@@ -52,12 +52,9 @@ async function handleStripeWebhookEvent(stripeEvent: EnabledStripeWebhookEvents)
 			await createSubscription(stripeEvent);
 			break;
 		case 'customer.subscription.updated':
+		case 'customer.subscription.deleted':
 			await updateSubscription(stripeEvent);
 			break;
-		// case 'customer.subscription.deleted':
-		// 	await deleteSubscription(stripe, stripeEvent);
-		// 	break;
-		// TODO: Handle all subscription events
 		default:
 			console.log('Stripe webhook received with unknown event type');
 	}
@@ -106,6 +103,7 @@ async function createSubscription(stripeEvent: Stripe.CustomerSubscriptionCreate
 		// TODO: Check if pbUser has stripe_id matching the Stripe customer id. If not, add the stripe_id to the user (one email can have mutliple ids in Stripe).
 
 		try {
+			// If a subscription already exists, we do nothing. This returns an error if no subscription is found.
 			await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${eventObjectId}"`,{
 				fields: 'id',
 			});
@@ -116,6 +114,8 @@ async function createSubscription(stripeEvent: Stripe.CustomerSubscriptionCreate
 				user: pbUser.id,
 				level: 'basic',
 				status: eventObject.status,
+				current_period_end: timestampToUTCDate(eventObject.current_period_end),
+				cancel_at: eventObject.cancel_at ? timestampToUTCDate(eventObject.cancel_at) : null,
 			});
 			console.log('Subscription created in createSubscription');
 		}
@@ -151,8 +151,7 @@ async function updateSubscription(stripeEvent: Stripe.CustomerSubscriptionUpdate
 		const customerEmail = customer.email;
 		const pbUser = await adminPb.collection('users').getFirstListItem(`email="${customerEmail}"`);
 		
-			await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject.status);
-		}
+		await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject);
 	} catch (error) {
 		if ( !(error instanceof Error) ) {
 			console.log('Error updating subscription from Stripe webhook', error);
@@ -167,23 +166,32 @@ async function updateSubscription(stripeEvent: Stripe.CustomerSubscriptionUpdate
 	}
 }
 
-async function createOrUpdateSubscription(stripeId: string, userId: string, subscriptionStatus: string) {
+async function createOrUpdateSubscription(stripeId: string, userId: string, subscriptionObject: Stripe.Subscription) {
 	const adminPb = await useGetAdminPb();
 	try {
 		const subscription = await adminPb.collection('subscriptions').getFirstListItem(`stripe_id="${stripeId}"`);
 		// Subscription found, so we update it.
 		await adminPb.collection('subscriptions').update(subscription.id, {
-			status: subscriptionStatus,
+			status: subscriptionObject.status,
+			current_period_end: timestampToUTCDate(subscriptionObject.current_period_end),
+			cancel_at: subscriptionObject.cancel_at ? timestampToUTCDate(subscriptionObject.cancel_at) : null,
 		});
-		console.log('Subscription updated in maybeCreateSubscription');
+		console.log('Subscription updated in createOrUpdateSubscription');
 	} catch (error) {
 		// No subscription found, so we create one.
 		await adminPb.collection('subscriptions').create({
 			stripe_id: stripeId,
 			user: userId,
 			level: 'basic',
-			status: subscriptionStatus,
+			status: subscriptionObject.status,
+			current_period_end: timestampToUTCDate(subscriptionObject.current_period_end),
+			cancel_at: subscriptionObject.cancel_at ? timestampToUTCDate(subscriptionObject.cancel_at) : null,
 		});
-		console.log('Subscription created in maybeCreateSubscription');
+		console.log('Subscription created in createOrUpdateSubscription');
 	}
+}
+
+function timestampToUTCDate(timestamp: number) {
+	const time = new Date(timestamp * 1000).toISOString();
+	return time;
 }
