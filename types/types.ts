@@ -38,6 +38,14 @@ export interface PbTransaction extends RecordModel {
   session_id: string;
   status: 'open' | 'complete' | 'expired';
 };
+export interface PbSubscription extends RecordModel {
+  user: string;
+  stripe_id: string;
+  level: 'basic';
+  status: Stripe.Subscription.Status;
+  current_period_end: string;
+  cancel_at: string;
+};
 
 /**
  * Stripe
