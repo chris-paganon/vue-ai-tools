@@ -1,55 +1,51 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-body {
-  color: var(--text-color);
-  background: var(--surface-ground);
-  line-height: 1.5;
-  font-family:
-    Roboto,
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 18px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2 {
-  line-height: 1.2;
-}
-h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-}
-h2 {
-  font-size: 2.5rem;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-}
-h3 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-h4 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+  body {
+    color: var(--text-color);
+    background: var(--surface-ground);
+    line-height: 1.5;
+    font-family:
+      Roboto,
+      'Helvetica Neue',
+      sans-serif;
+    font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2 {
+    line-height: 1.2;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
 }
 
 /* PrimeVue overwrites */
 .p-password .p-password-input {
   width: 100%;
-}
-.p-password .p-icon {
-  top: 38%;
-}
-.p-dialog-header {
-  align-items: start;
 }
 .p-sidebar-header {
   justify-content: space-between;

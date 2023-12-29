@@ -44,6 +44,7 @@ export default defineNuxtConfig({
       ripple: true, 
       inputStyle: 'filled',
     },
+    cssLayerOrder: 'reset, primevue',
     components: {
       include: [
         'Button', 
