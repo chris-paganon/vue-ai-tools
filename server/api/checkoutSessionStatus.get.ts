@@ -24,13 +24,10 @@ export default defineEventHandler(async (event) => {
 
 	try {
 		const session = await stripe.checkout.sessions.retrieve(session_id);
-	
-		const pbUser = await useGetVerifiedUserPb(event);
 		const adminPb = await useGetAdminPb();
-		if (!pbUser) throw new Error('User id not found');
 		
 		const transaction = await adminPb.collection('transactions').getFirstListItem(
-			adminPb.filter('user={:pbUserId}', { pbUserId: pbUser.id }),
+			adminPb.filter('session_id={:session_id}', { session_id }),
 			{ fields: 'id' }
 		);
 		// TODO: Make sure not to overwrite a completed transaction
@@ -40,6 +37,8 @@ export default defineEventHandler(async (event) => {
 
 		let customerId = session.customer;
 		if (customerId && !isStripeDeletedCustomer(customerId)) {
+			const pbUser = await useGetVerifiedUserPb(event);
+			if (!pbUser) throw new Error('User id not found');
 			if (isStripeCustomer(customerId)) {
 				customerId = customerId.id;
 			}
