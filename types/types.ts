@@ -1,4 +1,4 @@
-import { RecordModel } from 'pocketbase';
+import PocketBase, { type RecordModel, type RecordService } from 'pocketbase';
 import OpenAI from 'openai';
 import Stripe from 'stripe';
 
@@ -25,11 +25,12 @@ export interface Chat {
   name: string;
   messages: OpenAI.Chat.ChatCompletionMessage[];
 }
-export interface PbConversation extends RecordModel {
+export interface PbChat extends RecordModel {
+  user?: string;
   name: string;
 };
 export interface PbChatMessage extends RecordModel {
-  chat?: string;
+  chat: string;
   role: 'system' | 'user' | 'assistant' | 'function';
   content: string;
 };
@@ -42,10 +43,18 @@ export interface PbSubscription extends RecordModel {
   user: string;
   stripe_id: string;
   level: 'basic';
-  status: Stripe.Subscription.Status;
+  status: "active" | "canceled" | "incomplete" | "incomplete_expired" | "past_due" | "paused" | "trialing" | "unpaid";
   current_period_end?: string;
   cancel_at?: string;
 };
+
+export interface TypedPocketBase extends PocketBase {
+  collection(idOrName: string): RecordService // default fallback for any other collection
+  collection(idOrName: 'chats'): RecordService<PbChat>
+  collection(idOrName: 'chat_messages'): RecordService<PbChatMessage>
+  collection(idOrName: 'transactions'): RecordService<PbTransaction>
+  collection(idOrName: 'subscriptions'): RecordService<PbSubscription>
+}
 
 /**
  * Stripe

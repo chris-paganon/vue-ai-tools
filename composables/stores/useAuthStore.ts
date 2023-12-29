@@ -1,5 +1,3 @@
-import type { PbSubscription } from '@/types/types';
-
 export const useAuthStore = defineStore('auth', () => {
 
   const chatStore = useChatStore();
@@ -27,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function setSubscriptionStatus() {
     const { $pb } = useNuxtApp();
-    const subscriptions = await $pb.collection('subscriptions').getFullList<PbSubscription>();
+    const subscriptions = await $pb.collection('subscriptions').getFullList();
     if (!subscriptions || subscriptions.length === 0) return;
     
     if (subscriptions.some((subscription) => subscription.status === 'active')) {

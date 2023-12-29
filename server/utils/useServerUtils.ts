@@ -1,4 +1,5 @@
 import PocketBase from 'pocketbase';
+import type { TypedPocketBase } from '@/types/types';
 import { H3Event } from 'h3';
 
 export function fixTypesSerialization<T>(object: T[]): ({toJSON(): T[]}) {
@@ -12,7 +13,7 @@ export function fixTypesSerialization<T>(object: T[]): ({toJSON(): T[]}) {
 
 export async function useGetVerifiedUserPb(event: H3Event) {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-  const pb = new PocketBase(pbUrl);
+  const pb = new PocketBase(pbUrl) as TypedPocketBase;
   
   const rawPbCookie = getCookie(event, 'pb_auth');
   if (!rawPbCookie) return;
@@ -35,7 +36,7 @@ export async function useGetVerifiedUserPb(event: H3Event) {
 export async function useGetAdminPb() {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
   const { pbAdminEmail, pbAdminPassword } = useRuntimeConfig();
-  const pb = new PocketBase(pbUrl);
+  const pb = new PocketBase(pbUrl) as TypedPocketBase;
   await pb.admins.authWithPassword(pbAdminEmail, pbAdminPassword);
   return pb;
 }

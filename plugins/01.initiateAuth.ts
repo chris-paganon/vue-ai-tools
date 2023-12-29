@@ -1,8 +1,9 @@
-import PocketBase, { AuthModel } from 'pocketbase';
+import PocketBase, { type AuthModel } from 'pocketbase';
+import type { TypedPocketBase } from '@/types/types';
 
 export default defineNuxtPlugin(async () => {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
-  const pb = new PocketBase(pbUrl);
+  const pb = new PocketBase(pbUrl) as TypedPocketBase;
 
   const cookieAuthStore = useCookie('pb_auth', {
     path:     '/',

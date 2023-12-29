@@ -25,15 +25,13 @@
 </template>
 
 <script setup lang="ts">
-import type { PbSubscription } from '@/types/types';
-
 const { $pb } = useNuxtApp();
 const { isSubscribed } = storeToRefs(useAuthStore());
 const isSubscribeLoading = ref(false);
 
 const { data: subscription } = await useAsyncData(
 	'getSubscription',
-	() => $pb.collection('subscriptions').getFirstListItem<PbSubscription>(`user="${$pb.authStore.model?.id}"`)
+	() => $pb.collection('subscriptions').getFirstListItem(`user="${$pb.authStore.model?.id}"`)
 );
 
 function toFormattedDate(date: string) {

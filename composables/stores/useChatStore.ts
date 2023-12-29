@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { Chat, PbConversation } from '@/types/types';
+import { Chat } from '@/types/types';
 import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
 
@@ -94,7 +94,7 @@ export const useChatStore = defineStore('chat', () => {
 
     const { data: chatsFromDb } = await useAsyncData(
       'getChatsFromDb',
-      () => $pb.collection('chats').getFullList<PbConversation>({expand: 'chat_messages(chat)'}),
+      () => $pb.collection('chats').getFullList({expand: 'chat_messages(chat)'}),
     );
     
     if (!chatsFromDb.value) {
