@@ -13,20 +13,26 @@ export default defineEventHandler(async (event) => {
 			statusMessage: 'Missing session_id'
 		});
 	}
+	if (!session_id.match(/^[a-zA-Z0-9_]+$/)) {
+		throw createError({
+			statusCode: 400,
+			statusMessage: 'Invalid session_id'
+		});
+	}
 
 	const stripe = new Stripe(stripeSecretKey);
 
 	try {
 		const session = await stripe.checkout.sessions.retrieve(session_id);
-		console.log("🚀 ~ file: checkoutSessionStatus.get.ts:20 ~ defineEventHandler ~ session:", session)
 	
 		const pbUser = await useGetVerifiedUserPb(event);
 		const adminPb = await useGetAdminPb();
 		if (!pbUser) throw new Error('User id not found');
-	
-		const transaction = await adminPb.collection('transactions').getFirstListItem(`user="${pbUser.id}"`, {
-			fields: 'id',
-		});
+		
+		const transaction = await adminPb.collection('transactions').getFirstListItem(
+			adminPb.filter('user={:pbUserId}', { pbUserId: pbUser.id }),
+			{ fields: 'id' }
+		);
 		// TODO: Make sure not to overwrite a completed transaction
 		await adminPb.collection('transactions').update(transaction.id, {
 			status: session.status,
