@@ -1,9 +1,0 @@
-version: '3.8'
-name: vue-ai-tools-production
-
-include:
-  - path: ../../base/nuxt-app-compose.yml
-    project_directory: ../../
-    env_file: ./production.env
-  - path: ../../base/pb-db-compose.yml
-    env_file: ./production.env

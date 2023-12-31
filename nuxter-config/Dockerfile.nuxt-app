@@ -1,0 +1,9 @@
+FROM node:18-alpine
+
+ARG APP_NAME
+ARG APP_ENV
+COPY ./.output.${APP_ENV} /opt/${APP_NAME}/.output
+
+WORKDIR /opt/${APP_NAME}/.output/server
+
+CMD ["node", "index.mjs"]
