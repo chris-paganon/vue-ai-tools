@@ -1,9 +1,8 @@
 FROM node:18-alpine
 
-ARG APP_NAME
 ARG APP_ENV
-COPY ./.output.${APP_ENV} /opt/${APP_NAME}/.output
+COPY ./.output.${APP_ENV} /opt/nuxter/.output
 
-WORKDIR /opt/${APP_NAME}/.output/server
+WORKDIR /opt/nuxter/.output/server
 
 CMD ["node", "index.mjs"]
