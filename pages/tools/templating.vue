@@ -1,27 +1,17 @@
 <template>
   <div class="h-full flex flex-column">
 		<h1>Generate a Vue component from a JSON template:</h1>
-		<codemirror
-			v-model="code"
-			placeholder="Code goes here..."
-			:style="{ height: '400px' }"
-			:autofocus="true"
-			:indent-with-tab="true"
-			:tab-size="2"
-			:extensions="extensions"
-			@ready="handleReady"
-			@change="console.log('change', $event)"
-			@focus="console.log('focus', $event)"
-			@blur="console.log('blur', $event)"
-		/>
+		<div ref="codeMirrorParent"></div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { Codemirror } from 'vue-codemirror';
+import { EditorState } from "@codemirror/state"
+import { EditorView, basicSetup } from "codemirror"
 import { json } from "@codemirror/lang-json";
 import { oneDark } from '@codemirror/theme-one-dark'
 
+const codeMirrorParent = ref<HTMLDivElement | null>(null);
 const code = ref(`{
 	"template": {
 		"counter": 0,
@@ -31,23 +21,21 @@ const code = ref(`{
 		"function": "increment"
 	}
 }`);
-const extensions = [json(), oneDark];
+const extensions = [json(), oneDark, basicSetup];
 
-const view = shallowRef();
+let startState = EditorState.create({
+  doc: code.value,
+  extensions: extensions
+})
 
-function handleReady(payload: any) {
-	view.value = payload.view
-}
-
-function getCodemirrorStates() {
-	const state = view.value.state
-	const ranges = state.selection.ranges
-	const selected = ranges.reduce((r: any, range: any) => r + range.to - range.from, 0)
-	const cursor = ranges[0].anchor
-	const length = state.doc.length
-	const lines = state.doc.lines
-	// more state info ...
-	// return ...
-}
-
+onMounted(() => {
+	console.log('test', codeMirrorParent.value);
+	if (!codeMirrorParent.value) return;
+	
+	let view = new EditorView({
+		state: startState,
+		extensions: extensions,
+		parent: codeMirrorParent.value
+	})
+});
 </script>
