@@ -9,10 +9,10 @@
 </template>
 
 <script setup lang="ts">
-import { EditorState } from "@codemirror/state"
-import { EditorView, basicSetup } from "codemirror"
+import { EditorState } from "@codemirror/state";
+import { EditorView, basicSetup } from "codemirror";
 import { json } from "@codemirror/lang-json";
-import { oneDark } from '@codemirror/theme-one-dark'
+import { oneDark } from '@codemirror/theme-one-dark';
 
 const { messages } = storeToRefs(useChatStore());
 const { addUserMessage, addAssistantMessage } = useChatStore();
@@ -33,7 +33,7 @@ const extensions = [json(), oneDark, basicSetup];
 let startState = EditorState.create({
   doc: code.value,
   extensions: extensions
-})
+});
 
 const view = shallowRef<EditorView | null>(null);
 onMounted(() => {
@@ -49,8 +49,6 @@ onMounted(() => {
 
 async function generateComponent() {
 	if (!view.value) return;
-	console.log('generateComponent');
-	console.log('state: ', view.value?.state.doc.toString());
 
 	addUserMessage(`Use this JSON template to generate a Vue component: ${view.value.state.doc.toString()}`);
   setIsWaitingAnswer(true);
