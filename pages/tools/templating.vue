@@ -1,8 +1,10 @@
 <template>
   <div class="h-full flex flex-column">
 		<h1>Generate a Vue component from a JSON template:</h1>
+    <Textarea v-model="templateGenerationIntro" @keydown.enter="generateComponent" autoResize rows="1" class="mb-3" />
 		<div ref="codeMirrorParent"></div>
-		<Button label="Generate" @click="generateComponent" class="mt-4" />
+		<Button label="Generate" @click="generateComponent" class="mt-4 mb-3" />
+		<Divider />
 		<ChatConversation />
 		<ChatInputControl v-if="messages.filter(message => message.role !== 'system').length > 0" />
 	</div>
@@ -18,6 +20,7 @@ const { messages } = storeToRefs(useChatStore());
 const { addUserMessage, addAssistantMessage } = useChatStore();
 const { setIsWaitingAnswer } = useChatInputStore();
 
+// Setup CodeMirror
 const codeMirrorParent = ref<HTMLDivElement | null>(null);
 const code = ref(`{
 	"template": {
@@ -47,10 +50,12 @@ onMounted(() => {
 	})
 });
 
+// Handle user input
+const templateGenerationIntro = ref('Use this JSON template to generate a Vue component:');
 async function generateComponent() {
 	if (!view.value) return;
 
-	addUserMessage(`Use this JSON template to generate a Vue component: ${view.value.state.doc.toString()}`);
+	addUserMessage(`${templateGenerationIntro.value} ${view.value.state.doc.toString()}`);
   setIsWaitingAnswer(true);
 
   const assistantAnswer = await useAskQuestion();
