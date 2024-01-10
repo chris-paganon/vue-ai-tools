@@ -73,7 +73,8 @@ export default defineNuxtConfig({
       contentSecurityPolicy: {
         'script-src': ["'self'", 'https:', "'unsafe-inline'", "'unsafe-eval'", "'strict-dynamic'", "'nonce-{{nonce}}'"],
       }
-    }
+    },
+    xssValidator: false
   },
   runtimeConfig: {
     // The private keys which are only available server-side
