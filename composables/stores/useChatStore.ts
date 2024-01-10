@@ -8,16 +8,16 @@ export const useChatStore = defineStore('chat', () => {
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
   const baseSystemMessage = 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.'
-  const defaultChat = ref<Chat>({
+  const defaultChat: Chat = {
     id: '',
     name: '',
     messages: [{
       role: 'system',
       content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`,
     }],
-  });
+  };
 
-  const chats = ref([defaultChat.value]);
+  const chats = ref([structuredClone(defaultChat)]);
   const currentChatIndex = ref(0);
 
   const currentChatId = computed(() => {
@@ -31,14 +31,14 @@ export const useChatStore = defineStore('chat', () => {
   });
 
   function $reset() {
-    chats.value = [defaultChat.value];
+    chats.value = [structuredClone(defaultChat)];
     currentChatIndex.value = 0;
   }
   function setNewChat() {
-    // Reuse an existing empty chat if it exists
-    let newChatIndex = chats.value.findIndex((chat) => chat.name === defaultChat.value.name && chat.id === defaultChat.value.id);
+    // Reuse an existing empty chat if it exists    
+    let newChatIndex = chats.value.findIndex((chat) => chat.name === defaultChat.name && chat.id === defaultChat.id);
     if (newChatIndex === -1) {
-      newChatIndex = chats.value.push(defaultChat.value) - 1;
+      newChatIndex = chats.value.push(structuredClone(defaultChat)) - 1;
     }
     setCurrentChatIndex(newChatIndex);
   }
