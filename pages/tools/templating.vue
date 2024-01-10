@@ -17,7 +17,7 @@ import { json } from "@codemirror/lang-json";
 import { oneDark } from '@codemirror/theme-one-dark';
 
 const { messages } = storeToRefs(useChatStore());
-const { addUserMessage, addAssistantMessage } = useChatStore();
+const { addUserMessage, addAssistantMessage, setTemplatingSystemMessage } = useChatStore();
 const { setIsWaitingAnswer } = useChatInputStore();
 
 // Setup CodeMirror
@@ -57,6 +57,7 @@ async function generateComponent() {
 
 	addUserMessage(`${templateGenerationIntro.value} ${view.value.state.doc.toString()}`);
   setIsWaitingAnswer(true);
+	setTemplatingSystemMessage();
 
   const assistantAnswer = await useAskQuestion();
   if (!assistantAnswer) {

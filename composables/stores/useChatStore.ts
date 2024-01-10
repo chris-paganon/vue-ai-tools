@@ -67,6 +67,9 @@ export const useChatStore = defineStore('chat', () => {
   function setOptionsIndexSystemMessage() {
     replaceSystemMessage(`Here is an index of all the pages in the Vue documentation (using the Options API): VUE_DOCUMENTATION_INDEX: ${optionsIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`);
   }
+  function setTemplatingSystemMessage() {
+    replaceSystemMessage(baseSystemMessage);
+  }
   function setCurrentChatId(value: string) {
     chats.value[currentChatIndex.value].id = value;
   }
@@ -135,6 +138,7 @@ export const useChatStore = defineStore('chat', () => {
     setPlainGptSystemMessage,
     setCompositionIndexSystemMessage,
     setOptionsIndexSystemMessage,
+    setTemplatingSystemMessage,
     setCurrentChatIndex,
     setCurrentChatId,
     addUserMessage,
