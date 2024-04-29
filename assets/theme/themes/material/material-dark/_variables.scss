@@ -264,21 +264,22 @@ $colorPickerHandleColor: #ffffff !default;
 
 //togglebutton
 $toggleButtonBg: #2f2f2f !default;
-$toggleButtonBorder: 1px solid rgba(255, 255, 255, 0.12) !default;
+$toggleButtonBorder: $secondaryButtonBorder !default;
 $toggleButtonTextColor: $textColor !default;
-$toggleButtonIconColor: $textSecondaryColor !default;
-$toggleButtonHoverBg: #373737 !default;
-$toggleButtonHoverBorderColor: rgba(255, 255, 255, 0.12) !default;
-$toggleButtonTextHoverColor: $textColor !default;
-$toggleButtonIconHoverColor: $textSecondaryColor !default;
-$toggleButtonActiveBg: #1c1c1c !default;
-$toggleButtonActiveBorderColor: rgba(255, 255, 255, 0.12) !default;
-$toggleButtonTextActiveColor: $textColor !default;
-$toggleButtonIconActiveColor: $textSecondaryColor !default;
-$toggleButtonActiveHoverBg: #262626 !default;
-$toggleButtonActiveHoverBorderColor: rgba(255, 255, 255, 0.12) !default;
-$toggleButtonTextActiveHoverColor: $textColor !default;
-$toggleButtonIconActiveHoverColor: $textSecondaryColor !default;
+$toggleButtonIconColor: $textColor !default;
+$toggleButtonHoverBg: $primaryColor !default;
+$toggleButtonHoverBg:$primaryColor !default;
+$toggleButtonHoverBorderColor:$secondaryButtonHoverBorderColor !default;
+$toggleButtonTextHoverColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonIconHoverColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonActiveBg:$secondaryButtonActiveBg !default;
+$toggleButtonActiveBorderColor:$secondaryButtonActiveBorderColor !default;
+$toggleButtonTextActiveColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonIconActiveColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonActiveHoverBg:$primaryColor !default;
+$toggleButtonActiveHoverBorderColor:rgba(255,255,255,.12) !default;
+$toggleButtonTextActiveHoverColor:$secondaryButtonTextHoverColor !default;
+$toggleButtonIconActiveHoverColor:$secondaryButtonTextHoverColor !default;
 
 //inplace
 $inplacePadding: $inputPadding !default;
