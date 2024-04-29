@@ -32,12 +32,6 @@ export default defineNuxtConfig({
     'nuxt-primevue',
     'nuxt-security',
   ],
-  pinia: {
-    autoImports: [
-      'defineStore',
-      'storeToRefs',
-    ]
-  },
   primevue: {
     usePrimeVue: true,
     options: { 
