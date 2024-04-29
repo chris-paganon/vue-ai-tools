@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import { ClientResponseError } from 'pocketbase';
-import { PasswordState } from 'primevue/password';
 import { useToast } from "primevue/usetoast";
+import type { PasswordState } from 'primevue/password';
 import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types'
 
 const { $pb } = useNuxtApp();

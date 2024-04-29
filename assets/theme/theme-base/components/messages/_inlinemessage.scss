@@ -1,3 +1,25 @@
+// core
+.p-inline-message {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+}
+
+.p-inline-message-icon {
+    flex-shrink: 0;
+}
+
+.p-inline-message-icon-only .p-inline-message-text {
+    visibility: hidden;
+    width: 0;
+}
+
+.p-fluid .p-inline-message {
+    display: flex;
+}
+
+// theme
 .p-inline-message {
     padding: $inlineMessagePadding;
     margin: $inlineMessageMargin;
@@ -44,6 +66,32 @@
 
         .p-inline-message-icon {
             color: $errorMessageIconColor;
+        }
+    }
+
+    @if variable-exists(secondaryMessageBg) {
+        &.p-inline-message-secondary {
+            background: $secondaryMessageBg;
+            border: $secondaryMessageBorder;
+            border-width: $inlineMessageBorderWidth;
+            color: $secondaryMessageTextColor;
+
+            .p-inline-message-icon {
+                color: $secondaryMessageIconColor;
+            }
+        }
+    }
+
+    @if variable-exists(contrastMessageBg) {
+        &.p-inline-message-contrast {
+            background: $contrastMessageBg;
+            border: $contrastMessageBorder;
+            border-width: $inlineMessageBorderWidth;
+            color: $contrastMessageTextColor;
+
+            .p-inline-message-icon {
+                color: $contrastMessageIconColor;
+            }
         }
     }
 

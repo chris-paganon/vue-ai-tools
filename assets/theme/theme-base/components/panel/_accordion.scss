@@ -1,3 +1,22 @@
+// core
+.p-accordion-header-action {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    user-select: none;
+    position: relative;
+    text-decoration: none;
+}
+
+.p-accordion-header-action:focus {
+    z-index: 1;
+}
+
+.p-accordion-header-text {
+    line-height: 1;
+}
+
+// theme
 .p-accordion {
     .p-accordion-header {
         .p-accordion-header-link {
@@ -8,6 +27,7 @@
             font-weight: $accordionHeaderFontWeight;
             border-radius: $borderRadius;
             transition: $listItemTransition;
+            outline-color: transparent;
 
             .p-accordion-toggle-icon {
                 margin-right: $inlineSpacing;

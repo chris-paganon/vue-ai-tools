@@ -1,5 +1,6 @@
 .p-dropdown {
-    .p-inputtext, .p-dropdown-trigger {
+    .p-inputtext,
+    .p-dropdown-trigger {
         background-image: none;
         background: transparent;
     }
@@ -9,32 +10,36 @@
     }
 
     &:not(.p-disabled).p-focus {
-        box-shadow: inset 0 0 0 1px $inputFocusBorderColor,inset 0 0 0 1px $inputFocusBorderColor,inset 0 0 0 1px $inputFocusBorderColor,inset 0 0 0 1px $inputFocusBorderColor;
+        box-shadow: inset 0 0 0 1px $inputFocusBorderColor,
+            inset 0 0 0 1px $inputFocusBorderColor,
+            inset 0 0 0 1px $inputFocusBorderColor,
+            inset 0 0 0 1px $inputFocusBorderColor;
     }
-}
 
-.p-dropdown-item {
-    .p-ink {
-        background-color: rgba($primaryColor, .16);
-    }
-}
-
-.p-input-filled {
-    .p-dropdown {
+    &.p-variant-filled {
         @include filled-input-wrapper();
 
         .p-inputtext {
             border: 0 none;
         }
-    }
 
-    .p-dropdown.p-invalid {
-        @include invalid-filled-input-wrapper();
+        &.p-invalid {
+            @include invalid-filled-input-wrapper();
+        }
+    }
+}
+
+.p-dropdown-item {
+    .p-ink {
+        background-color: rgba($primaryColor, 0.16);
     }
 }
 
 .p-dropdown.p-invalid {
     &:not(.p-disabled).p-focus {
-        box-shadow: inset 0 0 0 1px $inputErrorBorderColor,inset 0 0 0 1px $inputErrorBorderColor,inset 0 0 0 1px $inputErrorBorderColor,inset 0 0 0 1px $inputErrorBorderColor;
+        box-shadow: inset 0 0 0 1px $inputErrorBorderColor,
+            inset 0 0 0 1px $inputErrorBorderColor,
+            inset 0 0 0 1px $inputErrorBorderColor,
+            inset 0 0 0 1px $inputErrorBorderColor;
     }
 }

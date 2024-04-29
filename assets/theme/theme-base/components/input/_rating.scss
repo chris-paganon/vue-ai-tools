@@ -1,9 +1,30 @@
 @use 'sass:math';
 
+// core
+.p-rating {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.p-rating-item {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.p-rating.p-readonly .p-rating-item {
+    cursor: default;
+}
+
+// theme
 .p-rating {
     gap: $inlineSpacing;
 
     .p-rating-item {
+        outline-color: transparent;
+        border-radius: 50%;
+        
         .p-rating-icon {
             color: $ratingStarIconOffColor;
             transition: $formElementTransition;   
@@ -20,7 +41,7 @@
         }
 
         &.p-focus {
-            @include focused-input();
+            @include focused();
         }
 
         &.p-rating-item-active {

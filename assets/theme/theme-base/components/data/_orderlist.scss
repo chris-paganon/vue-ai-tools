@@ -1,3 +1,43 @@
+// core
+.p-orderlist {
+    display: flex;
+}
+
+.p-orderlist-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.p-orderlist-list-container {
+    flex: 1 1 auto;
+}
+
+.p-orderlist-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    min-height: 12rem;
+    max-height: 24rem;
+}
+
+.p-orderlist-item {
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+.p-orderlist.p-state-disabled .p-orderlist-item,
+.p-orderlist.p-state-disabled .p-button {
+    cursor: default;
+}
+
+.p-orderlist.p-state-disabled .p-orderlist-list {
+    overflow: hidden;
+}
+
+// theme
 .p-orderlist {
     .p-orderlist-controls {
         padding: $panelContentPadding;
@@ -7,25 +47,32 @@
         }
     }
 
+    .p-orderlist-list-container {
+        background: $panelContentBg;
+        border: $panelContentBorder;
+        border-radius: $borderRadius;
+        transition: $formElementTransition;
+        outline-color: transparent;
+
+        &.p-focus {
+            @include focused-input();
+        }
+    }
+
     .p-orderlist-header {
-        background: $panelHeaderBg;
         color: $panelHeaderTextColor;
-        border: $panelHeaderBorder;
         padding: $panelHeaderPadding;
         font-weight: $panelHeaderFontWeight;
-        border-bottom: 0 none;
-        border-top-right-radius: $borderRadius;
-        border-top-left-radius: $borderRadius;
     }
 
     .p-orderlist-list {
-        border: $panelContentBorder;
-        background: $panelContentBg;
         color: $panelContentTextColor;
         padding: $inputListPadding;
-        border-bottom-right-radius: $borderRadius;
-        border-bottom-left-radius: $borderRadius;
         outline: 0 none;
+        
+        &:not(:first-child) {
+            border-top: $panelContentBorder;
+        }
 
         .p-orderlist-item {
             padding: $inputListItemPadding;
@@ -35,14 +82,27 @@
             background: $inputListItemBg;
             transition: transform $transitionDuration, $listItemTransition;
 
+            &:first-child {
+                margin-top: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
             &:not(.p-highlight):hover {
                 background: $inputListItemHoverBg;
                 color: $inputListItemTextHoverColor;
+
+                &.p-focus {
+                    color: $inputListItemTextHoverColor;
+                    background: $inputListItemHoverBg;
+                }
             }
 
             &.p-focus {
-                color: $inputListItemTextFocusColor;
-                background: $inputListItemFocusBg;
+                color: $inputListItemTextHoverColor;
+                background: $inputListItemHoverBg;
             }
 
             &.p-highlight {

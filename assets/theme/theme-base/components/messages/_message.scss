@@ -1,3 +1,54 @@
+// core
+.p-message-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.p-message-icon {
+    flex-shrink: 0;
+}
+
+.p-message-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.p-message-close.p-link {
+    margin-left: auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.p-message-enter-from {
+    opacity: 0;
+}
+
+.p-message-enter-active {
+    transition: opacity 0.3s;
+}
+
+.p-message.p-message-leave-from {
+    max-height: 1000px;
+}
+
+.p-message.p-message-leave-to {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+}
+
+.p-message-leave-active {
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), opacity 0.3s, margin 0.15s;
+}
+
+.p-message-leave-active .p-message-close {
+    display: none;
+}
+
+// theme
 .p-message {
     margin: $messageMargin;
     border-radius: $borderRadius;
@@ -12,15 +63,15 @@
         border-radius: $actionIconBorderRadius;
         background: transparent;
         transition: $actionIconTransition;
+        outline-color: transparent;
 
         &:hover {
-            background: rgba(255,255,255,.5);
+            background: rgba(255, 255, 255, 0.5);
         }
 
         &:focus-visible {
             @include focused();
         }
-    
     }
 
     &.p-message-info {
@@ -80,6 +131,40 @@
 
         .p-message-close {
             color: $errorMessageIconColor;
+        }
+    }
+
+    @if variable-exists(secondaryMessageBg) {
+        &.p-message-secondary {
+            background: $secondaryMessageBg;
+            border: $secondaryMessageBorder;
+            border-width: $messageBorderWidth;
+            color: $secondaryMessageTextColor;
+
+            .p-message-icon {
+                color: $secondaryMessageIconColor;
+            }
+
+            .p-message-close {
+                color: $secondaryMessageIconColor;
+            }
+        }
+    }
+
+    @if variable-exists(contrastMessageBg) {
+        &.p-message-contrast {
+            background: $contrastMessageBg;
+            border: $contrastMessageBorder;
+            border-width: $messageBorderWidth;
+            color: $contrastMessageTextColor;
+
+            .p-message-icon {
+                color: $contrastMessageIconColor;
+            }
+
+            .p-message-close {
+                color: $contrastMessageIconColor;
+            }
         }
     }
 

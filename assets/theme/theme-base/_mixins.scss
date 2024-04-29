@@ -12,12 +12,14 @@
 
 @mixin focused-inset() {
 	outline: $focusOutline;
-    outline-offset: $focusOutlineOffset;
+    outline-offset: -1 * $focusOutlineOffset;
     box-shadow: inset $focusShadow;
 }
 
 @mixin focused-input() {
-	@include focused();
+	outline: $focusOutline;
+    outline-offset: $inputFocusOutlineOffset;
+    box-shadow: $focusShadow;
 	border-color: $inputFocusBorderColor;
 }
 
@@ -32,6 +34,16 @@
 }
 
 @mixin menuitem {
+    margin: $inputListItemMargin;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+    
     > .p-menuitem-content {
         color: $menuitemTextColor;
         transition: $listItemTransition;
@@ -83,16 +95,31 @@
     &:not(.p-highlight):not(.p-disabled) {
         &.p-focus {
             > .p-menuitem-content {
-                color: $menuitemTextFocusColor;
-                background: $menuitemFocusBg;
+                color: $menuitemTextHoverColor;
+                background: $menuitemHoverBg;
     
                 .p-menuitem-link {
                     .p-menuitem-text {
-                        color: $menuitemTextFocusColor;
+                        color: $menuitemTextHoverColor;
                     }
                 
                     .p-menuitem-icon, .p-submenu-icon {
-                        color: $menuitemIconFocusColor;
+                        color: $menuitemTextHoverColor;
+                    }
+                }
+
+                &:hover {
+                    color: $menuitemTextHoverColor;
+                    background: $menuitemHoverBg;
+        
+                    .p-menuitem-link {
+                        .p-menuitem-text {
+                            color: $menuitemTextHoverColor;
+                        }
+        
+                        .p-menuitem-icon, .p-submenu-icon {
+                            color: $menuitemIconHoverColor;
+                        }
                     }
                 }
             }
@@ -210,6 +237,7 @@
     background: $actionIconBg;
     border-radius: $actionIconBorderRadius;
     transition: $actionIconTransition;
+    outline-color: transparent;
 
     @if $enabled {
         &:enabled:hover {
