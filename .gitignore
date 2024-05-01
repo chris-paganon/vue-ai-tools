@@ -24,5 +24,6 @@ logs
 !.env.example
 !.env.sample
 
-# Pocketbase
+# Database
 pb_data
+sqlite.db
