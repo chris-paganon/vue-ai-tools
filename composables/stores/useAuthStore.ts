@@ -14,9 +14,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    const { $pb } = useNuxtApp();
-    $pb.authStore.clear();
-    await resetAfterLogout();
+    await $fetch('/api/auth/logout', {
+      method: 'POST',
+    });
     await navigateTo('/');
   }
   async function resetAfterLogout() {
@@ -34,8 +34,10 @@ export const useAuthStore = defineStore('auth', () => {
     const { $pb } = useNuxtApp();
     const subscriptions = await $pb.collection('subscriptions').getFullList();
     if (!subscriptions || subscriptions.length === 0) return;
-    
-    if (subscriptions.some((subscription) => subscription.status === 'active')) {
+
+    if (
+      subscriptions.some((subscription) => subscription.status === 'active')
+    ) {
       setIsSubscribed(true);
     }
   }
