@@ -22,6 +22,9 @@ export const usersTable = sqliteTable('user', {
   emailVerified: integer('email_verified', { mode: 'boolean' })
     .notNull()
     .default(false),
+  emailConsent: integer('email_consent', { mode: 'boolean' })
+    .notNull()
+    .default(false),
 });
 
 export const sessionsTable = sqliteTable('session', {

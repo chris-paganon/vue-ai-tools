@@ -181,11 +181,18 @@ async function signUp() {
     delete pbErrors.value.password;
     delete pbErrors.value.passwordConfirm;
 
-    await $pb.collection('users').create({
-      email: email.value,
-      password: password.value,
-      passwordConfirm: passwordConfirm.value,
-      emailConsent: emailConsent.value ? true : false,
+    await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+        passwordConfirm: passwordConfirm.value,
+        emailConsent: emailConsent.value,
+        privacyConsent: privacyConsent.value,
+      }),
     });
     
     await $pb.collection("users").requestVerification(email.value);
