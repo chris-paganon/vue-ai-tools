@@ -45,7 +45,16 @@ const isForgotPassordForm = ref(false);
 async function login() {
   try {
     errorMessage.value = '';
-    await $pb.collection('users').authWithPassword(email.value, password.value);
+    await $fetch('/api/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+    });
     setIsLoginModalOpened(false);
     email.value = '';
     password.value = '';
