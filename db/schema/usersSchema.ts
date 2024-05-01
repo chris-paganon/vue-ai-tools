@@ -1,4 +1,5 @@
 import sqlite from 'better-sqlite3';
+import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
@@ -6,25 +7,33 @@ import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 const sqliteDB = sqlite('sqlite.db');
 const db = drizzle(sqliteDB);
 
-export const userTable = sqliteTable('user', {
-  id: text('id').notNull().primaryKey(),
+export const usersTable = sqliteTable('user', {
+  id: text('id').primaryKey(),
   username: text('username').notNull().unique(),
   password: text('password').notNull(),
   email: text('email').notNull().unique(),
-  created: text('created').notNull(),
-  updated: text('updated').notNull(),
+  created: text('created')
+    .notNull()
+    .default(sql`(current_timestamp)`),
+  updated: text('updated')
+    .notNull()
+    .default(sql`(current_timestamp)`),
   stripe_id: text('stripe_id').unique(),
   emailVerified: integer('email_verified', { mode: 'boolean' })
     .notNull()
     .default(false),
 });
 
-export const sessionTable = sqliteTable('session', {
+export const sessionsTable = sqliteTable('session', {
   id: text('id').notNull().primaryKey(),
   userId: text('user_id')
     .notNull()
-    .references(() => userTable.id),
+    .references(() => usersTable.id),
   expiresAt: integer('expires_at').notNull(),
 });
 
-export const dbAdapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
+export const dbAdapter = new DrizzleSQLiteAdapter(
+  db,
+  sessionsTable,
+  usersTable
+);
