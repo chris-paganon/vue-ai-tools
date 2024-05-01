@@ -1,6 +1,13 @@
+import type { User } from 'lucia';
+
 export const useAuthStore = defineStore('auth', () => {
   const chatStore = useChatStore();
-  
+
+  const user = ref<User | null>(null);
+  function setUser(value: User) {
+    user.value = value;
+  }
+
   const isSignedIn = ref(false);
   function setIsSignedIn(value: boolean) {
     isSignedIn.value = value;
@@ -37,6 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
     isSignedIn,
     isSubscribed,
     setIsSignedIn,
+    setUser,
     setIsSubscribed,
     logout,
     resetAfterLogout,

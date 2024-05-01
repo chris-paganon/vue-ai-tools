@@ -32,17 +32,19 @@ export default defineNuxtPlugin(async () => {
     };
   });
 
-	const { setIsSignedIn } = useAuthStore();
+  // TODO: This should run only in frontend
+  const user = await $fetch('/api/auth/user');
+
+	const { setIsSignedIn, setUser } = useAuthStore();
 	try {
 		// get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-		if (!pb.authStore.isValid) {
+		if (!user) {
       throw new Error('Invalid or expired auth');
     }
-    await pb.collection('users').authRefresh();
     setIsSignedIn(true);
+    setUser(user);
   } catch (error) {
 		// clear the auth store on failed refresh
-    pb.authStore.clear();
 		const { resetAfterLogout } = useAuthStore();
 		await resetAfterLogout();
   }
