@@ -9,7 +9,7 @@ export const useChatStore = defineStore('chat', () => {
   const optionsIndexString = JSON.stringify(optionsIndex);
   const baseSystemMessage = 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.'
   const defaultChat: Chat = {
-    id: '',
+    id: 0,
     name: '',
     messages: [{
       role: 'system',
@@ -70,7 +70,7 @@ export const useChatStore = defineStore('chat', () => {
   function setTemplatingSystemMessage() {
     replaceSystemMessage(baseSystemMessage);
   }
-  function setCurrentChatId(value: string) {
+  function setCurrentChatId(value: number) {
     chats.value[currentChatIndex.value].id = value;
   }
   function setCurrentChatIndex(value: number) {

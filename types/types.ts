@@ -21,7 +21,7 @@ export interface localSignupErrors {
 
 // TODO: Verify these types or get them directly from JS migrations
 export interface Chat {
-  id: string;
+  id: number;
   name: string;
   messages: LegacyChatCompletionMessage[];
 }

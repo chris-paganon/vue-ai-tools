@@ -5,9 +5,7 @@ import { usersTable } from './usersSchema';
 export const chatsTable = sqliteTable('chat', {
   id: integer('id').primaryKey(),
   name: text('name').notNull(),
-  user: text('user')
-    .notNull()
-    .references(() => usersTable.id),
+  userId: text('user_id').references(() => usersTable.id),
   created: text('created')
     .notNull()
     .default(sql`(current_timestamp)`),
@@ -18,7 +16,7 @@ export const chatsTable = sqliteTable('chat', {
 
 export const chatMessagesTable = sqliteTable('chat_message', {
   id: integer('id').primaryKey(),
-  chat: text('chat')
+  chatId: integer('chat_id')
     .notNull()
     .references(() => chatsTable.id),
   role: text('role').notNull(),
