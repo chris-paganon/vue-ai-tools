@@ -33,6 +33,16 @@ export const sessionsTable = sqliteTable('session', {
   expiresAt: integer('expires_at').notNull(),
 });
 
+export const emailVerificationTable = sqliteTable('email_verification', {
+  id: text('id').notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => usersTable.id),
+  code: text('code').notNull(),
+  email: text('email').notNull(),
+  expiresAt: text('expires_at').notNull(),
+});
+
 export const dbAdapter = new DrizzleSQLiteAdapter(
   db,
   sessionsTable,

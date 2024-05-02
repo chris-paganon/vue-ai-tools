@@ -18,7 +18,6 @@ export const lucia = new Lucia(dbAdapter, {
       email: attributes.email,
       created: attributes.created,
       updated: attributes.updated,
-      stripe_id: attributes.stripe_id,
       emailVerified: attributes.emailVerified,
     };
   },
@@ -43,6 +42,5 @@ interface DatabaseUserAttributes {
   email: string;
   created: string;
   updated: string;
-  stripe_id: string;
   emailVerified: boolean;
 }
