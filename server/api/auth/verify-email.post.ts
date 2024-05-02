@@ -13,15 +13,17 @@ export default eventHandler(async (event) => {
 
   const { otpCode } = await readBody(event);
   if (typeof otpCode !== 'string') {
-    return new Response(null, {
-      status: 400,
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid code',
     });
   }
 
   const validCode = await verifyVerificationCode(user, otpCode);
   if (!validCode) {
-    return new Response(null, {
+    throw createError({
       status: 400,
+      statusMessage: 'Invalid or expired code',
     });
   }
 

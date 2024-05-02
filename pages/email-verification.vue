@@ -20,17 +20,46 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { FetchError } from 'ofetch';
 
+const toast = useToast();
 const otpCode = ref('');
 
 async function submit() {
-  await $fetch('/api/auth/verify-email', {
-    method: 'POST',
-    body: JSON.stringify({ otpCode: otpCode.value }),
-  });
+  try {
+    await $fetch('/api/auth/verify-email', {
+      method: 'POST',
+      body: JSON.stringify({ otpCode: otpCode.value }),
+    });
+    toast.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Your email has been verified',
+    });
+    navigateTo('/account');
+  } catch (error) {
+    if (error instanceof FetchError) {
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: error.data.statusMessage,
+      });
+      return;
+    }
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'There was an error verifying your email',
+    });
+  }
 }
 
 async function sendCode() {
   await $fetch('/api/auth/send-email-code');
+  toast.add({
+    severity: 'info',
+    summary: 'Info',
+    detail: 'Please check your email for a new code',
+  });
 }
 </script>
