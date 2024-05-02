@@ -14,7 +14,7 @@ const items = computed<MenuItem[] | undefined>(() => {
     .filter((chat) => chat.name)
     .map((chat, index) => {
       return {
-        key: chat.id,
+        key: chat.id.toString(),
         label: chat.name,
         command: () => {
           setCurrentChatIndex(index);
