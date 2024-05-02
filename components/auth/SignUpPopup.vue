@@ -53,7 +53,6 @@ import { useToast } from "primevue/usetoast";
 import type { PasswordState } from 'primevue/password';
 import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types'
 
-const { $pb } = useNuxtApp();
 const toast = useToast();
 
 const { isSignUpModalOpened } = storeToRefs(useUIStore());
@@ -194,8 +193,8 @@ async function signUp() {
         privacyConsent: privacyConsent.value,
       }),
     });
+    // TODO AUTH: Add email verification
     
-    await $pb.collection("users").requestVerification(email.value);
     toast.add({
       severity: "info",
       summary: "Info",

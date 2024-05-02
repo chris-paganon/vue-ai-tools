@@ -29,7 +29,6 @@
 
 <script setup lang="ts">
 import { ClientResponseError } from 'pocketbase';
-const { $pb } = useNuxtApp();
 
 const { setIsSignedIn } = useAuthStore();
 const { isLoginModalOpened } = storeToRefs(useUIStore());
