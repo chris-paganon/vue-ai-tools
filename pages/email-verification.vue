@@ -22,6 +22,9 @@ import { ref } from 'vue';
 const otpCode = ref('');
 
 async function submit() {
-  console.log(otpCode.value);
+  await $fetch('/api/auth/verify-email', {
+    method: 'POST',
+    body: JSON.stringify({ otpCode: otpCode.value }),
+  });
 }
 </script>
