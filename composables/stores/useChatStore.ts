@@ -4,17 +4,19 @@ import optionsIndex from '../../assets/vue-docs/options-index.json';
 import type { Chat, LegacyChatCompletionMessage } from '@/types/types';
 
 export const useChatStore = defineStore('chat', () => {
-
   const compositionIndexString = JSON.stringify(compositionIndex);
   const optionsIndexString = JSON.stringify(optionsIndex);
-  const baseSystemMessage = 'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.'
+  const baseSystemMessage =
+    'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.';
   const defaultChat: Chat = {
     id: 0,
     name: '',
-    messages: [{
-      role: 'system',
-      content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`,
-    }],
+    messages: [
+      {
+        role: 'system',
+        content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`,
+      },
+    ],
   };
 
   const chats = ref([structuredClone(defaultChat)]);
@@ -35,8 +37,10 @@ export const useChatStore = defineStore('chat', () => {
     currentChatIndex.value = 0;
   }
   function setNewChat() {
-    // Reuse an existing empty chat if it exists    
-    let newChatIndex = chats.value.findIndex((chat) => chat.name === defaultChat.name && chat.id === defaultChat.id);
+    // Reuse an existing empty chat if it exists
+    let newChatIndex = chats.value.findIndex(
+      (chat) => chat.name === defaultChat.name && chat.id === defaultChat.id
+    );
     if (newChatIndex === -1) {
       newChatIndex = chats.value.push(structuredClone(defaultChat)) - 1;
     }
@@ -44,9 +48,11 @@ export const useChatStore = defineStore('chat', () => {
   }
   function addMessage(message: LegacyChatCompletionMessage) {
     chats.value[currentChatIndex.value].messages.push(message);
-    useHandleChatDb(message, currentChatId.value, currentChatName.value).then((id) => {
-      setCurrentChatId(id);
-    });
+    useHandleChatDb(message, currentChatId.value, currentChatName.value).then(
+      (id) => {
+        setCurrentChatId(id);
+      }
+    );
     console.log('message added to the list:', messages.value);
   }
   function setMessages(value: LegacyChatCompletionMessage[]) {
@@ -62,10 +68,14 @@ export const useChatStore = defineStore('chat', () => {
     replaceSystemMessage('');
   }
   function setCompositionIndexSystemMessage() {
-    replaceSystemMessage(`Here is an index of all the pages in the Vue documentation (using the Composition API): VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`);
+    replaceSystemMessage(
+      `Here is an index of all the pages in the Vue documentation (using the Composition API): VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`
+    );
   }
   function setOptionsIndexSystemMessage() {
-    replaceSystemMessage(`Here is an index of all the pages in the Vue documentation (using the Options API): VUE_DOCUMENTATION_INDEX: ${optionsIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`);
+    replaceSystemMessage(
+      `Here is an index of all the pages in the Vue documentation (using the Options API): VUE_DOCUMENTATION_INDEX: ${optionsIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`
+    );
   }
   function setTemplatingSystemMessage() {
     replaceSystemMessage(baseSystemMessage);
@@ -93,37 +103,8 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getChatsFromDb() {
-    const { $pb } = useNuxtApp();
-
-    const { data: chatsFromDb } = await useAsyncData(
-      'getChatsFromDb',
-      () => $pb.collection('chats').getFullList({expand: 'chat_messages(chat)'}),
-    );
-    
-    if (!chatsFromDb.value) {
-      console.log('No chats found in DB');
-      return;
-    }
-
-    chats.value = chatsFromDb.value.map((chatFromDb) => {
-      if (!chatFromDb.expand?.["chat_messages(chat)"]) {
-        return {
-          id: chatFromDb.id,
-          name: chatFromDb.name,
-          messages: [],
-        };
-      }
-      return {
-        id: chatFromDb.id,
-        name: chatFromDb.name,
-        messages: (chatFromDb.expand["chat_messages(chat)"] as LegacyChatCompletionMessage[]).map((messageFromDb) => {
-          return {
-            role: messageFromDb.role,
-            content: messageFromDb.content,
-          };
-        })
-      };
-    });
+    const chatsFromDb = await $fetch('/api/chats/messages');
+    chats.value = chatsFromDb;
   }
 
   return {
