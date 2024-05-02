@@ -1,9 +1,10 @@
 import OpenAI from 'openai';
+import type { LegacyChatCompletionMessage } from '@/types/types';
 
 interface ChatCompletionRequest {
-  messages: OpenAI.Chat.ChatCompletionMessage[];
+  messages: LegacyChatCompletionMessage[];
   functions?: OpenAI.Chat.ChatCompletionCreateParams.Function[];
-  function_call?: OpenAI.Chat.ChatCompletionCreateParams.FunctionCallOption;
+  function_call?: OpenAI.Chat.ChatCompletionFunctionCallOption;
 }
 
 export async function useCompletion(payload: ChatCompletionRequest) {
