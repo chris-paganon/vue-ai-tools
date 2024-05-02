@@ -1,8 +1,11 @@
 <template>
   <div>
-    <Dialog 
+    <Dialog
       v-model:visible="isSignUpModalOpened"
-      position="center" modal :draggable="false" :dismissableMask="true"
+      position="center"
+      modal
+      :draggable="false"
+      :dismissableMask="true"
     >
       <template #header>
         <div>
@@ -13,35 +16,93 @@
       <form @submit="signUp" class="flex flex-column gap-4">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
-          <InputText id="email" required v-model="email" @keyup.enter="signUp" :class="{'p-invalid': showErrors && emailErrorMessage}" />
-          <small v-if="showErrors && emailErrorMessage" id="email-help" class="text-red-500">{{ emailErrorMessage }}</small>
+          <InputText
+            id="email"
+            required
+            v-model="email"
+            @keyup.enter="signUp"
+            :class="{ 'p-invalid': showErrors && emailErrorMessage }"
+          />
+          <small
+            v-if="showErrors && emailErrorMessage"
+            id="email-help"
+            class="text-red-500"
+            >{{ emailErrorMessage }}</small
+          >
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
-          <Password 
-            id="password" required v-model="password" @keyup.enter="signUp"
-            toggleMask :class="{'p-invalid': showErrors && passwordErrorMessage}" 
+          <Password
+            id="password"
+            required
+            v-model="password"
+            @keyup.enter="signUp"
+            toggleMask
+            :class="{ 'p-invalid': showErrors && passwordErrorMessage }"
             :pt="{
-              root: ({state}) => passwordPT(state),
-            }" 
+              root: ({ state }) => passwordPT(state),
+            }"
           />
-          <small v-if="showErrors && passwordErrorMessage" id="password-help" class="text-red-500">{{ passwordErrorMessage }}</small>
+          <small
+            v-if="showErrors && passwordErrorMessage"
+            id="password-help"
+            class="text-red-500"
+            >{{ passwordErrorMessage }}</small
+          >
         </div>
         <div class="flex flex-column gap-2">
           <label for="password-confirm">Confirm password</label>
-          <Password id="password-confirm" required v-model="passwordConfirm" @keyup.enter="signUp" toggleMask :feedback="false" :class="{'p-invalid': showErrors && passwordConfirmErrorMessage}" />
-          <small v-if="showErrors && passwordConfirmErrorMessage" id="password-confirm-help" class="text-red-500">{{ passwordConfirmErrorMessage }}</small>
+          <Password
+            id="password-confirm"
+            required
+            v-model="passwordConfirm"
+            @keyup.enter="signUp"
+            toggleMask
+            :feedback="false"
+            :class="{ 'p-invalid': showErrors && passwordConfirmErrorMessage }"
+          />
+          <small
+            v-if="showErrors && passwordConfirmErrorMessage"
+            id="password-confirm-help"
+            class="text-red-500"
+            >{{ passwordConfirmErrorMessage }}</small
+          >
         </div>
         <div class="flex align-items-center gap-2">
-          <Checkbox inputId="email-consent" binary v-model="emailConsent" value="email-consent" />
-          <label for="email-consent">I agree to receive e-mails from VueAi.tools about new features.</label>
+          <Checkbox
+            inputId="email-consent"
+            binary
+            v-model="emailConsent"
+            value="email-consent"
+          />
+          <label for="email-consent"
+            >I agree to receive e-mails from VueAi.tools about new
+            features.</label
+          >
         </div>
         <div class="flex align-items-center gap-2">
-          <Checkbox inputId="privacy-policy-consent" binary v-model="privacyConsent" value="privacy-policy-consent" />
-          <label for="privacy-policy-consent">I have read and agree to the <NuxtLink to="/privacy-policy" target="_blank">Privacy Policy</NuxtLink>.</label>
+          <Checkbox
+            inputId="privacy-policy-consent"
+            binary
+            v-model="privacyConsent"
+            value="privacy-policy-consent"
+          />
+          <label for="privacy-policy-consent"
+            >I have read and agree to the
+            <NuxtLink to="/privacy-policy" target="_blank"
+              >Privacy Policy</NuxtLink
+            >.</label
+          >
         </div>
-        <Button label="Sign Up" class="mt-2" @click="signUp" :disabled="hasLocalError" />
-        <Message v-if="globalErrorMessage" severity="error">{{ globalErrorMessage }}</Message>
+        <Button
+          label="Sign Up"
+          class="mt-2"
+          @click="signUp"
+          :disabled="hasLocalError"
+        />
+        <Message v-if="globalErrorMessage" severity="error">{{
+          globalErrorMessage
+        }}</Message>
       </form>
     </Dialog>
   </div>
@@ -49,9 +110,9 @@
 
 <script setup lang="ts">
 import { ClientResponseError } from 'pocketbase';
-import { useToast } from "primevue/usetoast";
+import { useToast } from 'primevue/usetoast';
 import type { PasswordState } from 'primevue/password';
-import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types'
+import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types';
 
 const toast = useToast();
 
@@ -98,70 +159,92 @@ const passwordErrorMessage = computed(() => {
   return '';
 });
 const passwordConfirmErrorMessage = computed(() => {
-  if (localErrors.value.passwordConfirm) return localErrors.value.passwordConfirm;
-  if (pbErrors.value.passwordConfirm?.message) return pbErrors.value.passwordConfirm.message;
+  if (localErrors.value.passwordConfirm)
+    return localErrors.value.passwordConfirm;
+  if (pbErrors.value.passwordConfirm?.message)
+    return pbErrors.value.passwordConfirm.message;
   return '';
 });
 
-watch(email, (newEmail) => {
-  delete pbErrors.value.email;
-  if (newEmail === '') {
-    localErrors.value.email = 'Email cannot be empty';
-    return;
-  }
-  const regex = /\S+@\S+\.\S+/;
-  if (!regex.test(newEmail)) {
-    localErrors.value.email = 'Email is invalid';
-    return;
-  }
-  delete localErrors.value.email;
-}, { immediate: true });
+watch(
+  email,
+  (newEmail) => {
+    delete pbErrors.value.email;
+    if (newEmail === '') {
+      localErrors.value.email = 'Email cannot be empty';
+      return;
+    }
+    const regex = /\S+@\S+\.\S+/;
+    if (!regex.test(newEmail)) {
+      localErrors.value.email = 'Email is invalid';
+      return;
+    }
+    delete localErrors.value.email;
+  },
+  { immediate: true }
+);
 
-watch([password, passwordStrength], ([newPassword, newPasswordStrength]) => {
-  delete pbErrors.value.password;
-  if (newPassword === '') {
-    localErrors.value.password = 'Password cannot be empty';
-    return;
-  }
-  if (newPasswordStrength !== 'strong' && newPasswordStrength !== 'medium') {
-    localErrors.value.password = "Password strength can't be weak";
-    return;
-  }
-  if (newPassword.length < 8) {
-    localErrors.value.password = 'Password must be at least 8 characters long';
-    return;
-  }
-  delete localErrors.value.password;
-}, { immediate: true });
+watch(
+  [password, passwordStrength],
+  ([newPassword, newPasswordStrength]) => {
+    delete pbErrors.value.password;
+    if (newPassword === '') {
+      localErrors.value.password = 'Password cannot be empty';
+      return;
+    }
+    if (newPasswordStrength !== 'strong' && newPasswordStrength !== 'medium') {
+      localErrors.value.password = "Password strength can't be weak";
+      return;
+    }
+    if (newPassword.length < 8) {
+      localErrors.value.password =
+        'Password must be at least 8 characters long';
+      return;
+    }
+    delete localErrors.value.password;
+  },
+  { immediate: true }
+);
 
-watch([password, passwordConfirm], ([newPassword, newPasswordConfirm]) => {
-  delete pbErrors.value.passwordConfirm;
-  if (newPasswordConfirm === '') {
-    localErrors.value.passwordConfirm = 'Please confirm the password above';
-    return;
-  }
-  if (newPasswordConfirm !== newPassword) {
-    localErrors.value.passwordConfirm = 'Passwords do not match';
-    return;
-  }
-  delete localErrors.value.passwordConfirm;
-}, { immediate: true });
+watch(
+  [password, passwordConfirm],
+  ([newPassword, newPasswordConfirm]) => {
+    delete pbErrors.value.passwordConfirm;
+    if (newPasswordConfirm === '') {
+      localErrors.value.passwordConfirm = 'Please confirm the password above';
+      return;
+    }
+    if (newPasswordConfirm !== newPassword) {
+      localErrors.value.passwordConfirm = 'Passwords do not match';
+      return;
+    }
+    delete localErrors.value.passwordConfirm;
+  },
+  { immediate: true }
+);
 
-watch(privacyConsent, (newPrivacyConsent) => {
-  delete localErrors.value.privacyConsent;
-  if (!newPrivacyConsent) {
-    localErrors.value.privacyConsent = 'Please agree to the privacy policy';
-    return;
-  }
-  delete localErrors.value.privacyConsent;
-}, { immediate: true });
+watch(
+  privacyConsent,
+  (newPrivacyConsent) => {
+    delete localErrors.value.privacyConsent;
+    if (!newPrivacyConsent) {
+      localErrors.value.privacyConsent = 'Please agree to the privacy policy';
+      return;
+    }
+    delete localErrors.value.privacyConsent;
+  },
+  { immediate: true }
+);
 
-watch([email, password, passwordConfirm], ([newEmail,  newPassword, newPasswordConfirm]) => {
-  if (formFilledOnce.value) return;
-  if (newEmail !== '' && newPassword !== '' && newPasswordConfirm !== '') {
-    formFilledOnce.value = true;
+watch(
+  [email, password, passwordConfirm],
+  ([newEmail, newPassword, newPasswordConfirm]) => {
+    if (formFilledOnce.value) return;
+    if (newEmail !== '' && newPassword !== '' && newPasswordConfirm !== '') {
+      formFilledOnce.value = true;
+    }
   }
-});
+);
 
 // Use primevue password strength meter from PasswordPassThroughMethodOption 'state'
 function passwordPT(state: PasswordState) {
@@ -194,11 +277,11 @@ async function signUp() {
       }),
     });
     // TODO AUTH: Add email verification
-    
+
     toast.add({
-      severity: "info",
-      summary: "Info",
-      detail: "Please check your email to verify your account",
+      severity: 'info',
+      summary: 'Info',
+      detail: 'Please check your email to verify your account',
     });
     setIsSignUpModalOpened(false);
     email.value = '';
@@ -206,11 +289,12 @@ async function signUp() {
     passwordConfirm.value = '';
     emailConsent.value = false;
   } catch (error) {
-    if (! (error instanceof Error) ) {
-      globalErrorMessage.value = "There is an unknown error in the system. Please try again later.";
+    if (!(error instanceof Error)) {
+      globalErrorMessage.value =
+        'There is an unknown error in the system. Please try again later.';
       return;
     }
-    if (! (error instanceof ClientResponseError) ) {
+    if (!(error instanceof ClientResponseError)) {
       globalErrorMessage.value = error.message;
       return;
     }

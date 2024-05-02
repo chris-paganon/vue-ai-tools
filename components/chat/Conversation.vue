@@ -1,7 +1,7 @@
 <template>
   <div class="chat-conversation">
-    <template v-for="(message, key) in messages" :key="key" >
-      <p 
+    <template v-for="(message, key) in messages" :key="key">
+      <p
         v-if="message.role !== 'system' && message.content !== null"
         v-html="parsedMessage(message.content)"
         :class="[
@@ -13,7 +13,10 @@
         ]"
       ></p>
     </template>
-    <p v-if="isWaitingAnswer" :class="[defaultMessageClasses, 'role-assistant']">
+    <p
+      v-if="isWaitingAnswer"
+      :class="[defaultMessageClasses, 'role-assistant']"
+    >
       <ProgressSpinner style="width: 40px; height: 40px" strokeWidth="5" />
     </p>
   </div>
@@ -22,7 +25,13 @@
 <script setup lang="ts">
 const { messages } = storeToRefs(useChatStore());
 const { isWaitingAnswer } = storeToRefs(useChatInputStore());
-const defaultMessageClasses = ['message', 'my-3', 'py-3', 'px-4', 'border-round'];
+const defaultMessageClasses = [
+  'message',
+  'my-3',
+  'py-3',
+  'px-4',
+  'border-round',
+];
 
 function parsedMessage(message: string | undefined) {
   if (!message) return '';
@@ -50,7 +59,7 @@ function parsedMessage(message: string | undefined) {
     color: var(--text-color);
     padding: 1rem 2rem;
     border-radius: var(--border-radius);
-    white-space: pre-wrap; 
+    white-space: pre-wrap;
   }
 }
 .role-user {

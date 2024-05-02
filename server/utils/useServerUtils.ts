@@ -2,19 +2,19 @@ import PocketBase from 'pocketbase';
 import type { TypedPocketBase } from '@/types/types';
 import { H3Event } from 'h3';
 
-export function fixTypesSerialization<T>(object: T[]): ({toJSON(): T[]}) {
+export function fixTypesSerialization<T>(object: T[]): { toJSON(): T[] } {
   const data = {
     toJSON() {
       return object;
-    }
-  }
+    },
+  };
   return data;
 }
 
 export async function useGetVerifiedUserPb(event: H3Event) {
   const pbUrl = useRuntimeConfig().public.pocketbaseUrl;
   const pb = new PocketBase(pbUrl) as TypedPocketBase;
-  
+
   const rawPbCookie = getCookie(event, 'pb_auth');
   if (!rawPbCookie) return;
   const pbCookie = JSON.parse(rawPbCookie);
@@ -29,7 +29,7 @@ export async function useGetVerifiedUserPb(event: H3Event) {
     await pb.collection('users').authRefresh();
   } catch (error) {
     return;
-  }  
+  }
   return pb.authStore.model;
 }
 

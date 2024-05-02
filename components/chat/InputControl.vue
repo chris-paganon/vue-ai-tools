@@ -1,8 +1,22 @@
 <template>
   <ChatToolBar />
-  <div class="flex flex-column md:flex-row justify-content-between gap-3 mt-0 mb-3 p-input-filled">
-    <Textarea v-model="inputQuestion" @keydown.enter="askQuestion($event)" autoResize rows="2" class="md:w-10" />
-    <Button @click="askQuestion()" :loading="isWaitingAnswer" label="Ask" size="large" class="flex-grow-1" />
+  <div
+    class="flex flex-column md:flex-row justify-content-between gap-3 mt-0 mb-3 p-input-filled"
+  >
+    <Textarea
+      v-model="inputQuestion"
+      @keydown.enter="askQuestion($event)"
+      autoResize
+      rows="2"
+      class="md:w-10"
+    />
+    <Button
+      @click="askQuestion()"
+      :loading="isWaitingAnswer"
+      label="Ask"
+      size="large"
+      class="flex-grow-1"
+    />
   </div>
 </template>
 
@@ -11,16 +25,22 @@ const props = defineProps({
   openChatDialog: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage, addAssistantMessage } = useChatStore();
-const { inputQuestion, isWaitingAnswer, selectedInputOption } = storeToRefs(useChatInputStore());
+const { inputQuestion, isWaitingAnswer, selectedInputOption } = storeToRefs(
+  useChatInputStore()
+);
 const { setInputQuestion, setIsWaitingAnswer } = useChatInputStore();
 
 async function askInputQuestion() {
-  const { setPlainGptSystemMessage, setCompositionIndexSystemMessage, setOptionsIndexSystemMessage } = useChatStore();
+  const {
+    setPlainGptSystemMessage,
+    setCompositionIndexSystemMessage,
+    setOptionsIndexSystemMessage,
+  } = useChatStore();
   switch (selectedInputOption.value) {
     case 'PlainGPT':
       setPlainGptSystemMessage();
@@ -39,7 +59,7 @@ async function askInputQuestion() {
 
 async function askQuestion(event?: KeyboardEvent) {
   // Keep writing if shift+enter is pressed
-  if(event?.shiftKey) return;
+  if (event?.shiftKey) return;
   // If only enter is pressed, we do not add newline and we send the question
   event?.preventDefault();
 
@@ -55,7 +75,7 @@ async function askQuestion(event?: KeyboardEvent) {
   if (!assistantAnswer) {
     setIsWaitingAnswer(false);
     return;
-  };
+  }
 
   addAssistantMessage(assistantAnswer);
   setIsWaitingAnswer(false);

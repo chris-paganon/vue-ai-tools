@@ -5,22 +5,20 @@
     box-sizing: border-box;
     margin: 0;
   }
-  
+
   body {
     color: var(--text-color);
     background: var(--surface-ground);
     line-height: 1.5;
-    font-family:
-      Roboto,
-      'Helvetica Neue',
-      sans-serif;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
     font-size: 18px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  h1, h2 {
+
+  h1,
+  h2 {
     line-height: 1.2;
   }
   h1 {
@@ -51,5 +49,5 @@
   justify-content: space-between;
 }
 .p-divider.p-divider-horizontal::before {
-	border-top-style: solid;
+  border-top-style: solid;
 }

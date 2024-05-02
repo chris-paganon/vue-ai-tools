@@ -21,11 +21,11 @@ export async function useCompletion(payload: ChatCompletionRequest) {
 
 export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
-  
+
   const response = await useCompletion({
     messages: messages.value,
   });
-  
+
   if (!response?.[0].message?.content) {
     console.log('No response from useAskQuestion');
     return;
@@ -39,7 +39,7 @@ export async function useAskFunction() {
   const { handleChatFunction } = useChatFunctionsStore();
 
   if (!functions.value) return;
-  
+
   const response = await useCompletion({
     messages: messages.value,
     functions: functions.value,
@@ -47,7 +47,7 @@ export async function useAskFunction() {
       name: functions.value[0].name,
     },
   });
-  
+
   if (!response) {
     console.log('No response from useAskFunction');
     return;

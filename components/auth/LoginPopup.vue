@@ -1,27 +1,49 @@
 <template>
   <div>
-    <Dialog 
+    <Dialog
       v-model:visible="isLoginModalOpened"
-      position="center" modal :draggable="false" :dismissableMask="true"
+      position="center"
+      modal
+      :draggable="false"
+      :dismissableMask="true"
       header="Login"
     >
-      <form v-if="!isForgotPassordForm" @submit="login" class="flex flex-column gap-2">
+      <form
+        v-if="!isForgotPassordForm"
+        @submit="login"
+        class="flex flex-column gap-2"
+      >
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText id="email" v-model="email" @keyup.enter="login" />
         </div>
         <div class="flex flex-column gap-2">
           <label for="password">Password</label>
-          <Password id="password" v-model="password" @keyup.enter="login" toggleMask :feedback="false"/>
+          <Password
+            id="password"
+            v-model="password"
+            @keyup.enter="login"
+            toggleMask
+            :feedback="false"
+          />
         </div>
         <Button label="Login" class="mt-4" @click="login" />
-        <Button label="Forgot password?" text @click="isForgotPassordForm = true;" />
-        <Message v-if="errorMessage" severity="error">{{ errorMessage }}</Message>
+        <Button
+          label="Forgot password?"
+          text
+          @click="isForgotPassordForm = true"
+        />
+        <Message v-if="errorMessage" severity="error">{{
+          errorMessage
+        }}</Message>
       </form>
-      <AuthResetPasswordForm 
+      <AuthResetPasswordForm
         v-if="isForgotPassordForm"
         @cancel-passord-reset="isForgotPassordForm = false"
-        @password-reset-success="isForgotPassordForm = false; setIsLoginModalOpened(false); "
+        @password-reset-success="
+          isForgotPassordForm = false;
+          setIsLoginModalOpened(false);
+        "
       />
     </Dialog>
   </div>
@@ -62,11 +84,12 @@ async function login() {
     setNewChat();
     await navigateTo('/dashboard');
   } catch (error) {
-    if (! (error instanceof Error) ) {
-      errorMessage.value = "There is an unknown error in the system. Please try again later.";
+    if (!(error instanceof Error)) {
+      errorMessage.value =
+        'There is an unknown error in the system. Please try again later.';
       return;
     }
-    if (! (error instanceof ClientResponseError) ) {
+    if (!(error instanceof ClientResponseError)) {
       errorMessage.value = error.message;
       return;
     }
@@ -83,5 +106,5 @@ async function login() {
       return;
     }
   }
-};
+}
 </script>

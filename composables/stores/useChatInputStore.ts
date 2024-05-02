@@ -16,7 +16,9 @@ export const useChatInputStore = defineStore('chat-input', () => {
   }
   function setSelectedInputOptionTab(value: string, inputOptionTabs: any) {
     selectedInputOptionTab.value.label = value;
-    selectedInputOptionTab.value.index = inputOptionTabs.value.findIndex((tab: any) => tab.label === value);
+    selectedInputOptionTab.value.index = inputOptionTabs.value.findIndex(
+      (tab: any) => tab.label === value
+    );
   }
   function setSelectedInputOption(value: string) {
     selectedInputOption.value = value;
@@ -31,5 +33,5 @@ export const useChatInputStore = defineStore('chat-input', () => {
     setIsWaitingAnswer,
     setSelectedInputOptionTab,
     setSelectedInputOption,
-  }
+  };
 });

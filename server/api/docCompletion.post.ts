@@ -1,30 +1,39 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 export default defineEventHandler(async (event) => {
-  
-  const body = await readBody(event)
+  const body = await readBody(event);
   console.log('docCompletion request received: ', body);
   if (!body.paths || !body.messages) {
     console.log('Missing path or messages');
     return;
-  } 
+  }
 
   const runtimeConfig = useRuntimeConfig();
 
   let relevantDocPage: string = '';
   await body.paths.forEach(async (docPath: string) => {
-    const docPage = await $fetch(`${runtimeConfig.public.publicFolderUrl}/vue-docs/${docPath}`);
+    const docPage = await $fetch(
+      `${runtimeConfig.public.publicFolderUrl}/vue-docs/${docPath}`
+    );
     relevantDocPage += docPage;
   });
-  const messages = body.messages.map((message: OpenAI.Chat.ChatCompletionMessage) => {
-    if (message.role === 'system' && message.content?.includes('{{VAI_DOC_PAGE}}')) {
-      message.content = message.content.replace('{{VAI_DOC_PAGE}}', relevantDocPage);
+  const messages = body.messages.map(
+    (message: OpenAI.Chat.ChatCompletionMessage) => {
+      if (
+        message.role === 'system' &&
+        message.content?.includes('{{VAI_DOC_PAGE}}')
+      ) {
+        message.content = message.content.replace(
+          '{{VAI_DOC_PAGE}}',
+          relevantDocPage
+        );
+      }
+      return message;
     }
-    return message;
-  });
-    
+  );
+
   const data = {
-    model: "gpt-3.5-turbo-16k",
+    model: 'gpt-3.5-turbo-16k',
     temperature: 0.4,
     messages: messages,
   };

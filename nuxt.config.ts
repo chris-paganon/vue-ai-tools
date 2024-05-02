@@ -16,32 +16,26 @@ export default defineNuxtConfig({
     },
   },
   css: [
-    "assets/base.css",
-    "assets/utils.css",
-    "primeflex/primeflex.css",
-    "assets/theme/themes/material/material-dark/standard/indigo/theme.scss",
+    'assets/base.css',
+    'assets/utils.css',
+    'primeflex/primeflex.css',
+    'assets/theme/themes/material/material-dark/standard/indigo/theme.scss',
     'primeicons/primeicons.css',
   ],
   imports: {
-    dirs: [
-      'composables/stores/**',
-    ],
+    dirs: ['composables/stores/**'],
   },
-  modules: [
-    '@pinia/nuxt',
-    'nuxt-primevue',
-    'nuxt-security',
-  ],
+  modules: ['@pinia/nuxt', 'nuxt-primevue', 'nuxt-security'],
   primevue: {
     usePrimeVue: true,
-    options: { 
-      ripple: true, 
+    options: {
+      ripple: true,
       inputStyle: 'filled',
     },
     cssLayerOrder: 'reset, primevue',
     components: {
       include: [
-        'Button', 
+        'Button',
         'DataTable',
         'Menubar',
         'InputText',
@@ -58,17 +52,24 @@ export default defineNuxtConfig({
         'Menu',
         'Sidebar',
         'Divider',
-      ]
+      ],
     },
   },
   security: {
     headers: {
       crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
-        'script-src': ["'self'", 'https:', "'unsafe-inline'", "'unsafe-eval'", "'strict-dynamic'", "'nonce-{{nonce}}'"],
-      }
+        'script-src': [
+          "'self'",
+          'https:',
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "'strict-dynamic'",
+          "'nonce-{{nonce}}'",
+        ],
+      },
     },
-    xssValidator: false
+    xssValidator: false,
   },
   runtimeConfig: {
     // The private keys which are only available server-side
@@ -83,6 +84,6 @@ export default defineNuxtConfig({
       pocketbaseUrl: 'http://localhost:8080',
       publicFolderUrl: 'http://localhost:3000/_nuxt',
       stripePublishableKey: 'pk_test_12ab',
-    }
+    },
   },
 });

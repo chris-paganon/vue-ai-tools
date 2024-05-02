@@ -1,16 +1,16 @@
 <template>
-	<nav>
-		<AuthLoginButtons />
-		<div v-if="isSignedIn" class="flex align-items-center gap-4">
-			<Button @click="logout" link class="px-0">Log out</Button>
-			<NuxtLink to="/account">
-				<Button icon="pi pi-user" rounded outlined aria-label="User" />
-			</NuxtLink>
-			<NuxtLink to="/dashboard">
-				<Button>Dashboard</Button>
-			</NuxtLink>
-		</div>
-	</nav>
+  <nav>
+    <AuthLoginButtons />
+    <div v-if="isSignedIn" class="flex align-items-center gap-4">
+      <Button @click="logout" link class="px-0">Log out</Button>
+      <NuxtLink to="/account">
+        <Button icon="pi pi-user" rounded outlined aria-label="User" />
+      </NuxtLink>
+      <NuxtLink to="/dashboard">
+        <Button>Dashboard</Button>
+      </NuxtLink>
+    </div>
+  </nav>
 </template>
 
 <script setup lang="ts">

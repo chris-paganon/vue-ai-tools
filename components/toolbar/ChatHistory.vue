@@ -1,6 +1,6 @@
 <template>
-	<Menu v-if="items && items.length > 0" :model="items" class="w-full" />
-	<Button @click="setNewChat()" label="New chat" class="mt-4 w-full" />
+  <Menu v-if="items && items.length > 0" :model="items" class="w-full" />
+  <Button @click="setNewChat()" label="New chat" class="mt-4 w-full" />
 </template>
 
 <script setup lang="ts">
@@ -13,7 +13,7 @@ const items = computed<MenuItem[] | undefined>(() => {
   return chats.value
     .filter((chat) => chat.name)
     .map((chat, index) => {
-      return { 
+      return {
         key: chat.id,
         label: chat.name,
         command: () => {

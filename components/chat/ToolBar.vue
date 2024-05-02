@@ -1,9 +1,19 @@
 <template>
-  <TabMenu v-model:activeIndex="selectedInputOptionTab.index" :model="inputOptionTabs" class="border-top-1 border-500" />
+  <TabMenu
+    v-model:activeIndex="selectedInputOptionTab.index"
+    :model="inputOptionTabs"
+    class="border-top-1 border-500"
+  />
   <div class="options-wrapper text-left p-3">
-    <div v-if="selectedInputOptionTab.label === 'PlainGPT'"><p>Simply talk to chatGPT</p></div>
+    <div v-if="selectedInputOptionTab.label === 'PlainGPT'">
+      <p>Simply talk to chatGPT</p>
+    </div>
     <div v-else-if="selectedInputOptionTab.label === 'VueJS'">
-      <SelectButton v-model="selectedInputOption" :options="inputVueOptions" :unselectable="true" />
+      <SelectButton
+        v-model="selectedInputOption"
+        :options="inputVueOptions"
+        :unselectable="true"
+      />
     </div>
   </div>
 </template>
@@ -11,18 +21,21 @@
 <script setup lang="ts">
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
-const { selectedInputOptionTab, selectedInputOption } = storeToRefs(useChatInputStore());
-const { setSelectedInputOptionTab, setSelectedInputOption } = useChatInputStore();
+const { selectedInputOptionTab, selectedInputOption } = storeToRefs(
+  useChatInputStore()
+);
+const { setSelectedInputOptionTab, setSelectedInputOption } =
+  useChatInputStore();
 
 const inputOptionTabs = ref([
   {
     label: 'PlainGPT',
-    command: selecteInputOptionTab
+    command: selecteInputOptionTab,
   },
   {
     label: 'VueJS',
-    command: selecteInputOptionTab
-  }
+    command: selecteInputOptionTab,
+  },
 ]);
 
 const inputVueOptions = ref(['Composition API', 'Options API']);
