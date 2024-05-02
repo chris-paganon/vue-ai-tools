@@ -37,6 +37,7 @@ async function submit() {
       detail: 'Your email has been verified',
     });
     navigateTo('/account');
+    otpCode.value = '';
   } catch (error) {
     if (error instanceof FetchError) {
       toast.add({
