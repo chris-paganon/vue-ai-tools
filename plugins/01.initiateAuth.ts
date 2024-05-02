@@ -32,23 +32,6 @@ export default defineNuxtPlugin(async () => {
     };
   });
 
-  // TODO: This should run only in frontend. Probably just move all this to client middleware.
-  const user = await $fetch('/api/auth/user');
-
-  const { setIsSignedIn, setUser } = useAuthStore();
-  try {
-    // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-    if (!user) {
-      throw new Error('Invalid or expired auth');
-    }
-    setIsSignedIn(true);
-    setUser(user);
-  } catch (error) {
-    // clear the auth store on failed refresh
-    const { resetAfterLogout } = useAuthStore();
-    await resetAfterLogout();
-  }
-
   return {
     provide: { pb },
   };
