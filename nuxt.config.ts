@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['composables/stores/**'],
   },
-  modules: ['@pinia/nuxt', 'nuxt-primevue', 'nuxt-security'],
+  modules: ['@pinia/nuxt', 'nuxt-primevue', 'nuxt-security', "@nuxt/eslint"],
   primevue: {
     usePrimeVue: true,
     options: {
