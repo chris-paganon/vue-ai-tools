@@ -4,9 +4,7 @@ import type { Session, User } from 'lucia';
 export default defineEventHandler(async (event) => {
   if (event.method !== 'GET') {
     const originHeader = getHeader(event, 'Origin') ?? null;
-    console.log('🚀 ~ defineEventHandler ~ originHeader:', originHeader);
     const hostHeader = getHeader(event, 'Host') ?? null;
-    console.log('🚀 ~ defineEventHandler ~ hostHeader:', hostHeader);
     if (
       !originHeader ||
       !hostHeader ||
@@ -17,7 +15,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const sessionId = getCookie(event, lucia.sessionCookieName) ?? null;
-  console.log('🚀 ~ defineEventHandler ~ sessionId:', sessionId);
   if (!sessionId) {
     event.context.session = null;
     event.context.user = null;
