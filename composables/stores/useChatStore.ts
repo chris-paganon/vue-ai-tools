@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
-import { Chat } from '@/types/types';
 import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
+import type { Chat, LegacyChatCompletionMessage, PbChatMessage } from '@/types/types';
 
 export const useChatStore = defineStore('chat', () => {
 
@@ -42,14 +42,14 @@ export const useChatStore = defineStore('chat', () => {
     }
     setCurrentChatIndex(newChatIndex);
   }
-  function addMessage(message: OpenAI.Chat.ChatCompletionMessage) {
+  function addMessage(message: LegacyChatCompletionMessage) {
     chats.value[currentChatIndex.value].messages.push(message);
     useHandleChatDb(message, currentChatId.value, currentChatName.value).then((id) => {
       setCurrentChatId(id);
     });
     console.log('message added to the list:', messages.value);
   }
-  function setMessages(value: OpenAI.Chat.ChatCompletionMessage[]) {
+  function setMessages(value: LegacyChatCompletionMessage[]) {
     chats.value[currentChatIndex.value].messages = value;
   }
   function replaceSystemMessage(message: string) {
@@ -116,7 +116,7 @@ export const useChatStore = defineStore('chat', () => {
       return {
         id: chatFromDb.id,
         name: chatFromDb.name,
-        messages: (chatFromDb.expand["chat_messages(chat)"] as OpenAI.Chat.ChatCompletionMessage[]).map((messageFromDb) => {
+        messages: (chatFromDb.expand["chat_messages(chat)"] as LegacyChatCompletionMessage[]).map((messageFromDb) => {
           return {
             role: messageFromDb.role,
             content: messageFromDb.content,

@@ -23,7 +23,16 @@ export interface localSignupErrors {
 export interface Chat {
   id: string;
   name: string;
-  messages: OpenAI.Chat.ChatCompletionMessage[];
+  messages: LegacyChatCompletionMessage[];
+}
+export type LegacyChatCompletionMessage = 
+| OpenAI.ChatCompletionSystemMessageParam
+| LegacyUserMessage
+| OpenAI.ChatCompletionAssistantMessageParam
+export interface LegacyUserMessage {
+  role: 'user';
+  content: string;
+  name?: string;
 }
 export interface PbChat extends RecordModel {
   user?: string;
