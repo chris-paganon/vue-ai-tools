@@ -22,7 +22,7 @@ import { useToast } from "primevue/usetoast";
 const { $pb } = useNuxtApp();
 const toast = useToast();
 
-const email: string | undefined = ref($pb.authStore.model?.email);
+const email = ref<string | undefined>($pb.authStore.model?.email);
 const newEmail = ref('');
 
 const isModifyingEmail = ref(false);
