@@ -1,13 +1,11 @@
-import { getDrizzleDb } from '~/server/utils/useAuthUtils';
+import sqlite from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { sql } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 
-const db = getDrizzleDb();
-
 export const usersTable = sqliteTable('user', {
   id: text('id').primaryKey(),
-  username: text('username').notNull().unique(),
   password: text('password').notNull(),
   email: text('email').notNull().unique(),
   created: text('created')
@@ -26,7 +24,7 @@ export const usersTable = sqliteTable('user', {
 });
 
 export const sessionsTable = sqliteTable('session', {
-  id: text('id').notNull().primaryKey(),
+  id: text('id').primaryKey(),
   userId: text('user_id')
     .notNull()
     .references(() => usersTable.id),
@@ -34,7 +32,7 @@ export const sessionsTable = sqliteTable('session', {
 });
 
 export const emailVerificationTable = sqliteTable('email_verification', {
-  id: text('id').notNull().primaryKey(),
+  id: integer('id').primaryKey(),
   userId: text('user_id')
     .notNull()
     .references(() => usersTable.id),
@@ -43,6 +41,8 @@ export const emailVerificationTable = sqliteTable('email_verification', {
   expiresAt: text('expires_at').notNull(),
 });
 
+const sqliteDB = sqlite('sqlite.db');
+const db = drizzle(sqliteDB);
 export const dbAdapter = new DrizzleSQLiteAdapter(
   db,
   sessionsTable,

@@ -276,7 +276,8 @@ async function signUp() {
         privacyConsent: privacyConsent.value,
       }),
     });
-    // TODO AUTH: Add email verification
+
+    navigateTo('/email-verification');
 
     toast.add({
       severity: 'info',
