@@ -2,34 +2,24 @@ import { getDrizzleDb } from '@/server/utils/useAuthUtils';
 import { usersTable } from '@/db/schema/usersSchema';
 import { hash } from '@node-rs/argon2';
 import { generateIdFromEntropySize } from 'lucia';
-import { time } from 'console';
 
 export default eventHandler(async (event) => {
-  const body = await readBody(event);
-  const username = 'test' + time();
-  const email = body.email;
-  const emailConsent = body.emailConsent;
+  const { email, password, emailConsent } = await readBody(event);
 
-  if (
-    typeof username !== 'string' ||
-    username.length < 3 ||
-    username.length > 31 ||
-    !/^[a-z0-9_-]+$/.test(username)
-  ) {
+  if (typeof email !== 'string' || !/\S+@\S+\.\S+/.test(email)) {
     throw createError({
-      message: 'Invalid username',
       statusCode: 400,
+      statusMessage: 'Invalid email',
     });
   }
-  const password = body.password;
   if (
     typeof password !== 'string' ||
     password.length < 6 ||
     password.length > 255
   ) {
     throw createError({
-      message: 'Invalid password',
       statusCode: 400,
+      statusMessage: 'Invalid password',
     });
   }
 

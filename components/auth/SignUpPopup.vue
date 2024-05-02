@@ -109,12 +109,9 @@
 </template>
 
 <script setup lang="ts">
-import { ClientResponseError } from 'pocketbase';
-import { useToast } from 'primevue/usetoast';
+import { FetchError } from 'ofetch';
 import type { PasswordState } from 'primevue/password';
-import type { PocketbaseSignupErrors, localSignupErrors } from '@/types/types';
-
-const toast = useToast();
+import type { localSignupErrors } from '@/types/types';
 
 const { isSignUpModalOpened } = storeToRefs(useUIStore());
 const { setIsSignUpModalOpened } = useUIStore();
@@ -130,8 +127,6 @@ const signUpClickedOnce = ref(false);
 const formFilledOnce = ref(false);
 
 const localErrors = ref<localSignupErrors>({});
-const pbErrors = ref<PocketbaseSignupErrors>({});
-
 const globalErrorMessage = ref('');
 
 const showErrors = computed(() => {
@@ -150,26 +145,21 @@ const hasLocalError = computed(() => {
 
 const emailErrorMessage = computed(() => {
   if (localErrors.value.email) return localErrors.value.email;
-  if (pbErrors.value.email?.message) return pbErrors.value.email.message;
   return '';
 });
 const passwordErrorMessage = computed(() => {
   if (localErrors.value.password) return localErrors.value.password;
-  if (pbErrors.value.password?.message) return pbErrors.value.password.message;
   return '';
 });
 const passwordConfirmErrorMessage = computed(() => {
   if (localErrors.value.passwordConfirm)
     return localErrors.value.passwordConfirm;
-  if (pbErrors.value.passwordConfirm?.message)
-    return pbErrors.value.passwordConfirm.message;
   return '';
 });
 
 watch(
   email,
   (newEmail) => {
-    delete pbErrors.value.email;
     if (newEmail === '') {
       localErrors.value.email = 'Email cannot be empty';
       return;
@@ -187,7 +177,6 @@ watch(
 watch(
   [password, passwordStrength],
   ([newPassword, newPasswordStrength]) => {
-    delete pbErrors.value.password;
     if (newPassword === '') {
       localErrors.value.password = 'Password cannot be empty';
       return;
@@ -209,7 +198,6 @@ watch(
 watch(
   [password, passwordConfirm],
   ([newPassword, newPasswordConfirm]) => {
-    delete pbErrors.value.passwordConfirm;
     if (newPasswordConfirm === '') {
       localErrors.value.passwordConfirm = 'Please confirm the password above';
       return;
@@ -259,15 +247,9 @@ async function signUp() {
   signUpClickedOnce.value = true;
   try {
     globalErrorMessage.value = '';
-    delete pbErrors.value.email;
-    delete pbErrors.value.password;
-    delete pbErrors.value.passwordConfirm;
 
-    await fetch('/api/auth/signup', {
+    await $fetch('/api/auth/signup', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         email: email.value,
         password: password.value,
@@ -277,13 +259,8 @@ async function signUp() {
       }),
     });
 
-    navigateTo('/email-verification');
+    await navigateTo('/email-verification');
 
-    toast.add({
-      severity: 'info',
-      summary: 'Info',
-      detail: 'Please check your email to verify your account',
-    });
     setIsSignUpModalOpened(false);
     email.value = '';
     password.value = '';
@@ -295,19 +272,11 @@ async function signUp() {
         'There is an unknown error in the system. Please try again later.';
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
+    if (!(error instanceof FetchError)) {
       globalErrorMessage.value = error.message;
       return;
     }
-    if (error.response.data.email) {
-      pbErrors.value.email = error.response.data.email;
-    }
-    if (error.response.data.password) {
-      pbErrors.value.password = error.response.data.password;
-    }
-    if (error.response.data.passwordConfirm) {
-      pbErrors.value.passwordConfirm = error.response.data.passwordConfirm;
-    }
+    globalErrorMessage.value = error.data.statusMessage;
   }
 }
 </script>

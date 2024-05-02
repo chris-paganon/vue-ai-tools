@@ -25,6 +25,14 @@ import { FetchError } from 'ofetch';
 const toast = useToast();
 const otpCode = ref('');
 
+onMounted(() => {
+  toast.add({
+    severity: 'info',
+    summary: 'Info',
+    detail: 'Please check your email to verify your account',
+  });
+});
+
 async function submit() {
   try {
     await $fetch('/api/auth/verify-email', {
