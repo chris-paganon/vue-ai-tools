@@ -13,6 +13,8 @@
       @keyup.enter="submit"
     />
     <Button @click="submit">Submit</Button>
+    <p class="mt-4 mb-2">You haven't received your code or it has expired:</p>
+    <Button outlined @click="sendCode">Resend code</Button>
   </div>
 </template>
 
@@ -26,5 +28,9 @@ async function submit() {
     method: 'POST',
     body: JSON.stringify({ otpCode: otpCode.value }),
   });
+}
+
+async function sendCode() {
+  await $fetch('/api/auth/send-email-code');
 }
 </script>
