@@ -18,7 +18,7 @@ export const chatMessagesTable = sqliteTable('chat_message', {
   id: integer('id').primaryKey(),
   chatId: integer('chat_id')
     .notNull()
-    .references(() => chatsTable.id),
+    .references(() => chatsTable.id, { onDelete: 'cascade' }),
   role: text('role').notNull(),
   content: text('content').notNull(),
   created: text('created')
