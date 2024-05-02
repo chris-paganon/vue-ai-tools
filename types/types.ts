@@ -1,6 +1,7 @@
-import PocketBase, { type RecordModel, type RecordService } from 'pocketbase';
-import OpenAI from 'openai';
-import Stripe from 'stripe';
+import type PocketBase from 'pocketbase';
+import type { RecordModel, RecordService } from 'pocketbase';
+import type OpenAI from 'openai';
+import type Stripe from 'stripe';
 
 export interface PocketbaseSignupErrors {
   email?: PocketbaseErrorItem;

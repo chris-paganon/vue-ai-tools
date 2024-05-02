@@ -1,6 +1,6 @@
 <template>
   <Menu v-if="items && items.length > 0" :model="items" class="w-full" />
-  <Button @click="setNewChat()" label="New chat" class="mt-4 w-full" />
+  <Button label="New chat" class="mt-4 w-full" @click="setNewChat()" />
 </template>
 
 <script setup lang="ts">

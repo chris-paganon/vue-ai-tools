@@ -17,14 +17,14 @@
     <div class="flex flex-wrap gap-2">
       <Button
         label="Request email modification"
-        @click="modifyEmail"
         :loading="isRequestEmailChangeLoading"
+        @click="modifyEmail"
       />
       <Button
         label="Cancel"
         outlined
-        @click="isModifyingEmail = false"
         :loading="isRequestEmailChangeLoading"
+        @click="isModifyingEmail = false"
       />
     </div>
   </form>

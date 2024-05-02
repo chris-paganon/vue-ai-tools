@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 import type { LegacyChatCompletionMessage } from '@/types/types';
 
 interface ChatCompletionRequest {

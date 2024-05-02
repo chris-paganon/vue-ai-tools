@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import type { LegacyChatCompletionMessage } from '~/types/types';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -17,20 +18,18 @@ export default defineEventHandler(async (event) => {
     );
     relevantDocPage += docPage;
   });
-  const messages = body.messages.map(
-    (message: OpenAI.Chat.ChatCompletionMessage) => {
-      if (
-        message.role === 'system' &&
-        message.content?.includes('{{VAI_DOC_PAGE}}')
-      ) {
-        message.content = message.content.replace(
-          '{{VAI_DOC_PAGE}}',
-          relevantDocPage
-        );
-      }
-      return message;
+  const messages = body.messages.map((message: LegacyChatCompletionMessage) => {
+    if (
+      message.role === 'system' &&
+      message.content?.includes('{{VAI_DOC_PAGE}}')
+    ) {
+      message.content = message.content.replace(
+        '{{VAI_DOC_PAGE}}',
+        relevantDocPage
+      );
     }
-  );
+    return message;
+  });
 
   const data = {
     model: 'gpt-3.5-turbo-16k',

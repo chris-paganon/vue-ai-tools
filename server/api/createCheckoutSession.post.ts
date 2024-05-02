@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const pbUser = await useGetVerifiedUserPb(event);
     if (!pbUser) throw new Error('User id not found');
 
-    let createSessionObj: Stripe.Checkout.SessionCreateParams = {
+    const createSessionObj: Stripe.Checkout.SessionCreateParams = {
       ui_mode: 'embedded',
       line_items: [
         {

@@ -31,7 +31,7 @@
               class="w-full"
             />
           </NuxtLink>
-          <Button v-if="isSignedIn" @click="logout" link>Log out</Button>
+          <Button v-if="isSignedIn" link @click="logout">Log out</Button>
         </div>
       </div>
     </Sidebar>

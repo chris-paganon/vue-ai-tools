@@ -4,8 +4,6 @@ import { useGetAdminPb } from '@/server/utils/useServerUtils';
 import {
   isEnabledStripeWebhookEvents,
   type EnabledStripeWebhookEvents,
-  isSubscriptionUpdatedEvent,
-  isSubscriptionCreatedEvent,
   isStripeCustomer,
 } from '@/types/types';
 

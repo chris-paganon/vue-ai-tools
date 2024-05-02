@@ -1,12 +1,12 @@
 <template>
   <div v-if="!isSignedIn" class="flex flex-row gap-4">
     <Button
-      @click="setIsLoginModalOpened(true)"
       severity="secondary"
       outlined
       label="Login"
+      @click="setIsLoginModalOpened(true)"
     />
-    <Button @click="setIsSignUpModalOpened(true)" label="Sign Up" />
+    <Button label="Sign Up" @click="setIsSignUpModalOpened(true)" />
   </div>
 </template>
 

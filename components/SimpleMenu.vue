@@ -2,7 +2,7 @@
   <nav>
     <AuthLoginButtons />
     <div v-if="isSignedIn" class="flex align-items-center gap-4">
-      <Button @click="logout" link class="px-0">Log out</Button>
+      <Button link class="px-0" @click="logout">Log out</Button>
       <NuxtLink to="/account">
         <Button icon="pi pi-user" rounded outlined aria-label="User" />
       </NuxtLink>

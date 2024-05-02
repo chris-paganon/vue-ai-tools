@@ -1,4 +1,3 @@
-import OpenAI from 'openai';
 import compositionIndex from '../../assets/vue-docs/composition-index.json';
 import optionsIndex from '../../assets/vue-docs/options-index.json';
 import type { Chat, LegacyChatCompletionMessage } from '@/types/types';

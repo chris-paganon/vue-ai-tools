@@ -7,8 +7,8 @@
     <Button
       label="Request password reset"
       outlined
-      @click="modifyPassword"
       :loading="isRequestPasswordResetLoading"
+      @click="modifyPassword"
     />
   </form>
 </template>

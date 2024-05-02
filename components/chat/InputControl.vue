@@ -5,17 +5,17 @@
   >
     <Textarea
       v-model="inputQuestion"
-      @keydown.enter="askQuestion($event)"
-      autoResize
+      auto-resize
       rows="2"
       class="md:w-10"
+      @keydown.enter="askQuestion($event)"
     />
     <Button
-      @click="askQuestion()"
       :loading="isWaitingAnswer"
       label="Ask"
       size="large"
       class="flex-grow-1"
+      @click="askQuestion()"
     />
   </div>
 </template>

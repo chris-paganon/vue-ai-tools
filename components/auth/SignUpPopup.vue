@@ -5,7 +5,7 @@
       position="center"
       modal
       :draggable="false"
-      :dismissableMask="true"
+      :dismissable-mask="true"
     >
       <template #header>
         <div>
@@ -13,15 +13,15 @@
           <p>Create an account to save your conversations with chat GPT.</p>
         </div>
       </template>
-      <form @submit="signUp" class="flex flex-column gap-4">
+      <form class="flex flex-column gap-4" @submit="signUp">
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
           <InputText
             id="email"
-            required
             v-model="email"
-            @keyup.enter="signUp"
+            required
             :class="{ 'p-invalid': showErrors && emailErrorMessage }"
+            @keyup.enter="signUp"
           />
           <small
             v-if="showErrors && emailErrorMessage"
@@ -34,14 +34,14 @@
           <label for="password">Password</label>
           <Password
             id="password"
-            required
             v-model="password"
-            @keyup.enter="signUp"
-            toggleMask
+            required
+            toggle-mask
             :class="{ 'p-invalid': showErrors && passwordErrorMessage }"
             :pt="{
               root: ({ state }) => passwordPT(state),
             }"
+            @keyup.enter="signUp"
           />
           <small
             v-if="showErrors && passwordErrorMessage"
@@ -54,12 +54,12 @@
           <label for="password-confirm">Confirm password</label>
           <Password
             id="password-confirm"
-            required
             v-model="passwordConfirm"
-            @keyup.enter="signUp"
-            toggleMask
+            required
+            toggle-mask
             :feedback="false"
             :class="{ 'p-invalid': showErrors && passwordConfirmErrorMessage }"
+            @keyup.enter="signUp"
           />
           <small
             v-if="showErrors && passwordConfirmErrorMessage"
@@ -70,9 +70,9 @@
         </div>
         <div class="flex align-items-center gap-2">
           <Checkbox
-            inputId="email-consent"
-            binary
             v-model="emailConsent"
+            input-id="email-consent"
+            binary
             value="email-consent"
           />
           <label for="email-consent"
@@ -82,9 +82,9 @@
         </div>
         <div class="flex align-items-center gap-2">
           <Checkbox
-            inputId="privacy-policy-consent"
-            binary
             v-model="privacyConsent"
+            input-id="privacy-policy-consent"
+            binary
             value="privacy-policy-consent"
           />
           <label for="privacy-policy-consent"
@@ -97,8 +97,8 @@
         <Button
           label="Sign Up"
           class="mt-2"
-          @click="signUp"
           :disabled="hasLocalError"
+          @click="signUp"
         />
         <Message v-if="globalErrorMessage" severity="error">{{
           globalErrorMessage

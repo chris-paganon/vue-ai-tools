@@ -1,6 +1,6 @@
-import OpenAI from 'openai';
 import compositionIndex from '@/assets/vue-docs/composition-index.json';
 import optionsIndex from '@/assets/vue-docs/options-index.json';
+import type OpenAI from 'openai';
 
 export const useChatFunctionsStore = defineStore('chatFunctions', () => {
   const { selectedInputOption } = storeToRefs(useChatInputStore());

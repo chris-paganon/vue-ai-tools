@@ -1,6 +1,6 @@
 import PocketBase from 'pocketbase';
 import type { TypedPocketBase } from '@/types/types';
-import { H3Event } from 'h3';
+import type { H3Event } from 'h3';
 
 export function fixTypesSerialization<T>(object: T[]): { toJSON(): T[] } {
   const data = {

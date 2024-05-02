@@ -5,13 +5,13 @@
       position="center"
       modal
       :draggable="false"
-      :dismissableMask="true"
+      :dismissable-mask="true"
       header="Login"
     >
       <form
         v-if="!isForgotPassordForm"
-        @submit="login"
         class="flex flex-column gap-2"
+        @submit="login"
       >
         <div class="flex flex-column gap-2">
           <label for="email">Email</label>
@@ -22,9 +22,9 @@
           <Password
             id="password"
             v-model="password"
-            @keyup.enter="login"
-            toggleMask
+            toggle-mask
             :feedback="false"
+            @keyup.enter="login"
           />
         </div>
         <Button label="Login" class="mt-4" @click="login" />

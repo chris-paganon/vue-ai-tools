@@ -3,13 +3,13 @@
     <h1>Generate a Vue component from a JSON template:</h1>
     <Textarea
       v-model="templateGenerationIntro"
-      @keydown.enter="generateComponent"
-      autoResize
+      auto-resize
       rows="1"
       class="mb-3"
+      @keydown.enter="generateComponent"
     />
     <div ref="codeMirrorParent"></div>
-    <Button label="Generate" @click="generateComponent" class="mt-4 mb-3" />
+    <Button label="Generate" class="mt-4 mb-3" @click="generateComponent" />
     <Divider />
     <ChatConversation />
     <ChatInputControl
@@ -42,7 +42,7 @@ const code = ref(`{
 }`);
 const extensions = [json(), oneDark, basicSetup];
 
-let startState = EditorState.create({
+const startState = EditorState.create({
   doc: code.value,
   extensions: extensions,
 });

@@ -1,8 +1,8 @@
 <template>
   <Button
-    @click="openPortalSession()"
     outlined
     :loading="isPortalSessionLoading"
+    @click="openPortalSession()"
     >Manage my subscription</Button
   >
 </template>

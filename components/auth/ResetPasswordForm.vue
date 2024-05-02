@@ -1,5 +1,5 @@
 <template>
-  <form @submit="modifyPassword" class="flex flex-column gap-2">
+  <form class="flex flex-column gap-2" @submit="modifyPassword">
     <div class="flex flex-column gap-2">
       <label for="email">Email</label>
       <InputText id="email" v-model="email" @keyup.enter="modifyPassword" />
@@ -7,8 +7,8 @@
     <Button
       label="Send password reset email"
       class="mt-4"
-      @click="modifyPassword"
       :loading="isRequestPasswordResetLoading"
+      @click="modifyPassword"
     />
     <Button
       label="Cancel"

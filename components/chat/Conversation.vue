@@ -3,7 +3,6 @@
     <template v-for="(message, key) in messages" :key="key">
       <p
         v-if="message.role !== 'system' && message.content !== null"
-        v-html="parsedMessage(message.content)"
         :class="[
           {
             'role-user': message.role === 'user',
@@ -11,13 +10,14 @@
           },
           defaultMessageClasses,
         ]"
-      ></p>
+        v-html="parsedMessage(message.content)"
+      />
     </template>
     <p
       v-if="isWaitingAnswer"
       :class="[defaultMessageClasses, 'role-assistant']"
     >
-      <ProgressSpinner style="width: 40px; height: 40px" strokeWidth="5" />
+      <ProgressSpinner style="width: 40px; height: 40px" stroke-width="5" />
     </p>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import type OpenAI from 'openai';
 
 export async function useHandleChatDb(
   message: OpenAI.Chat.Completions.ChatCompletionMessageParam,
