@@ -1,11 +1,9 @@
-import sqlite from 'better-sqlite3';
+import { getDrizzleDb } from '~/server/utils/useAuthUtils';
 import { sql } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 
-const sqliteDB = sqlite('sqlite.db');
-const db = drizzle(sqliteDB);
+const db = getDrizzleDb();
 
 export const usersTable = sqliteTable('user', {
   id: text('id').primaryKey(),

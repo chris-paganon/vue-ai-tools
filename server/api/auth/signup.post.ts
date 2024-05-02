@@ -1,5 +1,4 @@
-import sqlite from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { getDrizzleDb } from '@/server/utils/useAuthUtils';
 import { usersTable } from '@/db/schema/usersSchema';
 import { hash } from '@node-rs/argon2';
 import { generateIdFromEntropySize } from 'lucia';
@@ -44,8 +43,7 @@ export default eventHandler(async (event) => {
   });
   const userId = generateIdFromEntropySize(10); // 16 characters long
 
-  const sqliteDB = sqlite('sqlite.db');
-  const db = drizzle(sqliteDB);
+  const db = getDrizzleDb();
 
   // TODO: check if username is already used
   await db.insert(usersTable).values({

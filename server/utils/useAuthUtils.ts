@@ -1,5 +1,7 @@
 import { Lucia } from 'lucia';
 import { dbAdapter } from '@/db/schema/usersSchema';
+import sqlite from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 
 export const lucia = new Lucia(dbAdapter, {
   sessionCookie: {
@@ -21,6 +23,11 @@ export const lucia = new Lucia(dbAdapter, {
     };
   },
 });
+
+export function getDrizzleDb() {
+  const sqliteDB = sqlite('sqlite.db');
+  return drizzle(sqliteDB);
+}
 
 // IMPORTANT! Use this to extend the existing Lucia module with more types
 declare module 'lucia' {

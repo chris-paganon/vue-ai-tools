@@ -1,5 +1,3 @@
-import sqlite from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { eq } from 'drizzle-orm';
 import { chatsTable, chatMessagesTable } from '@/db/schema/chatSchema';
 import type { Chat } from '@/types/types';
@@ -13,8 +11,7 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const sqliteDB = sqlite('sqlite.db');
-  const db = drizzle(sqliteDB);
+  const db = getDrizzleDb();
   const dbChats = await db
     .select()
     .from(chatsTable)

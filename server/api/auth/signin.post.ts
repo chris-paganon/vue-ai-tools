@@ -1,7 +1,5 @@
 import { verify } from '@node-rs/argon2';
-import sqlite from 'better-sqlite3';
 import { eq } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { usersTable } from '@/db/schema/usersSchema';
 
 export default eventHandler(async (event) => {
@@ -27,8 +25,7 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const sqliteDB = sqlite('sqlite.db');
-  const db = drizzle(sqliteDB);
+  const db = getDrizzleDb();
   const existingUserRaw = await db
     .select()
     .from(usersTable)
