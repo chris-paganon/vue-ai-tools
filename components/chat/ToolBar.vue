@@ -21,9 +21,8 @@
 <script setup lang="ts">
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
-const { selectedInputOptionTab, selectedInputOption } = storeToRefs(
-  useChatInputStore()
-);
+const { selectedInputOptionTab, selectedInputOption } =
+  storeToRefs(useChatInputStore());
 const { setSelectedInputOptionTab, setSelectedInputOption } =
   useChatInputStore();
 
@@ -42,7 +41,7 @@ const inputVueOptions = ref(['Composition API', 'Options API']);
 
 function selecteInputOptionTab(event: MenuItemCommandEvent) {
   if (typeof event.item.label !== 'string') return;
-  setSelectedInputOptionTab(event.item.label, inputOptionTabs);
+  setSelectedInputOptionTab(event.item.label, inputOptionTabs.value);
 
   if (event.item.label === 'PlainGPT') {
     setSelectedInputOption('PlainGPT');

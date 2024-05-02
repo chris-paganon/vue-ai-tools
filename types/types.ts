@@ -2,6 +2,7 @@ import type PocketBase from 'pocketbase';
 import type { RecordModel, RecordService } from 'pocketbase';
 import type OpenAI from 'openai';
 import type Stripe from 'stripe';
+import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
 export interface PocketbaseSignupErrors {
   email?: PocketbaseErrorItem;
@@ -118,4 +119,9 @@ export function isStripeDeletedCustomer(
 ): event is Stripe.DeletedCustomer {
   if (typeof event === 'string') return false;
   return event.deleted === true;
+}
+
+export interface InputOptionTabs {
+  label: string;
+  command: (event: MenuItemCommandEvent) => void;
 }

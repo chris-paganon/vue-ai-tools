@@ -1,3 +1,5 @@
+import type { InputOptionTabs } from '@/types/types';
+
 export const useChatInputStore = defineStore('chat-input', () => {
   const inputQuestion = ref('');
   const isWaitingAnswer = ref(false);
@@ -14,10 +16,13 @@ export const useChatInputStore = defineStore('chat-input', () => {
   function setIsWaitingAnswer(value: boolean) {
     isWaitingAnswer.value = value;
   }
-  function setSelectedInputOptionTab(value: string, inputOptionTabs: any) {
+  function setSelectedInputOptionTab(
+    value: string,
+    inputOptionTabs: InputOptionTabs[]
+  ) {
     selectedInputOptionTab.value.label = value;
-    selectedInputOptionTab.value.index = inputOptionTabs.value.findIndex(
-      (tab: any) => tab.label === value
+    selectedInputOptionTab.value.index = inputOptionTabs.findIndex(
+      (tab) => tab.label === value
     );
   }
   function setSelectedInputOption(value: string) {
