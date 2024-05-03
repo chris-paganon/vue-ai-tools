@@ -1,7 +1,3 @@
-import { verify } from '@node-rs/argon2';
-import { eq } from 'drizzle-orm';
-import { usersTable } from '@/db/schema/usersSchema';
-
 export default eventHandler(async (event) => {
   const body = await readBody(event);
   const email = body.email;
@@ -25,36 +21,8 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const db = getDrizzleDb();
-  const existingUserRaw = await db
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.email, email));
-  const existingUser = existingUserRaw[0];
-
+  const existingUser = await useVerifyPassword(email, password);
   if (!existingUser) {
-    // NOTE:
-    // Returning immediately allows malicious actors to figure out valid usernames from response times,
-    // allowing them to only focus on guessing passwords in brute-force attacks.
-    // As a preventive measure, you may want to hash passwords even for invalid usernames.
-    // However, valid usernames can be already be revealed with the signup page among other methods.
-    // It will also be much more resource intensive.
-    // Since protecting against this is non-trivial,
-    // it is crucial your implementation is protected against brute-force attacks with login throttling etc.
-    // If usernames are public, you may outright tell the user that the username is invalid.
-    throw createError({
-      message: 'Incorrect username or password',
-      statusCode: 400,
-    });
-  }
-
-  const validPassword = await verify(existingUser.password, password, {
-    memoryCost: 19456,
-    timeCost: 2,
-    outputLen: 32,
-    parallelism: 1,
-  });
-  if (!validPassword) {
     throw createError({
       message: 'Incorrect username or password',
       statusCode: 400,

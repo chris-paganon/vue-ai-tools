@@ -6,11 +6,25 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const { newEmail } = await readBody(event);
+  const { newEmail, password } = await readBody(event);
   if (typeof newEmail !== 'string' || !/\S+@\S+\.\S+/.test(newEmail)) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid email',
+    });
+  }
+  if (typeof password !== 'string') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid password',
+    });
+  }
+
+  const existingUser = await useVerifyPassword(user.email, password);
+  if (!existingUser) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Incorrect password',
     });
   }
 

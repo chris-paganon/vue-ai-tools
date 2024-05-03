@@ -14,6 +14,16 @@
       My new email:
       <InputText id="new-email" v-model="newEmail" @keyup.enter="modifyEmail" />
     </label>
+    <label for="password" class="flex flex-column">
+      Confirm password:
+      <Password
+        id="password"
+        v-model="password"
+        toggle-mask
+        :feedback="false"
+        @keyup.enter="modifyEmail"
+      />
+    </label>
     <div class="flex flex-wrap gap-2">
       <Button
         label="Request email modification"
@@ -38,6 +48,7 @@ const { user } = useAuthStore();
 const toast = useToast();
 
 const newEmail = ref('');
+const password = ref('');
 
 const isModifyingEmail = ref(false);
 const isRequestEmailChangeLoading = ref(false);
@@ -55,7 +66,10 @@ async function modifyEmail() {
     // TODO: Also modify email in Stripe if Stripe customer exists
     await $fetch('/api/auth/modify-email', {
       method: 'POST',
-      body: JSON.stringify({ newEmail: newEmail.value }),
+      body: JSON.stringify({
+        newEmail: newEmail.value,
+        password: password.value,
+      }),
     });
     navigateTo('/email-verification');
     toast.add({
@@ -65,6 +79,7 @@ async function modifyEmail() {
     });
     isModifyingEmail.value = false;
     newEmail.value = '';
+    password.value = '';
   } catch (error) {
     if (!(error instanceof FetchError)) {
       toast.add({
