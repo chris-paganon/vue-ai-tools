@@ -2,14 +2,14 @@ import Stripe from 'stripe';
 
 export default defineEventHandler(async (event) => {
   try {
-    const pbUser = await useGetVerifiedUserPb(event);
-    if (!pbUser?.stripe_id) throw new Error('User stripe_id not found');
+    const user = event.context.user;
+    if (!user?.stripeId) throw new Error('User id not found');
     const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
     const stripe = new Stripe(stripeSecretKey);
     const url = getRequestURL(event);
 
     const portalSession = await stripe.billingPortal.sessions.create({
-      customer: pbUser.stripe_id,
+      customer: user.stripeId,
       return_url: `${url.origin}/account`,
     });
 

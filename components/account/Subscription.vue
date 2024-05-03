@@ -24,32 +24,27 @@
     </div>
     <!-- TODO: Add subscription price & level -->
     <div
-      v-if="isSubscribed && subscription"
+      v-if="isSubscribed && subscriptions"
       class="flex flex-column align-items-start gap-3"
     >
-      <p>Status: {{ subscription.status }}</p>
-      <p v-if="subscription.current_period_end">
-        Next payment date:
-        {{ toFormattedDate(subscription.current_period_end) }}
-      </p>
-      <p v-if="subscription.cancel_at">
-        Cancel at: {{ toFormattedDate(subscription.cancel_at) }}
-      </p>
+      <template v-for="subscription in subscriptions" :key="subscription.id">
+        <p>Status: {{ subscription.status }}</p>
+        <p v-if="subscription.currentPeriodEnd">
+          Next payment date:
+          {{ toFormattedDate(subscription.currentPeriodEnd) }}
+        </p>
+        <p v-if="subscription.cancelAt">
+          Cancel at: {{ toFormattedDate(subscription.cancelAt) }}
+        </p>
+      </template>
       <StripePortalButton />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { $pb } = useNuxtApp();
-const { isSubscribed } = storeToRefs(useAuthStore());
+const { isSubscribed, subscriptions } = storeToRefs(useAuthStore());
 const isSubscribeLoading = ref(false);
-
-const { data: subscription } = await useAsyncData('getSubscription', () =>
-  $pb
-    .collection('subscriptions')
-    .getFirstListItem(`user="${$pb.authStore.model?.id}"`)
-);
 
 function toFormattedDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', {

@@ -1,4 +1,6 @@
+import type { subscriptionsTable } from '~/db/schema/subscriptionsSchema';
 import type { User } from 'lucia';
+import type { InferSelectModel } from 'drizzle-orm';
 
 export const useAuthStore = defineStore('auth', () => {
   const chatStore = useChatStore();
@@ -62,27 +64,33 @@ export const useAuthStore = defineStore('auth', () => {
     isSubscribed.value = value;
   }
 
+  const subscriptions = ref<
+    InferSelectModel<typeof subscriptionsTable>[] | undefined
+  >(undefined);
+  function setSubscriptions(
+    value: InferSelectModel<typeof subscriptionsTable>[]
+  ) {
+    subscriptions.value = value;
+  }
+
   const subscriptionsLoaded = ref(false);
   function setSubscriptionLoaded(value: boolean) {
     subscriptionsLoaded.value = value;
   }
   async function setSubscriptionStatus() {
-    const { $pb } = useNuxtApp();
-    const subscriptions = await $pb.collection('subscriptions').getFullList();
-    if (!subscriptions || subscriptions.length === 0) return;
+    const { data } = await useFetch('/api/subscriptions/active');
+    if (!data.value || data.value.length === 0) return;
 
-    if (
-      subscriptions.some((subscription) => subscription.status === 'active')
-    ) {
-      setIsSubscribed(true);
-      setSubscriptionLoaded(true);
-    }
+    setSubscriptions(data.value);
+    setIsSubscribed(true);
+    setSubscriptionLoaded(true);
   }
 
   return {
     user,
     isSignedIn,
     isSubscribed,
+    subscriptions,
     setIsSignedIn,
     setUser,
     setIsSubscribed,
