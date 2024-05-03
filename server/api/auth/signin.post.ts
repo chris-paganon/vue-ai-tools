@@ -1,3 +1,5 @@
+import type { User } from 'lucia';
+
 export default eventHandler(async (event) => {
   const body = await readBody(event);
   const email = body.email;
@@ -35,4 +37,14 @@ export default eventHandler(async (event) => {
     'Set-Cookie',
     lucia.createSessionCookie(session.id).serialize()
   );
+
+  const userAttributes: User = {
+    id: existingUser.id,
+    email: existingUser.email,
+    created: existingUser.created,
+    updated: existingUser.updated,
+    emailVerified: existingUser.emailVerified,
+    emailConsent: existingUser.emailConsent,
+  };
+  return userAttributes;
 });

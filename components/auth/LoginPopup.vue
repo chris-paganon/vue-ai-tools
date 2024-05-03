@@ -65,7 +65,7 @@ const isForgotPassordForm = ref(false);
 async function login() {
   try {
     errorMessage.value = '';
-    await $fetch('/api/auth/signin', {
+    const user = await $fetch('/api/auth/signin', {
       method: 'POST',
       body: JSON.stringify({
         email: email.value,
@@ -75,8 +75,7 @@ async function login() {
     setIsLoginModalOpened(false);
     email.value = '';
     password.value = '';
-    const user = await $fetch('/api/auth/user');
-    await initAccount(user!);
+    await initAccount(user);
     await navigateTo('/dashboard');
   } catch (error) {
     if (!(error instanceof FetchError)) {
