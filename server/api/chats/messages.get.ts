@@ -16,7 +16,8 @@ export default eventHandler(async (event) => {
     .select()
     .from(chatsTable)
     .leftJoin(chatMessagesTable, eq(chatsTable.id, chatMessagesTable.chatId))
-    .where(eq(chatsTable.userId, user.id));
+    .where(eq(chatsTable.userId, user.id))
+    .orderBy(chatMessagesTable.id);
 
   const groupedChats = dbChats.reduce((acc: Chat[], chatRow) => {
     if (!chatRow.chat_message) return acc;
