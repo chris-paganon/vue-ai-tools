@@ -1,6 +1,6 @@
 <template>
   <div class="flex align-items-center gap-2">
-    <p class="py-3">My email: {{ email }}</p>
+    <p class="py-3">My email: {{ user?.email }}</p>
     <Button
       v-if="!isModifyingEmail"
       icon="pi pi-pencil"
@@ -31,13 +31,12 @@
 </template>
 
 <script setup lang="ts">
-import { ClientResponseError } from 'pocketbase';
 import { useToast } from 'primevue/usetoast';
+import { FetchError } from 'ofetch';
 
-const { $pb } = useNuxtApp();
+const { user } = useAuthStore();
 const toast = useToast();
 
-const email = ref<string | undefined>($pb.authStore.model?.email);
 const newEmail = ref('');
 
 const isModifyingEmail = ref(false);
@@ -54,7 +53,11 @@ async function modifyEmail() {
   try {
     isRequestEmailChangeLoading.value = true;
     // TODO: Also modify email in Stripe if Stripe customer exists
-    await $pb.collection('users').requestEmailChange(newEmail.value);
+    await $fetch('/api/auth/modify-email', {
+      method: 'POST',
+      body: JSON.stringify({ newEmail: newEmail.value }),
+    });
+    navigateTo('/email-verification');
     toast.add({
       severity: 'success',
       summary: 'Email change requested',
@@ -63,7 +66,7 @@ async function modifyEmail() {
     isModifyingEmail.value = false;
     newEmail.value = '';
   } catch (error) {
-    if (!(error instanceof Error)) {
+    if (!(error instanceof FetchError)) {
       toast.add({
         severity: 'error',
         summary: 'Email change failed',
@@ -72,26 +75,10 @@ async function modifyEmail() {
       });
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      toast.add({
-        severity: 'error',
-        summary: 'Email change failed',
-        detail: error.message,
-      });
-      return;
-    }
-    if (error.response?.data?.newEmail?.message) {
-      toast.add({
-        severity: 'error',
-        summary: 'Email change failed',
-        detail: error.response.data.newEmail.message,
-      });
-      return;
-    }
     toast.add({
       severity: 'error',
       summary: 'Email change failed',
-      detail: error.message,
+      detail: error.data.statusMessage,
     });
   } finally {
     isRequestEmailChangeLoading.value = false;

@@ -19,8 +19,8 @@ export default eventHandler(async (event) => {
     });
   }
 
-  const validCode = await verifyVerificationCode(user, otpCode);
-  if (!validCode) {
+  const userEmail = await verifyVerificationCode(user, otpCode);
+  if (!userEmail) {
     throw createError({
       status: 400,
       statusMessage: 'Invalid or expired code',
@@ -28,13 +28,7 @@ export default eventHandler(async (event) => {
   }
 
   await lucia.invalidateUserSessions(user.id);
-  const db = getDrizzleDb();
-  await db
-    .update(usersTable)
-    .set({
-      emailVerified: true,
-    })
-    .where(eq(usersTable.id, user.id));
+  await updateAccountEmail(user, userEmail);
 
   const session = await lucia.createSession(user.id, {});
   appendHeader(
@@ -62,8 +56,34 @@ async function verifyVerificationCode(user: User, code: string) {
   if (!isWithinExpirationDate(new Date(databaseCode[0].expiresAt))) {
     return false;
   }
-  if (databaseCode[0].email !== user.email) {
+  if (!user.emailVerified && databaseCode[0].email !== user.email) {
     return false;
   }
-  return true;
+  return databaseCode[0].email;
+}
+
+async function updateAccountEmail(user: User, newEmail: string) {
+  const db = getDrizzleDb();
+
+  // This a simple request to verify email used for signup
+  if (!user.emailVerified && user.email === newEmail) {
+    await db
+      .update(usersTable)
+      .set({
+        emailVerified: true,
+      })
+      .where(eq(usersTable.id, user.id));
+    return;
+  }
+
+  // This is a request to change email
+  if (user.emailVerified && user.email !== newEmail) {
+    await db
+      .update(usersTable)
+      .set({
+        email: newEmail,
+      })
+      .where(eq(usersTable.id, user.id));
+    return;
+  }
 }
