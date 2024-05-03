@@ -31,6 +31,9 @@ export const useAuthStore = defineStore('auth', () => {
   async function clearAccount() {
     setIsSignedIn(false);
     resetUser();
+    subscriptions.value = undefined;
+    setIsSubscribed(false);
+    setSubscriptionLoaded(false);
     chatStore.$reset();
   }
 

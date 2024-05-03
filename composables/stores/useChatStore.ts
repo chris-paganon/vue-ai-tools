@@ -34,6 +34,7 @@ export const useChatStore = defineStore('chat', () => {
   function $reset() {
     chats.value = [structuredClone(defaultChat)];
     currentChatIndex.value = 0;
+    setChatsLoaded(false);
   }
   function setNewChat() {
     // Reuse an existing empty chat if it exists
