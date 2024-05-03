@@ -2,6 +2,11 @@ import { verifyRequestOrigin } from 'lucia';
 import type { Session, User } from 'lucia';
 
 export default defineEventHandler(async (event) => {
+  // This is already set by nuxt-security module everywhere. We add it here just in case security module is disabled.
+  if (getRequestURL(event).pathname.includes('reset-password')) {
+    setHeader(event, 'Referrer-Policy', 'no-referrer');
+  }
+
   if (event.method !== 'GET') {
     const originHeader = getHeader(event, 'Origin') ?? null;
     const hostHeader = getHeader(event, 'Host') ?? null;
