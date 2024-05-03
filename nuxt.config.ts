@@ -79,12 +79,9 @@ export default defineNuxtConfig({
     openaiApiKey: 'sk-CD34',
     stripeSecretKey: 'sk_test_cd34',
     stripeWebhookSecret: 'whsec_efGh',
-    pbAdminEmail: 'example@mail.com',
-    pbAdminPassword: 'password',
     sendgridApiKey: 'SG.12ab',
     public: {
       environment: 'dev',
-      pocketbaseUrl: 'http://localhost:8080',
       publicFolderUrl: 'http://localhost:3000/_nuxt',
       stripePublishableKey: 'pk_test_12ab',
     },

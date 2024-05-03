@@ -1,19 +1,7 @@
-import type PocketBase from 'pocketbase';
-import type { RecordModel, RecordService } from 'pocketbase';
 import type OpenAI from 'openai';
 import type Stripe from 'stripe';
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
-export interface PocketbaseSignupErrors {
-  email?: PocketbaseErrorItem;
-  password?: PocketbaseErrorItem;
-  passwordConfirm?: PocketbaseErrorItem;
-  unknownError?: string;
-}
-export interface PocketbaseErrorItem {
-  code: string;
-  message: string;
-}
 export interface localSignupErrors {
   email?: string;
   password?: string;
@@ -35,44 +23,6 @@ export interface LegacyUserMessage {
   role: 'user';
   content: string;
   name?: string;
-}
-export interface PbChat extends RecordModel {
-  user?: string;
-  name: string;
-}
-export interface PbChatMessage extends RecordModel {
-  chat: string;
-  role: 'system' | 'user' | 'assistant' | 'function';
-  content: string;
-}
-export interface PbTransaction extends RecordModel {
-  user: string;
-  session_id: string;
-  status: 'open' | 'complete' | 'expired';
-}
-export interface PbSubscription extends RecordModel {
-  user: string;
-  stripe_id: string;
-  level: 'basic';
-  status:
-    | 'active'
-    | 'canceled'
-    | 'incomplete'
-    | 'incomplete_expired'
-    | 'past_due'
-    | 'paused'
-    | 'trialing'
-    | 'unpaid';
-  current_period_end?: string;
-  cancel_at?: string;
-}
-
-export interface TypedPocketBase extends PocketBase {
-  collection(idOrName: string): RecordService; // default fallback for any other collection
-  collection(idOrName: 'chats'): RecordService<PbChat>;
-  collection(idOrName: 'chat_messages'): RecordService<PbChatMessage>;
-  collection(idOrName: 'transactions'): RecordService<PbTransaction>;
-  collection(idOrName: 'subscriptions'): RecordService<PbSubscription>;
 }
 
 /**

@@ -41,7 +41,6 @@
     "openai": "^4.11.1",
     "oslo": "^1.2.0",
     "pinia": "^2.1.7",
-    "pocketbase": "^0.19.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.52.0",
     "sass": "^1.64.1",
