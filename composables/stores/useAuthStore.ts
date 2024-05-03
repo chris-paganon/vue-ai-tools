@@ -24,6 +24,17 @@ export const useAuthStore = defineStore('auth', () => {
     chatStore.$reset();
   }
 
+  async function loginOrReset(user: User | null) {
+    if (!user) {
+      await resetAfterLogout();
+      return false;
+    }
+
+    setIsSignedIn(true);
+    setUser(user);
+    return true;
+  }
+
   // TODO: Move subscription handling to a separate store when more logic is added.
   const isSubscribed = ref(false);
   function setIsSubscribed(value: boolean) {
@@ -51,6 +62,7 @@ export const useAuthStore = defineStore('auth', () => {
     setIsSubscribed,
     logout,
     resetAfterLogout,
+    loginOrReset,
     setSubscriptionStatus,
   };
 });

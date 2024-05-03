@@ -1,14 +1,14 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const headers = useRequestHeaders(['cookie']);
-  const user = await $fetch('/api/auth/user', { headers });
-
-  if (!user) {
-    const { resetAfterLogout } = useAuthStore();
-    await resetAfterLogout();
+  // Skip middleware on the server, and on client during hydration or 1st load: only load on client-side navigation
+  const nuxtApp = useNuxtApp();
+  if (
+    import.meta.server ||
+    (nuxtApp.isHydrating && nuxtApp.payload.serverRendered)
+  ) {
     return;
   }
 
-  const { setIsSignedIn, setUser } = useAuthStore();
-  setIsSignedIn(true);
-  setUser(user);
+  const { loginOrReset } = useAuthStore();
+  const user = await $fetch('/api/auth/user');
+  await loginOrReset(user);
 });

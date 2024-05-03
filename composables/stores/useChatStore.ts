@@ -102,8 +102,9 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getChatsFromDb() {
-    const chatsFromDb = await $fetch('/api/chats/messages');
-    chats.value = chatsFromDb;
+    const { data } = await useFetch('/api/chats/messages');
+    if (!data.value) return;
+    chats.value = data.value;
   }
 
   return {
