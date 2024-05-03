@@ -10,7 +10,7 @@ import { loadStripe, type StripeEmbeddedCheckout } from '@stripe/stripe-js';
 const stripePublishableKey = useRuntimeConfig().public.stripePublishableKey;
 const stripe = await loadStripe(stripePublishableKey);
 
-const { error, data } = await useFetch('/api/createCheckoutSession', {
+const { error, data } = await useFetch('/api/stripe/create-checkout-session', {
   method: 'POST',
   server: false,
 });

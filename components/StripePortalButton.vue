@@ -13,7 +13,7 @@ const isPortalSessionLoading = ref(false);
 async function openPortalSession() {
   isPortalSessionLoading.value = true;
   try {
-    const redirectUrl = await $fetch('/api/createPortalSession', {
+    const redirectUrl = await $fetch('/api/stripe/create-portal-session', {
       method: 'POST',
     });
     window.location.href = redirectUrl;

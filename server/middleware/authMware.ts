@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     setHeader(event, 'Referrer-Policy', 'no-referrer');
   }
 
-  if (event.method !== 'GET' && !requestPath.includes('Webhook')) {
+  if (event.method !== 'GET' && !requestPath.includes('webhook')) {
     const originHeader = getHeader(event, 'Origin') ?? null;
     const hostHeader = getHeader(event, 'Host') ?? null;
     if (

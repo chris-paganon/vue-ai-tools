@@ -49,7 +49,7 @@ if (!sessionId) {
   throw new Error('No session_id found in URL params');
 }
 
-const { data } = await useFetch('/api/checkoutSessionStatus', {
+const { data } = await useFetch('/api/stripe/checkout-session-status', {
   method: 'GET',
   query: {
     sessionId,
