@@ -23,11 +23,11 @@ export const lucia = new Lucia(dbAdapter, {
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
-      username: attributes.username,
       email: attributes.email,
       created: attributes.created,
       updated: attributes.updated,
       emailVerified: attributes.emailVerified,
+      emailConsent: attributes.emailConsent,
     };
   },
 });
@@ -41,12 +41,11 @@ declare module 'lucia' {
   }
 }
 interface DatabaseUserAttributes {
-  username: string;
-  password: string;
   email: string;
   created: string;
   updated: string;
   emailVerified: boolean;
+  emailConsent: boolean;
 }
 
 export function getDrizzleDb() {
