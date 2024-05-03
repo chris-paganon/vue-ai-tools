@@ -50,12 +50,11 @@
 </template>
 
 <script setup lang="ts">
-import { ClientResponseError } from 'pocketbase';
+import { FetchError } from 'ofetch';
 
-const { setIsSignedIn } = useAuthStore();
+const { initAccount } = useAuthStore();
 const { isLoginModalOpened } = storeToRefs(useUIStore());
 const { setIsLoginModalOpened } = useUIStore();
-const { setNewChat, getChatsFromDb } = useChatStore();
 
 const email = ref('');
 const password = ref('');
@@ -76,32 +75,16 @@ async function login() {
     setIsLoginModalOpened(false);
     email.value = '';
     password.value = '';
-    setIsSignedIn(true);
-    await getChatsFromDb();
-    setNewChat();
+    const user = await $fetch('/api/auth/user');
+    await initAccount(user!);
     await navigateTo('/dashboard');
   } catch (error) {
-    if (!(error instanceof Error)) {
+    if (!(error instanceof FetchError)) {
       errorMessage.value =
         'There is an unknown error in the system. Please try again later.';
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      errorMessage.value = error.message;
-      return;
-    }
-    if (error.response.data.identity) {
-      errorMessage.value = error.response.data.identity.message;
-      return;
-    }
-    if (error.response.data.password) {
-      errorMessage.value = error.response.data.password.message;
-      return;
-    }
-    if (error.response.message) {
-      errorMessage.value = error.response.message;
-      return;
-    }
+    errorMessage.value = error.data.statusMessage;
   }
 }
 </script>

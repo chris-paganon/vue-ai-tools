@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async () => {
     return;
   }
 
-  const { loginOrReset } = useAuthStore();
   const user = await $fetch('/api/auth/user');
-  await loginOrReset(user);
+  const { maybeInitAccount } = useAuthStore();
+  await maybeInitAccount(user);
 });

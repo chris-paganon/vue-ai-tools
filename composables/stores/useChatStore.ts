@@ -101,10 +101,15 @@ export const useChatStore = defineStore('chat', () => {
     });
   }
 
+  const chatsLoaded = ref(false);
+  function setChatsLoaded(value: boolean) {
+    chatsLoaded.value = value;
+  }
   async function getChatsFromDb() {
     const { data } = await useFetch('/api/chats/messages');
     if (!data.value) return;
     chats.value = data.value;
+    setChatsLoaded(true);
   }
 
   return {
@@ -112,6 +117,7 @@ export const useChatStore = defineStore('chat', () => {
     currentChatId,
     currentChatName,
     chats,
+    chatsLoaded,
     messages,
     $reset,
     setNewChat,
