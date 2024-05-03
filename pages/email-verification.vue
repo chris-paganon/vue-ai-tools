@@ -1,25 +1,42 @@
 <template>
   <div
-    class="flex flex-column justify-content-center align-items-center h-full"
+    class="flex-grow-1 flex flex-column justify-content-center align-items-center mx-2"
   >
-    <h1>Enter your code below</h1>
-    <p>You should have received an email with a code to verify your email.</p>
-    <InputOtp
-      v-model="otpCode"
-      class="my-4"
-      integer-only
-      :length="8"
-      variant="filled"
-      @keyup.enter="submit"
-    />
-    <Button @click="submit">Submit</Button>
-    <p class="mt-4 mb-2">You haven't received your code or it has expired:</p>
-    <Button outlined @click="sendCode">Resend code</Button>
+    <Card
+      :pt="{
+        title: 'text-center',
+        content: 'flex flex-column align-items-center',
+      }"
+    >
+      <template #title>Enter your code below</template>
+      <template #content>
+        <p>
+          You should have received an email with a code to verify your email.
+        </p>
+        <InputOtp
+          v-model="otpCode"
+          class="my-4"
+          integer-only
+          :length="8"
+          variant="filled"
+          @keyup.enter="submit"
+        />
+        <Button @click="submit">Submit</Button>
+        <p class="mt-4 mb-2">
+          You haven't received your code or it has expired:
+        </p>
+        <Button outlined @click="sendCode">Resend code</Button>
+      </template>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { FetchError } from 'ofetch';
+
+definePageMeta({
+  layout: 'home',
+});
 
 const toast = useToast();
 const otpCode = ref('');

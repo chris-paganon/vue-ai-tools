@@ -1,22 +1,32 @@
 <template>
-  <div>
-    <h1 class="text-2xl font-semibold">Reset Password</h1>
-    <label for="password" class="flex flex-column">
-      New password:
-      <Password
-        id="password"
-        v-model="password"
-        toggle-mask
-        :feedback="false"
-        @keyup.enter="modifyPassword"
-      />
-    </label>
+  <div
+    class="flex-grow-1 flex flex-column justify-content-center align-items-center mx-2"
+  >
+    <Card class="w-24rem max-w-full">
+      <template #title>Reset Password</template>
+      <template #content>
+        <label for="password" class="flex flex-column">
+          New password:
+          <Password
+            id="password"
+            v-model="password"
+            toggle-mask
+            :feedback="false"
+            @keyup.enter="modifyPassword"
+          />
+        </label>
+      </template>
+    </Card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
 import { FetchError } from 'ofetch';
+
+definePageMeta({
+  layout: 'home',
+});
 
 const toast = useToast();
 const route = useRoute();

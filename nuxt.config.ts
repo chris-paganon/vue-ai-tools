@@ -53,6 +53,7 @@ export default defineNuxtConfig({
         'Sidebar',
         'Divider',
         'InputOtp',
+        'Card',
       ],
     },
   },
