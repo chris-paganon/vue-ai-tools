@@ -41,6 +41,14 @@ export const emailVerificationTable = sqliteTable('email_verification', {
   expiresAt: text('expires_at').notNull(),
 });
 
+export const passwordResetTable = sqliteTable('password_reset', {
+  tokenHash: text('token_hash').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => usersTable.id),
+  expiresAt: text('expires_at').notNull(),
+});
+
 const sqliteDB = sqlite('sqlite.db');
 const db = drizzle(sqliteDB);
 export const dbAdapter = new DrizzleSQLiteAdapter(

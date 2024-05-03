@@ -21,15 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { ClientResponseError } from 'pocketbase';
 import { useToast } from 'primevue/usetoast';
+import { FetchError } from 'ofetch';
 
 const emit = defineEmits<{
   cancelPassordReset: [];
   passwordResetSuccess: [];
 }>();
 
-const { $pb } = useNuxtApp();
 const toast = useToast();
 
 const email = ref('');
@@ -40,7 +39,10 @@ async function modifyPassword() {
   errorMessage.value = '';
   try {
     isRequestPasswordResetLoading.value = true;
-    await $pb.collection('users').requestPasswordReset(email.value);
+    await $fetch('/api/auth/request-password-reset', {
+      method: 'POST',
+      body: JSON.stringify({ email: email.value }),
+    });
     toast.add({
       severity: 'success',
       summary: 'Password reset requested',
@@ -48,20 +50,12 @@ async function modifyPassword() {
     });
     emit('passwordResetSuccess');
   } catch (error) {
-    if (!(error instanceof Error)) {
+    if (!(error instanceof FetchError)) {
       errorMessage.value =
         'There is an unknown error in the system. Please try again later.';
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      errorMessage.value = error.message;
-      return;
-    }
-    if (error.response?.data?.email?.message) {
-      errorMessage.value = error.response.data.email.message;
-      return;
-    }
-    errorMessage.value = error.message;
+    errorMessage.value = error.data.statusMessage;
   } finally {
     isRequestPasswordResetLoading.value = false;
   }
