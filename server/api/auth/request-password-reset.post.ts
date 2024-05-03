@@ -7,7 +7,14 @@ import sgMail from '@sendgrid/mail';
 import { usersTable, passwordResetTable } from '@/db/schema/usersSchema';
 
 export default eventHandler(async (event) => {
-  const { email } = await readBody(event);
+  const body = await readBody(event);
+  let email = body ? body.email : '';
+
+  const user = event.context.user;
+  if (user && user.email && !email) {
+    email = user.email;
+  }
+
   if (typeof email !== 'string') {
     throw createError({
       statusCode: 400,

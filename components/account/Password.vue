@@ -14,10 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { ClientResponseError } from 'pocketbase';
 import { useToast } from 'primevue/usetoast';
+import { FetchError } from 'ofetch';
 
-const { $pb } = useNuxtApp();
 const toast = useToast();
 
 const isRequestPasswordResetLoading = ref(false);
@@ -25,16 +24,16 @@ const isRequestPasswordResetLoading = ref(false);
 async function modifyPassword() {
   try {
     isRequestPasswordResetLoading.value = true;
-    await $pb
-      .collection('users')
-      .requestPasswordReset($pb.authStore.model?.email);
+    await $fetch('/api/auth/request-password-reset', {
+      method: 'POST',
+    });
     toast.add({
       severity: 'success',
       summary: 'Password reset requested',
       detail: 'Please check your inbox for a password reset link',
     });
   } catch (error) {
-    if (!(error instanceof Error)) {
+    if (!(error instanceof FetchError)) {
       toast.add({
         severity: 'error',
         summary: 'Password reset failed',
@@ -43,26 +42,10 @@ async function modifyPassword() {
       });
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      toast.add({
-        severity: 'error',
-        summary: 'Password reset failed',
-        detail: error.message,
-      });
-      return;
-    }
-    if (error.response?.data?.email?.message) {
-      toast.add({
-        severity: 'error',
-        summary: 'Password reset failed',
-        detail: error.response.data.email.message,
-      });
-      return;
-    }
     toast.add({
       severity: 'error',
       summary: 'Password reset failed',
-      detail: error.message,
+      detail: error.data.statusMessage,
     });
   } finally {
     isRequestPasswordResetLoading.value = false;
