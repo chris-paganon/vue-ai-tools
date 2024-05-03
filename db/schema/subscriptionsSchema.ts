@@ -5,7 +5,7 @@ import { usersTable } from './usersSchema';
 export const subscriptionsTable = sqliteTable('subscriptions', {
   id: integer('id').primaryKey(),
   userId: text('user_id').references(() => usersTable.id),
-  stripeId: text('stripe_id').notNull(),
+  stripeId: text('stripe_id').notNull().unique(),
   created: text('created')
     .notNull()
     .default(sql`(current_timestamp)`),

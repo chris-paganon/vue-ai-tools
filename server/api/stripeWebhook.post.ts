@@ -1,6 +1,10 @@
 import Stripe from 'stripe';
-import { ClientResponseError } from 'pocketbase';
-import { useGetAdminPb } from '@/server/utils/useServerUtils';
+import { eq } from 'drizzle-orm';
+import { usersTable } from '~/db/schema/usersSchema';
+import {
+  subscriptionsTable,
+  transactionsTable,
+} from '~/db/schema/subscriptionsSchema';
 import {
   isEnabledStripeWebhookEvents,
   type EnabledStripeWebhookEvents,
@@ -80,26 +84,27 @@ async function updateTransactionStatus(
   const { stripeSecretKey } = useRuntimeConfig();
   const stripe = new Stripe(stripeSecretKey);
   try {
-    const adminPb = await useGetAdminPb();
     const session = await stripe.checkout.sessions.retrieve(
       stripeEvent.data.object.id
     );
+    if (session.status === null) {
+      throw new Error('Session status is null');
+    }
 
-    const transaction = await adminPb
-      .collection('transactions')
-      .getFirstListItem(`session_id="${session.id}"`, {
-        fields: 'id',
-      });
-    await adminPb.collection('transactions').update(transaction.id, {
-      status: session.status,
-    });
+    const db = getDrizzleDb();
+    await db
+      .update(transactionsTable)
+      .set({
+        status: session.status,
+      })
+      .where(eq(transactionsTable.sessionId, session.id));
   } catch (error) {
     console.log('Error updating transaction status from Stripe webhook');
     if (error instanceof Error) {
       console.log(error.message);
-    } else {
-      console.log(error);
+      return;
     }
+    console.log(error);
   }
 }
 
@@ -110,7 +115,7 @@ async function createSubscription(
   const stripe = new Stripe(stripeSecretKey);
 
   try {
-    const adminPb = await useGetAdminPb();
+    const db = getDrizzleDb();
     const eventObject = stripeEvent.data.object;
     const eventObjectId = eventObject.id;
 
@@ -122,47 +127,42 @@ async function createSubscription(
     if (!isStripeCustomer(customer))
       throw new Error('Is not a Stripe customer');
     const customerEmail = customer.email;
-    const pbUser = await adminPb
-      .collection('users')
-      .getFirstListItem(`email="${customerEmail}"`);
-    // TODO: Check if pbUser has stripe_id matching the Stripe customer id. If not, add the stripe_id to the user (one email can have mutliple ids in Stripe).
+    if (customerEmail === null) throw new Error('Customer email not found');
 
-    try {
-      // If a subscription already exists, we do nothing. This returns an error if no subscription is found.
-      await adminPb
-        .collection('subscriptions')
-        .getFirstListItem(`stripe_id="${eventObjectId}"`, {
-          fields: 'id',
-        });
-    } catch (error) {
-      // No subscription found, so we create one.
-      await adminPb.collection('subscriptions').create({
-        stripe_id: eventObjectId,
-        user: pbUser.id,
-        level: 'basic',
-        status: eventObject.status,
-        current_period_end: timestampToUTCDate(eventObject.current_period_end),
-        cancel_at: eventObject.cancel_at
-          ? timestampToUTCDate(eventObject.cancel_at)
-          : null,
-      });
-      console.log('Subscription created in createSubscription');
+    const subscriptionRow = await db
+      .select()
+      .from(subscriptionsTable)
+      .where(eq(subscriptionsTable.stripeId, eventObjectId));
+    if (subscriptionRow.length > 0) {
+      console.log('Subscription already exists');
+      return;
     }
+
+    const dbUser = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, customerEmail));
+
+    await db.insert(subscriptionsTable).values({
+      userId: dbUser[0].id,
+      stripeId: eventObjectId,
+      level: 'basic',
+      status: eventObject.status,
+      currentPeriodEnd: timestampToUTCDate(eventObject.current_period_end),
+      cancelAt: eventObject.cancel_at
+        ? timestampToUTCDate(eventObject.cancel_at)
+        : null,
+    });
+    console.log('Subscription created in createSubscription');
+    // TODO: Check if pbUser has stripe_id matching the Stripe customer id. If not, add the stripe_id to the user (one email can have mutliple ids in Stripe).
   } catch (error) {
     if (!(error instanceof Error)) {
       console.log('Error creating subscription from Stripe webhook', error);
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      console.log(
-        'Error creating subscription from Stripe webhook',
-        error.message
-      );
-      return;
-    }
     console.log(
       'Error creating subscription from Stripe webhook',
-      error.response
+      error.message
     );
     return;
   }
@@ -177,7 +177,6 @@ async function updateSubscription(
   const stripe = new Stripe(stripeSecretKey);
 
   try {
-    const adminPb = await useGetAdminPb();
     const eventObject = stripeEvent.data.object;
     const eventObjectId = eventObject.id;
 
@@ -189,26 +188,23 @@ async function updateSubscription(
     if (!isStripeCustomer(customer))
       throw new Error('Is not a Stripe customer');
     const customerEmail = customer.email;
-    const pbUser = await adminPb
-      .collection('users')
-      .getFirstListItem(`email="${customerEmail}"`);
+    if (customerEmail === null) throw new Error('Customer email not found');
 
-    await createOrUpdateSubscription(eventObjectId, pbUser.id, eventObject);
+    const db = getDrizzleDb();
+    const dbUser = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, customerEmail));
+
+    await createOrUpdateSubscription(eventObjectId, dbUser[0].id, eventObject);
   } catch (error) {
     if (!(error instanceof Error)) {
       console.log('Error updating subscription from Stripe webhook', error);
       return;
     }
-    if (!(error instanceof ClientResponseError)) {
-      console.log(
-        'Error updating subscription from Stripe webhook',
-        error.message
-      );
-      return;
-    }
     console.log(
       'Error updating subscription from Stripe webhook',
-      error.response
+      error.message
     );
     return;
   }
@@ -219,38 +215,34 @@ async function createOrUpdateSubscription(
   userId: string,
   subscriptionObject: Stripe.Subscription
 ) {
-  const adminPb = await useGetAdminPb();
-  try {
-    const subscription = await adminPb
-      .collection('subscriptions')
-      .getFirstListItem(`stripe_id="${stripeId}"`);
-    // Subscription found, so we update it.
-    await adminPb.collection('subscriptions').update(subscription.id, {
-      status: subscriptionObject.status,
-      current_period_end: timestampToUTCDate(
-        subscriptionObject.current_period_end
-      ),
-      cancel_at: subscriptionObject.cancel_at
-        ? timestampToUTCDate(subscriptionObject.cancel_at)
-        : null,
-    });
-    console.log('Subscription updated in createOrUpdateSubscription');
-  } catch (error) {
-    // No subscription found, so we create one.
-    await adminPb.collection('subscriptions').create({
-      stripe_id: stripeId,
-      user: userId,
+  const db = getDrizzleDb();
+  await db
+    .insert(subscriptionsTable)
+    .values({
+      userId,
+      stripeId,
       level: 'basic',
       status: subscriptionObject.status,
-      current_period_end: timestampToUTCDate(
+      currentPeriodEnd: timestampToUTCDate(
         subscriptionObject.current_period_end
       ),
-      cancel_at: subscriptionObject.cancel_at
+      cancelAt: subscriptionObject.cancel_at
         ? timestampToUTCDate(subscriptionObject.cancel_at)
         : null,
+    })
+    .onConflictDoUpdate({
+      target: subscriptionsTable.stripeId,
+      set: {
+        status: subscriptionObject.status,
+        currentPeriodEnd: timestampToUTCDate(
+          subscriptionObject.current_period_end
+        ),
+        cancelAt: subscriptionObject.cancel_at
+          ? timestampToUTCDate(subscriptionObject.cancel_at)
+          : null,
+      },
     });
-    console.log('Subscription created in createOrUpdateSubscription');
-  }
+  console.log('Subscription created or updated in createOrUpdateSubscription');
 }
 
 function timestampToUTCDate(timestamp: number) {

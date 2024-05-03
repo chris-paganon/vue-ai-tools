@@ -1,52 +1,53 @@
 import Stripe from 'stripe';
-import { useGetVerifiedUserPb } from '@/server/utils/useServerUtils';
-import { ClientResponseError } from 'pocketbase';
+import { eq } from 'drizzle-orm';
+import { usersTable } from '@/db/schema/usersSchema';
+import { transactionsTable } from '@/db/schema/subscriptionsSchema';
 import { isStripeCustomer, isStripeDeletedCustomer } from '@/types/types';
 
 export default defineEventHandler(async (event) => {
   const stripeSecretKey = useRuntimeConfig().stripeSecretKey;
   const query = getQuery(event);
-  const session_id = query.sessionId as string;
-  if (!session_id) {
+  const sessionId = query.sessionId as string;
+  if (!sessionId) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Missing session_id',
+      statusMessage: 'Missing sessionId',
     });
   }
-  if (!session_id.match(/^[a-zA-Z0-9_]+$/)) {
+  if (!sessionId.match(/^[a-zA-Z0-9_]+$/)) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Invalid session_id',
+      statusMessage: 'Invalid sessionId',
     });
   }
 
   const stripe = new Stripe(stripeSecretKey);
-
   try {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-    const adminPb = await useGetAdminPb();
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.status === null) {
+      throw new Error('Session status is null');
+    }
 
-    const transaction = await adminPb
-      .collection('transactions')
-      .getFirstListItem(
-        adminPb.filter('session_id={:session_id}', { session_id }),
-        { fields: 'id' }
-      );
+    const db = getDrizzleDb();
     // TODO: Make sure not to overwrite a completed transaction
-    await adminPb.collection('transactions').update(transaction.id, {
-      status: session.status,
-    });
+    await db
+      .update(transactionsTable)
+      .set({
+        status: session.status,
+      })
+      .where(eq(transactionsTable.sessionId, sessionId));
 
     let customerId = session.customer;
     if (customerId && !isStripeDeletedCustomer(customerId)) {
-      const pbUser = await useGetVerifiedUserPb(event);
-      if (!pbUser) throw new Error('User id not found');
+      const user = event.context.user;
+      if (!user) throw new Error('User id not found');
       if (isStripeCustomer(customerId)) {
         customerId = customerId.id;
       }
-      await adminPb.collection('users').update(pbUser.id, {
-        stripe_id: customerId,
-      });
+      await db
+        .update(usersTable)
+        .set({ stripeId: customerId })
+        .where(eq(usersTable.id, user.id));
     }
 
     return {
@@ -54,22 +55,17 @@ export default defineEventHandler(async (event) => {
       customer_email: session.customer_details?.email,
     };
   } catch (error) {
-    if (!(error instanceof Error)) {
-      console.log('CheckoutSessionStatus unknown error', error);
+    if (error instanceof Error) {
+      console.log('CheckoutSessionStatus error', error.message);
       throw createError({
-        statusCode: 500,
-        statusMessage: 'Unknown error',
+        statusCode: 400,
+        statusMessage: error.message,
       });
     }
-    if (!(error instanceof ClientResponseError)) {
-      console.log('CheckoutSessionStatus error', error);
-      throw createError({
-        statusCode: 500,
-      });
-    }
-    console.log('CheckoutSessionStatus PB error', error.response);
+    console.log('CheckoutSessionStatus unknown error', error);
     throw createError({
       statusCode: 500,
+      statusMessage: 'Unknown error',
     });
   }
 });
