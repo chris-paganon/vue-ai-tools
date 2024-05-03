@@ -1,7 +1,8 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const { data } = await useFetch('/api/auth/user');
+  const headers = useRequestHeaders(['cookie']);
+  const user = await $fetch('/api/auth/user', { headers });
 
-  if (!data.value) {
+  if (!user) {
     const { resetAfterLogout } = useAuthStore();
     await resetAfterLogout();
     return;
@@ -9,5 +10,5 @@ export default defineNuxtRouteMiddleware(async () => {
 
   const { setIsSignedIn, setUser } = useAuthStore();
   setIsSignedIn(true);
-  setUser(data.value);
+  setUser(user);
 });
