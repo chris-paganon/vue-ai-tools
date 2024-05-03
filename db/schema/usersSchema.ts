@@ -14,7 +14,7 @@ export const usersTable = sqliteTable('user', {
   updated: text('updated')
     .notNull()
     .default(sql`(current_timestamp)`),
-  stripe_id: text('stripe_id').unique(),
+  stripeId: text('stripe_id').unique(),
   emailVerified: integer('email_verified', { mode: 'boolean' })
     .notNull()
     .default(false),

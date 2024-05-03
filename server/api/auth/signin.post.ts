@@ -43,6 +43,7 @@ export default eventHandler(async (event) => {
     email: existingUser.email,
     created: existingUser.created,
     updated: existingUser.updated,
+    stripeId: existingUser.stripeId,
     emailVerified: existingUser.emailVerified,
     emailConsent: existingUser.emailConsent,
   };
