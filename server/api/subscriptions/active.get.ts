@@ -21,12 +21,5 @@ export default defineEventHandler(async (event) => {
       )
     );
 
-  if (subscriptions.length === 0) {
-    throw createError({
-      message: 'No active subscriptions found',
-      statusCode: 404,
-    });
-  }
-
   return subscriptions;
 });

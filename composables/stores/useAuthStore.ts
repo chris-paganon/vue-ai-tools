@@ -82,11 +82,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
   async function setSubscriptionStatus() {
     const { data } = await useFetch('/api/subscriptions/active');
-    if (!data.value || data.value.length === 0) return;
+    if (!data.value) return;
 
     setSubscriptions(data.value);
-    setIsSubscribed(true);
     setSubscriptionLoaded(true);
+
+    if (data.value.length === 0) return;
+    setIsSubscribed(true);
   }
 
   return {
