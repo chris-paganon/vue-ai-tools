@@ -1,0 +1,198 @@
+[
+  {
+    "title": "accessibility",
+    "url": "https://vuejs.org/guide/best-practices/accessibility.html"
+  },
+  {
+    "title": "performance",
+    "url": "https://vuejs.org/guide/best-practices/performance.html"
+  },
+  {
+    "title": "production-deployment",
+    "url": "https://vuejs.org/guide/best-practices/production-deployment.html"
+  },
+  {
+    "title": "security",
+    "url": "https://vuejs.org/guide/best-practices/security.html"
+  },
+  {
+    "title": "keep-alive",
+    "url": "https://vuejs.org/guide/built-ins/keep-alive.html"
+  },
+  {
+    "title": "suspense",
+    "url": "https://vuejs.org/guide/built-ins/suspense.html"
+  },
+  {
+    "title": "teleport",
+    "url": "https://vuejs.org/guide/built-ins/teleport.html"
+  },
+  {
+    "title": "transition-group",
+    "url": "https://vuejs.org/guide/built-ins/transition-group.html"
+  },
+  {
+    "title": "transition",
+    "url": "https://vuejs.org/guide/built-ins/transition.html"
+  },
+  {
+    "title": "async",
+    "url": "https://vuejs.org/guide/components/async.html"
+  },
+  {
+    "title": "attrs",
+    "url": "https://vuejs.org/guide/components/attrs.html"
+  },
+  {
+    "title": "events",
+    "url": "https://vuejs.org/guide/components/events.html"
+  },
+  {
+    "title": "props",
+    "url": "https://vuejs.org/guide/components/props.html"
+  },
+  {
+    "title": "provide-inject",
+    "url": "https://vuejs.org/guide/components/provide-inject.html"
+  },
+  {
+    "title": "registration",
+    "url": "https://vuejs.org/guide/components/registration.html"
+  },
+  {
+    "title": "slots",
+    "url": "https://vuejs.org/guide/components/slots.html"
+  },
+  {
+    "title": "v-model",
+    "url": "https://vuejs.org/guide/components/v-model.html"
+  },
+  {
+    "title": "component-basics",
+    "url": "https://vuejs.org/guide/essentials/component-basics.html"
+  },
+  {
+    "title": "computed",
+    "url": "https://vuejs.org/guide/essentials/computed.html"
+  },
+  {
+    "title": "conditional",
+    "url": "https://vuejs.org/guide/essentials/conditional.html"
+  },
+  {
+    "title": "event-handling",
+    "url": "https://vuejs.org/guide/essentials/event-handling.html"
+  },
+  {
+    "title": "forms",
+    "url": "https://vuejs.org/guide/essentials/forms.html"
+  },
+  {
+    "title": "lifecycle",
+    "url": "https://vuejs.org/guide/essentials/lifecycle.html"
+  },
+  {
+    "title": "list",
+    "url": "https://vuejs.org/guide/essentials/list.html"
+  },
+  {
+    "title": "reactivity-fundamentals",
+    "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html"
+  },
+  {
+    "title": "template-refs",
+    "url": "https://vuejs.org/guide/essentials/template-refs.html"
+  },
+  {
+    "title": "template-syntax",
+    "url": "https://vuejs.org/guide/essentials/template-syntax.html"
+  },
+  {
+    "title": "watchers",
+    "url": "https://vuejs.org/guide/essentials/watchers.html"
+  },
+  {
+    "title": "animation",
+    "url": "https://vuejs.org/guide/extras/animation.html"
+  },
+  {
+    "title": "composition-api-faq",
+    "url": "https://vuejs.org/guide/extras/composition-api-faq.html"
+  },
+  {
+    "title": "reactivity-in-depth",
+    "url": "https://vuejs.org/guide/extras/reactivity-in-depth.html"
+  },
+  {
+    "title": "reactivity-transform",
+    "url": "https://vuejs.org/guide/extras/reactivity-transform.html"
+  },
+  {
+    "title": "render-function",
+    "url": "https://vuejs.org/guide/extras/render-function.html"
+  },
+  {
+    "title": "rendering-mechanism",
+    "url": "https://vuejs.org/guide/extras/rendering-mechanism.html"
+  },
+  {
+    "title": "ways-of-using-vue",
+    "url": "https://vuejs.org/guide/extras/ways-of-using-vue.html"
+  },
+  {
+    "title": "web-components",
+    "url": "https://vuejs.org/guide/extras/web-components.html"
+  },
+  {
+    "title": "composables",
+    "url": "https://vuejs.org/guide/reusability/composables.html"
+  },
+  {
+    "title": "custom-directives",
+    "url": "https://vuejs.org/guide/reusability/custom-directives.html"
+  },
+  {
+    "title": "plugins",
+    "url": "https://vuejs.org/guide/reusability/plugins.html"
+  },
+  {
+    "title": "routing",
+    "url": "https://vuejs.org/guide/scaling-up/routing.html"
+  },
+  {
+    "title": "sfc",
+    "url": "https://vuejs.org/guide/scaling-up/sfc.html"
+  },
+  {
+    "title": "ssr",
+    "url": "https://vuejs.org/guide/scaling-up/ssr.html"
+  },
+  {
+    "title": "state-management",
+    "url": "https://vuejs.org/guide/scaling-up/state-management.html"
+  },
+  {
+    "title": "testing",
+    "url": "https://vuejs.org/guide/scaling-up/testing.html"
+  },
+  {
+    "title": "TestingApiSwitcher.vue",
+    "url": "https://vuejs.org/guide/scaling-up/TestingApiSwitcher.vue.html"
+  },
+  {
+    "title": "tooling",
+    "url": "https://vuejs.org/guide/scaling-up/tooling.html"
+  },
+  {
+    "title": "composition-api",
+    "url": "https://vuejs.org/guide/typescript/composition-api.html"
+  },
+  {
+    "title": "options-api",
+    "url": "https://vuejs.org/guide/typescript/options-api.html"
+  },
+  {
+    "title": "overview",
+    "url": "https://vuejs.org/guide/typescript/overview.html"
+  }
+]

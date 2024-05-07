@@ -1,3 +1,4 @@
+import vueDocsIndex from '~/assets/vue-docs-index.json';
 import OpenAI from 'openai';
 import { isChatCompletionMessages, type ThreadMessage } from '~/types/types';
 
@@ -57,10 +58,15 @@ export default defineEventHandler(async (event) => {
         const file = await openai.files.retrieve(
           annotation.file_citation.file_id
         );
-        // TODO: Replace with documentation URL (probably need to build an index to match filenames to URLs)
+        const fileName = file.filename;
+        const fileTitle = fileName.replace('.md', '');
+        const fileUrl = vueDocsIndex.find(
+          (docMeta) => docMeta.title === fileTitle
+        )?.url;
+        if (!fileUrl) continue;
         assistantResponse = assistantResponse.replace(
           annotation.text,
-          file.filename
+          ` <a href="${fileUrl}" target="_blank">[${fileTitle}]</a>`
         );
       }
     }
