@@ -1,8 +1,0 @@
-- The `ref` attribute allows direct access to DOM elements or child component instances
-- `ref` is a special attribute similar to the `key` attribute
-- The resulting ref is exposed on `this.$refs`
-- Refs can be accessed after the component is mounted
-- Refs inside `v-for` result in an array of corresponding elements
-- Function refs can be used to store element references
-- `ref` can be used on child components, providing access to the component instance
-- The `expose` option can limit access to specific properties and methods of a child component instance

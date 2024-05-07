@@ -1,9 +1,0 @@
-- Vue's rendering system is based on the concept of virtual DOM
-- Virtual DOM is a programming concept where an ideal representation of a UI is kept in memory and synced with the real DOM
-- Vue's runtime renderer can walk a virtual DOM tree and construct a real DOM tree from it (mount)
-- The renderer can also compare two virtual DOM trees and apply necessary updates to the actual DOM (patch)
-- Templates in Vue are compiled into render functions that return virtual DOM trees
-- Render functions provide more flexibility than templates for dynamic logic
-- Vue recommends templates by default because they are closer to HTML and easier to analyze and optimize
-- Vue's compiler-informed virtual DOM allows for compile-time optimizations to improve runtime performance
-- Some optimizations include static hoisting, patch flags, tree flattening, and impact on SSR hydration

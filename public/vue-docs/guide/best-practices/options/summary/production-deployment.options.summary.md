@@ -1,5 +1,0 @@
-- Development features in Vue.js include warning for errors, props/events validation, reactivity debugging hooks, and Devtools integration
-- These features are not needed in production and can impact performance
-- When deploying Vue.js without build tools, use the production build files (ending in `.prod.js`)
-- When using build tools, ensure that the configuration is set for production builds and `process.env.NODE_ENV` is set to `"production"`
-- The app-level error handler can be used to report errors to tracking services like Sentry and Bugsnag

@@ -1,7 +1,0 @@
-- `<KeepAlive>` is a built-in component in Vue.js
-- It allows us to conditionally cache component instances when dynamically switching between multiple components
-- The basic usage involves wrapping the dynamic component with `<KeepAlive>`
-- The state of the component will be persisted across switches
-- `<KeepAlive>` has `include` and `exclude` props to customize caching behavior
-- The maximum number of cached instances can be limited using the `max` prop
-- Cached instances have lifecycle hooks `activated` and `deactivated`

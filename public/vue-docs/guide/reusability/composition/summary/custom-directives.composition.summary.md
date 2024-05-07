@@ -1,9 +1,0 @@
-- Custom directives allow for reusing logic that involves low-level DOM access on plain elements
-- A custom directive is defined as an object containing lifecycle hooks similar to those of a component
-- The `mounted` hook focuses an input element when it is inserted into the DOM
-- Custom directives can be registered using the `directives` option or globally at the app level
-- Directive hooks include `created`, `beforeMount`, `mounted`, `beforeUpdate`, `updated`, `beforeUnmount`, and `unmounted`
-- Directive hooks receive arguments such as the element, binding, vnode, and prevVnode
-- Custom directives can be defined as functions for shorthand syntax
-- Multiple values can be passed to a directive using an object literal
-- Custom directives applied to components will always apply to the component's root node

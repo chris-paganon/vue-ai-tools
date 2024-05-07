@@ -1,7 +1,0 @@
-- The `v-model` directive simplifies syncing the state of form input elements with JavaScript
-- `v-model` can be used on different types of input elements, including text, checkboxes, radios, and selects
-- The `v-model` directive automatically handles different DOM properties and events based on the element type
-- The initial value of the form element is ignored by `v-model`, the JavaScript state is treated as the source of truth
-- Examples are provided for using `v-model` with text inputs, checkboxes, radios, and selects
-- Modifiers like `.lazy`, `.number`, and `.trim` can be added to `v-model` to modify its behavior
-- `v-model` can also be used with custom components for completely customized inputs

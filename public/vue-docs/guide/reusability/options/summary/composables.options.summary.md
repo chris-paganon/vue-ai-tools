@@ -1,9 +1,0 @@
-- A "composable" is a function that encapsulates and reuses stateful logic in Vue applications using the Composition API
-- Composables can be used to extract and reuse logic for common tasks
-- The example shows how to create a composable for tracking the mouse position on a page
-- Composables can be used in multiple components by extracting the logic into an external file and importing the composable function
-- Composables can be nested, allowing for the composition of complex logic using small, isolated units
-- The page also discusses conventions and best practices for naming, accepting input arguments, returning values, handling side effects, and usage restrictions of composables
-- Composables can be used in the Options API by calling them inside the `setup()` function and returning the bindings
-- Composables are compared to mixins, renderless components, and React hooks
-- Further reading is provided for more in-depth information on reactivity, state management, testing composables, and a collection of Vue composables called VueUse.

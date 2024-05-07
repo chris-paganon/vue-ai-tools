@@ -1,7 +1,0 @@
-- Reporting vulnerabilities is a top concern for Vue.js, email [security@vuejs.org](mailto:security@vuejs.org)
-- Never use non-trusted content as component templates
-- Vue automatically escapes HTML content and attribute bindings to prevent script injection
-- User-provided HTML, URLs, styles, and JavaScript can be potential security risks and should be sanitized or avoided
-- Best practices include avoiding unsanitized user-provided content and reviewing dependencies for dangerous patterns
-- Backend coordination is important for addressing HTTP security vulnerabilities
-- Additional security concerns exist when using server-side rendering (SSR)

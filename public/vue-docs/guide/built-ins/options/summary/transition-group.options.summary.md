@@ -1,8 +1,0 @@
-- `<TransitionGroup>` is a built-in component for animating elements in a list
-- Supports props, CSS transition classes, and JavaScript hook listeners like `<Transition>`
-- Requires elements inside to have a unique `key` attribute
-- CSS transition classes are applied to individual elements in the list, not the container
-- Can be used to apply enter/leave transitions to a `v-for` list
-- Can be used to create move transitions for smooth insertion and removal of items
-- Can be used to stagger transitions in a list by using data attributes and JavaScript hooks
-- API reference for `<TransitionGroup>`

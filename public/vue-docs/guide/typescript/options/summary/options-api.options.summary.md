@@ -1,9 +1,0 @@
-- Use `defineComponent()` to enable type inference for props in Options API
-- Annotate complex props types using the `PropType` utility type
-- Be careful when using function values for `validator` and `default` prop options if TypeScript version is less than 4.7
-- Declare expected payload type for emitted events using the `emits` option
-- Computed properties infer their type based on their return value
-- Explicitly annotate the type of a computed property when necessary
-- Type the argument of event handlers to avoid implicit `any` type
-- Augment global properties using `ComponentCustomProperties` interface
-- Augment custom component options using `ComponentCustomOptions` interface

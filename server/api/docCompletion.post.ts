@@ -1,60 +1,57 @@
 import OpenAI from 'openai';
-import type { LegacyChatCompletionMessage } from '~/types/types';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  console.log('docCompletion request received: ', body);
-  if (!body.paths || !body.messages) {
-    console.log('Missing path or messages');
-    return;
+  if (!body.messages) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Missing messages',
+    });
   }
 
   const runtimeConfig = useRuntimeConfig();
-
-  let relevantDocPage: string = '';
-  await body.paths.forEach(async (docPath: string) => {
-    const docPage = await $fetch(
-      `${runtimeConfig.public.publicFolderUrl}/vue-docs/${docPath}`
-    );
-    relevantDocPage += docPage;
-  });
-  const messages = body.messages.map((message: LegacyChatCompletionMessage) => {
-    if (
-      message.role === 'system' &&
-      message.content?.includes('{{VAI_DOC_PAGE}}')
-    ) {
-      message.content = message.content.replace(
-        '{{VAI_DOC_PAGE}}',
-        relevantDocPage
-      );
-    }
-    return message;
-  });
-
-  const data = {
-    model: 'gpt-3.5-turbo-16k',
-    temperature: 0.4,
-    messages: messages,
-  };
-
   const openai = new OpenAI({
     organization: runtimeConfig.openaiOrganization,
     apiKey: runtimeConfig.openaiApiKey,
   });
 
-  try {
-    const completion = await openai.chat.completions.create(data);
-    if (completion.choices.length === 0) return;
-    return completion.choices;
-  } catch (error) {
-    if (error instanceof OpenAI.APIError) {
-      console.log('error: ', error.error); // Error info
-      console.log('status: ', error.status); // 400
-      console.log('error name: ', error.name); // BadRequestError
-      console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-    } else {
-      console.log(error);
-    }
-    return;
+  const threadMessages = body.messages.filter(
+    (message: any) => message.role !== 'system'
+  );
+
+  const thread = await openai.beta.threads.create({
+    messages: threadMessages,
+  });
+  const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+    assistant_id: 'asst_zgB5kTaei9AT4XFc13FTrwfg',
+  });
+  const threadResponseMessages = await openai.beta.threads.messages.list(
+    run.thread_id
+  );
+  if (threadResponseMessages.data[0].content[0].type !== 'text') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "Assistant didn't return text response.",
+    });
   }
+
+  const assistantResponseObj = threadResponseMessages.data[0].content[0].text;
+  let assistantResponse = assistantResponseObj.value;
+
+  if (assistantResponseObj.annotations.length > 0) {
+    for (const annotation of assistantResponseObj.annotations) {
+      if (annotation.type === 'file_citation') {
+        const file = await openai.files.retrieve(
+          annotation.file_citation.file_id
+        );
+        // TODO: Replace with documentation URL (probably need to build an index to match filenames to URLs)
+        assistantResponse = assistantResponse.replace(
+          annotation.text,
+          file.filename
+        );
+      }
+    }
+  }
+
+  return assistantResponse;
 });

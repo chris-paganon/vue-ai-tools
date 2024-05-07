@@ -1,7 +1,0 @@
-- Vue can be used as a standalone script file without a build step
-- Vue can be used to build standard Web Components
-- Vue is suitable for building Single-Page Applications (SPAs) with rich interactivity and navigation
-- Vue supports Server-Side Rendering (SSR) for improved performance and SEO
-- Vue can be used for Static-Site Generation (SSG) to pre-render and serve static HTML files
-- Vue can be used to build desktop and mobile apps with frameworks like Electron, Tauri, Ionic Vue, and Quasar
-- Vue's Custom Renderer API allows for building custom renderers targeting WebGL or the terminal.

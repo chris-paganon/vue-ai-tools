@@ -1,9 +1,0 @@
-- `defineAsyncComponent` is a function in Vue.js
-- It is used to load a component from the server only when it is needed
-- It accepts a loader function that returns a Promise
-- The Promise's `resolve` callback is called when the component definition is retrieved from the server
-- `defineAsyncComponent` can be used with the ES module dynamic import syntax
-- The resulting component is a wrapper that only calls the loader function when rendered
-- Async components can be registered globally or locally
-- Async components support loading and error states with advanced options
-- Async components can be used with the `<Suspense>` built-in component

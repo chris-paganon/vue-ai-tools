@@ -1,4 +1,0 @@
-- The page explains how to use the `v-model` directive to simplify form input bindings in Vue.js
-- It provides examples of using `v-model` with different types of form elements such as text inputs, checkboxes, radio buttons, and select dropdowns
-- The page also mentions modifiers for `v-model` such as `.lazy`, `.number`, and `.trim`
-- It mentions that `v-model` can be used with custom components as well

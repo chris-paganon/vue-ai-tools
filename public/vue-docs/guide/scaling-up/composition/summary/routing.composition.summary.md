@@ -1,4 +1,0 @@
-- Server-side routing involves the server sending a response based on the URL path, while client-side routing is done in the browser using JavaScript.
-- Single-Page Applications (SPAs) use client-side routing to dynamically fetch new data and update the current page without full page reloads.
-- The Vue Router library is the officially-supported router for building SPAs with Vue.js.
-- If you only need simple routing and don't want to use a router library, you can use dynamic components and listen to browser events like `hashchange` or use the History API.

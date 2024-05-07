@@ -1,8 +1,0 @@
-- `provide` and `inject` can be used to solve the problem of prop drilling in Vue.js
-- `provide` option is used to provide data to a component's descendants
-- `inject` option is used to inject data provided by an ancestor component
-- App-level provides can be used to provide data at the app level
-- Injection aliasing can be used to inject properties using a different local key
-- Default values can be declared for injected properties
-- Reactivity can be achieved by providing a computed property using the `computed()` function
-- Symbol injection keys can be used to avoid potential collisions when working with multiple dependency providers

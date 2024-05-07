@@ -1,8 +1,0 @@
-- Computed properties are used for complex logic that includes reactive data
-- They are recommended for reducing clutter in templates and avoiding repetition
-- Computed properties are declared using the `computed` option in the component
-- They are cached based on their reactive dependencies, so they only re-evaluate when necessary
-- Methods can achieve the same result as computed properties, but they are not cached
-- Computed properties are getter-only by default, but can be made writable by providing a setter
-- Getters in computed properties should be side-effect free and not mutate the DOM
-- Computed properties should be treated as read-only and not be mutated

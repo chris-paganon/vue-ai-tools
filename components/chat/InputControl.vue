@@ -30,9 +30,8 @@ const props = defineProps({
 
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage, addAssistantMessage } = useChatStore();
-const { inputQuestion, isWaitingAnswer, selectedInputOption } = storeToRefs(
-  useChatInputStore()
-);
+const { inputQuestion, isWaitingAnswer, selectedInputOption } =
+  storeToRefs(useChatInputStore());
 const { setInputQuestion, setIsWaitingAnswer } = useChatInputStore();
 
 async function askInputQuestion() {
@@ -47,13 +46,13 @@ async function askInputQuestion() {
       return await useAskQuestion();
     case 'Composition API':
       setCompositionIndexSystemMessage();
-      return await useAskFunction();
+      return await useAskAssistant();
     case 'Options API':
       setOptionsIndexSystemMessage();
-      return await useAskFunction();
+      return await useAskAssistant();
     default:
       setCompositionIndexSystemMessage();
-      return await useAskFunction();
+      return await useAskAssistant();
   }
 }
 

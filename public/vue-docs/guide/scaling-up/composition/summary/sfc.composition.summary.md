@@ -1,9 +1,0 @@
-- Vue Single-File Components (SFC) allow encapsulation of template, logic, and styling in a single file
-- SFC is an extension of HTML, CSS, and JavaScript
-- SFC provides benefits such as modularization, colocation, pre-compiled templates, component-scoped CSS, ergonomic syntax, IDE support, and HMR support
-- SFC is recommended for SPAs, SSG, and non-trivial frontends
-- SFC must be pre-compiled into JavaScript and CSS
-- `<style>` tags can be injected during development and extracted into a single CSS file for production
-- SFC compiler can be integrated with build tools like Vite or Vue CLI
-- SFC promotes loose coupling and composition of components
-- Separation of concerns is not equal to separation of file types

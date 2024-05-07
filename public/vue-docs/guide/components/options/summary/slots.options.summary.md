@@ -1,9 +1,0 @@
-- Slots allow passing template fragments to a child component
-- The `<slot>` element is a slot outlet that indicates where the parent-provided slot content should be rendered
-- Slot content can be any valid template content, including multiple elements or other components
-- Slots can have fallback content that is rendered when no content is provided
-- Named slots allow for multiple slot outlets in a single component
-- Dynamic slot names can be used with the `v-slot` directive
-- Scoped slots allow slot content to access data from both the parent and child components
-- Scoped slots can be used with default slots or named slots
-- Renderless components are components that encapsulate logic but do not render anything themselves, delegating visual output to the consumer component with scoped slots

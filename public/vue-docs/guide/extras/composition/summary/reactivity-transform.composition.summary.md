@@ -1,9 +1,0 @@
-- Reactivity Transform is a deprecated experimental feature in Vue.js
-- It was a Composition-API-specific feature that required a build step
-- The feature allowed for writing code using `$ref()` to create reactive variables
-- The feature provided macros for reactivity APIs such as `ref`, `computed`, `shallowRef`, `customRef`, and `toRef`
-- Destructuring with the `$()` macro allowed for retrieving refs from objects
-- The `$()` macro could also be used to convert existing refs into reactive variables
-- The feature also addressed issues with `defineProps()` usage and retaining reactivity across function boundaries
-- TypeScript integration was supported and the macros had typings
-- The feature required an explicit opt-in configuration in tools like Vite and vue-cli

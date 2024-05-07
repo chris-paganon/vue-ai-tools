@@ -34,43 +34,16 @@ export async function useAskQuestion() {
   return response[0].message.content;
 }
 
-export async function useAskFunction() {
+export async function useAskAssistant() {
   const { messages } = storeToRefs(useChatStore());
-  const { functions } = storeToRefs(useChatFunctionsStore());
-  const { handleChatFunction } = useChatFunctionsStore();
-
-  if (!functions.value) return;
-
-  const response = await useCompletion({
-    messages: messages.value,
-    functions: functions.value,
-    function_call: {
-      name: functions.value[0].name,
-    },
-  });
-
-  if (!response) {
-    console.log('No response from useAskFunction');
-    return;
-  }
-  return await handleChatFunction(response);
-}
-
-export async function useAskDocCompletion(paths: string[]) {
-  const { messages } = storeToRefs(useChatStore());
-
+  // TODO: Add error handling. $fetch needs to be wrapped in a try/catch block. throw createError needs to be added in API. Do the same for all other API endpoints.
   const response = await $fetch('/api/docCompletion', {
     method: 'POST',
-    body: {
-      messages: messages.value,
-      paths: paths,
-    },
+    body: { messages: messages.value },
   });
-  // TODO: If response says too many tokens, send it again after dropping the last path from the list.
 
-  if (!response?.[0].message?.content) {
-    console.log('No response from useAskDocCompletion');
-    return;
-  }
-  return response[0].message.content;
+  // TODO: handle errors
+
+  if (!response) return;
+  return response;
 }
