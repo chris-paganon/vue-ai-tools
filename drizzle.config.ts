@@ -5,7 +5,7 @@ export default defineConfig({
   out: './db/migrations',
   driver: 'better-sqlite',
   dbCredentials: {
-    url: './sqlite.db',
+    url: './db/sqlite.db',
   },
   verbose: true,
   strict: true,

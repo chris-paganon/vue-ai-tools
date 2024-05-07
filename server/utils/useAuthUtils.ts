@@ -51,7 +51,7 @@ interface DatabaseUserAttributes {
 }
 
 export function getDrizzleDb() {
-  const sqliteDB = sqlite('sqlite.db');
+  const sqliteDB = sqlite('db/sqlite.db');
   return drizzle(sqliteDB);
 }
 

@@ -49,7 +49,7 @@ export const passwordResetTable = sqliteTable('password_reset', {
   expiresAt: text('expires_at').notNull(),
 });
 
-const sqliteDB = sqlite('sqlite.db');
+const sqliteDB = sqlite('db/sqlite.db');
 const db = drizzle(sqliteDB);
 export const dbAdapter = new DrizzleSQLiteAdapter(
   db,
