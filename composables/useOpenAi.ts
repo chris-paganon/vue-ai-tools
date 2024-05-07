@@ -1,17 +1,10 @@
-import type OpenAI from 'openai';
-import type { LegacyChatCompletionMessage } from '@/types/types';
+import type { ChatCompletionMessage } from '@/types/types';
 
-interface ChatCompletionRequest {
-  messages: LegacyChatCompletionMessage[];
-  functions?: OpenAI.Chat.ChatCompletionCreateParams.Function[];
-  function_call?: OpenAI.Chat.ChatCompletionFunctionCallOption;
-}
-
-export async function useCompletion(payload: ChatCompletionRequest) {
+export async function useCompletion(messages: ChatCompletionMessage[]) {
   // TODO: Add error handling. $fetch needs to be wrapped in a try/catch block. throw createError needs to be added in API. Do the same for all other API endpoints.
   const response = await $fetch('/api/completion', {
     method: 'POST',
-    body: payload,
+    body: { messages },
   });
 
   // TODO: handle errors
@@ -23,9 +16,7 @@ export async function useCompletion(payload: ChatCompletionRequest) {
 export async function useAskQuestion() {
   const { messages } = storeToRefs(useChatStore());
 
-  const response = await useCompletion({
-    messages: messages.value,
-  });
+  const response = await useCompletion(messages.value);
 
   if (!response?.[0].message?.content) {
     console.log('No response from useAskQuestion');

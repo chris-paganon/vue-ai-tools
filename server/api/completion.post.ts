@@ -1,13 +1,29 @@
 import OpenAI from 'openai';
+import { isChatCompletionMessages } from '~/types/types';
 
 export default defineEventHandler(async (event) => {
   console.log('completion request received');
 
   const body = await readBody(event);
+  const messages = body.messages;
+
+  if (!messages) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Missing messages',
+    });
+  }
+  if (!isChatCompletionMessages(messages)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid messages',
+    });
+  }
+
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
     model: 'gpt-3.5-turbo-16k',
     temperature: 0.4,
-    ...body,
+    messages,
   };
 
   const runtimeConfig = useRuntimeConfig();

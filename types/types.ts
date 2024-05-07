@@ -1,4 +1,3 @@
-import type OpenAI from 'openai';
 import type Stripe from 'stripe';
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
 
@@ -13,16 +12,42 @@ export interface localSignupErrors {
 export interface Chat {
   id: number;
   name: string;
-  messages: LegacyChatCompletionMessage[];
+  messages: ChatCompletionMessage[];
 }
-export type LegacyChatCompletionMessage =
-  | OpenAI.ChatCompletionSystemMessageParam
-  | LegacyUserMessage
-  | OpenAI.ChatCompletionAssistantMessageParam;
-export interface LegacyUserMessage {
+export type ChatCompletionMessage =
+  | UserMessage
+  | AssistantMessage
+  | SystemMessage;
+export function isChatCompletionMessage(
+  message: any
+): message is ChatCompletionMessage {
+  return (
+    message.content &&
+    typeof message.content === 'string' &&
+    message.role &&
+    (message.role === 'system' ||
+      message.role === 'user' ||
+      message.role === 'assistant')
+  );
+}
+export function isChatCompletionMessages(
+  messages: any[]
+): messages is ChatCompletionMessage[] {
+  return messages.every(isChatCompletionMessage);
+}
+export type ThreadMessage = UserMessage | AssistantMessage;
+
+export interface UserMessage {
   role: 'user';
   content: string;
-  name?: string;
+}
+export interface AssistantMessage {
+  role: 'assistant';
+  content: string;
+}
+export interface SystemMessage {
+  role: 'system';
+  content: string;
 }
 
 /**

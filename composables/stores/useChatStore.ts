@@ -1,19 +1,18 @@
-import compositionIndex from '../../assets/vue-docs/composition-index.json';
-import optionsIndex from '../../assets/vue-docs/options-index.json';
-import type { Chat, LegacyChatCompletionMessage } from '@/types/types';
+import type { Chat, ChatCompletionMessage } from '@/types/types';
 
 export const useChatStore = defineStore('chat', () => {
-  const compositionIndexString = JSON.stringify(compositionIndex);
-  const optionsIndexString = JSON.stringify(optionsIndex);
   const baseSystemMessage =
     'You are an AI assistant on vuetools.ai, a website that provides AI-Powered tools Fine-tuned for VueJS Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the VueJS framework.';
+  const compositionSystemMessage = `${baseSystemMessage} the user is using the composition API, format your answers using <script setup>.`;
+  const optionsSystemMessage = `${baseSystemMessage} the user is using the options API, format your answers accordingly.`;
+
   const defaultChat: Chat = {
     id: 0,
     name: '',
     messages: [
       {
         role: 'system',
-        content: `${baseSystemMessage} Here is an index of all the pages in the Vue documentation: VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`,
+        content: compositionSystemMessage,
       },
     ],
   };
@@ -46,7 +45,7 @@ export const useChatStore = defineStore('chat', () => {
     }
     setCurrentChatIndex(newChatIndex);
   }
-  function addMessage(message: LegacyChatCompletionMessage) {
+  function addMessage(message: ChatCompletionMessage) {
     chats.value[currentChatIndex.value].messages.push(message);
     useHandleChatDb(message, currentChatId.value, currentChatName.value).then(
       (id) => {
@@ -55,7 +54,7 @@ export const useChatStore = defineStore('chat', () => {
     );
     console.log('message added to the list:', messages.value);
   }
-  function setMessages(value: LegacyChatCompletionMessage[]) {
+  function setMessages(value: ChatCompletionMessage[]) {
     chats.value[currentChatIndex.value].messages = value;
   }
   function replaceSystemMessage(message: string) {
@@ -68,14 +67,10 @@ export const useChatStore = defineStore('chat', () => {
     replaceSystemMessage('');
   }
   function setCompositionIndexSystemMessage() {
-    replaceSystemMessage(
-      `Here is an index of all the pages in the Vue documentation (using the Composition API): VUE_DOCUMENTATION_INDEX: ${compositionIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`
-    );
+    replaceSystemMessage(compositionSystemMessage);
   }
   function setOptionsIndexSystemMessage() {
-    replaceSystemMessage(
-      `Here is an index of all the pages in the Vue documentation (using the Options API): VUE_DOCUMENTATION_INDEX: ${optionsIndexString}. Use the VUE_DOCUMENTATION_INDEX to return between 0 and 3 pages relevant to the user's question.`
-    );
+    replaceSystemMessage(optionsSystemMessage);
   }
   function setTemplatingSystemMessage() {
     replaceSystemMessage(baseSystemMessage);

@@ -1,11 +1,20 @@
 import OpenAI from 'openai';
+import { isChatCompletionMessages, type ThreadMessage } from '~/types/types';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  if (!body.messages) {
+  const messages = body.messages;
+
+  if (!messages) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Missing messages',
+    });
+  }
+  if (!isChatCompletionMessages(messages)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid messages',
     });
   }
 
@@ -15,15 +24,19 @@ export default defineEventHandler(async (event) => {
     apiKey: runtimeConfig.openaiApiKey,
   });
 
-  const threadMessages = body.messages.filter(
-    (message: any) => message.role !== 'system'
-  );
+  const threadMessages = messages.filter(
+    (message) => message.role !== 'system'
+  ) as ThreadMessage[];
+  const systemMessage = messages.find(
+    (message) => message.role === 'system'
+  )?.content;
 
   const thread = await openai.beta.threads.create({
     messages: threadMessages,
   });
   const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: 'asst_zgB5kTaei9AT4XFc13FTrwfg',
+    instructions: systemMessage,
   });
   const threadResponseMessages = await openai.beta.threads.messages.list(
     run.thread_id
