@@ -7,8 +7,8 @@ export default eventHandler(async (event) => {
   // TODO: Properly validate these
   if (typeof email !== 'string') {
     throw createError({
-      message: 'Invalid username',
       statusCode: 400,
+      statusMessage: 'Invalid username',
     });
   }
   const password = body.password;
@@ -18,16 +18,16 @@ export default eventHandler(async (event) => {
     password.length > 255
   ) {
     throw createError({
-      message: 'Invalid password',
       statusCode: 400,
+      statusMessage: 'Invalid password',
     });
   }
 
   const existingUser = await useVerifyPassword(email, password);
   if (!existingUser) {
     throw createError({
-      message: 'Incorrect username or password',
       statusCode: 400,
+      statusMessage: 'Incorrect username or password',
     });
   }
 
