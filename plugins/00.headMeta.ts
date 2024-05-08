@@ -7,7 +7,7 @@ export default defineNuxtPlugin(() => {
       {
         async: true,
         src: 'https://umami.vueai.tools/script.js',
-        'data-website-id': '26f8c670-c065-4261-b86e-cbca5ed11822',
+        'data-website-id': '9a36b898-44ef-4267-89d6-dd7a3afb90a2',
       },
     ],
   });
