@@ -15,6 +15,28 @@
             @keyup.enter="modifyPassword"
           />
         </label>
+        <label for="password-confirm" class="flex flex-column mt-4">
+          Confirm new password:
+          <Password
+            id="password-confirm"
+            v-model="passwordConfirm"
+            toggle-mask
+            :feedback="false"
+            @keyup.enter="modifyPassword"
+          />
+        </label>
+        <small
+          v-if="isFormReady && !isPasswordMatching"
+          id="password-confirm-help"
+          class="text-red-500"
+          >Passwords do not match</small
+        >
+        <Button
+          class="mt-4 w-full"
+          label="Reset password"
+          :disabled="!isFormReady || !isPasswordMatching"
+          @click="modifyPassword"
+        />
       </template>
     </Card>
   </div>
@@ -31,6 +53,12 @@ definePageMeta({
 const toast = useToast();
 const route = useRoute();
 const password = ref('');
+const passwordConfirm = ref('');
+
+const isFormReady = computed(() => password.value && passwordConfirm.value);
+const isPasswordMatching = computed(
+  () => password.value === passwordConfirm.value
+);
 
 async function modifyPassword() {
   try {
