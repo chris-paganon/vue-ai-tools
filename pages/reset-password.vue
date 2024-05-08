@@ -11,17 +11,24 @@
             id="password"
             v-model="password"
             toggle-mask
-            :feedback="false"
+            :pt="{
+              root: ({ state }) => passwordPT(state),
+            }"
             @keyup.enter="modifyPassword"
           />
         </label>
+        <small
+          v-if="passwordStrength === 'weak'"
+          id="password-help"
+          class="text-red-500"
+          >Passwords strength can't be weak</small
+        >
         <label for="password-confirm" class="flex flex-column mt-4">
           Confirm new password:
           <Password
             id="password-confirm"
             v-model="passwordConfirm"
             toggle-mask
-            :feedback="false"
             @keyup.enter="modifyPassword"
           />
         </label>
@@ -34,7 +41,7 @@
         <Button
           class="mt-4 w-full"
           label="Reset password"
-          :disabled="!isFormReady || !isPasswordMatching"
+          :disabled="!isFormValid"
           @click="modifyPassword"
         />
       </template>
@@ -45,6 +52,7 @@
 <script setup lang="ts">
 import { useToast } from 'primevue/usetoast';
 import { FetchError } from 'ofetch';
+import type { PasswordState } from 'primevue/password';
 
 definePageMeta({
   layout: 'home',
@@ -55,9 +63,24 @@ const route = useRoute();
 const password = ref('');
 const passwordConfirm = ref('');
 
+const passwordStrength = ref('');
+function passwordPT(state: PasswordState) {
+  if (state.meter?.strength) {
+    passwordStrength.value = state.meter.strength;
+  } else {
+    passwordStrength.value = '';
+  }
+}
+
 const isFormReady = computed(() => password.value && passwordConfirm.value);
 const isPasswordMatching = computed(
   () => password.value === passwordConfirm.value
+);
+const isFormValid = computed(
+  () =>
+    isFormReady.value &&
+    passwordStrength.value !== 'weak' &&
+    isPasswordMatching.value
 );
 
 async function modifyPassword() {
