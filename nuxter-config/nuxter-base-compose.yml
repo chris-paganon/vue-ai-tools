@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nuxt-app:
     container_name: ${COMPOSE_PROJECT_NAME}-nuxt-app
-    build: 
+    build:
       context: .
       dockerfile: nuxter-config/Dockerfile.nuxt-app
       args:
@@ -12,27 +12,8 @@ services:
     restart: unless-stopped
     networks:
       - caddy_nuxt_app
-  pb-db:
-    container_name: ${COMPOSE_PROJECT_NAME}-pb-db
-    build: 
-      context: .
-      dockerfile: nuxter-config/Dockerfile.pb-db
-      args:
-        PB_ENCRYPTION_KEY: ${PB_ENCRYPTION_KEY}
-    restart: unless-stopped
-    volumes:
-      - pb_data:/pb/pb_data
-    networks:
-      - caddy_pb_db
-
-volumes:
-  pb_data:
-    name: ${COMPOSE_PROJECT_NAME}_pb_data
 
 networks:
   caddy_nuxt_app:
     name: ${COMPOSE_PROJECT_NAME}_caddy_nuxt_app
-    external: true
-  caddy_pb_db:
-    name: ${COMPOSE_PROJECT_NAME}_caddy_pb_db
     external: true
