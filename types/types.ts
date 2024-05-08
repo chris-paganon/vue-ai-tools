@@ -8,7 +8,6 @@ export interface localSignupErrors {
   privacyConsent?: string;
 }
 
-// TODO: Verify these types or get them directly from JS migrations
 export interface Chat {
   id: number;
   name: string;
