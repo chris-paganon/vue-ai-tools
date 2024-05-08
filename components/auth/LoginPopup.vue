@@ -27,7 +27,12 @@
             @keyup.enter="login"
           />
         </div>
-        <Button label="Login" class="mt-4" @click="login" />
+        <Button
+          label="Login"
+          class="mt-4"
+          :disabled="!isLoginReady"
+          @click="login"
+        />
         <Button
           label="Forgot password?"
           text
@@ -59,6 +64,26 @@ const { setIsLoginModalOpened } = useUIStore();
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+
+const isEmailready = computed(() => {
+  if (email.value.length === 0) {
+    return false;
+  }
+  const regex = /\S+@\S+\.\S+/;
+  if (!regex.test(email.value)) {
+    return false;
+  }
+  return true;
+});
+const isPasswordReady = computed(() => {
+  if (password.value.length === 0) {
+    return false;
+  }
+  return true;
+});
+const isLoginReady = computed(() => {
+  return isEmailready.value && isPasswordReady.value;
+});
 
 const isForgotPassordForm = ref(false);
 
