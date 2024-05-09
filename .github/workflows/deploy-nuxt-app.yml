@@ -50,7 +50,7 @@ jobs:
             cd /opt/nuxter/${{ inputs.app_name }}
             mv .output.${{ inputs.app_env }} .output.${{ inputs.app_env }}.old
             mv .output.${{ inputs.app_env }}.new .output.${{ inputs.app_env }}
-            mv .output.${{ inputs.app_env }}.old/db/sqlite.db .output.${{ inputs.app_env }}/server/db/sqlite.db
+            mv .output.${{ inputs.app_env }}.old/server/db/sqlite.db .output.${{ inputs.app_env }}/server/db/sqlite.db
             git fetch --all
             git checkout ${{ github.ref_name }}
             git pull
