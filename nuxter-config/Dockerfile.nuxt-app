@@ -2,7 +2,6 @@ FROM node:20
 
 ARG APP_ENV
 COPY ./.output.${APP_ENV} /opt/nuxter/.output
-COPY ./db/migrations /opt/nuxter/.output/server/db/migrations
 
 WORKDIR /opt/nuxter/.output/server
 
