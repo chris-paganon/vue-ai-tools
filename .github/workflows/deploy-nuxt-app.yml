@@ -48,6 +48,7 @@ jobs:
           key: ${{ secrets.DROPLET_KEY }}
           script: |
             cd /opt/nuxter/${{ inputs.app_name }}
+            rm -rf .output.${{ inputs.app_env }}.old
             mv .output.${{ inputs.app_env }} .output.${{ inputs.app_env }}.old
             mv .output.${{ inputs.app_env }}.new .output.${{ inputs.app_env }}
             mv .output.${{ inputs.app_env }}.old/server/db/sqlite.db .output.${{ inputs.app_env }}/server/db/sqlite.db
