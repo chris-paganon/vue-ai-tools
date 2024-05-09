@@ -11,7 +11,7 @@ services:
     env_file: nuxter-config/nuxt-app.${APP_ENV}.env
     restart: unless-stopped
     volumes:
-      - sqlite_db:/opt/nuxter/.output/server/db
+      - .output.${APP_ENV}/server/db:/opt/nuxter/.output/server/db
     networks:
       - caddy_nuxt_app
 
@@ -19,6 +19,3 @@ networks:
   caddy_nuxt_app:
     name: ${COMPOSE_PROJECT_NAME}_caddy_nuxt_app
     external: true
-volumes:
-  sqlite_db:
-    name: ${COMPOSE_PROJECT_NAME}_sqlite_db
