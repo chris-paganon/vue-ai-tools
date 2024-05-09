@@ -1,198 +1,690 @@
 [
   {
-    "title": "accessibility",
-    "url": "https://vuejs.org/guide/best-practices/accessibility.html"
+    "filename": "quick-start.md",
+    "url": "https://vuejs.org/guide/quick-start.html"
   },
   {
-    "title": "performance",
-    "url": "https://vuejs.org/guide/best-practices/performance.html"
+    "filename": "introduction.md",
+    "url": "https://vuejs.org/guide/introduction.html"
   },
   {
-    "title": "production-deployment",
-    "url": "https://vuejs.org/guide/best-practices/production-deployment.html"
-  },
-  {
-    "title": "security",
-    "url": "https://vuejs.org/guide/best-practices/security.html"
-  },
-  {
-    "title": "keep-alive",
-    "url": "https://vuejs.org/guide/built-ins/keep-alive.html"
-  },
-  {
-    "title": "suspense",
-    "url": "https://vuejs.org/guide/built-ins/suspense.html"
-  },
-  {
-    "title": "teleport",
-    "url": "https://vuejs.org/guide/built-ins/teleport.html"
-  },
-  {
-    "title": "transition-group",
-    "url": "https://vuejs.org/guide/built-ins/transition-group.html"
-  },
-  {
-    "title": "transition",
-    "url": "https://vuejs.org/guide/built-ins/transition.html"
-  },
-  {
-    "title": "async",
-    "url": "https://vuejs.org/guide/components/async.html"
-  },
-  {
-    "title": "attrs",
+    "filename": "attrs.md",
     "url": "https://vuejs.org/guide/components/attrs.html"
   },
   {
-    "title": "events",
-    "url": "https://vuejs.org/guide/components/events.html"
-  },
-  {
-    "title": "props",
+    "filename": "props.md",
     "url": "https://vuejs.org/guide/components/props.html"
   },
   {
-    "title": "provide-inject",
+    "filename": "provide-inject.md",
     "url": "https://vuejs.org/guide/components/provide-inject.html"
   },
   {
-    "title": "registration",
+    "filename": "registration.md",
     "url": "https://vuejs.org/guide/components/registration.html"
   },
   {
-    "title": "slots",
-    "url": "https://vuejs.org/guide/components/slots.html"
-  },
-  {
-    "title": "v-model",
+    "filename": "v-model.md",
     "url": "https://vuejs.org/guide/components/v-model.html"
   },
   {
-    "title": "component-basics",
-    "url": "https://vuejs.org/guide/essentials/component-basics.html"
+    "filename": "slots.md",
+    "url": "https://vuejs.org/guide/components/slots.html"
   },
   {
-    "title": "computed",
-    "url": "https://vuejs.org/guide/essentials/computed.html"
+    "filename": "events.md",
+    "url": "https://vuejs.org/guide/components/events.html"
   },
   {
-    "title": "conditional",
-    "url": "https://vuejs.org/guide/essentials/conditional.html"
+    "filename": "async.md",
+    "url": "https://vuejs.org/guide/components/async.html"
   },
   {
-    "title": "event-handling",
-    "url": "https://vuejs.org/guide/essentials/event-handling.html"
+    "filename": "teleport.md",
+    "url": "https://vuejs.org/guide/built-ins/teleport.html"
   },
   {
-    "title": "forms",
-    "url": "https://vuejs.org/guide/essentials/forms.html"
+    "filename": "transition.md",
+    "url": "https://vuejs.org/guide/built-ins/transition.html"
   },
   {
-    "title": "lifecycle",
-    "url": "https://vuejs.org/guide/essentials/lifecycle.html"
+    "filename": "suspense.md",
+    "url": "https://vuejs.org/guide/built-ins/suspense.html"
   },
   {
-    "title": "list",
-    "url": "https://vuejs.org/guide/essentials/list.html"
+    "filename": "keep-alive.md",
+    "url": "https://vuejs.org/guide/built-ins/keep-alive.html"
   },
   {
-    "title": "reactivity-fundamentals",
-    "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html"
+    "filename": "transition-group.md",
+    "url": "https://vuejs.org/guide/built-ins/transition-group.html"
   },
   {
-    "title": "template-refs",
-    "url": "https://vuejs.org/guide/essentials/template-refs.html"
-  },
-  {
-    "title": "template-syntax",
-    "url": "https://vuejs.org/guide/essentials/template-syntax.html"
-  },
-  {
-    "title": "watchers",
-    "url": "https://vuejs.org/guide/essentials/watchers.html"
-  },
-  {
-    "title": "animation",
-    "url": "https://vuejs.org/guide/extras/animation.html"
-  },
-  {
-    "title": "composition-api-faq",
-    "url": "https://vuejs.org/guide/extras/composition-api-faq.html"
-  },
-  {
-    "title": "reactivity-in-depth",
-    "url": "https://vuejs.org/guide/extras/reactivity-in-depth.html"
-  },
-  {
-    "title": "reactivity-transform",
-    "url": "https://vuejs.org/guide/extras/reactivity-transform.html"
-  },
-  {
-    "title": "render-function",
-    "url": "https://vuejs.org/guide/extras/render-function.html"
-  },
-  {
-    "title": "rendering-mechanism",
+    "filename": "rendering-mechanism.md",
     "url": "https://vuejs.org/guide/extras/rendering-mechanism.html"
   },
   {
-    "title": "ways-of-using-vue",
+    "filename": "animation.md",
+    "url": "https://vuejs.org/guide/extras/animation.html"
+  },
+  {
+    "filename": "composition-api-faq.md",
+    "url": "https://vuejs.org/guide/extras/composition-api-faq.html"
+  },
+  {
+    "filename": "ways-of-using-vue.md",
     "url": "https://vuejs.org/guide/extras/ways-of-using-vue.html"
   },
   {
-    "title": "web-components",
+    "filename": "render-function.md",
+    "url": "https://vuejs.org/guide/extras/render-function.html"
+  },
+  {
+    "filename": "web-components.md",
     "url": "https://vuejs.org/guide/extras/web-components.html"
   },
   {
-    "title": "composables",
-    "url": "https://vuejs.org/guide/reusability/composables.html"
+    "filename": "reactivity-transform.md",
+    "url": "https://vuejs.org/guide/extras/reactivity-transform.html"
   },
   {
-    "title": "custom-directives",
-    "url": "https://vuejs.org/guide/reusability/custom-directives.html"
+    "filename": "reactivity-in-depth.md",
+    "url": "https://vuejs.org/guide/extras/reactivity-in-depth.html"
   },
   {
-    "title": "plugins",
-    "url": "https://vuejs.org/guide/reusability/plugins.html"
-  },
-  {
-    "title": "routing",
-    "url": "https://vuejs.org/guide/scaling-up/routing.html"
-  },
-  {
-    "title": "sfc",
-    "url": "https://vuejs.org/guide/scaling-up/sfc.html"
-  },
-  {
-    "title": "ssr",
-    "url": "https://vuejs.org/guide/scaling-up/ssr.html"
-  },
-  {
-    "title": "state-management",
-    "url": "https://vuejs.org/guide/scaling-up/state-management.html"
-  },
-  {
-    "title": "testing",
-    "url": "https://vuejs.org/guide/scaling-up/testing.html"
-  },
-  {
-    "title": "TestingApiSwitcher.vue",
-    "url": "https://vuejs.org/guide/scaling-up/TestingApiSwitcher.vue.html"
-  },
-  {
-    "title": "tooling",
-    "url": "https://vuejs.org/guide/scaling-up/tooling.html"
-  },
-  {
-    "title": "composition-api",
+    "filename": "composition-api.md",
     "url": "https://vuejs.org/guide/typescript/composition-api.html"
   },
   {
-    "title": "options-api",
+    "filename": "overview.md",
+    "url": "https://vuejs.org/guide/typescript/overview.html"
+  },
+  {
+    "filename": "options-api.md",
     "url": "https://vuejs.org/guide/typescript/options-api.html"
   },
   {
-    "title": "overview",
-    "url": "https://vuejs.org/guide/typescript/overview.html"
+    "filename": "performance.md",
+    "url": "https://vuejs.org/guide/best-practices/performance.html"
+  },
+  {
+    "filename": "production-deployment.md",
+    "url": "https://vuejs.org/guide/best-practices/production-deployment.html"
+  },
+  {
+    "filename": "security.md",
+    "url": "https://vuejs.org/guide/best-practices/security.html"
+  },
+  {
+    "filename": "accessibility.md",
+    "url": "https://vuejs.org/guide/best-practices/accessibility.html"
+  },
+  {
+    "filename": "routing.md",
+    "url": "https://vuejs.org/guide/scaling-up/routing.html"
+  },
+  {
+    "filename": "testing.md",
+    "url": "https://vuejs.org/guide/scaling-up/testing.html"
+  },
+  {
+    "filename": "tooling.md",
+    "url": "https://vuejs.org/guide/scaling-up/tooling.html"
+  },
+  {
+    "filename": "sfc.md",
+    "url": "https://vuejs.org/guide/scaling-up/sfc.html"
+  },
+  {
+    "filename": "state-management.md",
+    "url": "https://vuejs.org/guide/scaling-up/state-management.html"
+  },
+  {
+    "filename": "ssr.md",
+    "url": "https://vuejs.org/guide/scaling-up/ssr.html"
+  },
+  {
+    "filename": "watchers.md",
+    "url": "https://vuejs.org/guide/essentials/watchers.html"
+  },
+  {
+    "filename": "class-and-style.md",
+    "url": "https://vuejs.org/guide/essentials/class-and-style.html"
+  },
+  {
+    "filename": "reactivity-fundamentals.md",
+    "url": "https://vuejs.org/guide/essentials/reactivity-fundamentals.html"
+  },
+  {
+    "filename": "application.md",
+    "url": "https://vuejs.org/guide/essentials/application.html"
+  },
+  {
+    "filename": "list.md",
+    "url": "https://vuejs.org/guide/essentials/list.html"
+  },
+  {
+    "filename": "component-basics.md",
+    "url": "https://vuejs.org/guide/essentials/component-basics.html"
+  },
+  {
+    "filename": "template-syntax.md",
+    "url": "https://vuejs.org/guide/essentials/template-syntax.html"
+  },
+  {
+    "filename": "template-refs.md",
+    "url": "https://vuejs.org/guide/essentials/template-refs.html"
+  },
+  {
+    "filename": "computed.md",
+    "url": "https://vuejs.org/guide/essentials/computed.html"
+  },
+  {
+    "filename": "conditional.md",
+    "url": "https://vuejs.org/guide/essentials/conditional.html"
+  },
+  {
+    "filename": "lifecycle.md",
+    "url": "https://vuejs.org/guide/essentials/lifecycle.html"
+  },
+  {
+    "filename": "event-handling.md",
+    "url": "https://vuejs.org/guide/essentials/event-handling.html"
+  },
+  {
+    "filename": "forms.md",
+    "url": "https://vuejs.org/guide/essentials/forms.html"
+  },
+  {
+    "filename": "plugins.md",
+    "url": "https://vuejs.org/guide/reusability/plugins.html"
+  },
+  {
+    "filename": "custom-directives.md",
+    "url": "https://vuejs.org/guide/reusability/custom-directives.html"
+  },
+  {
+    "filename": "composables.md",
+    "url": "https://vuejs.org/guide/reusability/composables.html"
+  },
+  {
+    "filename": "built-in-special-attributes.md",
+    "url": "https://vuejs.org/api/built-in-special-attributes.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://vuejs.org/api/index.html"
+  },
+  {
+    "filename": "options-rendering.md",
+    "url": "https://vuejs.org/api/options-rendering.html"
+  },
+  {
+    "filename": "sfc-spec.md",
+    "url": "https://vuejs.org/api/sfc-spec.html"
+  },
+  {
+    "filename": "composition-api-lifecycle.md",
+    "url": "https://vuejs.org/api/composition-api-lifecycle.html"
+  },
+  {
+    "filename": "general.md",
+    "url": "https://vuejs.org/api/general.html"
+  },
+  {
+    "filename": "compile-time-flags.md",
+    "url": "https://vuejs.org/api/compile-time-flags.html"
+  },
+  {
+    "filename": "reactivity-advanced.md",
+    "url": "https://vuejs.org/api/reactivity-advanced.html"
+  },
+  {
+    "filename": "component-instance.md",
+    "url": "https://vuejs.org/api/component-instance.html"
+  },
+  {
+    "filename": "built-in-directives.md",
+    "url": "https://vuejs.org/api/built-in-directives.html"
+  },
+  {
+    "filename": "sfc-css-features.md",
+    "url": "https://vuejs.org/api/sfc-css-features.html"
+  },
+  {
+    "filename": "application.md",
+    "url": "https://vuejs.org/api/application.html"
+  },
+  {
+    "filename": "reactivity-core.md",
+    "url": "https://vuejs.org/api/reactivity-core.html"
+  },
+  {
+    "filename": "options-misc.md",
+    "url": "https://vuejs.org/api/options-misc.html"
+  },
+  {
+    "filename": "built-in-components.md",
+    "url": "https://vuejs.org/api/built-in-components.html"
+  },
+  {
+    "filename": "sfc-script-setup.md",
+    "url": "https://vuejs.org/api/sfc-script-setup.html"
+  },
+  {
+    "filename": "render-function.md",
+    "url": "https://vuejs.org/api/render-function.html"
+  },
+  {
+    "filename": "options-lifecycle.md",
+    "url": "https://vuejs.org/api/options-lifecycle.html"
+  },
+  {
+    "filename": "options-composition.md",
+    "url": "https://vuejs.org/api/options-composition.html"
+  },
+  {
+    "filename": "custom-renderer.md",
+    "url": "https://vuejs.org/api/custom-renderer.html"
+  },
+  {
+    "filename": "composition-api-setup.md",
+    "url": "https://vuejs.org/api/composition-api-setup.html"
+  },
+  {
+    "filename": "built-in-special-elements.md",
+    "url": "https://vuejs.org/api/built-in-special-elements.html"
+  },
+  {
+    "filename": "ssr.md",
+    "url": "https://vuejs.org/api/ssr.html"
+  },
+  {
+    "filename": "options-state.md",
+    "url": "https://vuejs.org/api/options-state.html"
+  },
+  {
+    "filename": "composition-api-dependency-injection.md",
+    "url": "https://vuejs.org/api/composition-api-dependency-injection.html"
+  },
+  {
+    "filename": "reactivity-utilities.md",
+    "url": "https://vuejs.org/api/reactivity-utilities.html"
+  },
+  {
+    "filename": "utility-types.md",
+    "url": "https://vuejs.org/api/utility-types.html"
+  },
+  {
+    "filename": "plugins.md",
+    "url": "https://pinia.vuejs.org/core-concepts/plugins.html"
+  },
+  {
+    "filename": "actions.md",
+    "url": "https://pinia.vuejs.org/core-concepts/actions.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://pinia.vuejs.org/core-concepts/index.html"
+  },
+  {
+    "filename": "getters.md",
+    "url": "https://pinia.vuejs.org/core-concepts/getters.html"
+  },
+  {
+    "filename": "outside-component-usage.md",
+    "url": "https://pinia.vuejs.org/core-concepts/outside-component-usage.html"
+  },
+  {
+    "filename": "state.md",
+    "url": "https://pinia.vuejs.org/core-concepts/state.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://pinia.vuejs.org/api/index.html"
+  },
+  {
+    "filename": "pinia_nuxt.md",
+    "url": "https://pinia.vuejs.org/api/modules/pinia_nuxt.html"
+  },
+  {
+    "filename": "pinia_testing.md",
+    "url": "https://pinia.vuejs.org/api/modules/pinia_testing.html"
+  },
+  {
+    "filename": "pinia.md",
+    "url": "https://pinia.vuejs.org/api/modules/pinia.html"
+  },
+  {
+    "filename": "pinia.MutationType.md",
+    "url": "https://pinia.vuejs.org/api/enums/pinia.MutationType.html"
+  },
+  {
+    "filename": "pinia_testing.TestingPinia.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia_testing.TestingPinia.html"
+  },
+  {
+    "filename": "pinia_nuxt.ModuleOptions.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia_nuxt.ModuleOptions.html"
+  },
+  {
+    "filename": "pinia._StoreOnActionListenerContext.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia._StoreOnActionListenerContext.html"
+  },
+  {
+    "filename": "pinia_testing.TestingOptions.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia_testing.TestingOptions.html"
+  },
+  {
+    "filename": "pinia.SubscriptionCallbackMutationPatchFunction.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.SubscriptionCallbackMutationPatchFunction.html"
+  },
+  {
+    "filename": "pinia.SubscriptionCallbackMutationDirect.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.SubscriptionCallbackMutationDirect.html"
+  },
+  {
+    "filename": "pinia.StoreDefinition.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.StoreDefinition.html"
+  },
+  {
+    "filename": "pinia.PiniaCustomProperties.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.PiniaCustomProperties.html"
+  },
+  {
+    "filename": "pinia.PiniaPluginContext.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.PiniaPluginContext.html"
+  },
+  {
+    "filename": "pinia.Pinia.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.Pinia.html"
+  },
+  {
+    "filename": "pinia._StoreWithState.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia._StoreWithState.html"
+  },
+  {
+    "filename": "pinia.StoreProperties.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.StoreProperties.html"
+  },
+  {
+    "filename": "pinia.DefineStoreOptions.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.DefineStoreOptions.html"
+  },
+  {
+    "filename": "pinia._SubscriptionCallbackMutationBase.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia._SubscriptionCallbackMutationBase.html"
+  },
+  {
+    "filename": "pinia.DefineStoreOptionsBase.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.DefineStoreOptionsBase.html"
+  },
+  {
+    "filename": "pinia.DefineSetupStoreOptions.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.DefineSetupStoreOptions.html"
+  },
+  {
+    "filename": "pinia.PiniaCustomStateProperties.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.PiniaCustomStateProperties.html"
+  },
+  {
+    "filename": "pinia.MapStoresCustomization.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.MapStoresCustomization.html"
+  },
+  {
+    "filename": "pinia.DefineStoreOptionsInPlugin.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.DefineStoreOptionsInPlugin.html"
+  },
+  {
+    "filename": "pinia.PiniaPlugin.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.PiniaPlugin.html"
+  },
+  {
+    "filename": "pinia.SubscriptionCallbackMutationPatchObject.md",
+    "url": "https://pinia.vuejs.org/api/interfaces/pinia.SubscriptionCallbackMutationPatchObject.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://pinia.vuejs.org/cookbook/index.html"
+  },
+  {
+    "filename": "composing-stores.md",
+    "url": "https://pinia.vuejs.org/cookbook/composing-stores.html"
+  },
+  {
+    "filename": "hot-module-replacement.md",
+    "url": "https://pinia.vuejs.org/cookbook/hot-module-replacement.html"
+  },
+  {
+    "filename": "testing.md",
+    "url": "https://pinia.vuejs.org/cookbook/testing.html"
+  },
+  {
+    "filename": "migration-v1-v2.md",
+    "url": "https://pinia.vuejs.org/cookbook/migration-v1-v2.html"
+  },
+  {
+    "filename": "vscode-snippets.md",
+    "url": "https://pinia.vuejs.org/cookbook/vscode-snippets.html"
+  },
+  {
+    "filename": "composables.md",
+    "url": "https://pinia.vuejs.org/cookbook/composables.html"
+  },
+  {
+    "filename": "migration-0-0-7.md",
+    "url": "https://pinia.vuejs.org/cookbook/migration-0-0-7.html"
+  },
+  {
+    "filename": "migration-vuex.md",
+    "url": "https://pinia.vuejs.org/cookbook/migration-vuex.html"
+  },
+  {
+    "filename": "options-api.md",
+    "url": "https://pinia.vuejs.org/cookbook/options-api.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://router.vuejs.org/guide/index.html"
+  },
+  {
+    "filename": "active-links.md",
+    "url": "https://router.vuejs.org/guide/essentials/active-links.html"
+  },
+  {
+    "filename": "named-routes.md",
+    "url": "https://router.vuejs.org/guide/essentials/named-routes.html"
+  },
+  {
+    "filename": "named-views.md",
+    "url": "https://router.vuejs.org/guide/essentials/named-views.html"
+  },
+  {
+    "filename": "passing-props.md",
+    "url": "https://router.vuejs.org/guide/essentials/passing-props.html"
+  },
+  {
+    "filename": "redirect-and-alias.md",
+    "url": "https://router.vuejs.org/guide/essentials/redirect-and-alias.html"
+  },
+  {
+    "filename": "dynamic-matching.md",
+    "url": "https://router.vuejs.org/guide/essentials/dynamic-matching.html"
+  },
+  {
+    "filename": "navigation.md",
+    "url": "https://router.vuejs.org/guide/essentials/navigation.html"
+  },
+  {
+    "filename": "nested-routes.md",
+    "url": "https://router.vuejs.org/guide/essentials/nested-routes.html"
+  },
+  {
+    "filename": "history-mode.md",
+    "url": "https://router.vuejs.org/guide/essentials/history-mode.html"
+  },
+  {
+    "filename": "route-matching-syntax.md",
+    "url": "https://router.vuejs.org/guide/essentials/route-matching-syntax.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://router.vuejs.org/guide/migration/index.html"
+  },
+  {
+    "filename": "typed-routes.md",
+    "url": "https://router.vuejs.org/guide/advanced/typed-routes.html"
+  },
+  {
+    "filename": "meta.md",
+    "url": "https://router.vuejs.org/guide/advanced/meta.html"
+  },
+  {
+    "filename": "extending-router-link.md",
+    "url": "https://router.vuejs.org/guide/advanced/extending-router-link.html"
+  },
+  {
+    "filename": "composition-api.md",
+    "url": "https://router.vuejs.org/guide/advanced/composition-api.html"
+  },
+  {
+    "filename": "navigation-guards.md",
+    "url": "https://router.vuejs.org/guide/advanced/navigation-guards.html"
+  },
+  {
+    "filename": "data-fetching.md",
+    "url": "https://router.vuejs.org/guide/advanced/data-fetching.html"
+  },
+  {
+    "filename": "lazy-loading.md",
+    "url": "https://router.vuejs.org/guide/advanced/lazy-loading.html"
+  },
+  {
+    "filename": "navigation-failures.md",
+    "url": "https://router.vuejs.org/guide/advanced/navigation-failures.html"
+  },
+  {
+    "filename": "dynamic-routing.md",
+    "url": "https://router.vuejs.org/guide/advanced/dynamic-routing.html"
+  },
+  {
+    "filename": "scroll-behavior.md",
+    "url": "https://router.vuejs.org/guide/advanced/scroll-behavior.html"
+  },
+  {
+    "filename": "transitions.md",
+    "url": "https://router.vuejs.org/guide/advanced/transitions.html"
+  },
+  {
+    "filename": "router-view-slot.md",
+    "url": "https://router.vuejs.org/guide/advanced/router-view-slot.html"
+  },
+  {
+    "filename": "index.md",
+    "url": "https://router.vuejs.org/api/index.html"
+  },
+  {
+    "filename": "NavigationFailureType.md",
+    "url": "https://router.vuejs.org/api/enums/NavigationFailureType.html"
+  },
+  {
+    "filename": "RouteLocationNormalizedLoaded.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteLocationNormalizedLoaded.html"
+  },
+  {
+    "filename": "NavigationGuardWithThis.md",
+    "url": "https://router.vuejs.org/api/interfaces/NavigationGuardWithThis.html"
+  },
+  {
+    "filename": "NavigationGuard.md",
+    "url": "https://router.vuejs.org/api/interfaces/NavigationGuard.html"
+  },
+  {
+    "filename": "RouteRecordMultipleViewsWithChildren.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordMultipleViewsWithChildren.html"
+  },
+  {
+    "filename": "RouterOptions.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouterOptions.html"
+  },
+  {
+    "filename": "RouteMeta.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteMeta.html"
+  },
+  {
+    "filename": "RouteLocationMatched.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteLocationMatched.html"
+  },
+  {
+    "filename": "RouteRecordSingleView.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordSingleView.html"
+  },
+  {
+    "filename": "RouteLocationOptions.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteLocationOptions.html"
+  },
+  {
+    "filename": "RouteLocation.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteLocation.html"
+  },
+  {
+    "filename": "RouteRecordMultipleViews.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordMultipleViews.html"
+  },
+  {
+    "filename": "RouteRecordBase.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordBase.html"
+  },
+  {
+    "filename": "RouteRecordNormalized.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordNormalized.html"
+  },
+  {
+    "filename": "NavigationHookAfter.md",
+    "url": "https://router.vuejs.org/api/interfaces/NavigationHookAfter.html"
+  },
+  {
+    "filename": "NavigationGuardNext.md",
+    "url": "https://router.vuejs.org/api/interfaces/NavigationGuardNext.html"
+  },
+  {
+    "filename": "RouterHistory.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouterHistory.html"
+  },
+  {
+    "filename": "RouteRecordRedirect.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordRedirect.html"
+  },
+  {
+    "filename": "NavigationFailure.md",
+    "url": "https://router.vuejs.org/api/interfaces/NavigationFailure.html"
+  },
+  {
+    "filename": "RouterViewProps.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouterViewProps.html"
+  },
+  {
+    "filename": "RouteLocationNormalized.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteLocationNormalized.html"
+  },
+  {
+    "filename": "Router.md",
+    "url": "https://router.vuejs.org/api/interfaces/Router.html"
+  },
+  {
+    "filename": "RouterScrollBehavior.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouterScrollBehavior.html"
+  },
+  {
+    "filename": "RouteRecordSingleViewWithChildren.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouteRecordSingleViewWithChildren.html"
+  },
+  {
+    "filename": "HistoryState.md",
+    "url": "https://router.vuejs.org/api/interfaces/HistoryState.html"
+  },
+  {
+    "filename": "RouterLinkProps.md",
+    "url": "https://router.vuejs.org/api/interfaces/RouterLinkProps.html"
   }
 ]
