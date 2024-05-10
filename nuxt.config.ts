@@ -84,6 +84,7 @@ export default defineNuxtConfig({
       environment: 'dev',
       publicFolderUrl: 'http://localhost:3000/_nuxt',
       stripePublishableKey: 'pk_test_12ab',
+      lemonsqueezyBasicSubKey: 'ab12',
     },
   },
 });

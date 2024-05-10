@@ -21,6 +21,13 @@
           @click="isSubscribeLoading = true"
         />
       </NuxtLink>
+      <Button class="p-0" @click.prevent>
+        <a
+          :href="`https://vueaitools.lemonsqueezy.com/buy/${lemonsqueezyBasicSubKey}?embed=1`"
+          class="lemonsqueezy-button p-3 text-0 no-underline"
+          >Subscribe</a
+        >
+      </Button>
     </div>
     <!-- TODO: Add subscription price & level -->
     <div
@@ -43,6 +50,39 @@
 </template>
 
 <script setup lang="ts">
+const lemonsqueezyBasicSubKey =
+  useRuntimeConfig().public.lemonsqueezyBasicSubKey;
+useHead({
+  script: [
+    {
+      src: 'https://assets.lemonsqueezy.com/lemon.js',
+      defer: true,
+    },
+  ],
+});
+interface WindowWithLemon extends Window {
+  createLemonSqueezy?: () => void;
+}
+declare let window: WindowWithLemon;
+
+onMounted(() => {
+  let noOfRetries = 0;
+  if (!window.createLemonSqueezy) {
+    const intervalId = setInterval(() => {
+      if (window.createLemonSqueezy) {
+        window.createLemonSqueezy();
+        clearInterval(intervalId);
+      }
+      noOfRetries++;
+      if (noOfRetries > 10) {
+        clearInterval(intervalId);
+      }
+    }, 250);
+    return;
+  }
+  window.createLemonSqueezy();
+});
+
 const { isSubscribed, subscriptions } = storeToRefs(useAuthStore());
 const isSubscribeLoading = ref(false);
 
