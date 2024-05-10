@@ -1,7 +1,10 @@
 <template>
   <div class="my-4">
     <h2>Subscription</h2>
-    <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
+    <div
+      v-if="!isSubscribed && user"
+      class="flex flex-column align-items-start gap-3"
+    >
       <p>
         There are currently no paid features, the subscription is
         <strong>just a donation</strong> for now. Your help is very much
@@ -23,7 +26,7 @@
       </NuxtLink>
       <Button class="p-0" @click.prevent>
         <a
-          :href="`https://vueaitools.lemonsqueezy.com/buy/${lemonsqueezyBasicSubKey}?embed=1`"
+          :href="`https://vueaitools.lemonsqueezy.com/buy/${lemonsqueezyBasicSubKey}?embed=1&checkout[email]=${user.email}&checkout[custom][user_id]=${user.id}`"
           class="lemonsqueezy-button p-3 text-0 no-underline"
           >Subscribe</a
         >
@@ -83,7 +86,7 @@ onMounted(() => {
   window.createLemonSqueezy();
 });
 
-const { isSubscribed, subscriptions } = storeToRefs(useAuthStore());
+const { user, isSubscribed, subscriptions } = storeToRefs(useAuthStore());
 const isSubscribeLoading = ref(false);
 
 function toFormattedDate(date: string) {

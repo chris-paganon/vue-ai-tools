@@ -79,6 +79,7 @@ export default defineNuxtConfig({
     openaiApiKey: 'sk-CD34',
     stripeSecretKey: 'sk_test_cd34',
     stripeWebhookSecret: 'whsec_efGh',
+    lemonsqueezyWebhookSecret: 'ab12',
     sendgridApiKey: 'SG.12ab',
     public: {
       environment: 'dev',
