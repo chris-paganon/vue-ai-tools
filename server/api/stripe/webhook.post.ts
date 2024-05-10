@@ -132,7 +132,7 @@ async function createSubscription(
     const subscriptionRow = await db
       .select()
       .from(subscriptionsTable)
-      .where(eq(subscriptionsTable.stripeId, eventObjectId));
+      .where(eq(subscriptionsTable.id, eventObjectId));
     if (subscriptionRow.length > 0) {
       console.log('Subscription already exists');
       return;
@@ -144,8 +144,8 @@ async function createSubscription(
       .where(eq(usersTable.email, customerEmail));
 
     await db.insert(subscriptionsTable).values({
+      id: eventObjectId,
       userId: dbUser[0].id,
-      stripeId: eventObjectId,
       level: 'basic',
       status: eventObject.status,
       currentPeriodEnd: timestampToUTCDate(eventObject.current_period_end),
@@ -219,8 +219,8 @@ async function createOrUpdateSubscription(
   await db
     .insert(subscriptionsTable)
     .values({
+      id: stripeId,
       userId,
-      stripeId,
       level: 'basic',
       status: subscriptionObject.status,
       currentPeriodEnd: timestampToUTCDate(
@@ -231,7 +231,7 @@ async function createOrUpdateSubscription(
         : null,
     })
     .onConflictDoUpdate({
-      target: subscriptionsTable.stripeId,
+      target: subscriptionsTable.id,
       set: {
         status: subscriptionObject.status,
         currentPeriodEnd: timestampToUTCDate(
