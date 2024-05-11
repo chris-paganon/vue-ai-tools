@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 
   const userId = meta.custom_data.user_id;
   const status = data.attributes.status;
-  const subscriptionId = data.attributes.first_subscription_item.id;
+  const subscriptionId = data.id;
   const endsAt = data.attributes.ends_at;
   const renewsAt = data.attributes.renews_at;
 
