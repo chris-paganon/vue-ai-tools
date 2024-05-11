@@ -40,6 +40,7 @@
       </template>
       <StripePortalButton />
       <LemonUpdatePayment />
+      <LemonCancel />
     </div>
   </div>
 </template>

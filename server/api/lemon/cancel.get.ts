@@ -1,6 +1,6 @@
 import {
   lemonSqueezySetup,
-  getSubscription,
+  cancelSubscription,
 } from '@lemonsqueezy/lemonsqueezy.js';
 
 export default defineEventHandler(async (event) => {
@@ -18,19 +18,13 @@ export default defineEventHandler(async (event) => {
   lemonSqueezySetup({
     apiKey: lemonSqueezyApiKey,
   });
-  const { statusCode, error, data } = await getSubscription(subscriptionId);
+  const { statusCode, error } = await cancelSubscription(subscriptionId);
   if (error) {
     throw createError({
       status: statusCode ?? 500,
       statusMessage: error.message,
     });
   }
-  if (!data?.data.attributes.urls.update_payment_method) {
-    throw createError({
-      status: 400,
-      statusMessage: 'no portal url',
-    });
-  }
 
-  return data?.data.attributes.urls.update_payment_method;
+  return { success: true };
 });
