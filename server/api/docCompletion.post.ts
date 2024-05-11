@@ -52,6 +52,10 @@ export default defineEventHandler(async (event) => {
   const assistantResponseObj = threadResponseMessages.data[0].content[0].text;
   let assistantResponse = assistantResponseObj.value;
 
+  console.log(
+    '🚀 ~ defineEventHandler ~ assistantResponseObj.annotations:',
+    assistantResponseObj.annotations
+  );
   if (assistantResponseObj.annotations.length > 0) {
     for (const annotation of assistantResponseObj.annotations) {
       if (annotation.type === 'file_citation') {
@@ -59,11 +63,14 @@ export default defineEventHandler(async (event) => {
           annotation.file_citation.file_id
         );
         const fileName = file.filename;
-        const fileTitle = fileName.replace('.md', '');
+        const fileTitle = file.filename.replace('.md', '');
         const fileUrl = vueDocsIndex.find(
-          (docMeta) => docMeta.title === fileTitle
+          (docMeta) => docMeta.filename === fileName
         )?.url;
-        if (!fileUrl) continue;
+        if (!fileUrl) {
+          assistantResponse = assistantResponse.replace(annotation.text, '');
+          continue;
+        }
         assistantResponse = assistantResponse.replace(
           annotation.text,
           ` <a href="${fileUrl}" target="_blank">[${fileTitle}]</a>`
