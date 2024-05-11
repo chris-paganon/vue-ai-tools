@@ -14,16 +14,27 @@
 
 <script setup lang="ts">
 const isConfirmationOpened = ref(false);
+const { setSubscriptionStatus } = useAuthStore();
 
 const isLoading = ref(false);
 async function cancelSubscription() {
   isLoading.value = true;
   try {
     await $fetch('/api/lemon/cancel');
+    await waitSetSubscriptionStatus();
   } catch (error) {
     console.error(error);
   } finally {
     isLoading.value = false;
   }
+}
+
+async function waitSetSubscriptionStatus() {
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      await setSubscriptionStatus();
+      resolve(true);
+    }, 2000);
+  });
 }
 </script>

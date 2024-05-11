@@ -75,6 +75,9 @@ export const useAuthStore = defineStore('auth', () => {
   ) {
     subscriptions.value = value;
   }
+  function resetSubscriptions() {
+    subscriptions.value = undefined;
+  }
 
   const subscriptionsLoaded = ref(false);
   function setSubscriptionLoaded(value: boolean) {
@@ -82,7 +85,13 @@ export const useAuthStore = defineStore('auth', () => {
   }
   async function setSubscriptionStatus() {
     const { data } = await useFetch('/api/subscriptions/active');
-    if (!data.value) return;
+    console.log('🚀 ~ setSubscriptionStatus ~ data:', data);
+    if (!data.value || data.value.length === 0) {
+      setIsSubscribed(false);
+      resetSubscriptions();
+      setSubscriptionLoaded(true);
+      return;
+    }
 
     setSubscriptions(data.value);
     setSubscriptionLoaded(true);

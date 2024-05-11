@@ -23,15 +23,22 @@ useHead({
 });
 interface WindowWithLemon extends Window {
   createLemonSqueezy?: () => void;
+  LemonSqueezy?: {
+    Setup: (options: {
+      eventHandler: (event: { event: string }) => void;
+    }) => void;
+  };
 }
 declare let window: WindowWithLemon;
 
-onMounted(() => {
+const { setSubscriptionStatus } = useAuthStore();
+
+onMounted(async () => {
   let noOfRetries = 0;
   if (!window.createLemonSqueezy) {
     const intervalId = setInterval(() => {
       if (window.createLemonSqueezy) {
-        window.createLemonSqueezy();
+        setupLemonJs();
         clearInterval(intervalId);
       }
       noOfRetries++;
@@ -41,6 +48,19 @@ onMounted(() => {
     }, 250);
     return;
   }
-  window.createLemonSqueezy();
+  setupLemonJs();
 });
+
+async function setupLemonJs() {
+  window.createLemonSqueezy!();
+  window.LemonSqueezy!.Setup({
+    eventHandler: async (event) => {
+      if (event.event === 'Checkout.Success') {
+        setTimeout(async () => {
+          await setSubscriptionStatus();
+        }, 2000);
+      }
+    },
+  });
+}
 </script>
