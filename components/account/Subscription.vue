@@ -17,7 +17,7 @@
         <li>Access to upcoming pro features.</li>
       </ul>
       <p>$5/month</p>
-      <NuxtLink to="/subscribe">
+      <NuxtLink to="/stripe/subscribe">
         <Button
           label="Subscribe"
           :loading="isSubscribeLoading"

@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
         },
       ],
       mode: 'subscription',
-      return_url: `${url.origin}/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${url.origin}/stripe/payment-confirm?session_id={CHECKOUT_SESSION_ID}`,
     };
     if (user.stripeId) {
       createSessionObj.customer = user.stripeId;
