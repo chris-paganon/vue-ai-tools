@@ -14,13 +14,6 @@
         <li>Access to upcoming pro features.</li>
       </ul>
       <p>$10/month</p>
-      <NuxtLink to="/stripe/subscribe">
-        <Button
-          label="Subscribe"
-          :loading="isSubscribeLoading"
-          @click="isSubscribeLoading = true"
-        />
-      </NuxtLink>
       <LemonSubscribe />
     </div>
     <!-- TODO: Add subscription price & level -->
@@ -46,7 +39,6 @@
         </p>
       </template>
       <div class="flex flex-column align-items-start gap-3 mt-3">
-        <StripePortalButton />
         <LemonUpdatePayment />
         <LemonCancel />
       </div>
@@ -56,7 +48,6 @@
 
 <script setup lang="ts">
 const { isSubscribed, subscriptions } = storeToRefs(useAuthStore());
-const isSubscribeLoading = ref(false);
 
 function toFormattedDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', {
