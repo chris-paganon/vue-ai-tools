@@ -52,10 +52,6 @@ export default defineEventHandler(async (event) => {
   const assistantResponseObj = threadResponseMessages.data[0].content[0].text;
   let assistantResponse = assistantResponseObj.value;
 
-  console.log(
-    '🚀 ~ defineEventHandler ~ assistantResponseObj.annotations:',
-    assistantResponseObj.annotations
-  );
   if (assistantResponseObj.annotations.length > 0) {
     for (const annotation of assistantResponseObj.annotations) {
       if (annotation.type === 'file_citation') {
