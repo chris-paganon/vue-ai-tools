@@ -1,13 +1,13 @@
 <template>
-  <Button outlined :loading="isLemonPortalLoading" @click="openPortalSession()"
+  <Button outlined :loading="isLoading" @click="openPortalSession()"
     >Update my payment method</Button
   >
 </template>
 
 <script setup lang="ts">
-const isLemonPortalLoading = ref(false);
+const isLoading = ref(false);
 async function openPortalSession() {
-  isLemonPortalLoading.value = true;
+  isLoading.value = true;
   try {
     const redirectUrl = await $fetch('/api/lemon/payment-method-url');
     await navigateTo(redirectUrl, {
@@ -19,7 +19,7 @@ async function openPortalSession() {
   } catch (error) {
     console.error(error);
   } finally {
-    isLemonPortalLoading.value = false;
+    isLoading.value = false;
   }
 }
 </script>
