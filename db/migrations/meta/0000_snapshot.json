@@ -1,8 +1,6 @@
 {
-  "version": "5",
+  "version": "6",
   "dialect": "sqlite",
-  "id": "9ee69c3e-b9b4-4fda-889a-c250fdad83e3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "chat_message": {
       "name": "chat_message",
@@ -57,15 +55,15 @@
         "chat_message_chat_id_chat_id_fk": {
           "name": "chat_message_chat_id_chat_id_fk",
           "tableFrom": "chat_message",
-          "tableTo": "chat",
           "columnsFrom": [
             "chat_id"
           ],
+          "tableTo": "chat",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -117,15 +115,15 @@
         "chat_user_id_user_id_fk": {
           "name": "chat_user_id_user_id_fk",
           "tableFrom": "chat",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -213,15 +211,15 @@
         "subscriptions_user_id_user_id_fk": {
           "name": "subscriptions_user_id_user_id_fk",
           "tableFrom": "subscriptions",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -280,15 +278,15 @@
         "transactions_user_id_user_id_fk": {
           "name": "transactions_user_id_user_id_fk",
           "tableFrom": "transactions",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -338,15 +336,15 @@
         "email_verification_user_id_user_id_fk": {
           "name": "email_verification_user_id_user_id_fk",
           "tableFrom": "email_verification",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -382,15 +380,15 @@
         "password_reset_user_id_user_id_fk": {
           "name": "password_reset_user_id_user_id_fk",
           "tableFrom": "password_reset",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -426,15 +424,15 @@
         "session_user_id_user_id_fk": {
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
-          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -527,8 +525,9 @@
   },
   "enums": {},
   "_meta": {
-    "schemas": {},
     "tables": {},
     "columns": {}
-  }
+  },
+  "id": "9ee69c3e-b9b4-4fda-889a-c250fdad83e3",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }
