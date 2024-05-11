@@ -1,4 +1,3 @@
-import { getDrizzleDb } from '@/server/utils/useAuthUtils';
 import { usersTable } from '@/db/schema/usersSchema';
 import { hash } from '@node-rs/argon2';
 import { generateIdFromEntropySize } from 'lucia';

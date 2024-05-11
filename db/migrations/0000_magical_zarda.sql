@@ -18,7 +18,7 @@ CREATE TABLE `chat` (
 );
 --> statement-breakpoint
 CREATE TABLE `subscriptions` (
-	`id` integer PRIMARY KEY NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`user_id` text,
 	`stripe_id` text NOT NULL,
 	`created` text DEFAULT (current_timestamp) NOT NULL,
