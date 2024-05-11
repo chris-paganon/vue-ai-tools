@@ -1,8 +1,6 @@
 import { Lucia } from 'lucia';
 import { TimeSpan, createDate } from 'oslo';
 import { generateRandomString, alphabet } from 'oslo/crypto';
-import sqlite from 'better-sqlite3';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { eq } from 'drizzle-orm';
 import { verify } from '@node-rs/argon2';
 import sgMail from '@sendgrid/mail';
@@ -48,11 +46,6 @@ interface DatabaseUserAttributes {
   stripeId: string | null;
   emailVerified: boolean;
   emailConsent: boolean;
-}
-
-export function getDrizzleDb() {
-  const sqliteDB = sqlite('db/sqlite.db');
-  return drizzle(sqliteDB);
 }
 
 export async function generateEmailVerificationCode(

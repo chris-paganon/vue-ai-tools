@@ -7,7 +7,7 @@ on:
       - master
 jobs:
   build-nuxt:
-    uses: chris-paganon/nuxter/.github/workflows/deploy-nuxt-app.yml@master
+    uses: ./.github/workflows/deploy-nuxt-app.yml
     with:
       app_name: vue-ai-tools
       app_env: production

@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
   async function clearAccount() {
     setIsSignedIn(false);
     resetUser();
-    subscriptions.value = undefined;
+    resetSubscriptions();
     setIsSubscribed(false);
     setSubscriptionLoaded(false);
     chatStore.$reset();
@@ -75,6 +75,9 @@ export const useAuthStore = defineStore('auth', () => {
   ) {
     subscriptions.value = value;
   }
+  function resetSubscriptions() {
+    subscriptions.value = undefined;
+  }
 
   const subscriptionsLoaded = ref(false);
   function setSubscriptionLoaded(value: boolean) {
@@ -82,13 +85,23 @@ export const useAuthStore = defineStore('auth', () => {
   }
   async function setSubscriptionStatus() {
     const { data } = await useFetch('/api/subscriptions/active');
-    if (!data.value) return;
+    // This occurs if there is an error (e.g. user not signed in)
+    if (!data.value) {
+      resetSubscriptions();
+      setIsSubscribed(false);
+      return;
+    }
+
+    if (data.value.length === 0) {
+      resetSubscriptions();
+      setIsSubscribed(false);
+      setSubscriptionLoaded(true);
+      return;
+    }
 
     setSubscriptions(data.value);
-    setSubscriptionLoaded(true);
-
-    if (data.value.length === 0) return;
     setIsSubscribed(true);
+    setSubscriptionLoaded(true);
   }
 
   return {

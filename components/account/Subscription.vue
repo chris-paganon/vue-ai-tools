@@ -13,38 +13,41 @@
         <li>Street cred for helping out a fellow dev.</li>
         <li>Access to upcoming pro features.</li>
       </ul>
-      <p>$5/month</p>
-      <NuxtLink to="/subscribe">
-        <Button
-          label="Subscribe"
-          :loading="isSubscribeLoading"
-          @click="isSubscribeLoading = true"
-        />
-      </NuxtLink>
+      <p>$10/month</p>
+      <LemonSubscribe />
     </div>
     <!-- TODO: Add subscription price & level -->
     <div
       v-if="isSubscribed && subscriptions"
       class="flex flex-column align-items-start gap-3"
     >
-      <template v-for="subscription in subscriptions" :key="subscription.id">
+      <template
+        v-for="(subscription, index) in subscriptions"
+        :key="subscription.id"
+      >
+        <Divider v-if="index !== 0" />
+        <p>
+          <strong>#{{ subscription.id }}</strong>
+        </p>
         <p>Status: {{ subscription.status }}</p>
-        <p v-if="subscription.currentPeriodEnd">
+        <p v-if="subscription.currentPeriodEnd && !subscription.cancelAt">
           Next payment date:
           {{ toFormattedDate(subscription.currentPeriodEnd) }}
         </p>
         <p v-if="subscription.cancelAt">
-          Cancel at: {{ toFormattedDate(subscription.cancelAt) }}
+          Cancelling on: {{ toFormattedDate(subscription.cancelAt) }}
         </p>
       </template>
-      <StripePortalButton />
+      <div class="flex flex-column align-items-start gap-3 mt-3">
+        <LemonUpdatePayment />
+        <LemonCancel />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const { isSubscribed, subscriptions } = storeToRefs(useAuthStore());
-const isSubscribeLoading = ref(false);
 
 function toFormattedDate(date: string) {
   return new Date(date).toLocaleDateString('en-US', {
