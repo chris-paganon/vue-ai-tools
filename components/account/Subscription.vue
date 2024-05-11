@@ -48,6 +48,12 @@
         </p>
       </template>
       <StripePortalButton />
+      <Button
+        outlined
+        :loading="isLemonPortalLoading"
+        @click="openPortalSession()"
+        >Update my payment method</Button
+      >
     </div>
   </div>
 </template>
@@ -95,5 +101,24 @@ function toFormattedDate(date: string) {
     month: 'long',
     day: '2-digit',
   });
+}
+
+// TODO: Move this to seperate component. Also divide in a few buttons: Modify payment method, cancel, maybe more...
+const isLemonPortalLoading = ref(false);
+async function openPortalSession() {
+  isLemonPortalLoading.value = true;
+  try {
+    const redirectUrl = await $fetch('/api/lemon/payment-method-url');
+    await navigateTo(redirectUrl, {
+      external: true,
+      open: {
+        target: '_blank',
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isLemonPortalLoading.value = false;
+  }
 }
 </script>

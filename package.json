@@ -26,6 +26,7 @@
     "@codemirror/lang-javascript": "^6.2.1",
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/theme-one-dark": "^6.1.2",
+    "@lemonsqueezy/lemonsqueezy.js": "^2.2.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@pinia/nuxt": "^0.5.1",
     "@sendgrid/mail": "^8.1.3",
