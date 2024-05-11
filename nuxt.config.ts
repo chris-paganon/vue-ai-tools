@@ -77,15 +77,12 @@ export default defineNuxtConfig({
     // The private keys which are only available server-side
     openaiOrganization: 'org-AB12',
     openaiApiKey: 'sk-CD34',
-    stripeSecretKey: 'sk_test_cd34',
-    stripeWebhookSecret: 'whsec_efGh',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',
     public: {
       environment: 'dev',
       publicFolderUrl: 'http://localhost:3000/_nuxt',
-      stripePublishableKey: 'pk_test_12ab',
       lemonsqueezyBasicSubKey: 'ab12',
     },
   },
