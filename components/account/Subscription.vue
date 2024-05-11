@@ -28,19 +28,28 @@
       v-if="isSubscribed && subscriptions"
       class="flex flex-column align-items-start gap-3"
     >
-      <template v-for="subscription in subscriptions" :key="subscription.id">
+      <template
+        v-for="(subscription, index) in subscriptions"
+        :key="subscription.id"
+      >
+        <Divider v-if="index !== 0" />
+        <p>
+          <strong>#{{ subscription.id }}</strong>
+        </p>
         <p>Status: {{ subscription.status }}</p>
-        <p v-if="subscription.currentPeriodEnd">
+        <p v-if="subscription.currentPeriodEnd && !subscription.cancelAt">
           Next payment date:
           {{ toFormattedDate(subscription.currentPeriodEnd) }}
         </p>
         <p v-if="subscription.cancelAt">
-          Cancel at: {{ toFormattedDate(subscription.cancelAt) }}
+          Cancelling on: {{ toFormattedDate(subscription.cancelAt) }}
         </p>
       </template>
-      <StripePortalButton />
-      <LemonUpdatePayment />
-      <LemonCancel />
+      <div class="flex flex-column align-items-start gap-3 mt-3">
+        <StripePortalButton />
+        <LemonUpdatePayment />
+        <LemonCancel />
+      </div>
     </div>
   </div>
 </template>
