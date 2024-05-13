@@ -11,7 +11,7 @@
           class="flex flex-column align-items-center gap-4 w-full"
         >
           <NuxtLink
-            to="/dashboard"
+            to="/tools/chat"
             class="w-full"
             @click="mobileSidebarVisible = false"
           >
