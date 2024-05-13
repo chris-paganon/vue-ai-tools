@@ -1,5 +1,7 @@
 <template>
-  <div class="hidden sm:block surface-card py-3 px-1 sm:px-3">
+  <div
+    class="hidden sm:flex flex-column h-screen surface-card py-3 px-1 sm:px-3"
+  >
     <div
       :class="[
         'flex',
@@ -17,7 +19,11 @@
         @click="toggleSidebar()"
       />
     </div>
-    <div v-if="showSidebar" id="app-toolbar-content">
+    <div
+      v-if="showSidebar"
+      id="app-toolbar-content"
+      class="min-h-0 flex flex-column"
+    >
       <ToolbarChatHistory />
     </div>
   </div>

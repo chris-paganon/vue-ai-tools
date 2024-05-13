@@ -1,5 +1,9 @@
 <template>
-  <Menu v-if="items && items.length > 0" :model="items" class="w-full" />
+  <Menu
+    v-if="items && items.length > 0"
+    :model="items"
+    class="w-full overflow-y-scroll"
+  />
   <Button label="New chat" class="mt-4 w-full" @click="setNewChat()" />
 </template>
 
