@@ -3,12 +3,8 @@
     class="hidden sm:flex flex-column h-screen surface-card py-3 px-1 sm:px-3"
   >
     <div
-      :class="[
-        'flex',
-        'justify-content-between',
-        'align-items-center',
-        sidebarHeadFlexDirection,
-      ]"
+      class="flex justify-content-between align-items-center"
+      :class="[sidebarHeadFlexDirection]"
     >
       <AppLogo />
       <Button
