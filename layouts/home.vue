@@ -6,7 +6,7 @@
     <AuthSignUpPopup />
     <div class="min-h-screen flex flex-column">
       <header
-        class="z-1 w-full flex justify-content-between align-items-center px-3 pt-1 sm:pt-3"
+        class="z-1 w-full flex justify-content-between align-items-center pl-2 pr-2 pt-0 md:pr-3 md:pt-3"
       >
         <AppLogo />
         <SimpleMenu />

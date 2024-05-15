@@ -1,12 +1,11 @@
 <template>
-  <div class="hidden sm:block surface-card py-3 px-1 sm:px-3">
+  <div>
     <div
-      :class="[
-        'flex',
-        'justify-content-between',
-        'align-items-center',
-        sidebarHeadFlexDirection,
-      ]"
+      class="flex align-items-center pt-3 pb-2 border-100"
+      :class="{
+        'justify-content-between border-bottom-1 pl-3': showSidebar,
+        'justify-content-center pl-2': !showSidebar,
+      }"
     >
       <AppLogo />
       <Button
@@ -14,37 +13,60 @@
         text
         rounded
         severity="secondary"
-        @click="toggleSidebar()"
+        class="mr-2"
+        :class="{ hidden: !showSidebar }"
+        @click="setShowSidebar(!showSidebar)"
       />
     </div>
-    <div v-if="showSidebar" id="app-toolbar-content">
-      <ToolbarChatHistory />
+    <div class="min-h-0 h-full flex w-full">
+      <ToolbarMenu
+        v-model="showMenuContent"
+        class="pb-2"
+        :class="{
+          'border-right-1 border-100': !showMenuContent && showSidebar,
+          'w-full': showMenuContent || !showSidebar,
+        }"
+      />
+      <template v-if="showTierTwo && showSidebar">
+        <ToolbarChatHistory class="flex-grow-1 min-h-0 flex flex-column p-2" />
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const showSidebar = ref(true);
+const { showSidebar } = storeToRefs(useUIStore());
+const { setShowSidebar } = useUIStore();
+
+const showMenuContent = ref(false);
+const showTierTwo = computed(() => !showMenuContent.value);
+
+watch(
+  showSidebar,
+  () => {
+    if (!showSidebar.value) {
+      showMenuContent.value = false;
+    }
+  },
+  { immediate: true }
+);
+watch(
+  showMenuContent,
+  () => {
+    if (showMenuContent.value) {
+      setShowSidebar(true);
+    }
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   if (window.innerWidth < 1024) {
-    showSidebar.value = false;
+    setShowSidebar(false);
   }
 });
 
 const toggleSibarIcon = computed(() =>
   showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'
 );
-const sidebarHeadFlexDirection = computed(() =>
-  showSidebar.value ? 'flex-row' : 'flex-column'
-);
-
-function toggleSidebar() {
-  showSidebar.value = !showSidebar.value;
-}
 </script>
-
-<style scoped>
-#app-toolbar-content {
-  min-width: 250px;
-}
-</style>

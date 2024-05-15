@@ -101,7 +101,7 @@ async function login() {
     email.value = '';
     password.value = '';
     await initAccount(user);
-    await navigateTo('/dashboard');
+    await navigateTo('/tools/chat');
   } catch (error) {
     if (!(error instanceof FetchError)) {
       errorMessage.value =

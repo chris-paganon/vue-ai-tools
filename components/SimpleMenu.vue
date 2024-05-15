@@ -6,7 +6,7 @@
       <NuxtLink to="/account">
         <Button icon="pi pi-user" rounded outlined aria-label="User" />
       </NuxtLink>
-      <NuxtLink to="/dashboard">
+      <NuxtLink to="/tools/chat">
         <Button>Dashboard</Button>
       </NuxtLink>
     </div>

@@ -59,11 +59,14 @@ export default defineEventHandler(async (event) => {
           annotation.file_citation.file_id
         );
         const fileName = file.filename;
-        const fileTitle = fileName.replace('.md', '');
+        const fileTitle = file.filename.replace('.md', '');
         const fileUrl = vueDocsIndex.find(
-          (docMeta) => docMeta.title === fileTitle
+          (docMeta) => docMeta.filename === fileName
         )?.url;
-        if (!fileUrl) continue;
+        if (!fileUrl) {
+          assistantResponse = assistantResponse.replace(annotation.text, '');
+          continue;
+        }
         assistantResponse = assistantResponse.replace(
           annotation.text,
           ` <a href="${fileUrl}" target="_blank">[${fileTitle}]</a>`
