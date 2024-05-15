@@ -14,12 +14,19 @@ export const useUIStore = defineStore('ui', () => {
     isSignUpModalOpened.value = value;
   }
 
+  const showSidebar = ref(true);
+  function setShowSidebar(value: boolean) {
+    showSidebar.value = value;
+  }
+
   return {
     isChatOpened,
-    isLoginModalOpened,
-    isSignUpModalOpened,
     setIsChatOpened,
+    isLoginModalOpened,
     setIsLoginModalOpened,
+    isSignUpModalOpened,
     setIsSignUpModalOpened,
+    showSidebar,
+    setShowSidebar,
   };
 });

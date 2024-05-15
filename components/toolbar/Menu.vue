@@ -1,11 +1,10 @@
 <template>
   <PanelMenu
     v-if="items && items.length > 0"
-    :class="{ 'w-full': showMenuContent }"
     :model="items"
     :pt="{
       headerLabel: showMenuContent ? '' : 'hidden',
-      headerIcon: showMenuContent ? '' : 'mr-0',
+      headerIcon: iconClasses,
     }"
     @mouseenter="showMenuContent = true"
     @mouseleave="showMenuContent = false"
@@ -14,6 +13,7 @@
 
 <script setup lang="ts">
 const showMenuContent = defineModel<boolean>();
+const { showSidebar } = storeToRefs(useUIStore());
 
 const items = ref([
   {
@@ -33,4 +33,14 @@ const items = ref([
     },
   },
 ]);
+
+const iconClasses = computed(() => {
+  if (!showSidebar.value) {
+    return 'mx-auto text-xl';
+  }
+  if (!showMenuContent.value) {
+    return 'ml-1 mr-0';
+  }
+  return '';
+});
 </script>

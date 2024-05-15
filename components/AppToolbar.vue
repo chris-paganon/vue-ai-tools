@@ -1,15 +1,10 @@
 <template>
-  <div
-    class="hidden sm:flex flex-column h-screen sticky top-0 surface-card"
-    :class="{
-      'w-20rem': showSidebar,
-    }"
-  >
+  <div class="hidden sm:flex flex-column h-screen sticky top-0 surface-card">
     <div
-      class="flex justify-content-between align-items-center px-1 sm:pr-2 pt-2 border-100"
+      class="flex align-items-center px-3 sm:pr-2 pt-2 border-100"
       :class="{
-        'flex-row border-bottom-1': showSidebar,
-        'flex-column': !showSidebar,
+        'justify-content-between border-bottom-1': showSidebar,
+        'justify-content-center': !showSidebar,
       }"
     >
       <AppLogo />
@@ -18,16 +13,14 @@
         text
         rounded
         severity="secondary"
-        @click="showSidebar = !showSidebar"
+        :class="{ hidden: !showSidebar }"
+        @click="setShowSidebar(!showSidebar)"
       />
     </div>
-    <div
-      class="min-h-0 flex"
-      :class="{ 'w-2rem': !showSidebar, 'w-full': showSidebar }"
-    >
+    <div class="min-h-0 flex w-full">
       <ToolbarMenu
         v-model="showMenuContent"
-        class="pb-2"
+        class="pb-2 flex-grow-1"
         :class="{
           'border-right-1 border-100': !showMenuContent && showSidebar,
         }"
@@ -40,7 +33,9 @@
 </template>
 
 <script setup lang="ts">
-const showSidebar = ref(true);
+const { showSidebar } = storeToRefs(useUIStore());
+const { setShowSidebar } = useUIStore();
+
 const showMenuContent = ref(true);
 const showTierTwo = computed(() => !showMenuContent.value);
 
@@ -51,13 +46,13 @@ watch(showSidebar, () => {
 });
 watch(showMenuContent, () => {
   if (showMenuContent.value) {
-    showSidebar.value = true;
+    setShowSidebar(true);
   }
 });
 
 onMounted(() => {
   if (window.innerWidth < 1024) {
-    showSidebar.value = false;
+    setShowSidebar(false);
   }
 });
 
