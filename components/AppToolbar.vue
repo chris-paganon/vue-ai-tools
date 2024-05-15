@@ -18,7 +18,7 @@
         @click="setShowSidebar(!showSidebar)"
       />
     </div>
-    <div class="min-h-0 flex w-full">
+    <div class="min-h-0 h-full flex w-full">
       <ToolbarMenu
         v-model="showMenuContent"
         class="pb-2"
