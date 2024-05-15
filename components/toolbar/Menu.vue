@@ -38,7 +38,7 @@ const items = ref([
 
 const iconClasses = computed(() => {
   if (!showSidebar.value) {
-    return 'mx-auto text-xl';
+    return 'mx-auto';
   }
   if (!showMenuContent.value) {
     return 'ml-1 mr-0';

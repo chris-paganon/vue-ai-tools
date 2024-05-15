@@ -3,9 +3,9 @@
     <Toast />
     <AuthLoginPopup />
     <AuthSignUpPopup />
-    <div class="grid min-h-screen p-input-filled">
+    <div class="grid min-h-screen">
       <AppToolbar
-        class="col-0 px-0 pb-0"
+        class="col-0 px-0 py-0 hidden sm:flex flex-column h-screen sticky top-0 surface-card"
         :class="{ 'sm:col-3': showSidebar, 'sm:col-1': !showSidebar }"
       />
       <div

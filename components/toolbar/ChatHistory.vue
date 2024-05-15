@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-0 flex flex-column p-2">
+  <div>
     <Menu
       v-if="items && items.length > 0"
       :model="items"

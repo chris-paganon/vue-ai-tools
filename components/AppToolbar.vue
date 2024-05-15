@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden sm:flex flex-column h-screen sticky top-0 surface-card">
+  <div>
     <div
       class="flex align-items-center px-3 sm:pr-2 pt-2 border-100"
       :class="{
@@ -27,7 +27,7 @@
         }"
       />
       <template v-if="showTierTwo && showSidebar">
-        <ToolbarChatHistory class="flex-grow-1" />
+        <ToolbarChatHistory class="flex-grow-1 min-h-0 flex flex-column p-2" />
       </template>
     </div>
   </div>
