@@ -20,13 +20,14 @@
     <div class="min-h-0 flex w-full">
       <ToolbarMenu
         v-model="showMenuContent"
-        class="pb-2 flex-grow-1"
+        class="pb-2"
         :class="{
           'border-right-1 border-100': !showMenuContent && showSidebar,
+          'w-full': showMenuContent || !showSidebar,
         }"
       />
       <template v-if="showTierTwo && showSidebar">
-        <ToolbarChatHistory />
+        <ToolbarChatHistory class="flex-grow-1" />
       </template>
     </div>
   </div>
