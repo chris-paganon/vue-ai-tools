@@ -1,10 +1,16 @@
 <template>
   <div
-    class="hidden sm:flex flex-column h-screen sticky top-0 surface-card py-3 px-1 sm:px-3"
+    class="hidden sm:flex flex-column h-screen sticky top-0 surface-card"
+    :class="{
+      'w-20rem': showSidebar,
+    }"
   >
     <div
-      class="flex justify-content-between align-items-center"
-      :class="[sidebarHeadFlexDirection]"
+      class="flex justify-content-between align-items-center px-1 sm:pr-2 pt-2 border-100"
+      :class="{
+        'flex-row border-bottom-1': showSidebar,
+        'flex-column': !showSidebar,
+      }"
     >
       <AppLogo />
       <Button
@@ -12,21 +18,43 @@
         text
         rounded
         severity="secondary"
-        @click="toggleSidebar()"
+        @click="showSidebar = !showSidebar"
       />
     </div>
     <div
-      v-if="showSidebar"
-      id="app-toolbar-content"
-      class="min-h-0 flex flex-column"
+      class="min-h-0 flex"
+      :class="{ 'w-2rem': !showSidebar, 'w-full': showSidebar }"
     >
-      <ToolbarChatHistory />
+      <ToolbarMenu
+        v-model="showMenuContent"
+        class="pb-2"
+        :class="{
+          'border-right-1 border-100': !showMenuContent && showSidebar,
+        }"
+      />
+      <template v-if="showTierTwo && showSidebar">
+        <ToolbarChatHistory />
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const showSidebar = ref(true);
+const showMenuContent = ref(true);
+const showTierTwo = computed(() => !showMenuContent.value);
+
+watch(showSidebar, () => {
+  if (!showSidebar.value) {
+    showMenuContent.value = false;
+  }
+});
+watch(showMenuContent, () => {
+  if (showMenuContent.value) {
+    showSidebar.value = true;
+  }
+});
+
 onMounted(() => {
   if (window.innerWidth < 1024) {
     showSidebar.value = false;
@@ -36,17 +64,4 @@ onMounted(() => {
 const toggleSibarIcon = computed(() =>
   showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'
 );
-const sidebarHeadFlexDirection = computed(() =>
-  showSidebar.value ? 'flex-row' : 'flex-column'
-);
-
-function toggleSidebar() {
-  showSidebar.value = !showSidebar.value;
-}
 </script>
-
-<style scoped>
-#app-toolbar-content {
-  min-width: 250px;
-}
-</style>

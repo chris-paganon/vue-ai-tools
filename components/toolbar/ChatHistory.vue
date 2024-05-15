@@ -1,10 +1,12 @@
 <template>
-  <Menu
-    v-if="items && items.length > 0"
-    :model="items"
-    class="w-full overflow-y-scroll"
-  />
-  <Button label="New chat" class="mt-4 w-full" @click="setNewChat()" />
+  <div class="min-h-0 flex flex-column p-2">
+    <Menu
+      v-if="items && items.length > 0"
+      :model="items"
+      class="w-full overflow-y-scroll"
+    />
+    <Button label="New chat" class="mt-4 w-full" @click="setNewChat()" />
+  </div>
 </template>
 
 <script setup lang="ts">

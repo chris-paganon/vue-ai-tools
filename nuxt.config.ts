@@ -50,6 +50,7 @@ export default defineNuxtConfig({
         'Toast',
         'Card',
         'Menu',
+        'PanelMenu',
         'Sidebar',
         'Divider',
         'InputOtp',
