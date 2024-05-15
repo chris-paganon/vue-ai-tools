@@ -4,7 +4,7 @@
       v-if="items && items.length > 0"
       :model="items"
       :pt="{
-        headerLabel: showMenuContent ? '' : 'hidden',
+        headerLabel: showMenuContent ? '' : 'md:hidden',
         headerIcon: iconClasses,
       }"
       @mouseenter="showMenuContent = true"
@@ -38,10 +38,10 @@ const items = ref([
 
 const iconClasses = computed(() => {
   if (!showSidebar.value) {
-    return 'mx-auto';
+    return 'md:mx-auto';
   }
   if (!showMenuContent.value) {
-    return 'ml-1 mr-0';
+    return 'md:ml-1 md:mr-0';
   }
   return '';
 });

@@ -4,20 +4,14 @@
       <template #header>
         <AppLogo />
       </template>
-      <div class="flex flex-column align-items-center gap-4">
+      <div class="h-full flex flex-column align-items-center gap-4">
         <AuthLoginButtons />
         <div
           v-if="isSignedIn"
-          class="flex flex-column align-items-center gap-4 w-full"
+          class="min-h-0 flex flex-column align-items-center gap-4 w-full"
         >
-          <NuxtLink
-            to="/tools/chat"
-            class="w-full"
-            @click="mobileSidebarVisible = false"
-          >
-            <Button label="Dashboard" class="w-full" />
-          </NuxtLink>
-          <ToolbarChatHistory />
+          <ToolbarMenu v-model="showMenuContent" class="w-full" />
+          <ToolbarChatHistory class="min-h-0 flex flex-column w-full" />
           <NuxtLink
             to="/account"
             class="w-full"
@@ -43,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+const showMenuContent = ref(true);
+
 const { isSignedIn } = storeToRefs(useAuthStore());
 const { logout } = useAuthStore();
 
