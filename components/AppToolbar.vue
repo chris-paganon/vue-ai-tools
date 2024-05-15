@@ -3,7 +3,7 @@
     <div
       class="flex align-items-center pt-3 pb-2 border-100"
       :class="{
-        'justify-content-between border-bottom-1 pl-4': showSidebar,
+        'justify-content-between border-bottom-1 pl-3': showSidebar,
         'justify-content-center pl-2': !showSidebar,
       }"
     >
