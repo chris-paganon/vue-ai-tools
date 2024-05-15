@@ -1,14 +1,16 @@
 <template>
-  <PanelMenu
-    v-if="items && items.length > 0"
-    :model="items"
-    :pt="{
-      headerLabel: showMenuContent ? '' : 'hidden',
-      headerIcon: iconClasses,
-    }"
-    @mouseenter="showMenuContent = true"
-    @mouseleave="showMenuContent = false"
-  />
+  <div>
+    <PanelMenu
+      v-if="items && items.length > 0"
+      :model="items"
+      :pt="{
+        headerLabel: showMenuContent ? '' : 'hidden',
+        headerIcon: iconClasses,
+      }"
+      @mouseenter="showMenuContent = true"
+      @mouseleave="showMenuContent = false"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,3 +46,9 @@ const iconClasses = computed(() => {
   return '';
 });
 </script>
+
+<style scoped>
+.p-panel-menu {
+  height: fit-content;
+}
+</style>
