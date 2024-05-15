@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="flex align-items-center px-3 sm:pr-2 pt-2 border-100"
+      class="flex align-items-center pt-3 pb-2 border-100"
       :class="{
-        'justify-content-between border-bottom-1': showSidebar,
-        'justify-content-center': !showSidebar,
+        'justify-content-between border-bottom-1 pl-4': showSidebar,
+        'justify-content-center pl-2': !showSidebar,
       }"
     >
       <AppLogo />
@@ -13,6 +13,7 @@
         text
         rounded
         severity="secondary"
+        class="mr-2"
         :class="{ hidden: !showSidebar }"
         @click="setShowSidebar(!showSidebar)"
       />
@@ -37,19 +38,27 @@
 const { showSidebar } = storeToRefs(useUIStore());
 const { setShowSidebar } = useUIStore();
 
-const showMenuContent = ref(true);
+const showMenuContent = ref(false);
 const showTierTwo = computed(() => !showMenuContent.value);
 
-watch(showSidebar, () => {
-  if (!showSidebar.value) {
-    showMenuContent.value = false;
-  }
-});
-watch(showMenuContent, () => {
-  if (showMenuContent.value) {
-    setShowSidebar(true);
-  }
-});
+watch(
+  showSidebar,
+  () => {
+    if (!showSidebar.value) {
+      showMenuContent.value = false;
+    }
+  },
+  { immediate: true }
+);
+watch(
+  showMenuContent,
+  () => {
+    if (showMenuContent.value) {
+      setShowSidebar(true);
+    }
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   if (window.innerWidth < 1024) {
