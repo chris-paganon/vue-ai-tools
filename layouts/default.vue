@@ -9,7 +9,7 @@
         :class="{ 'sm:col-3': showSidebar, 'sm:col-1': !showSidebar }"
       />
       <div
-        class="col-12 h-100 flex flex-column pt-0 pl-3 sm:pl-2 pr-3 mb-3"
+        class="col-12 h-100 flex flex-column pt-0 px-3 sm:pl-3 sm:pr-4 mb-3"
         :class="{ 'sm:col-9': showSidebar, 'sm:col-11': !showSidebar }"
       >
         <header
