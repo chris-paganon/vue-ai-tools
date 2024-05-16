@@ -24,10 +24,10 @@
         class="pb-2"
         :class="{
           'border-right-1 border-100': !showMenuContent && showSidebar,
-          'w-full': showMenuContent || !showSidebar,
+          'w-full': showMenuContent && showSidebar,
         }"
       />
-      <template v-if="showTierTwo && showSidebar">
+      <template v-if="!showMenuContent && showSidebar">
         <ToolbarChatHistory class="flex-grow-1 min-h-0 flex flex-column p-2" />
       </template>
     </div>
@@ -39,7 +39,6 @@ const { showSidebar } = storeToRefs(useUIStore());
 const { setShowSidebar } = useUIStore();
 
 const showMenuContent = ref(false);
-const showTierTwo = computed(() => !showMenuContent.value);
 
 watch(
   showSidebar,
