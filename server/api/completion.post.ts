@@ -28,12 +28,11 @@ export default defineEventHandler(async (event) => {
 
   const runtimeConfig = useRuntimeConfig();
 
-  const openai = new OpenAI({
-    organization: runtimeConfig.openaiOrganization,
-    apiKey: runtimeConfig.openaiApiKey,
-  });
-
   try {
+    const openai = new OpenAI({
+      organization: runtimeConfig.openaiOrganization,
+      apiKey: runtimeConfig.openaiApiKey,
+    });
     const completion = await openai.chat.completions.create(data);
     if (completion.choices.length === 0) return;
     return completion.choices;
@@ -43,9 +42,15 @@ export default defineEventHandler(async (event) => {
       console.log('status: ', error.status); // 400
       console.log('error name: ', error.name); // BadRequestError
       console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-    } else {
-      console.log(error);
+      throw createError({
+        statusCode: error.status,
+        statusMessage: 'OpenAI API error',
+      });
     }
-    return;
+    console.log('error: ', error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Unknown OpenAI API error',
+    });
   }
 });

@@ -36,6 +36,7 @@ import { EditorView, basicSetup } from 'codemirror';
 import { json } from '@codemirror/lang-json';
 import { oneDark } from '@codemirror/theme-one-dark';
 
+const toast = useToast();
 const { messages } = storeToRefs(useChatStore());
 const { addUserMessage, addAssistantMessage, setTemplatingSystemMessage } =
   useChatStore();
@@ -83,13 +84,22 @@ async function generateComponent() {
   setIsWaitingAnswer(true);
   setTemplatingSystemMessage();
 
-  const assistantAnswer = await useAskQuestion();
-  if (!assistantAnswer) {
-    setIsWaitingAnswer(false);
-    return;
-  }
+  try {
+    const assistantAnswer = await useAskQuestion();
+    if (!assistantAnswer) {
+      throw new Error('No answer from the assistant');
+    }
 
-  addAssistantMessage(assistantAnswer);
-  setIsWaitingAnswer(false);
+    addAssistantMessage(assistantAnswer);
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail:
+        'An error occurred while generating the component, try again later.',
+    });
+  } finally {
+    setIsWaitingAnswer(false);
+  }
 }
 </script>
