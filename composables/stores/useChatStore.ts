@@ -1,3 +1,4 @@
+import templatingExample from '@/assets/vue-docs/templating-examples.md?raw';
 import type { Chat, ChatCompletionMessage } from '@/types/types';
 
 export const useChatStore = defineStore('chat', () => {
@@ -72,8 +73,11 @@ export const useChatStore = defineStore('chat', () => {
   function setOptionsIndexSystemMessage() {
     replaceSystemMessage(optionsSystemMessage);
   }
-  function setTemplatingSystemMessage() {
-    replaceSystemMessage(baseSystemMessage);
+  async function setTemplatingSystemMessage() {
+    replaceSystemMessage(`${baseSystemMessage} 
+      Here are a few examples of JSON-like templates used to create full VueJS components:\n${templatingExample}\n
+      Use these examples to create a full VueJS component for the user.
+    `);
   }
   function setCurrentChatId(value: number) {
     chats.value[currentChatIndex.value].id = value;

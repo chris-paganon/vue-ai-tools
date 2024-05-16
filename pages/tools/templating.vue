@@ -32,12 +32,12 @@ const { setIsWaitingAnswer } = useChatInputStore();
 // Setup CodeMirror
 const codeMirrorParent = ref<HTMLDivElement | null>(null);
 const code = ref(`{
-	"template": {
-		"counter": 0,
-		"button": "increment"
+	template: {
+		counter: 0,
+		button: "increment"
 	},
-	"script": {
-		"function": "increment"
+	script: {
+		function: "increment"
 	}
 }`);
 const extensions = [json(), oneDark, basicSetup];
@@ -49,7 +49,6 @@ const startState = EditorState.create({
 
 const view = shallowRef<EditorView | null>(null);
 onMounted(() => {
-  console.log('test', codeMirrorParent.value);
   if (!codeMirrorParent.value) return;
 
   view.value = new EditorView({
