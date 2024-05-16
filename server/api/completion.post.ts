@@ -20,20 +20,24 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  let model = 'gpt-3.5-turbo';
+  if (event.context.user && (await useIsSubscribed(event.context.user))) {
+    model = 'gpt-4o';
+  }
+
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-3.5-turbo-16k',
+    model,
     temperature: 0.4,
     messages,
   };
 
   const runtimeConfig = useRuntimeConfig();
 
-  const openai = new OpenAI({
-    organization: runtimeConfig.openaiOrganization,
-    apiKey: runtimeConfig.openaiApiKey,
-  });
-
   try {
+    const openai = new OpenAI({
+      organization: runtimeConfig.openaiOrganization,
+      apiKey: runtimeConfig.openaiApiKey,
+    });
     const completion = await openai.chat.completions.create(data);
     if (completion.choices.length === 0) return;
     return completion.choices;
@@ -43,9 +47,15 @@ export default defineEventHandler(async (event) => {
       console.log('status: ', error.status); // 400
       console.log('error name: ', error.name); // BadRequestError
       console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-    } else {
-      console.log(error);
+      throw createError({
+        statusCode: error.status,
+        statusMessage: 'OpenAI API error',
+      });
     }
-    return;
+    console.log('error: ', error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Unknown OpenAI API error',
+    });
   }
 });

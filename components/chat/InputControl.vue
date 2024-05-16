@@ -28,6 +28,7 @@ const props = defineProps({
   },
 });
 
+const toast = useToast();
 const { setIsChatOpened } = useUIStore();
 const { addUserMessage, addAssistantMessage } = useChatStore();
 const { inputQuestion, isWaitingAnswer, selectedInputOption } =
@@ -70,13 +71,21 @@ async function askQuestion(event?: KeyboardEvent) {
   addUserMessage(inputQuestion.value);
   setIsWaitingAnswer(true);
   setInputQuestion('');
-  const assistantAnswer = await askInputQuestion();
-  if (!assistantAnswer) {
-    setIsWaitingAnswer(false);
-    return;
-  }
+  try {
+    const assistantAnswer = await askInputQuestion();
+    if (!assistantAnswer) {
+      throw new Error('No answer from the assistant');
+    }
 
-  addAssistantMessage(assistantAnswer);
-  setIsWaitingAnswer(false);
+    addAssistantMessage(assistantAnswer);
+  } catch (_) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'An error occurred while asking the question, try again later.',
+    });
+  } finally {
+    setIsWaitingAnswer(false);
+  }
 }
 </script>

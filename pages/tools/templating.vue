@@ -1,20 +1,29 @@
 <template>
-  <div class="h-full flex flex-column">
-    <h1>Generate a Vue component from a JSON template:</h1>
-    <Textarea
-      v-model="templateGenerationIntro"
-      auto-resize
-      rows="1"
-      class="mb-3"
-      @keydown.enter="generateComponent"
-    />
-    <div ref="codeMirrorParent"></div>
-    <Button label="Generate" class="mt-4 mb-3" @click="generateComponent" />
-    <Divider />
-    <ChatConversation />
-    <ChatInputControl
-      v-if="messages.filter((message) => message.role !== 'system').length > 0"
-    />
+  <div>
+    <h1 class="text-xl mx-2 mb-3">
+      Generate a Vue component from a JSON template:
+    </h1>
+    <Card class="h-full flex flex-column">
+      <template #content>
+        <ChatToolBar v-if="!showInputControl" />
+        <Textarea
+          v-model="templateGenerationIntro"
+          auto-resize
+          rows="1"
+          class="w-full mb-3"
+          @keydown.enter="generateComponent"
+        />
+        <div ref="codeMirrorParent"></div>
+        <Button
+          label="Generate"
+          class="w-full my-3"
+          @click="generateComponent"
+        />
+        <Divider />
+        <ChatConversation />
+        <ChatInputControl v-if="showInputControl" />
+      </template>
+    </Card>
   </div>
 </template>
 
@@ -24,20 +33,32 @@ import { EditorView, basicSetup } from 'codemirror';
 import { json } from '@codemirror/lang-json';
 import { oneDark } from '@codemirror/theme-one-dark';
 
+const toast = useToast();
 const { messages } = storeToRefs(useChatStore());
-const { addUserMessage, addAssistantMessage, setTemplatingSystemMessage } =
-  useChatStore();
+const {
+  addUserMessage,
+  addAssistantMessage,
+  setPlainGptTplSystemMessage,
+  setCompositionTplSystemMessage,
+  setOptionsTplSystemMessage,
+} = useChatStore();
 const { setIsWaitingAnswer } = useChatInputStore();
+
+const showInputControl = computed(() => {
+  return (
+    messages.value.filter((message) => message.role !== 'system').length > 0
+  );
+});
 
 // Setup CodeMirror
 const codeMirrorParent = ref<HTMLDivElement | null>(null);
 const code = ref(`{
-	"template": {
-		"counter": 0,
-		"button": "increment"
+	template: {
+		counter: 0,
+		button: "increment"
 	},
-	"script": {
-		"function": "increment"
+	script: {
+		function: "increment"
 	}
 }`);
 const extensions = [json(), oneDark, basicSetup];
@@ -49,7 +70,6 @@ const startState = EditorState.create({
 
 const view = shallowRef<EditorView | null>(null);
 onMounted(() => {
-  console.log('test', codeMirrorParent.value);
   if (!codeMirrorParent.value) return;
 
   view.value = new EditorView({
@@ -70,15 +90,41 @@ async function generateComponent() {
     `${templateGenerationIntro.value} ${view.value.state.doc.toString()}`
   );
   setIsWaitingAnswer(true);
-  setTemplatingSystemMessage();
+  setTplSystemMessage();
 
-  const assistantAnswer = await useAskQuestion();
-  if (!assistantAnswer) {
+  try {
+    const assistantAnswer = await useAskQuestion();
+    if (!assistantAnswer) {
+      throw new Error('No answer from the assistant');
+    }
+
+    addAssistantMessage(assistantAnswer);
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail:
+        'An error occurred while generating the component, try again later.',
+    });
+  } finally {
     setIsWaitingAnswer(false);
-    return;
   }
-
-  addAssistantMessage(assistantAnswer);
-  setIsWaitingAnswer(false);
+}
+async function setTplSystemMessage() {
+  const { selectedInputOption } = storeToRefs(useChatInputStore());
+  switch (selectedInputOption.value) {
+    case 'PlainGPT':
+      setPlainGptTplSystemMessage();
+      break;
+    case 'Composition API':
+      setCompositionTplSystemMessage();
+      break;
+    case 'Options API':
+      setOptionsTplSystemMessage();
+      break;
+    default:
+      setCompositionTplSystemMessage();
+      break;
+  }
 }
 </script>

@@ -13,6 +13,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const subscriptionId = await useGetActiveSubscriptionId(user);
+  if (!subscriptionId) {
+    throw createError({
+      status: 400,
+      statusMessage: 'no active subscription',
+    });
+  }
 
   const lemonSqueezyApiKey = useRuntimeConfig().lemonsqueezyApiKey;
   lemonSqueezySetup({
