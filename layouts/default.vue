@@ -4,6 +4,15 @@
     <ConfirmDialog />
     <AuthLoginPopup />
     <AuthSignUpPopup />
+    <div v-if="!isVerified" class="bg-primary py-1">
+      <p class="text-center">
+        Please
+        <span class="underline cursor-pointer" @click="verifyEmail"
+          >click here</span
+        >
+        to verify your email.
+      </p>
+    </div>
     <div class="grid min-h-screen mt-0">
       <AppToolbar
         class="col-0 p-0 hidden md:flex flex-column h-screen sticky top-0 surface-card"
@@ -38,7 +47,7 @@
 <script setup lang="ts">
 const { showSidebar, shownPaidFeatureToast } = storeToRefs(useUIStore());
 const { setShownPaidFeatureToast } = useUIStore();
-const { isSubscribed } = storeToRefs(useAuthStore());
+const { isSubscribed, isVerified } = storeToRefs(useAuthStore());
 const toast = useToast();
 
 onMounted(() => {
@@ -51,4 +60,9 @@ onMounted(() => {
     setShownPaidFeatureToast(true);
   }
 });
+
+async function verifyEmail() {
+  await $fetch('/api/auth/send-email-code');
+  await navigateTo('/email-verification');
+}
 </script>
