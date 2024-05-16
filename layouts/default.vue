@@ -35,8 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from 'primevue/usetoast';
-
 const { showSidebar, shownPaidFeatureToast } = storeToRefs(useUIStore());
 const { setShownPaidFeatureToast } = useUIStore();
 const { isSubscribed } = storeToRefs(useAuthStore());
