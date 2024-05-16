@@ -1,6 +1,7 @@
 <template>
   <div>
     <Toast />
+    <ConfirmDialog />
     <AuthLoginPopup />
     <AuthSignUpPopup />
     <div class="grid min-h-screen mt-0">

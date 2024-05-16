@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         'Textarea',
         'Password',
         'Dialog',
+        'ConfirmDialog',
         'ProgressSpinner',
         'TabMenu',
         'SelectButton',
