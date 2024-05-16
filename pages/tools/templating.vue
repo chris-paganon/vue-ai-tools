@@ -1,20 +1,32 @@
 <template>
-  <div class="h-full flex flex-column">
-    <h1>Generate a Vue component from a JSON template:</h1>
-    <Textarea
-      v-model="templateGenerationIntro"
-      auto-resize
-      rows="1"
-      class="mb-3"
-      @keydown.enter="generateComponent"
-    />
-    <div ref="codeMirrorParent"></div>
-    <Button label="Generate" class="mt-4 mb-3" @click="generateComponent" />
-    <Divider />
-    <ChatConversation />
-    <ChatInputControl
-      v-if="messages.filter((message) => message.role !== 'system').length > 0"
-    />
+  <div>
+    <h1 class="text-xl mx-2 mb-3">
+      Generate a Vue component from a JSON template:
+    </h1>
+    <Card class="h-full flex flex-column">
+      <template #content>
+        <Textarea
+          v-model="templateGenerationIntro"
+          auto-resize
+          rows="1"
+          class="w-full mb-3"
+          @keydown.enter="generateComponent"
+        />
+        <div ref="codeMirrorParent"></div>
+        <Button
+          label="Generate"
+          class="w-full my-3"
+          @click="generateComponent"
+        />
+        <Divider />
+        <ChatConversation />
+        <ChatInputControl
+          v-if="
+            messages.filter((message) => message.role !== 'system').length > 0
+          "
+        />
+      </template>
+    </Card>
   </div>
 </template>
 
