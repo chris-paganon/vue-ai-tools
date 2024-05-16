@@ -35,5 +35,21 @@
 </template>
 
 <script setup lang="ts">
-const { showSidebar } = storeToRefs(useUIStore());
+import { useToast } from 'primevue/usetoast';
+
+const { showSidebar, shownPaidFeatureToast } = storeToRefs(useUIStore());
+const { setShownPaidFeatureToast } = useUIStore();
+const { isSubscribed } = storeToRefs(useAuthStore());
+const toast = useToast();
+
+onMounted(() => {
+  if (!shownPaidFeatureToast.value && isSubscribed.value) {
+    toast.add({
+      severity: 'info',
+      summary: 'GPT -4o',
+      detail: 'You are now using GPT-4o! Thank you for subscribing.',
+    });
+    setShownPaidFeatureToast(true);
+  }
+});
 </script>

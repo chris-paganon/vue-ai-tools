@@ -19,6 +19,11 @@ export const useUIStore = defineStore('ui', () => {
     showSidebar.value = value;
   }
 
+  const shownPaidFeatureToast = ref(false);
+  function setShownPaidFeatureToast(value: boolean) {
+    shownPaidFeatureToast.value = value;
+  }
+
   return {
     isChatOpened,
     setIsChatOpened,
@@ -28,5 +33,7 @@ export const useUIStore = defineStore('ui', () => {
     setIsSignUpModalOpened,
     showSidebar,
     setShowSidebar,
+    shownPaidFeatureToast,
+    setShownPaidFeatureToast,
   };
 });
