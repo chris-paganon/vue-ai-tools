@@ -1,4 +1,5 @@
-import templatingExample from '@/assets/vue-docs/templating-examples.md?raw';
+import templatingCompositionExamples from '@/assets/vue-docs/templating-composition-examples.md?raw';
+import templatingOptionsExamples from '@/assets/vue-docs/templating-options-examples.md?raw';
 import type { Chat, ChatCompletionMessage } from '@/types/types';
 
 export const useChatStore = defineStore('chat', () => {
@@ -73,9 +74,21 @@ export const useChatStore = defineStore('chat', () => {
   function setOptionsIndexSystemMessage() {
     replaceSystemMessage(optionsSystemMessage);
   }
-  async function setTemplatingSystemMessage() {
+  async function setPlainGptTplSystemMessage() {
     replaceSystemMessage(`${baseSystemMessage} 
-      Here are a few examples of JSON-like templates used to create full VueJS components:\n${templatingExample}\n
+      Here are a few examples of JSON-like templates used to create full VueJS components:\n${templatingOptionsExamples}\n
+      Use these examples to create a full VueJS component for the user.
+    `);
+  }
+  async function setCompositionTplSystemMessage() {
+    replaceSystemMessage(`${compositionSystemMessage} 
+      Here are a few examples of JSON-like templates used to create full VueJS components:\n${templatingCompositionExamples}\n
+      Use these examples to create a full VueJS component for the user.
+    `);
+  }
+  async function setOptionsTplSystemMessage() {
+    replaceSystemMessage(`${optionsSystemMessage} 
+      Here are a few examples of JSON-like templates used to create full VueJS components:\n${templatingOptionsExamples}\n
       Use these examples to create a full VueJS component for the user.
     `);
   }
@@ -125,7 +138,9 @@ export const useChatStore = defineStore('chat', () => {
     setPlainGptSystemMessage,
     setCompositionIndexSystemMessage,
     setOptionsIndexSystemMessage,
-    setTemplatingSystemMessage,
+    setPlainGptTplSystemMessage,
+    setCompositionTplSystemMessage,
+    setOptionsTplSystemMessage,
     setCurrentChatIndex,
     setCurrentChatId,
     addUserMessage,

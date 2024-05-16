@@ -5,6 +5,7 @@
     </h1>
     <Card class="h-full flex flex-column">
       <template #content>
+        <ChatToolBar v-if="!showInputControl" />
         <Textarea
           v-model="templateGenerationIntro"
           auto-resize
@@ -20,11 +21,7 @@
         />
         <Divider />
         <ChatConversation />
-        <ChatInputControl
-          v-if="
-            messages.filter((message) => message.role !== 'system').length > 0
-          "
-        />
+        <ChatInputControl v-if="showInputControl" />
       </template>
     </Card>
   </div>
@@ -38,9 +35,20 @@ import { oneDark } from '@codemirror/theme-one-dark';
 
 const toast = useToast();
 const { messages } = storeToRefs(useChatStore());
-const { addUserMessage, addAssistantMessage, setTemplatingSystemMessage } =
-  useChatStore();
+const {
+  addUserMessage,
+  addAssistantMessage,
+  setPlainGptTplSystemMessage,
+  setCompositionTplSystemMessage,
+  setOptionsTplSystemMessage,
+} = useChatStore();
 const { setIsWaitingAnswer } = useChatInputStore();
+
+const showInputControl = computed(() => {
+  return (
+    messages.value.filter((message) => message.role !== 'system').length > 0
+  );
+});
 
 // Setup CodeMirror
 const codeMirrorParent = ref<HTMLDivElement | null>(null);
@@ -82,7 +90,7 @@ async function generateComponent() {
     `${templateGenerationIntro.value} ${view.value.state.doc.toString()}`
   );
   setIsWaitingAnswer(true);
-  setTemplatingSystemMessage();
+  setTplSystemMessage();
 
   try {
     const assistantAnswer = await useAskQuestion();
@@ -100,6 +108,23 @@ async function generateComponent() {
     });
   } finally {
     setIsWaitingAnswer(false);
+  }
+}
+async function setTplSystemMessage() {
+  const { selectedInputOption } = storeToRefs(useChatInputStore());
+  switch (selectedInputOption.value) {
+    case 'PlainGPT':
+      setPlainGptTplSystemMessage();
+      break;
+    case 'Composition API':
+      setCompositionTplSystemMessage();
+      break;
+    case 'Options API':
+      setOptionsTplSystemMessage();
+      break;
+    default:
+      setCompositionTplSystemMessage();
+      break;
   }
 }
 </script>

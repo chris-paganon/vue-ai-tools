@@ -22,7 +22,7 @@
   <div>
     <p>Counter: {{ counter }}</p>
     <p>Double Counter: {{ doubleCounter }}</p>
-    <button @click="increment">{{ button }}</button>
+    <button @click="increment">Increment</button>
   </div>
 </template>
 
@@ -30,8 +30,7 @@
 export default {
   data() {
     return {
-      counter: 0,
-      button: "increment"
+      counter: 0
     };
   },
   methods: {
