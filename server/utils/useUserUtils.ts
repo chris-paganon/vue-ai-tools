@@ -15,10 +15,7 @@ export async function useGetActiveSubscriptionId(user: User) {
     );
 
   if (!subscriptions || subscriptions.length === 0) {
-    throw createError({
-      status: 400,
-      statusMessage: 'no active subscription',
-    });
+    return false;
   }
 
   return subscriptions[0].id;
