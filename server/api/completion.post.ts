@@ -20,8 +20,13 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  let model = 'gpt-3.5-turbo';
+  if (event.context.user && (await useIsSubscribed(event.context.user))) {
+    model = 'gpt-4o';
+  }
+
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
-    model: 'gpt-3.5-turbo-16k',
+    model,
     temperature: 0.4,
     messages,
   };

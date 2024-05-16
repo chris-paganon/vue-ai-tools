@@ -20,6 +20,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const runtimeConfig = useRuntimeConfig();
+  let model = 'gpt-3.5-turbo';
+  if (event.context.user && (await useIsSubscribed(event.context.user))) {
+    model = 'gpt-4o';
+  }
 
   try {
     const openai = new OpenAI({
@@ -39,6 +43,7 @@ export default defineEventHandler(async (event) => {
     });
     const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
       assistant_id: 'asst_zgB5kTaei9AT4XFc13FTrwfg',
+      model,
       instructions: systemMessage,
     });
     const threadResponseMessages = await openai.beta.threads.messages.list(
