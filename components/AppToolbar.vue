@@ -23,7 +23,7 @@
         v-model="showMenuContent"
         class="pb-2 transition-all transition-duration-300"
         :class="{
-          'w-5rem border-right-1 border-100': !showMenuContent && showSidebar,
+          'w-4rem border-right-1 border-100': !showMenuContent && showSidebar,
           'w-full': showMenuContent || !showSidebar,
         }"
       />

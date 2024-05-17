@@ -40,9 +40,6 @@ const iconClasses = computed(() => {
   if (!showSidebar.value) {
     return 'md:mx-auto';
   }
-  if (!showMenuContent.value) {
-    return 'md:ml-1 md:mr-0';
-  }
   return '';
 });
 </script>
