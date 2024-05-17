@@ -21,7 +21,7 @@
     <div class="min-h-0 h-full flex w-full">
       <ToolbarMenu
         v-model="showMenuContent"
-        class="pb-2 transition-all transition-duration-500"
+        class="pb-2 transition-all transition-duration-300"
         :class="{
           'w-5rem border-right-1 border-100': !showMenuContent && showSidebar,
           'w-full': showMenuContent || !showSidebar,
@@ -76,7 +76,7 @@ const toggleSibarIcon = computed(() =>
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: width 500ms;
+  transition: width 300ms;
 }
 .v-enter-from,
 .v-leave-to {
