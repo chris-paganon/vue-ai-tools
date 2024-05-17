@@ -29,7 +29,7 @@
       />
       <Transition>
         <ToolbarChatHistory
-          v-if="!showMenuContent && showSidebar"
+          v-if="showChatHistory"
           class="flex-grow-1 min-h-0 flex flex-column overflow-hidden p-2"
         />
       </Transition>
@@ -40,8 +40,27 @@
 <script setup lang="ts">
 const { showSidebar } = storeToRefs(useUIStore());
 const { setShowSidebar } = useUIStore();
+const router = useRouter();
 
 const showMenuContent = ref(false);
+const isToolRoute = computed(() =>
+  router.currentRoute.value.path.includes('/tools')
+);
+const showChatHistory = computed(() => {
+  if (!isToolRoute.value) {
+    return false;
+  }
+  return !showMenuContent.value && showSidebar.value;
+});
+watch(
+  () => router.currentRoute.value.path,
+  () => {
+    if (!isToolRoute.value) {
+      showMenuContent.value = true;
+    }
+  },
+  { immediate: true }
+);
 
 watch(
   showSidebar,
