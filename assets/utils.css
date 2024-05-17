@@ -1,3 +1,6 @@
 .max-w-1024 {
   max-width: 1024px;
 }
+.w-0 {
+  width: 0px;
+}
