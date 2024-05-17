@@ -26,7 +26,7 @@
           <NuxtLink v-else to="/tools/templating">
             <Button label="Try it out now" outlined class="w-full" />
           </NuxtLink>
-          <div v-if="isSubscribed" class="flex flex-column gap-3 lg:gap-4">
+          <div v-if="!isSubscribed" class="flex flex-column gap-3 lg:gap-4">
             <Divider />
             <p>
               Subscribe to get all your responses from GPT-4o instead of
