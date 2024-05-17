@@ -31,12 +31,9 @@
             class="flex flex-column gap-3 lg:gap-4"
           >
             <Divider />
-            <p>
-              Subscribe to get all your responses from GPT-4o instead of
-              GPT-3-turbo.
-            </p>
+            <p>Subscribe to get GPT-4o responses instead of GPT-3.</p>
             <NuxtLink to="/account">
-              <Button label="Subscribe on my account page" class="w-full" />
+              <Button label="Subscribe now" class="w-full" />
             </NuxtLink>
           </div>
         </div>
