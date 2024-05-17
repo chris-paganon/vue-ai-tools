@@ -24,16 +24,15 @@
         class="pb-2 transition-all transition-duration-500"
         :class="{
           'w-5rem border-right-1 border-100': !showMenuContent && showSidebar,
-          'w-full': showMenuContent && showSidebar,
+          'w-full': showMenuContent || !showSidebar,
         }"
       />
-      <ToolbarChatHistory
-        class="flex-grow-1 min-h-0 flex flex-column overflow-hidden transition-all transition-duration-500"
-        :class="{
-          'w-0 p-0': showMenuContent && showSidebar,
-          'w-full p-2': !showMenuContent || !showSidebar,
-        }"
-      />
+      <Transition>
+        <ToolbarChatHistory
+          v-if="!showMenuContent && showSidebar"
+          class="flex-grow-1 min-h-0 flex flex-column overflow-hidden p-2"
+        />
+      </Transition>
     </div>
   </div>
 </template>
@@ -73,3 +72,18 @@ const toggleSibarIcon = computed(() =>
   showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'
 );
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: width 500ms;
+}
+.v-enter-from,
+.v-leave-to {
+  width: 0px;
+}
+.v-enter-to,
+.v-leave-from {
+  width: 100%;
+}
+</style>
