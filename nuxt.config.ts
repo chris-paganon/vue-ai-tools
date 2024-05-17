@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         'DataTable',
         'Dialog',
         'Divider',
+        'Image',
         'InputOtp',
         'InputText',
         'Menu',
