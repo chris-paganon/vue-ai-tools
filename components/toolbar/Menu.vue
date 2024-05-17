@@ -7,8 +7,8 @@
         headerLabel: showMenuContent ? '' : 'md:hidden',
         headerIcon: iconClasses,
       }"
-      @mouseenter="showMenuContent = true"
-      @mouseleave="showMenuContent = false"
+      @mouseenter="maybeSetMenuContent(true)"
+      @mouseleave="maybeSetMenuContent(false)"
     />
   </div>
 </template>
@@ -36,12 +36,18 @@ const items = ref([
   },
 ]);
 
+const router = useRouter();
+function maybeSetMenuContent(value: boolean) {
+  if (!router.currentRoute.value.path.includes('/tools')) {
+    showMenuContent.value = true;
+    return;
+  }
+  showMenuContent.value = value;
+}
+
 const iconClasses = computed(() => {
   if (!showSidebar.value) {
     return 'md:mx-auto';
-  }
-  if (!showMenuContent.value) {
-    return 'md:ml-1 md:mr-0';
   }
   return '';
 });

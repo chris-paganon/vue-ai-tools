@@ -15,10 +15,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const isSignedIn = ref(false);
-  function setIsSignedIn(value: boolean) {
-    isSignedIn.value = value;
-  }
+  const isSignedIn = computed(() => !!user.value);
+  const isVerified = computed(() => user.value?.emailVerified);
 
   async function logout() {
     await $fetch('/api/auth/logout', {
@@ -29,7 +27,6 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function clearAccount() {
-    setIsSignedIn(false);
     resetUser();
     resetSubscriptions();
     setIsSubscribed(false);
@@ -38,7 +35,6 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function initAccount(user: User) {
-    setIsSignedIn(true);
     setUser(user);
 
     const { chatsLoaded } = storeToRefs(useChatStore());
@@ -107,9 +103,9 @@ export const useAuthStore = defineStore('auth', () => {
   return {
     user,
     isSignedIn,
+    isVerified,
     isSubscribed,
     subscriptions,
-    setIsSignedIn,
     setUser,
     setIsSubscribed,
     logout,

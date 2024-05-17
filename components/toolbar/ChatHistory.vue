@@ -5,7 +5,7 @@
       :model="items"
       class="w-full overflow-y-scroll"
     />
-    <Button label="New chat" class="mt-4 w-full" @click="setNewChat()" />
+    <Button label="New chat" class="mt-4 py-3 w-full" @click="setNewChat()" />
   </div>
 </template>
 

@@ -1,20 +1,23 @@
 <template>
-  <Button outlined :loading="isLoading" @click="isConfirmationOpened = true"
+  <Button outlined :loading="isLoading" @click="confirmCancel"
     >Cancel my subscription</Button
   >
-  <ConfirmDialog
-    v-model="isConfirmationOpened"
-    title="Cancel Subscription"
-    message="Are you sure you want to cancel your subscription?"
-    confirm-label="Yes, cancel"
-    cancel-label="No, keep it"
-    @confirmed="cancelSubscription"
-  />
 </template>
 
 <script setup lang="ts">
-const isConfirmationOpened = ref(false);
 const { setSubscriptionStatus } = useAuthStore();
+const confirm = useConfirm();
+
+function confirmCancel() {
+  confirm.require({
+    message: 'Are you sure you want to cancel your subscription?',
+    header: 'Cancel Subscription',
+    icon: 'pi pi-exclamation-triangle',
+    acceptLabel: 'Yes, cancel it',
+    rejectLabel: 'No, keep it',
+    accept: cancelSubscription,
+  });
+}
 
 const isLoading = ref(false);
 async function cancelSubscription() {

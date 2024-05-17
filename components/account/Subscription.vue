@@ -3,15 +3,12 @@
     <h2>Subscription</h2>
     <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
       <p>
-        There are currently no paid features, the subscription is
-        <strong>just a donation</strong> for now. Your help is very much
-        appreciated!
+        <strong>Subscribe now to get GPT-4o responses instead of GPT-3.</strong>
       </p>
-      <p>What you get:</p>
       <ul>
-        <li>Unconditional love & recognition from the dev.</li>
-        <li>Street cred for helping out a fellow dev.</li>
-        <li>Access to upcoming pro features.</li>
+        <li>More accurate answers</li>
+        <li>Unlimited requests</li>
+        <li>Access to future paid features</li>
       </ul>
       <p>$10/month</p>
       <LemonSubscribe />
@@ -21,6 +18,12 @@
       v-if="isSubscribed && subscriptions"
       class="flex flex-column align-items-start gap-3"
     >
+      <p>
+        <strong>
+          Thank you for your subscription! All your requests are now
+          automatically using GPT-4o.
+        </strong>
+      </p>
       <template
         v-for="(subscription, index) in subscriptions"
         :key="subscription.id"

@@ -21,15 +21,18 @@
     <div class="min-h-0 h-full flex w-full">
       <ToolbarMenu
         v-model="showMenuContent"
-        class="pb-2"
+        class="pb-2 transition-all transition-duration-300"
         :class="{
-          'border-right-1 border-100': !showMenuContent && showSidebar,
+          'w-4rem border-right-1 border-100': !showMenuContent && showSidebar,
           'w-full': showMenuContent || !showSidebar,
         }"
       />
-      <template v-if="showTierTwo && showSidebar">
-        <ToolbarChatHistory class="flex-grow-1 min-h-0 flex flex-column p-2" />
-      </template>
+      <Transition>
+        <ToolbarChatHistory
+          v-if="showChatHistory"
+          class="flex-grow-1 min-h-0 flex flex-column overflow-hidden p-2"
+        />
+      </Transition>
     </div>
   </div>
 </template>
@@ -37,9 +40,27 @@
 <script setup lang="ts">
 const { showSidebar } = storeToRefs(useUIStore());
 const { setShowSidebar } = useUIStore();
+const router = useRouter();
 
 const showMenuContent = ref(false);
-const showTierTwo = computed(() => !showMenuContent.value);
+const isToolRoute = computed(() =>
+  router.currentRoute.value.path.includes('/tools')
+);
+const showChatHistory = computed(() => {
+  if (!isToolRoute.value) {
+    return false;
+  }
+  return !showMenuContent.value && showSidebar.value;
+});
+watch(
+  () => router.currentRoute.value.path,
+  () => {
+    if (!isToolRoute.value) {
+      showMenuContent.value = true;
+    }
+  },
+  { immediate: true }
+);
 
 watch(
   showSidebar,
@@ -70,3 +91,18 @@ const toggleSibarIcon = computed(() =>
   showSidebar.value ? 'pi pi-chevron-left' : 'pi pi-chevron-right'
 );
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: width 300ms;
+}
+.v-enter-from,
+.v-leave-to {
+  width: 0px;
+}
+.v-enter-to,
+.v-leave-from {
+  width: 100%;
+}
+</style>

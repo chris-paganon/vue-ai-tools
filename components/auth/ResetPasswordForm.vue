@@ -21,7 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from 'primevue/usetoast';
 import { FetchError } from 'ofetch';
 
 const emit = defineEmits<{
