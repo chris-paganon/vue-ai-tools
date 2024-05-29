@@ -55,13 +55,21 @@ export default defineEventHandler(async (event) => {
     });
 
     const chatHistory = messages.filter((m) => m.role !== 'system');
-    const response = await chatEngine.chat({
+    const { response, sourceNodes } = await chatEngine.chat({
       message: chatHistory[chatHistory.length - 1].content,
       chatHistory,
       stream: false,
     });
-    console.log('🚀 ~ rag-chat ~ response:', response);
-    return response.response;
+
+    let responseMessage = response;
+    if (sourceNodes) {
+      sourceNodes.forEach((source) => {
+        if (source.node.metadata.file_name) {
+          responseMessage += `\n\n Reference: ${source.node.metadata.file_name}`;
+        }
+      });
+    }
+    return responseMessage;
   } catch (error) {
     console.log('error: ', error);
     throw createError({
