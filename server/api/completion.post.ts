@@ -20,9 +20,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let model = 'gpt-3.5-turbo';
+  let model = 'meta-llama/Llama-3-8b-chat-hf';
   if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'gpt-4o';
+    model = 'meta-llama/Llama-3-70b-chat-hf';
   }
 
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
@@ -35,8 +35,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     const openai = new OpenAI({
-      organization: runtimeConfig.openaiOrganization,
-      apiKey: runtimeConfig.openaiApiKey,
+      apiKey: runtimeConfig.togetherApiKey,
+      baseURL: 'https://api.together.xyz/v1',
     });
     const completion = await openai.chat.completions.create(data);
     if (completion.choices.length === 0) return;
