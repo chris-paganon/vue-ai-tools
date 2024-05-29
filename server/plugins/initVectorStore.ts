@@ -2,6 +2,7 @@ import {
   storageContextFromDefaults,
   SimpleDirectoryReader,
   VectorStoreIndex,
+  QdrantVectorStore,
   Settings,
   TogetherEmbedding,
 } from 'llamaindex';
@@ -20,9 +21,11 @@ export default defineNitroPlugin(async () => {
   const documents = await new SimpleDirectoryReader().loadData({
     directoryPath: './public/vue-docs/files',
   });
-  const storageContext = await storageContextFromDefaults({
-    persistDir: './storage',
+  const vectorStore = new QdrantVectorStore({
+    url: 'http://localhost:6333',
+    collectionName: 'vue-docs',
   });
+  const storageContext = await storageContextFromDefaults({ vectorStore });
 
   console.log('Creating index');
   await VectorStoreIndex.fromDocuments(documents, {

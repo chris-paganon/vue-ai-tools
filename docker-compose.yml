@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  vector-db:
+    image: qdrant/qdrant
+    ports:
+      - '6333:6333'
+    volumes:
+      - vector-db-data:/var/lib/qdrant
+
+volumes:
+  vector-db-data:

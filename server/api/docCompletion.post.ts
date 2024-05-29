@@ -1,8 +1,9 @@
 import {
-  storageContextFromDefaults,
   ContextChatEngine,
   VectorStoreIndex,
+  QdrantVectorStore,
   TogetherLLM,
+  TogetherEmbedding,
   Settings,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
@@ -25,20 +26,6 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const secondStorageContext = await storageContextFromDefaults({
-      persistDir: './storage',
-    });
-    const loadedIndex = await VectorStoreIndex.init({
-      storageContext: secondStorageContext,
-    });
-    const retriever = loadedIndex.asRetriever();
-
-    let systemPrompt = messages.find((message) => message.role === 'system')
-      ?.content as string | undefined;
-    if (!systemPrompt) {
-      systemPrompt = 'You are a chatbot specialized in Vue.js.';
-    }
-
     const togetherApiKey = useRuntimeConfig().togetherApiKey;
     let model = 'meta-llama/Llama-3-8b-chat-hf';
     if (event.context.user && (await useIsSubscribed(event.context.user))) {
@@ -48,6 +35,25 @@ export default defineEventHandler(async (event) => {
       model,
       apiKey: togetherApiKey,
     });
+    Settings.embedModel = new TogetherEmbedding({
+      model: 'togethercomputer/m2-bert-80M-2k-retrieval',
+      apiKey: togetherApiKey,
+    });
+
+    const vectorStore = new QdrantVectorStore({
+      url: 'http://localhost:6333',
+      collectionName: 'vue-docs',
+    });
+    const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
+    const retriever = loadedIndex.asRetriever();
+
+    let systemPrompt = messages.find(
+      (message) => message.role === 'system'
+    )?.content;
+    if (typeof systemPrompt !== 'string') {
+      systemPrompt = 'You are a chatbot specialized in Vue.js.';
+    }
+
     const chatEngine = new ContextChatEngine({
       retriever,
       chatModel: Settings.llm,
