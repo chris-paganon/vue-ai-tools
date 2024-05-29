@@ -1,5 +1,6 @@
 import type Stripe from 'stripe';
 import type { MenuItemCommandEvent } from 'primevue/menuitem';
+import type { ChatMessage } from 'llamaindex';
 
 export interface localSignupErrors {
   email?: string;
@@ -17,25 +18,6 @@ export type ChatCompletionMessage =
   | UserMessage
   | AssistantMessage
   | SystemMessage;
-export function isChatCompletionMessage(
-  message: any
-): message is ChatCompletionMessage {
-  return (
-    message.content &&
-    typeof message.content === 'string' &&
-    message.role &&
-    (message.role === 'system' ||
-      message.role === 'user' ||
-      message.role === 'assistant')
-  );
-}
-export function isChatCompletionMessages(
-  messages: any[]
-): messages is ChatCompletionMessage[] {
-  return messages.every(isChatCompletionMessage);
-}
-export type ThreadMessage = UserMessage | AssistantMessage;
-
 export interface UserMessage {
   role: 'user';
   content: string;
@@ -47,6 +29,27 @@ export interface AssistantMessage {
 export interface SystemMessage {
   role: 'system';
   content: string;
+}
+
+export function isChatMessage(obj: unknown): obj is ChatMessage {
+  if (
+    !obj ||
+    typeof obj !== 'object' ||
+    !('content' in obj) ||
+    !('role' in obj)
+  )
+    return false;
+
+  if (typeof obj.content !== 'string') return false;
+  if (typeof obj.role !== 'string') return false;
+  if (obj.role !== 'user' && obj.role !== 'assistant' && obj.role !== 'system')
+    return false;
+
+  return true;
+}
+export function isChatMessageArray(obj: unknown): obj is ChatMessage[] {
+  if (!Array.isArray(obj)) return false;
+  return obj.every(isChatMessage);
 }
 
 /**

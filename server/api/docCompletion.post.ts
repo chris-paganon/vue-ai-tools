@@ -3,8 +3,8 @@ import {
   ContextChatEngine,
   VectorStoreIndex,
   Settings,
-  type ChatMessage,
 } from 'llamaindex';
+import { isChatMessageArray } from '@/types/types';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -60,24 +60,3 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
-
-function isChatMessage(obj: unknown): obj is ChatMessage {
-  if (
-    !obj ||
-    typeof obj !== 'object' ||
-    !('content' in obj) ||
-    !('role' in obj)
-  )
-    return false;
-
-  if (typeof obj.content !== 'string') return false;
-  if (typeof obj.role !== 'string') return false;
-  if (obj.role !== 'user' && obj.role !== 'assistant' && obj.role !== 'system')
-    return false;
-
-  return true;
-}
-function isChatMessageArray(obj: unknown): obj is ChatMessage[] {
-  if (!Array.isArray(obj)) return false;
-  return obj.every(isChatMessage);
-}
