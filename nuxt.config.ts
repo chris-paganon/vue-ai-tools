@@ -79,6 +79,7 @@ export default defineNuxtConfig({
     // The private keys which are only available server-side
     openaiOrganization: 'org-AB12',
     openaiApiKey: 'sk-CD34',
+    togetherApiKey: 'ab12',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',

@@ -52,6 +52,24 @@ export function isChatMessageArray(obj: unknown): obj is ChatMessage[] {
   return obj.every(isChatMessage);
 }
 
+export function isChatCompletionMessage(
+  message: any
+): message is ChatCompletionMessage {
+  return (
+    message.content &&
+    typeof message.content === 'string' &&
+    message.role &&
+    (message.role === 'system' ||
+      message.role === 'user' ||
+      message.role === 'assistant')
+  );
+}
+export function isChatCompletionMessages(
+  messages: any[]
+): messages is ChatCompletionMessage[] {
+  return messages.every(isChatCompletionMessage);
+}
+
 /**
  * Stripe
  */

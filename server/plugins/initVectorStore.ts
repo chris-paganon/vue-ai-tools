@@ -3,22 +3,24 @@ import {
   SimpleDirectoryReader,
   VectorStoreIndex,
   Settings,
-  HuggingFaceEmbedding,
-  Ollama,
+  TogetherLLM,
+  TogetherEmbedding,
 } from 'llamaindex';
 
 export default defineNitroPlugin(async () => {
   console.log('Initializing VectorStoreIndex');
 
   console.log('Setting up llama3');
-  Settings.llm = new Ollama({
-    model: 'llama3',
+  const togetherApiKey = useRuntimeConfig().togetherApiKey;
+  Settings.llm = new TogetherLLM({
+    model: 'meta-llama/Llama-3-8b-chat-hf',
+    apiKey: togetherApiKey,
   });
 
   console.log('Setting up embeddings');
-  Settings.embedModel = new HuggingFaceEmbedding({
-    modelType: 'BAAI/bge-small-en-v1.5',
-    quantized: false,
+  Settings.embedModel = new TogetherEmbedding({
+    model: 'togethercomputer/m2-bert-80M-2k-retrieval',
+    apiKey: togetherApiKey,
   });
 
   console.log('Loading documents');
