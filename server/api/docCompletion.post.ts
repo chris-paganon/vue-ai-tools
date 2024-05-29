@@ -1,6 +1,10 @@
-import vueDocsIndex from '~/assets/vue-docs-index.json';
-import OpenAI from 'openai';
-import { isChatCompletionMessages, type ThreadMessage } from '~/types/types';
+import {
+  storageContextFromDefaults,
+  ContextChatEngine,
+  VectorStoreIndex,
+  Settings,
+  type ChatMessage,
+} from 'llamaindex';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,88 +16,43 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Missing messages',
     });
   }
-  if (!isChatCompletionMessages(messages)) {
+  if (!isChatMessageArray(messages)) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid messages',
     });
   }
 
-  const runtimeConfig = useRuntimeConfig();
-  let model = 'gpt-3.5-turbo';
-  if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'gpt-4o';
-  }
-
   try {
-    const openai = new OpenAI({
-      organization: runtimeConfig.openaiOrganization,
-      apiKey: runtimeConfig.openaiApiKey,
+    const secondStorageContext = await storageContextFromDefaults({
+      persistDir: './storage',
     });
+    const loadedIndex = await VectorStoreIndex.init({
+      storageContext: secondStorageContext,
+    });
+    const retriever = loadedIndex.asRetriever();
 
-    const threadMessages = messages.filter(
-      (message) => message.role !== 'system'
-    ) as ThreadMessage[];
-    const systemMessage = messages.find(
-      (message) => message.role === 'system'
-    )?.content;
-
-    const thread = await openai.beta.threads.create({
-      messages: threadMessages,
-    });
-    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-      assistant_id: 'asst_zgB5kTaei9AT4XFc13FTrwfg',
-      model,
-      instructions: systemMessage,
-    });
-    const threadResponseMessages = await openai.beta.threads.messages.list(
-      run.thread_id
-    );
-    if (threadResponseMessages.data[0].content[0].type !== 'text') {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Assistant didn't return text response.",
-      });
+    let systemPrompt = messages.find((message) => message.role === 'system')
+      ?.content as string | undefined;
+    if (!systemPrompt) {
+      systemPrompt = 'You are a chatbot specialized in Vue.js.';
     }
 
-    const assistantResponseObj = threadResponseMessages.data[0].content[0].text;
-    let assistantResponse = assistantResponseObj.value;
+    const chatEngine = new ContextChatEngine({
+      retriever,
+      chatModel: Settings.llm,
+      systemPrompt,
+    });
 
-    if (assistantResponseObj.annotations.length > 0) {
-      for (const annotation of assistantResponseObj.annotations) {
-        if (annotation.type === 'file_citation') {
-          const file = await openai.files.retrieve(
-            annotation.file_citation.file_id
-          );
-          const fileName = file.filename;
-          const fileTitle = file.filename.replace('.md', '');
-          const fileUrl = vueDocsIndex.find(
-            (docMeta) => docMeta.filename === fileName
-          )?.url;
-          if (!fileUrl) {
-            assistantResponse = assistantResponse.replace(annotation.text, '');
-            continue;
-          }
-          assistantResponse = assistantResponse.replace(
-            annotation.text,
-            ` <a href="${fileUrl}" target="_blank">[${fileTitle}]</a>`
-          );
-        }
-      }
-    }
-
-    return assistantResponse;
+    const chatHistory = messages.filter((m) => m.role !== 'system');
+    const response = await chatEngine.chat({
+      message: chatHistory[chatHistory.length - 1].content,
+      chatHistory,
+      stream: false,
+    });
+    console.log('🚀 ~ rag-chat ~ response:', response);
+    return response.response;
   } catch (error) {
-    if (error instanceof OpenAI.APIError) {
-      console.log('error: ', error.error); // Error info
-      console.log('status: ', error.status); // 400
-      console.log('error name: ', error.name); // BadRequestError
-      console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-      throw createError({
-        statusCode: error.status,
-        statusMessage: 'OpenAI API error',
-      });
-    }
     console.log('error: ', error);
     throw createError({
       statusCode: 500,
@@ -101,3 +60,24 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
+
+function isChatMessage(obj: unknown): obj is ChatMessage {
+  if (
+    !obj ||
+    typeof obj !== 'object' ||
+    !('content' in obj) ||
+    !('role' in obj)
+  )
+    return false;
+
+  if (typeof obj.content !== 'string') return false;
+  if (typeof obj.role !== 'string') return false;
+  if (obj.role !== 'user' && obj.role !== 'assistant' && obj.role !== 'system')
+    return false;
+
+  return true;
+}
+function isChatMessageArray(obj: unknown): obj is ChatMessage[] {
+  if (!Array.isArray(obj)) return false;
+  return obj.every(isChatMessage);
+}

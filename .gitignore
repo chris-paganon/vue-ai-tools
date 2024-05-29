@@ -24,6 +24,7 @@ logs
 !.env.example
 !.env.sample
 
-# Database
-pb_data
+# Data
 sqlite.db
+storage
+vue-docs
