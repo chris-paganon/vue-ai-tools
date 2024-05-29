@@ -2,6 +2,7 @@ import {
   storageContextFromDefaults,
   ContextChatEngine,
   VectorStoreIndex,
+  TogetherLLM,
   Settings,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
@@ -38,6 +39,15 @@ export default defineEventHandler(async (event) => {
       systemPrompt = 'You are a chatbot specialized in Vue.js.';
     }
 
+    const togetherApiKey = useRuntimeConfig().togetherApiKey;
+    let model = 'meta-llama/Llama-3-8b-chat-hf';
+    if (event.context.user && (await useIsSubscribed(event.context.user))) {
+      model = 'meta-llama/Llama-3-70b-chat-hf';
+    }
+    Settings.llm = new TogetherLLM({
+      model,
+      apiKey: togetherApiKey,
+    });
     const chatEngine = new ContextChatEngine({
       retriever,
       chatModel: Settings.llm,

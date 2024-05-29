@@ -3,21 +3,14 @@ import {
   SimpleDirectoryReader,
   VectorStoreIndex,
   Settings,
-  TogetherLLM,
   TogetherEmbedding,
 } from 'llamaindex';
 
 export default defineNitroPlugin(async () => {
   console.log('Initializing VectorStoreIndex');
 
-  console.log('Setting up llama3');
-  const togetherApiKey = useRuntimeConfig().togetherApiKey;
-  Settings.llm = new TogetherLLM({
-    model: 'meta-llama/Llama-3-8b-chat-hf',
-    apiKey: togetherApiKey,
-  });
-
   console.log('Setting up embeddings');
+  const togetherApiKey = useRuntimeConfig().togetherApiKey;
   Settings.embedModel = new TogetherEmbedding({
     model: 'togethercomputer/m2-bert-80M-2k-retrieval',
     apiKey: togetherApiKey,
