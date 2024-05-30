@@ -11,41 +11,45 @@ from llama_index.embeddings.together import TogetherEmbedding
 load_dotenv()
 
 docs_index = [
-  # {
-  #   "path": "vuejs/src/guide",
-  #   "base_url": "https://vuejs.org/guide"
-  # },
-  # {
-  #   "path": "vuejs/src/api",
-  #   "base_url": "https://vuejs.org/api"
-  # },
-  # {
-  #   "path": "pinia/packages/docs/core-concepts",
-  #   "base_url": "https://pinia.vuejs.org/core-concepts"
-  # },
+  {
+    "path": "vuejs/src/guide",
+    "base_url": "https://vuejs.org/guide"
+  },
+  {
+    "path": "vuejs/src/api",
+    "base_url": "https://vuejs.org/api"
+  },
+  {
+    "path": "pinia/packages/docs/core-concepts",
+    "base_url": "https://pinia.vuejs.org/core-concepts"
+  },
   {
     "path": "pinia/packages/docs/api",
     "base_url": "https://pinia.vuejs.org/api"
   },
-  # {
-  #   "path": "pinia/packages/docs/cookbook",
-  #   "base_url": "https://pinia.vuejs.org/cookbook"
-  # },
-  # {
-  #   "path": "router/packages/docs/guide",
-  #   "base_url": "https://router.vuejs.org/guide"
-  # },
-  # {
-  #   "path": "router/packages/docs/api",
-  #   "base_url": "https://router.vuejs.org/api"
-  # }
+  {
+    "path": "pinia/packages/docs/cookbook",
+    "base_url": "https://pinia.vuejs.org/cookbook"
+  },
+  {
+    "path": "router/packages/docs/guide",
+    "base_url": "https://router.vuejs.org/guide"
+  },
+  {
+    "path": "router/packages/docs/api",
+    "base_url": "https://router.vuejs.org/api"
+  }
 ]
 
 def add_url_meta(file_path):
   for doc_index in docs_index:
     if doc_index['path'] in file_path:
+      relative_path = file_path.split(doc_index['path'])[1]
+      file_extension = relative_path.split('.')[-1]
+      relative_url_path = relative_path.replace('.' + file_extension, '')
+
       return {
-        "url": doc_index['base_url'] + file_path.split(doc_index['path'])[1]
+        "url": doc_index['base_url'] + relative_url_path
       }
   return {}
 
@@ -86,5 +90,9 @@ def build_index():
       documents,
       storage_context=storage_context,
     )
+
+    print('Index built successfully for', doc_index['path'])
+
+  print('Full index built successfully')
 
 build_index()
