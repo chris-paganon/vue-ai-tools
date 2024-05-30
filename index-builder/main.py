@@ -11,34 +11,34 @@ from llama_index.embeddings.together import TogetherEmbedding
 load_dotenv()
 
 docs_index = [
-  {
-    "path": "vuejs/src/guide",
-    "base_url": "https://vuejs.org/guide"
-  },
-  {
-    "path": "vuejs/src/api",
-    "base_url": "https://vuejs.org/api"
-  },
-  {
-    "path": "pinia/packages/docs/core-concepts",
-    "base_url": "https://pinia.vuejs.org/core-concepts"
-  },
+  # {
+  #   "path": "vuejs/src/guide",
+  #   "base_url": "https://vuejs.org/guide"
+  # },
+  # {
+  #   "path": "vuejs/src/api",
+  #   "base_url": "https://vuejs.org/api"
+  # },
+  # {
+  #   "path": "pinia/packages/docs/core-concepts",
+  #   "base_url": "https://pinia.vuejs.org/core-concepts"
+  # },
   {
     "path": "pinia/packages/docs/api",
     "base_url": "https://pinia.vuejs.org/api"
   },
-  {
-    "path": "pinia/packages/docs/cookbook",
-    "base_url": "https://pinia.vuejs.org/cookbook"
-  },
-  {
-    "path": "router/packages/docs/guide",
-    "base_url": "https://router.vuejs.org/guide"
-  },
-  {
-    "path": "router/packages/docs/api",
-    "base_url": "https://router.vuejs.org/api"
-  }
+  # {
+  #   "path": "pinia/packages/docs/cookbook",
+  #   "base_url": "https://pinia.vuejs.org/cookbook"
+  # },
+  # {
+  #   "path": "router/packages/docs/guide",
+  #   "base_url": "https://router.vuejs.org/guide"
+  # },
+  # {
+  #   "path": "router/packages/docs/api",
+  #   "base_url": "https://router.vuejs.org/api"
+  # }
 ]
 
 def add_url_meta(file_path):
@@ -50,8 +50,16 @@ def add_url_meta(file_path):
   return {}
 
 def build_index():
-  print("Building index")
+  print("Initializing index builder")
+  db_client = qdrant_client.QdrantClient(
+    host="vector-db",
+    port=6333
+  )
 
+  if db_client.collection_exists("vue-docs"):
+    print("Collection already exists, skipping index building")
+    return
+  
   Settings.embed_model = TogetherEmbedding(
     model_name="togethercomputer/m2-bert-80M-2k-retrieval",
     api_key=os.getenv('NUXT_TOGETHER_API_KEY')
@@ -65,11 +73,6 @@ def build_index():
       file_metadata=add_url_meta
     )
     documents = reader.load_data()
-
-    db_client = qdrant_client.QdrantClient(
-      host="vector-db",
-      port=6333
-    )
 
     print('Creating vector store')
     vector_store = QdrantVectorStore(
