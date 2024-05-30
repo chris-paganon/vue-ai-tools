@@ -28,6 +28,7 @@ services:
       context: ./index-builder
     volumes:
       - ./index-builder:/usr/src/app
+    env_file: ./.env
     depends_on:
       healthcheck:
         condition: service_healthy

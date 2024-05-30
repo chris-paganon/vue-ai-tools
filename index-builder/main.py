@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv, dotenv_values
 
 import qdrant_client
 from llama_index.core import Settings
@@ -6,9 +7,8 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core import StorageContext
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.embeddings.together import TogetherEmbedding
-# from dotenv import load_dotenv, dotenv_values
 
-# load_dotenv()
+load_dotenv()
 
 docs_index = [
   {
@@ -54,7 +54,7 @@ def build_index():
 
   Settings.embed_model = TogetherEmbedding(
     model_name="togethercomputer/m2-bert-80M-2k-retrieval",
-    api_key=""
+    api_key=os.getenv('NUXT_TOGETHER_API_KEY')
   )
 
   for doc_index in docs_index:

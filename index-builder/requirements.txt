@@ -58,6 +58,7 @@ pydantic==2.7.2
 pydantic_core==2.18.3
 pypdf==4.2.0
 python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
 pytz==2024.1
 PyYAML==6.0.1
 qdrant-client==1.9.1
