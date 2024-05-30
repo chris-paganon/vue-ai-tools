@@ -23,6 +23,7 @@ logs
 *.env
 !.env.example
 !.env.sample
+.venv
 
 # Data
 sqlite.db
