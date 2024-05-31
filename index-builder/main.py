@@ -84,7 +84,7 @@ def build_index():
     port=6333
   )
 
-  if db_client.collection_exists("vue-docs"):
+  if db_client.collection_exists(os.getenv('NUXT_VUE_DOCS_INDEX_NAME')):
     print("Collection already exists, skipping index building")
     return
   
@@ -93,30 +93,29 @@ def build_index():
     api_key=os.getenv('NUXT_TOGETHER_API_KEY')
   )
 
+  documents = []
   for doc_index in docs_index:
-    print('Building index for', doc_index['path'])
+    print('Building documents for', doc_index['path'])
     reader = SimpleDirectoryReader(
       input_dir=doc_index['path'],
       recursive=True,
       file_metadata=add_url_meta
     )
-    documents = reader.load_data()
+    documents += reader.load_data()
+    print('Documents built successfully for', doc_index['path'])
 
-    print('Creating vector store')
-    vector_store = QdrantVectorStore(
-      client=db_client, 
-      collection_name="vue-docs"
-    )
-    storage_context = StorageContext.from_defaults(vector_store=vector_store)
+  print('Creating vector store')
+  vector_store = QdrantVectorStore(
+    client=db_client, 
+    collection_name=os.getenv('NUXT_VUE_DOCS_INDEX_NAME')
+  )
+  storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
-    print('Indexing documents')
-    index = VectorStoreIndex.from_documents(
-      documents,
-      storage_context=storage_context,
-    )
-
-    print('Index built successfully for', doc_index['path'])
-
+  print('Indexing documents')
+  index = VectorStoreIndex.from_documents(
+    documents,
+    storage_context=storage_context,
+  )
   print('Full index built successfully')
 
 build_index()
