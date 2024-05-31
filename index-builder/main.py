@@ -102,7 +102,8 @@ def build_index():
     reader = SimpleDirectoryReader(
       input_dir=doc_index['path'],
       recursive=True,
-      file_metadata=add_url_meta
+      file_metadata=add_url_meta,
+      required_exts=[".md", ".html", ".css", ".js", ".ts", ".vue"]
     )
     documents += reader.load_data()
     print('Documents built successfully for', doc_index['path'])
@@ -118,6 +119,7 @@ def build_index():
   index = VectorStoreIndex.from_documents(
     documents,
     storage_context=storage_context,
+    show_progress=True
   )
   print('Full index built successfully')
 
