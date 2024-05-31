@@ -1,12 +1,15 @@
 import os
 from dotenv import load_dotenv, dotenv_values
 
-import qdrant_client
-from llama_index.core import Settings
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader  
-from llama_index.core import StorageContext
-from llama_index.vector_stores.qdrant import QdrantVectorStore
+from llama_index.core import (
+  Settings,
+  VectorStoreIndex,
+  SimpleDirectoryReader,
+  StorageContext
+)
 from llama_index.embeddings.together import TogetherEmbedding
+import qdrant_client
+from llama_index.vector_stores.qdrant import QdrantVectorStore
 
 load_dotenv()
 
