@@ -81,6 +81,7 @@ export default defineNuxtConfig({
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',
+    vueDocsIndexName: 'vue-docs',
     public: {
       environment: 'dev',
       publicFolderUrl: 'http://localhost:3000/_nuxt',

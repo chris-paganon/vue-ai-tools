@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const togetherApiKey = useRuntimeConfig().togetherApiKey;
+    const runtimeConfig = useRuntimeConfig();
+    const togetherApiKey = runtimeConfig.togetherApiKey;
     let model = 'meta-llama/Llama-3-8b-chat-hf';
     if (event.context.user && (await useIsSubscribed(event.context.user))) {
       model = 'meta-llama/Llama-3-70b-chat-hf';
@@ -40,9 +41,10 @@ export default defineEventHandler(async (event) => {
       apiKey: togetherApiKey,
     });
 
+    const vueDocsIndexName = runtimeConfig.vueDocsIndexName;
     const vectorStore = new QdrantVectorStore({
       url: 'http://localhost:6333',
-      collectionName: 'vue-docs',
+      collectionName: vueDocsIndexName,
     });
     const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
     const retriever = loadedIndex.asRetriever();
@@ -70,8 +72,9 @@ export default defineEventHandler(async (event) => {
     let responseMessage = response;
     if (sourceNodes) {
       sourceNodes.forEach((source) => {
-        if (source.node.metadata.file_name) {
-          responseMessage += `\n\n Reference: ${source.node.metadata.file_name}`;
+        console.log("🚀 ~ sourceNodes.forEach ~ source:", source)
+        if (source.node.metadata.url) {
+          responseMessage += `\n\n Reference: <a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a>`;
         }
       });
     }

@@ -13,31 +13,52 @@ load_dotenv()
 docs_index = [
   {
     "path": "vuejs/src/guide",
-    "base_url": "https://vuejs.org/guide"
+    "base_url": "https://vuejs.org/guide",
+    "library": "vuejs",
+    "library_description": "Main VueJS framework",
+    "directory_description": "Main documentation for VueJS"
   },
   {
     "path": "vuejs/src/api",
-    "base_url": "https://vuejs.org/api"
+    "base_url": "https://vuejs.org/api",
+    "library": "vuejs",
+    "library_description": "Main VueJS framework",
+    "directory_description": "VueJS API Reference"
   },
   {
     "path": "pinia/packages/docs/core-concepts",
-    "base_url": "https://pinia.vuejs.org/core-concepts"
+    "base_url": "https://pinia.vuejs.org/core-concepts",
+    "library": "pinia",
+    "library_description": "State Management for VueJS",
+    "directory_description": "Pinia core concepts main documentation"
   },
   {
     "path": "pinia/packages/docs/api",
-    "base_url": "https://pinia.vuejs.org/api"
+    "base_url": "https://pinia.vuejs.org/api",
+    "library": "pinia",
+    "library_description": "State Management for VueJS",
+    "directory_description": "Pinia API Reference"
   },
   {
     "path": "pinia/packages/docs/cookbook",
-    "base_url": "https://pinia.vuejs.org/cookbook"
+    "base_url": "https://pinia.vuejs.org/cookbook",
+    "library": "pinia",
+    "library_description": "State Management for VueJS",
+    "directory_description": "Pinia code examples"
   },
   {
     "path": "router/packages/docs/guide",
-    "base_url": "https://router.vuejs.org/guide"
+    "base_url": "https://router.vuejs.org/guide",
+    "library": "vue-router",
+    "library_description": "Official Router for VueJS",
+    "directory_description": "Vue Router main documentation"
   },
   {
     "path": "router/packages/docs/api",
-    "base_url": "https://router.vuejs.org/api"
+    "base_url": "https://router.vuejs.org/api",
+    "library": "vue-router",
+    "library_description": "Official Router for VueJS",
+    "directory_description": "Vue Router API Reference"
   }
 ]
 
@@ -49,7 +70,10 @@ def add_url_meta(file_path):
       relative_url_path = relative_path.replace('.' + file_extension, '')
 
       return {
-        "url": doc_index['base_url'] + relative_url_path
+        "url": doc_index['base_url'] + relative_url_path,
+        "library": doc_index['library'],
+        "library_description": doc_index['library_description'],
+        "directory_description": doc_index['directory_description'],
       }
   return {}
 
