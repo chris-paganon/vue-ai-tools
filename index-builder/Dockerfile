@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV NUXT_TOGETHER_API_KEY="your-api-key"
 ENV NUXT_VUE_DOCS_INDEX_NAME="vue-docs"
 
-CMD [ "python", "./main.py" ]
+CMD [ "python", "-u", "./main.py" ]
