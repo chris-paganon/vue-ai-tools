@@ -7,10 +7,6 @@ services:
       - '6333:6333'
     volumes:
       - vector-db-data:/var/lib/qdrant
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333"]
-      interval: 5s
-      start_period: 10s
   
   healthcheck:
     image: curlimages/curl:latest
