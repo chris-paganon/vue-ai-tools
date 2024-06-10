@@ -82,6 +82,7 @@ export default defineNuxtConfig({
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',
     vueDocsIndexName: 'vue-docs',
+    vectorStoreUrl: 'http://localhost:6333',
     public: {
       environment: 'dev',
       publicFolderUrl: 'http://localhost:3000/_nuxt',

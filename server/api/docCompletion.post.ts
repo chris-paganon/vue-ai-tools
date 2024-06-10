@@ -42,8 +42,9 @@ export default defineEventHandler(async (event) => {
     });
 
     const vueDocsIndexName = runtimeConfig.vueDocsIndexName;
+    const vectorStoreUrl = runtimeConfig.vectorStoreUrl;
     const vectorStore = new QdrantVectorStore({
-      url: 'http://localhost:6333',
+      url: vectorStoreUrl,
       collectionName: vueDocsIndexName,
     });
     const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
