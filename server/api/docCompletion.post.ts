@@ -73,7 +73,7 @@ export default defineEventHandler(async (event) => {
     let responseMessage = response;
     if (sourceNodes) {
       sourceNodes.forEach((source) => {
-        console.log("🚀 ~ sourceNodes.forEach ~ source:", source)
+        console.log('🚀 ~ sourceNodes.forEach ~ source:', source);
         if (source.node.metadata.url) {
           responseMessage += `\n\n Reference: <a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a>`;
         }
