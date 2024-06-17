@@ -2,7 +2,6 @@ import {
   ContextChatEngine,
   VectorStoreIndex,
   QdrantVectorStore,
-  TogetherEmbedding,
   Settings,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
@@ -26,7 +25,6 @@ export default defineEventHandler(async (event) => {
 
   try {
     const runtimeConfig = useRuntimeConfig();
-    const togetherApiKey = runtimeConfig.togetherApiKey;
     let model: 'command-r' | 'command-r-plus' = 'command-r';
     if (event.context.user && (await useIsSubscribed(event.context.user))) {
       model = 'command-r-plus';
@@ -35,9 +33,8 @@ export default defineEventHandler(async (event) => {
       model,
       apiKey: runtimeConfig.cohereApiKey,
     });
-    Settings.embedModel = new TogetherEmbedding({
-      model: 'togethercomputer/m2-bert-80M-2k-retrieval',
-      apiKey: togetherApiKey,
+    Settings.embedModel = new CohereEmbedding({
+      apiKey: runtimeConfig.cohereApiKey,
     });
 
     const vueDocsIndexName = runtimeConfig.vueDocsIndexName;
