@@ -53,19 +53,21 @@ export function isChatMessageArray(obj: unknown): obj is ChatMessage[] {
 }
 
 export function isChatCompletionMessage(
-  message: any
+  message: unknown
 ): message is ChatCompletionMessage {
   return (
-    message.content &&
+    typeof message === 'object' &&
+    message !== null &&
+    'content' in message &&
     typeof message.content === 'string' &&
-    message.role &&
+    'role' in message &&
     (message.role === 'system' ||
       message.role === 'user' ||
       message.role === 'assistant')
   );
 }
 export function isChatCompletionMessages(
-  messages: any[]
+  messages: unknown[]
 ): messages is ChatCompletionMessage[] {
   return messages.every(isChatCompletionMessage);
 }
