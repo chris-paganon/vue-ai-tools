@@ -71,12 +71,18 @@ export default defineEventHandler(async (event) => {
 
     let responseMessage = response;
     if (sourceNodes) {
+      responseMessage += '<p>References:<ul>';
+      const existingUrls: string[] = [];
       sourceNodes.forEach((source) => {
-        console.log('🚀 ~ sourceNodes.forEach ~ source:', source);
-        if (source.node.metadata.url) {
-          responseMessage += `\n\n Reference: <a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a>`;
+        if (
+          source.node.metadata.url &&
+          !existingUrls.includes(source.node.metadata.url)
+        ) {
+          responseMessage += `<li><a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a></li>`;
+          existingUrls.push(source.node.metadata.url);
         }
       });
+      responseMessage += '</ul></p>';
     }
     return responseMessage;
   } catch (error) {
