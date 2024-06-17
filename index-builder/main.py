@@ -7,7 +7,7 @@ from llama_index.core import (
   SimpleDirectoryReader,
   StorageContext
 )
-from llama_index.embeddings.together import TogetherEmbedding
+from llama_index.embeddings.cohere import CohereEmbedding
 import qdrant_client
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 
@@ -91,11 +91,6 @@ def build_index():
     print("Collection already exists, skipping index building")
     return
   
-  Settings.embed_model = TogetherEmbedding(
-    model_name="togethercomputer/m2-bert-80M-2k-retrieval",
-    api_key=os.getenv('NUXT_TOGETHER_API_KEY')
-  )
-
   documents = []
   for doc_index in docs_index:
     print('Building documents for', doc_index['path'])
@@ -116,9 +111,16 @@ def build_index():
   storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
   print('Indexing documents')
+  embed_model = CohereEmbedding(
+    model_name="embed-english-v3.0",
+    api_key=os.getenv('NUXT_COHERE_API_KEY'),
+    input_type="search_document",
+    embedding_type="float",
+  )
   index = VectorStoreIndex.from_documents(
     documents,
     storage_context=storage_context,
+    embed_model=embed_model,
     show_progress=True
   )
   print('Full index built successfully')
