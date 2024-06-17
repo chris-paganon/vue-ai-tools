@@ -2,7 +2,6 @@ import {
   ContextChatEngine,
   VectorStoreIndex,
   QdrantVectorStore,
-  TogetherLLM,
   TogetherEmbedding,
   Settings,
 } from 'llamaindex';
@@ -28,13 +27,13 @@ export default defineEventHandler(async (event) => {
   try {
     const runtimeConfig = useRuntimeConfig();
     const togetherApiKey = runtimeConfig.togetherApiKey;
-    let model = 'meta-llama/Llama-3-8b-chat-hf';
+    let model: 'command-r' | 'command-r-plus' = 'command-r';
     if (event.context.user && (await useIsSubscribed(event.context.user))) {
-      model = 'meta-llama/Llama-3-70b-chat-hf';
+      model = 'command-r-plus';
     }
-    Settings.llm = new TogetherLLM({
+    Settings.llm = new CohereLLM({
       model,
-      apiKey: togetherApiKey,
+      apiKey: runtimeConfig.cohereApiKey,
     });
     Settings.embedModel = new TogetherEmbedding({
       model: 'togethercomputer/m2-bert-80M-2k-retrieval',
