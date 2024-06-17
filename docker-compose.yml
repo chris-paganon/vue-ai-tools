@@ -7,20 +7,20 @@ services:
       - '6333:6333'
     volumes:
       - vector-db-data:/var/lib/qdrant
-  
+
   healthcheck:
     image: curlimages/curl:latest
-    entrypoint: ["/bin/sh", "-c", "--", "sleep 40;"]
+    entrypoint: ['/bin/sh', '-c', '--', 'sleep 40;']
     depends_on:
       - vector-db
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://vector-db:6333/readyz"]
-      interval: 10s
+      test: ['CMD', 'curl', '-f', 'http://vector-db:6333/readyz']
+      interval: 2s
       timeout: 2s
       retries: 3
-  
+
   index-builder:
-    build: 
+    build:
       context: ./index-builder
     volumes:
       - ./index-builder:/usr/src/app
