@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+import { CohereClient } from 'cohere-ai';
 import { isChatCompletionMessages } from '~/types/types';
 
 export default defineEventHandler(async (event) => {
@@ -20,38 +20,44 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let model = 'meta-llama/Llama-3-8b-chat-hf';
+  let model: 'command-r' | 'command-r-plus' = 'command-r';
   if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'meta-llama/Llama-3-70b-chat-hf';
+    model = 'command-r-plus';
   }
 
-  const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
-    model,
-    temperature: 0.4,
-    messages,
-  };
+  const chatHistory = messages.slice(0, -1).map((message) => {
+    let cohereRole: 'USER' | 'CHATBOT' | 'SYSTEM' = 'USER';
+    switch (message.role) {
+      case 'user':
+        cohereRole = 'USER';
+        break;
+      case 'assistant':
+        cohereRole = 'CHATBOT';
+        break;
+      case 'system':
+        cohereRole = 'SYSTEM';
+        break;
+    }
 
-  const runtimeConfig = useRuntimeConfig();
+    return {
+      message: message.content,
+      role: cohereRole,
+    };
+  });
 
   try {
-    const openai = new OpenAI({
-      apiKey: runtimeConfig.togetherApiKey,
-      baseURL: 'https://api.together.xyz/v1',
+    const runtimeConfig = useRuntimeConfig();
+    const cohere = new CohereClient({
+      token: runtimeConfig.cohereApiKey,
     });
-    const completion = await openai.chat.completions.create(data);
-    if (completion.choices.length === 0) return;
-    return completion.choices;
+    const response = await cohere.chat({
+      model,
+      chatHistory,
+      message: messages[messages.length - 1].content,
+    });
+
+    return response.text;
   } catch (error) {
-    if (error instanceof OpenAI.APIError) {
-      console.log('error: ', error.error); // Error info
-      console.log('status: ', error.status); // 400
-      console.log('error name: ', error.name); // BadRequestError
-      console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-      throw createError({
-        statusCode: error.status,
-        statusMessage: 'OpenAI API error',
-      });
-    }
     console.log('error: ', error);
     throw createError({
       statusCode: 500,
