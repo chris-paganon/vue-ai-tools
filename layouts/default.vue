@@ -54,8 +54,8 @@ onMounted(() => {
   if (!shownPaidFeatureToast.value && isSubscribed.value) {
     toast.add({
       severity: 'info',
-      summary: 'GPT -4o',
-      detail: 'You are now using GPT-4o! Thank you for subscribing.',
+      summary: 'Command R+',
+      detail: 'You are now using Command R+! Thank you for subscribing.',
     });
     setShownPaidFeatureToast(true);
   }
