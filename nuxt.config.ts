@@ -43,6 +43,7 @@ export default defineNuxtConfig({
         'Dialog',
         'Divider',
         'Image',
+        'Inplace',
         'InputOtp',
         'InputText',
         'Menu',
@@ -77,11 +78,12 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     // The private keys which are only available server-side
-    openaiOrganization: 'org-AB12',
-    openaiApiKey: 'sk-CD34',
+    cohereApiKey: 'ab12',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',
+    vueDocsIndexName: 'vue-docs',
+    vectorStoreUrl: 'http://localhost:6333',
     public: {
       environment: 'dev',
       publicFolderUrl: 'http://localhost:3000/_nuxt',

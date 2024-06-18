@@ -1,6 +1,10 @@
-import vueDocsIndex from '~/assets/vue-docs-index.json';
-import OpenAI from 'openai';
-import { isChatCompletionMessages, type ThreadMessage } from '~/types/types';
+import {
+  ContextChatEngine,
+  VectorStoreIndex,
+  QdrantVectorStore,
+  Settings,
+} from 'llamaindex';
+import { isChatMessageArray } from '@/types/types';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -12,88 +16,73 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Missing messages',
     });
   }
-  if (!isChatCompletionMessages(messages)) {
+  if (!isChatMessageArray(messages)) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Invalid messages',
     });
   }
 
-  const runtimeConfig = useRuntimeConfig();
-  let model = 'gpt-3.5-turbo';
-  if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'gpt-4o';
-  }
-
   try {
-    const openai = new OpenAI({
-      organization: runtimeConfig.openaiOrganization,
-      apiKey: runtimeConfig.openaiApiKey,
+    const runtimeConfig = useRuntimeConfig();
+    let model: 'command-r' | 'command-r-plus' = 'command-r';
+    if (event.context.user && (await useIsSubscribed(event.context.user))) {
+      model = 'command-r-plus';
+    }
+    Settings.llm = new CohereLLM({
+      model,
+      apiKey: runtimeConfig.cohereApiKey,
+    });
+    Settings.embedModel = new CohereEmbedding({
+      apiKey: runtimeConfig.cohereApiKey,
     });
 
-    const threadMessages = messages.filter(
-      (message) => message.role !== 'system'
-    ) as ThreadMessage[];
-    const systemMessage = messages.find(
+    const vueDocsIndexName = runtimeConfig.vueDocsIndexName;
+    const vectorStoreUrl = runtimeConfig.vectorStoreUrl;
+    const vectorStore = new QdrantVectorStore({
+      url: vectorStoreUrl,
+      collectionName: vueDocsIndexName,
+    });
+    const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
+    const retriever = loadedIndex.asRetriever();
+
+    let systemPrompt = messages.find(
       (message) => message.role === 'system'
     )?.content;
-
-    const thread = await openai.beta.threads.create({
-      messages: threadMessages,
-    });
-    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-      assistant_id: 'asst_zgB5kTaei9AT4XFc13FTrwfg',
-      model,
-      instructions: systemMessage,
-    });
-    const threadResponseMessages = await openai.beta.threads.messages.list(
-      run.thread_id
-    );
-    if (threadResponseMessages.data[0].content[0].type !== 'text') {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Assistant didn't return text response.",
-      });
+    if (typeof systemPrompt !== 'string') {
+      systemPrompt = 'You are a chatbot specialized in Vue.js.';
     }
 
-    const assistantResponseObj = threadResponseMessages.data[0].content[0].text;
-    let assistantResponse = assistantResponseObj.value;
+    const chatEngine = new ContextChatEngine({
+      retriever,
+      chatModel: Settings.llm,
+      systemPrompt,
+    });
 
-    if (assistantResponseObj.annotations.length > 0) {
-      for (const annotation of assistantResponseObj.annotations) {
-        if (annotation.type === 'file_citation') {
-          const file = await openai.files.retrieve(
-            annotation.file_citation.file_id
-          );
-          const fileName = file.filename;
-          const fileTitle = file.filename.replace('.md', '');
-          const fileUrl = vueDocsIndex.find(
-            (docMeta) => docMeta.filename === fileName
-          )?.url;
-          if (!fileUrl) {
-            assistantResponse = assistantResponse.replace(annotation.text, '');
-            continue;
-          }
-          assistantResponse = assistantResponse.replace(
-            annotation.text,
-            ` <a href="${fileUrl}" target="_blank">[${fileTitle}]</a>`
-          );
+    const chatHistory = messages.filter((m) => m.role !== 'system');
+    const { response, sourceNodes } = await chatEngine.chat({
+      message: chatHistory[chatHistory.length - 1].content,
+      chatHistory,
+      stream: false,
+    });
+
+    let responseMessage = response;
+    if (sourceNodes) {
+      responseMessage += '<p>References:<ul>';
+      const existingUrls: string[] = [];
+      sourceNodes.forEach((source) => {
+        if (
+          source.node.metadata.url &&
+          !existingUrls.includes(source.node.metadata.url)
+        ) {
+          responseMessage += `<li><a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a></li>`;
+          existingUrls.push(source.node.metadata.url);
         }
-      }
-    }
-
-    return assistantResponse;
-  } catch (error) {
-    if (error instanceof OpenAI.APIError) {
-      console.log('error: ', error.error); // Error info
-      console.log('status: ', error.status); // 400
-      console.log('error name: ', error.name); // BadRequestError
-      console.log('error headers: ', error.headers); // {server: 'nginx', ...}
-      throw createError({
-        statusCode: error.status,
-        statusMessage: 'OpenAI API error',
       });
+      responseMessage += '</ul></p>';
     }
+    return responseMessage;
+  } catch (error) {
     console.log('error: ', error);
     throw createError({
       statusCode: 500,
