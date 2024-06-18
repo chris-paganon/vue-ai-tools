@@ -3,7 +3,10 @@
     <h2>Subscription</h2>
     <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
       <p>
-        <strong>Subscribe now to get GPT-4o responses instead of GPT-3.</strong>
+        <strong
+          >Subscribe now to get Command R+ responses instead of Command
+          R.</strong
+        >
       </p>
       <ul>
         <li>More accurate answers</li>
@@ -21,7 +24,7 @@
       <p>
         <strong>
           Thank you for your subscription! All your requests are now
-          automatically using GPT-4o.
+          automatically using Command R+.
         </strong>
       </p>
       <template
