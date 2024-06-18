@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nuxt-app:
     container_name: ${COMPOSE_PROJECT_NAME}-nuxt-app
