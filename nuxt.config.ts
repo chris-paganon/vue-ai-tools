@@ -43,6 +43,7 @@ export default defineNuxtConfig({
         'Dialog',
         'Divider',
         'Image',
+        'Inplace',
         'InputOtp',
         'InputText',
         'Menu',
