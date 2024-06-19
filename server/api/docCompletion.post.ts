@@ -3,6 +3,7 @@ import {
   VectorStoreIndex,
   QdrantVectorStore,
   Settings,
+  SimilarityPostprocessor,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
 
@@ -31,6 +32,7 @@ export default defineEventHandler(async (event) => {
     }
     Settings.llm = new CohereLLM({
       model,
+      temperature: 0.6,
       apiKey: runtimeConfig.cohereApiKey,
     });
     Settings.embedModel = new CohereEmbedding({
@@ -45,7 +47,10 @@ export default defineEventHandler(async (event) => {
     });
     const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
     const retriever = loadedIndex.asRetriever({
-      topK: { TEXT: 6, IMAGE: 0 },
+      topK: { TEXT: 3, IMAGE: 0 },
+    });
+    const postProcessor = new SimilarityPostprocessor({
+      similarityCutoff: 0.35,
     });
 
     let systemPrompt = messages.find(
@@ -57,6 +62,7 @@ export default defineEventHandler(async (event) => {
 
     const chatEngine = new ContextChatEngine({
       retriever,
+      nodePostprocessors: [postProcessor],
       chatModel: Settings.llm,
       systemPrompt,
     });
