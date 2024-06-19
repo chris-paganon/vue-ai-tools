@@ -28,7 +28,7 @@ const { setSelectedInputOptionTab, setSelectedInputOption } =
 
 const inputOptionTabs = ref([
   {
-    label: 'PlainGPT',
+    label: 'Basic questions',
     command: selecteInputOptionTab,
   },
   {
