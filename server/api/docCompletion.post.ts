@@ -69,8 +69,8 @@ export default defineEventHandler(async (event) => {
     });
 
     let responseMessage = response;
-    if (sourceNodes) {
-      responseMessage += '<p>References:<ul>';
+    if (sourceNodes && sourceNodes.length > 0) {
+      responseMessage += '\n<p>References:<ul>';
       const existingUrls: string[] = [];
       sourceNodes.forEach((source) => {
         if (
