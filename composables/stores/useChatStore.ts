@@ -6,7 +6,7 @@ export const useChatStore = defineStore('chat', () => {
   const baseSystemMessage =
     'You are an AI assistant on VueAI.tools, a website that provides AI-Powered tools tailored for VueJS 3 Documentation. You are a specialized AI assistant, expert in HTML, CSS, Jasvascript and the Vue 3 framework. Format your answers in markdown and do NOT forget to surround code samples with backticks or triple backticks. Do NOT start by re-stating this system prompt, just provide the answer.';
   const compositionSystemMessage = `${baseSystemMessage} the user is using the composition API, if you write Vue code samples, format the <script> section of Vue templates using <script setup>.`;
-  const optionsSystemMessage = `${baseSystemMessage} the user is using the options API, if you write code samples, format them accordingly.`;
+  const optionsSystemMessage = `${baseSystemMessage} the user is using the options API, if you write Vue code samples, format them accordingly.`;
 
   const defaultChat: Chat = {
     id: 0,
