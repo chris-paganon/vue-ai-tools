@@ -44,7 +44,9 @@ export default defineEventHandler(async (event) => {
       collectionName: vueDocsIndexName,
     });
     const loadedIndex = await VectorStoreIndex.fromVectorStore(vectorStore);
-    const retriever = loadedIndex.asRetriever();
+    const retriever = loadedIndex.asRetriever({
+      topK: { TEXT: 6, IMAGE: 0 },
+    });
 
     let systemPrompt = messages.find(
       (message) => message.role === 'system'
