@@ -4,8 +4,8 @@
     <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
       <p>
         <strong
-          >Subscribe now to get Command R+ responses instead of Command
-          R.</strong
+          >Subscribe to get futur access to Deepseek Coder 128k token context
+          length (currently limited to 32k).</strong
         >
       </p>
       <ul>

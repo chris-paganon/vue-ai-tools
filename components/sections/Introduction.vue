@@ -23,14 +23,18 @@
             >LlamaIndex</NuxtLink
           >
           and
-          <NuxtLink to="https://cohere.com/" target="_blank">Cohere's</NuxtLink>
-          Command R to construct a
+          <NuxtLink to="https://www.deepseek.com/" target="_blank"
+            >DeepSeek's</NuxtLink
+          >
+          DeepSeek-Coder-V2 to construct a
           <strong>RAG (Retrieval Augmented Generation) model</strong>. It is fed
           directly with the Vue, Pinia, and Vue Router documentations.
           LlamaIndex operates on this server with a Qdrant vector DB to
           <strong>retrieve pertinent documentation</strong> snippets using
-          Cohere Embed. The base models are ran through the Cohere API but they
-          (Command R & Embed) can easlily be replaced by
+          <NuxtLink to="https://cohere.com/embed" target="_blank"
+            >Cohere Embed</NuxtLink
+          >. The base model runs through the Deepseek API but it (DeepSeek-Coder
+          & Embed) can easlily be replaced by
           <strong>other local or remote models</strong>. See the
           <NuxtLink
             to="https://github.com/chris-paganon/vue-ai-tools"
@@ -65,8 +69,8 @@
           >
             <Divider />
             <p>
-              Subscribe to get Command R+ responses instead of Command R
-              (similar to going from GPT 3.5 turbo to GPT-4).
+              Subscribe to get futur access to Deepseek Coder 128k token context
+              length (currently limited to 32k).
             </p>
             <NuxtLink to="/account">
               <Button label="Subscribe now" class="w-full" />

@@ -54,8 +54,9 @@ onMounted(() => {
   if (!shownPaidFeatureToast.value && isSubscribed.value) {
     toast.add({
       severity: 'info',
-      summary: 'Command R+',
-      detail: 'You are now using Command R+! Thank you for subscribing.',
+      summary: 'Thank you',
+      detail:
+        '128k context length will be available soon! Thank you for subscribing.',
     });
     setShownPaidFeatureToast(true);
   }
