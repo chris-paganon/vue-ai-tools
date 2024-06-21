@@ -79,6 +79,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // The private keys which are only available server-side
     cohereApiKey: 'ab12',
+    deepseekApiKey: 'ab12',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',

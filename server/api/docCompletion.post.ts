@@ -26,14 +26,14 @@ export default defineEventHandler(async (event) => {
 
   try {
     const runtimeConfig = useRuntimeConfig();
-    let model: 'command-r' | 'command-r-plus' = 'command-r';
+    let model = 'deepseek-coder';
     if (event.context.user && (await useIsSubscribed(event.context.user))) {
-      model = 'command-r-plus';
+      model = 'deepseek-coder';
     }
-    Settings.llm = new CohereLLM({
+    Settings.llm = new DeepseekLLM({
       model,
       temperature: 0.6,
-      apiKey: runtimeConfig.cohereApiKey,
+      apiKey: runtimeConfig.deepseekApiKey,
     });
     Settings.embedModel = new CohereEmbedding({
       apiKey: runtimeConfig.cohereApiKey,
