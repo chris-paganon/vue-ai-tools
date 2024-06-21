@@ -22,13 +22,6 @@ docs_index = [
     "directory_description": "Main documentation for VueJS"
   },
   {
-    "path": "vuejs/src/api",
-    "base_url": "https://vuejs.org/api",
-    "library": "vuejs",
-    "library_description": "Main VueJS framework",
-    "directory_description": "VueJS API Reference"
-  },
-  {
     "path": "pinia/packages/docs/core-concepts",
     "base_url": "https://pinia.vuejs.org/core-concepts",
     "library": "pinia",
@@ -36,32 +29,11 @@ docs_index = [
     "directory_description": "Pinia core concepts main documentation"
   },
   {
-    "path": "pinia/packages/docs/api",
-    "base_url": "https://pinia.vuejs.org/api",
-    "library": "pinia",
-    "library_description": "State Management for VueJS",
-    "directory_description": "Pinia API Reference"
-  },
-  {
-    "path": "pinia/packages/docs/cookbook",
-    "base_url": "https://pinia.vuejs.org/cookbook",
-    "library": "pinia",
-    "library_description": "State Management for VueJS",
-    "directory_description": "Pinia code examples"
-  },
-  {
     "path": "router/packages/docs/guide",
     "base_url": "https://router.vuejs.org/guide",
     "library": "vue-router",
     "library_description": "Official Router for VueJS",
     "directory_description": "Vue Router main documentation"
-  },
-  {
-    "path": "router/packages/docs/api",
-    "base_url": "https://router.vuejs.org/api",
-    "library": "vue-router",
-    "library_description": "Official Router for VueJS",
-    "directory_description": "Vue Router API Reference"
   }
 ]
 
@@ -98,7 +70,7 @@ def build_index():
       input_dir=doc_index['path'],
       recursive=True,
       file_metadata=add_url_meta,
-      required_exts=[".md", ".html", ".css", ".js", ".ts", ".vue"]
+      required_exts=[".md"]
     )
     documents += reader.load_data()
     print('Documents built successfully for', doc_index['path'])
