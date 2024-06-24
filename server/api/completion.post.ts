@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     });
     const completion = await openai.chat.completions.create(data);
     if (completion.choices.length === 0) return;
-    return completion.choices;
+    return completion.choices[0].message.content;
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       console.log('error: ', error.error); // Error info
