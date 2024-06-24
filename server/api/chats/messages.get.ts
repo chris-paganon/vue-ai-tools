@@ -1,4 +1,4 @@
-import { eq, desc } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { chatsTable, chatMessagesTable } from '@/db/schema/chatSchema';
 import type { Chat } from '@/types/types';
 
@@ -17,7 +17,7 @@ export default eventHandler(async (event) => {
     .from(chatsTable)
     .leftJoin(chatMessagesTable, eq(chatsTable.id, chatMessagesTable.chatId))
     .where(eq(chatsTable.userId, user.id))
-    .orderBy(desc(chatsTable.id), chatMessagesTable.id);
+    .orderBy(chatMessagesTable.id);
 
   const groupedChats = dbChats.reduce((acc: Chat[], chatRow) => {
     if (!chatRow.chat_message) return acc;
