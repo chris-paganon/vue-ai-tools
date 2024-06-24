@@ -26,6 +26,7 @@ const items = computed<MenuItem[] | undefined>(() => {
           setCurrentChatIndex(index);
         },
       };
-    });
+    })
+    .reverse();
 });
 </script>
