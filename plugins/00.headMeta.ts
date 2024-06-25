@@ -16,8 +16,8 @@ export default defineNuxtPlugin(() => {
   useSeoMeta({
     title: 'VueAI.tools',
     ogTitle: 'VueAI.tools',
-    description: 'GPT-Powered Assistant for VueJS Documentation',
-    ogDescription: 'GPT-Powered Assistant for VueJS Documentation',
+    description: 'AI Assistant for VueJS Documentation',
+    ogDescription: 'AI Assistant for VueJS Documentation',
     ogImage: `${publicFolderUrl}/img/Hero-banner_midjourney.png`,
   });
 });

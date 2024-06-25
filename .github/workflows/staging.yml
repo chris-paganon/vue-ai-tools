@@ -2,9 +2,6 @@ on:
   push:
     branches:
       - stage
-  pull_request:
-    branches:
-      - stage
 jobs:
   build-nuxt:
     uses: ./.github/workflows/deploy-nuxt-app.yml

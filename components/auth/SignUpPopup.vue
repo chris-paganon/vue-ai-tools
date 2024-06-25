@@ -10,7 +10,7 @@
       <template #header>
         <div>
           <h4>Sign Up</h4>
-          <p>Create an account to save your conversations with chat GPT.</p>
+          <p>Create an account to save your conversations with our AI.</p>
         </div>
       </template>
       <form class="flex flex-column gap-4" @submit="signUp">

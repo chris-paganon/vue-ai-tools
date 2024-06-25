@@ -20,14 +20,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let model = 'gpt-3.5-turbo';
+  let model = 'deepseek-coder';
   if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'gpt-4o';
+    model = 'deepseek-coder';
   }
 
   const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
     model,
-    temperature: 0.4,
+    temperature: 0.6,
     messages,
   };
 
@@ -35,12 +35,12 @@ export default defineEventHandler(async (event) => {
 
   try {
     const openai = new OpenAI({
-      organization: runtimeConfig.openaiOrganization,
-      apiKey: runtimeConfig.openaiApiKey,
+      apiKey: runtimeConfig.deepseekApiKey,
+      baseURL: 'https://api.deepseek.com/v1',
     });
     const completion = await openai.chat.completions.create(data);
     if (completion.choices.length === 0) return;
-    return completion.choices;
+    return completion.choices[0].message.content;
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       console.log('error: ', error.error); // Error info

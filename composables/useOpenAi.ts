@@ -18,11 +18,11 @@ export async function useAskQuestion() {
 
   const response = await useCompletion(messages.value);
 
-  if (!response?.[0].message?.content) {
+  if (!response) {
     console.log('No response from useAskQuestion');
     return;
   }
-  return response[0].message.content;
+  return response;
 }
 
 export async function useAskAssistant() {
