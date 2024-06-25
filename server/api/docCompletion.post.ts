@@ -6,6 +6,7 @@ import {
   SimilarityPostprocessor,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
+import type { User } from 'lucia';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -26,18 +27,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const runtimeConfig = useRuntimeConfig();
-    let model = 'deepseek-coder';
-    if (event.context.user && (await useIsSubscribed(event.context.user))) {
-      model = 'deepseek-coder';
-    }
-    Settings.llm = new DeepseekLLM({
-      model,
-      temperature: 0.6,
-      apiKey: runtimeConfig.deepseekApiKey,
-    });
-    Settings.embedModel = new CohereEmbedding({
-      apiKey: runtimeConfig.cohereApiKey,
-    });
+    await setLlamaindexSettings(event.context.user);
 
     const vueDocsIndexName = runtimeConfig.vueDocsIndexName;
     const vectorStoreUrl = runtimeConfig.vectorStoreUrl;
@@ -98,3 +88,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
+
+async function setLlamaindexSettings(user: User | null) {
+  const runtimeConfig = useRuntimeConfig();
+  let model = 'deepseek-coder';
+  if (user && (await useIsSubscribed(user))) {
+    model = 'deepseek-coder';
+  }
+
+  Settings.llm = new DeepseekLLM({
+    model,
+    temperature: 0.6,
+    apiKey: runtimeConfig.deepseekApiKey,
+  });
+  Settings.embedModel = new CohereEmbedding({
+    apiKey: runtimeConfig.cohereApiKey,
+  });
+
+  return Settings;
+}
