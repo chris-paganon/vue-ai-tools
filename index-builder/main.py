@@ -1,13 +1,13 @@
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 
 from llama_index.core import (
-  Settings,
   VectorStoreIndex,
   SimpleDirectoryReader,
   StorageContext
 )
 from llama_index.embeddings.cohere import CohereEmbedding
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 import qdrant_client
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 
@@ -52,11 +52,25 @@ def add_url_meta(file_path):
       }
   return {}
 
+def get_embed_model():
+  if (os.getenv('NUXT_AI_ENVIRONMENT') == 'local'):
+    print("Using local embedding model")
+    return HuggingFaceEmbedding(
+      model_name="BAAI/bge-small-en-v1.5"
+    )
+  
+  print("Using remote Cohere embedding model")
+  return CohereEmbedding(
+    model_name="embed-english-v3.0",
+    api_key=os.getenv('NUXT_COHERE_API_KEY'),
+    input_type="search_document",
+    embedding_type="float",
+  )
+
 def build_index():
   print("Initializing index builder")
   db_client = qdrant_client.QdrantClient(
-    host="vector-db",
-    port=6333
+    url="http://localhost:6333",
   )
 
   if db_client.collection_exists(os.getenv('NUXT_VUE_DOCS_INDEX_NAME')):
@@ -83,13 +97,8 @@ def build_index():
   storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
   print('Indexing documents')
-  embed_model = CohereEmbedding(
-    model_name="embed-english-v3.0",
-    api_key=os.getenv('NUXT_COHERE_API_KEY'),
-    input_type="search_document",
-    embedding_type="float",
-  )
-  index = VectorStoreIndex.from_documents(
+  embed_model = get_embed_model()
+  VectorStoreIndex.from_documents(
     documents,
     storage_context=storage_context,
     embed_model=embed_model,
