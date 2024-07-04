@@ -7,7 +7,7 @@ services:
       args:
         APP_ENV: ${APP_ENV}
     env_file: nuxter-config/nuxt-app.${APP_ENV}.env
-    restart: unless-stopped
+    restart: always
     volumes:
       - .output.${APP_ENV}/server/db:/opt/nuxter/.output/server/db
     networks:
@@ -17,6 +17,7 @@ services:
   vector-db:
     container_name: ${COMPOSE_PROJECT_NAME}-vector-db
     image: qdrant/qdrant
+    restart: always
     volumes:
       - vector-db-data:/var/lib/qdrant
     networks:
