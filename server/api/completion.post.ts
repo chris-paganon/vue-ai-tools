@@ -69,8 +69,9 @@ async function remoteChatCompletion(event: H3Event, messages: ChatCompletionMess
 }
 
 async function localChatCompletion(messages: ChatCompletionMessage[]) {
+  const runtimeConfig = useRuntimeConfig()
   const response = await ollama.chat({
-    model: 'llama3:instruct',
+    model: runtimeConfig.localLlmModel,
     messages,
   })
   return response.message.content;

@@ -81,6 +81,8 @@ export default defineNuxtConfig({
     aiEnvironment: 'remote',
     cohereApiKey: 'ab12',
     deepseekApiKey: 'ab12',
+    localLlmModel: 'llama3:instruct',
+    localEmbedModel: 'BAAI/bge-small-en-v1.5',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
     sendgridApiKey: 'SG.12ab',

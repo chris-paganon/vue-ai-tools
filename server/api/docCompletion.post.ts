@@ -96,10 +96,10 @@ async function setLlamaindexSettings(user: User | null) {
 
   if (runtimeConfig.aiEnvironment === 'local') {
     Settings.llm = new Ollama({
-      model: 'llama3:instruct',
+      model: runtimeConfig.localLlmModel,
     });
     Settings.embedModel = new HuggingFaceEmbedding({
-      modelType: 'BAAI/bge-small-en-v1.5',
+      modelType: runtimeConfig.localEmbedModel,
       quantized: false,
     });
     return Settings;

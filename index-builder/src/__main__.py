@@ -57,7 +57,7 @@ def get_embed_model():
   if (os.getenv('NUXT_AI_ENVIRONMENT') == 'local'):
     print("Using local embedding model")
     return HuggingFaceEmbedding(
-      model_name="BAAI/bge-small-en-v1.5"
+      model_name=os.getenv('NUXT_LOCAL_EMBEDDING_MODEL'),
     )
   
   print("Using remote Cohere embedding model")
