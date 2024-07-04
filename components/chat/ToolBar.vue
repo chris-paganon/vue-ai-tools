@@ -5,7 +5,7 @@
     class="border-top-1 border-500"
   />
   <div class="options-wrapper text-left p-3">
-    <div v-if="selectedInputOptionTab.label === 'PlainGPT'">
+    <div v-if="selectedInputOptionTab.label === 'Basic questions'">
       <p>Simply talk to chatGPT</p>
     </div>
     <div v-else-if="selectedInputOptionTab.label === 'VueJS'">
@@ -43,8 +43,8 @@ function selecteInputOptionTab(event: MenuItemCommandEvent) {
   if (typeof event.item.label !== 'string') return;
   setSelectedInputOptionTab(event.item.label, inputOptionTabs.value);
 
-  if (event.item.label === 'PlainGPT') {
-    setSelectedInputOption('PlainGPT');
+  if (event.item.label === 'Basic questions') {
+    setSelectedInputOption('Basic questions');
   } else if (event.item.label === 'VueJS') {
     setSelectedInputOption('Composition API');
   }
