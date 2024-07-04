@@ -3,6 +3,8 @@ import {
   VectorStoreIndex,
   QdrantVectorStore,
   Settings,
+  Ollama,
+  HuggingFaceEmbedding,
   SimilarityPostprocessor,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
@@ -91,6 +93,18 @@ export default defineEventHandler(async (event) => {
 
 async function setLlamaindexSettings(user: User | null) {
   const runtimeConfig = useRuntimeConfig();
+
+  if (runtimeConfig.aiEnvironment === 'local') {
+    Settings.llm = new Ollama({
+      model: 'llama3:instruct',
+    });
+    Settings.embedModel = new HuggingFaceEmbedding({
+      modelType: 'BAAI/bge-small-en-v1.5',
+      quantized: false,
+    });
+    return Settings;
+  }
+
   let model = 'deepseek-coder';
   if (user && (await useIsSubscribed(user))) {
     model = 'deepseek-coder';
