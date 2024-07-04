@@ -1,13 +1,14 @@
 import os
-from dotenv import load_dotenv, dotenv_values
+from pathlib import Path
+from dotenv import load_dotenv
 
 from llama_index.core import (
-  Settings,
   VectorStoreIndex,
   SimpleDirectoryReader,
   StorageContext
 )
 from llama_index.embeddings.cohere import CohereEmbedding
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 import qdrant_client
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 
@@ -15,21 +16,21 @@ load_dotenv()
 
 docs_index = [
   {
-    "path": "vuejs/src/guide",
+    "path": "src/vuejs/src/guide",
     "base_url": "https://vuejs.org/guide",
     "library": "vuejs",
     "library_description": "Main VueJS framework",
     "directory_description": "Main documentation for VueJS"
   },
   {
-    "path": "pinia/packages/docs/core-concepts",
+    "path": "src/pinia/packages/docs/core-concepts",
     "base_url": "https://pinia.vuejs.org/core-concepts",
     "library": "pinia",
     "library_description": "State Management for VueJS",
     "directory_description": "Pinia core concepts main documentation"
   },
   {
-    "path": "router/packages/docs/guide",
+    "path": "src/router/packages/docs/guide",
     "base_url": "https://router.vuejs.org/guide",
     "library": "vue-router",
     "library_description": "Official Router for VueJS",
@@ -52,12 +53,40 @@ def add_url_meta(file_path):
       }
   return {}
 
+def get_embed_model():
+  if (os.getenv('NUXT_AI_ENVIRONMENT') == 'local'):
+    print("Using local embedding model")
+    return HuggingFaceEmbedding(
+      model_name=os.getenv('NUXT_LOCAL_EMBEDDING_MODEL'),
+    )
+  
+  print("Using remote Cohere embedding model")
+  return CohereEmbedding(
+    model_name="embed-english-v3.0",
+    api_key=os.getenv('NUXT_COHERE_API_KEY'),
+    input_type="search_document",
+    embedding_type="float",
+  )
+
+def is_docker():
+  cgroup = Path('/proc/self/cgroup')
+  return Path('/.dockerenv').is_file() or cgroup.is_file() and 'docker' in cgroup.read_text()
+
+def get_db_client():
+  if is_docker():
+    print("Connecting to Qdrant from inside docker")
+    return qdrant_client.QdrantClient(
+      url="http://vector-db:6333",
+    )
+
+  print("Connecting to Qdrant from outside docker")
+  return qdrant_client.QdrantClient(
+    url="http://localhost:6333",
+  )
+
 def build_index():
   print("Initializing index builder")
-  db_client = qdrant_client.QdrantClient(
-    host="vector-db",
-    port=6333
-  )
+  db_client = get_db_client()
 
   if db_client.collection_exists(os.getenv('NUXT_VUE_DOCS_INDEX_NAME')):
     print("Collection already exists, skipping index building")
@@ -83,13 +112,8 @@ def build_index():
   storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
   print('Indexing documents')
-  embed_model = CohereEmbedding(
-    model_name="embed-english-v3.0",
-    api_key=os.getenv('NUXT_COHERE_API_KEY'),
-    input_type="search_document",
-    embedding_type="float",
-  )
-  index = VectorStoreIndex.from_documents(
+  embed_model = get_embed_model()
+  VectorStoreIndex.from_documents(
     documents,
     storage_context=storage_context,
     embed_model=embed_model,

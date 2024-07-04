@@ -42,7 +42,7 @@ async function askInputQuestion() {
     setOptionsIndexSystemMessage,
   } = useChatStore();
   switch (selectedInputOption.value) {
-    case 'PlainGPT':
+    case 'Basic questions':
       setPlainGptSystemMessage();
       return await useAskQuestion();
     case 'Composition API':

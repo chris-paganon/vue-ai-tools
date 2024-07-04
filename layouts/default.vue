@@ -5,12 +5,21 @@
     <AuthLoginPopup />
     <AuthSignUpPopup />
     <div v-if="!isVerified" class="bg-primary py-1">
-      <p class="text-center">
+      <p v-if="isSignedIn" class="text-center">
         Please
         <span class="underline cursor-pointer" @click="verifyEmail"
           >click here</span
         >
         to verify your email.
+      </p>
+      <p v-else class="text-center">
+        You are not logged in. Please
+        <span
+          class="underline cursor-pointer"
+          @click="setIsLoginModalOpened(true)"
+          >log in</span
+        >
+        to use this page.
       </p>
     </div>
     <div class="grid min-h-screen mt-0">
@@ -32,7 +41,7 @@
           class="flex justify-content-between align-items-center md:justify-content-end py-2 md:py-4"
         >
           <AppLogo class="md:hidden" />
-          <SimpleMenu class="hidden md:block" />
+          <SimpleMenu class="hidden md:flex" />
           <MobileMenu class="block md:hidden" />
         </header>
         <main class="flex-grow-1">
@@ -46,8 +55,8 @@
 
 <script setup lang="ts">
 const { showSidebar, shownPaidFeatureToast } = storeToRefs(useUIStore());
-const { setShownPaidFeatureToast } = useUIStore();
-const { isSubscribed, isVerified } = storeToRefs(useAuthStore());
+const { setShownPaidFeatureToast, setIsLoginModalOpened } = useUIStore();
+const { isSubscribed, isVerified, isSignedIn } = storeToRefs(useAuthStore());
 const toast = useToast();
 
 onMounted(() => {
