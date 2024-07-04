@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 from llama_index.core import (
@@ -15,21 +16,21 @@ load_dotenv()
 
 docs_index = [
   {
-    "path": "vuejs/src/guide",
+    "path": "src/vuejs/src/guide",
     "base_url": "https://vuejs.org/guide",
     "library": "vuejs",
     "library_description": "Main VueJS framework",
     "directory_description": "Main documentation for VueJS"
   },
   {
-    "path": "pinia/packages/docs/core-concepts",
+    "path": "src/pinia/packages/docs/core-concepts",
     "base_url": "https://pinia.vuejs.org/core-concepts",
     "library": "pinia",
     "library_description": "State Management for VueJS",
     "directory_description": "Pinia core concepts main documentation"
   },
   {
-    "path": "router/packages/docs/guide",
+    "path": "src/router/packages/docs/guide",
     "base_url": "https://router.vuejs.org/guide",
     "library": "vue-router",
     "library_description": "Official Router for VueJS",
@@ -67,11 +68,25 @@ def get_embed_model():
     embedding_type="float",
   )
 
-def build_index():
-  print("Initializing index builder")
-  db_client = qdrant_client.QdrantClient(
+def is_docker():
+  cgroup = Path('/proc/self/cgroup')
+  return Path('/.dockerenv').is_file() or cgroup.is_file() and 'docker' in cgroup.read_text()
+
+def get_db_client():
+  if is_docker():
+    print("Connecting to Qdrant from inside docker")
+    return qdrant_client.QdrantClient(
+      url="http://vector-db:6333",
+    )
+
+  print("Connecting to Qdrant from outside docker")
+  return qdrant_client.QdrantClient(
     url="http://localhost:6333",
   )
+
+def build_index():
+  print("Initializing index builder")
+  db_client = get_db_client()
 
   if db_client.collection_exists(os.getenv('NUXT_VUE_DOCS_INDEX_NAME')):
     print("Collection already exists, skipping index building")
