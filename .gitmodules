@@ -1,9 +1,9 @@
 [submodule "index-builder/router"]
-	path = index-builder/router
+	path = index-builder/src/router
 	url = https://github.com/vuejs/router.git
 [submodule "index-builder/vuejs"]
-	path = index-builder/vuejs
+	path = index-builder/src/vuejs
 	url = https://github.com/vuejs/docs.git
 [submodule "index-builder/pinia"]
-	path = index-builder/pinia
+	path = index-builder/src/pinia
 	url = https://github.com/vuejs/pinia.git
