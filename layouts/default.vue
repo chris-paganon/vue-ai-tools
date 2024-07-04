@@ -41,7 +41,7 @@
           class="flex justify-content-between align-items-center md:justify-content-end py-2 md:py-4"
         >
           <AppLogo class="md:hidden" />
-          <SimpleMenu class="hidden md:block" />
+          <SimpleMenu class="hidden md:flex" />
           <MobileMenu class="block md:hidden" />
         </header>
         <main class="flex-grow-1">
