@@ -1,63 +1,48 @@
-# Nuxt 3 Minimal Starter
+# VueAI.tools
+Your go-to resource for AI tools tailored specifically for VueJS. The open source AI assistant uses the Vue documentation to provide more helpful answers, **links to the docs** and to **minimize errors and hallucinations**. The perfect assistant to **help you start** your VueJS journey.
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Local installation
+These are the instructions to install the VueAI.tools web app locally, **including a local AI model & embeddings**. To install on remote server and to use remote AI models, embeddings, email server, etc... there would be additional steps.
 
-## Setup
+### Prerequisites
+- Node.js 20
+- Docker & docker compose
+- Ollama
+    - Instal following the instructions: https://ollama.com/
+    - Pull the llama3:instruct model: `ollama pull llama3:instruct`
 
-Make sure to install the dependencies:
+### Basic installation
+1. Clone the repository: `git clone --recurse-submodules https://github.com/chris-paganon/vue-ai-tools.git`.
+2. Change directory: `cd vue-ai-tools`.
+3. Install dependencies: `npm install`.
+4. Copy the `.env.example` file to `.env` (the default values should work for local development).
+5. Start the docker containers: `docker-compose up --build -d` and wait for the index to build.
+6. Start the development server: `npm run dev`.
+7. Open your browser and navigate to `http://localhost:3000`
 
-```bash
-# npm
-npm install
+#### Optional: Build the index outside docker
+If you would like to build the local vector index from python directly instead of python inside docker (if you are having trouble with python & GPU inside docker for example).
 
-# pnpm
-pnpm install
+**Building the index is not so computationally expensive, so you shouldn't need to do this**, even if you can't get your GPU working with docker. This should only be necessary for faster development of the index builder or if you want to build the index from more sources using a more powerful embedding model.
 
-# yarn
-yarn install
-```
+1st, you will need to intall the following dependencies on your computer:
+- Python
+- Python poetry
 
-## Development Server
+Then to build the index outside docker, follow these steps:
+- Comment out the `index-builder` & `healthcheck` services in the `docker-compose.yml` file.
+- Start the Qdrant vector database: `docker-compose up -d`.
+- Change directory to the `index-builder` folder: `cd index-builder`.
+- Install the python dependencies: `poetry install`.
+- Run the index builder: `poetry run python src`.
 
-Start the development server on `http://localhost:3000`:
+#### Where is the data stored?
+The chat history is stored in a SQLite database in the `db/sqlite.db` file.
 
-```bash
-# npm
-npm run dev
+#### Optional: User creation
+To easily access existing chats, you may want to create a user. You can simply do so by using the sign up button. However, if you don't set a sendgrid API key, you won't be able to receive the confirmation email. This won't prevent you from using the app, but you will get a message in the top bar. 
 
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+If you want to get rid of the message without connecting to an external email API, you have to manually confirm the user in the database:
+- download sqlitebrowser: https://sqlitebrowser.org/
+- open the `db/sqlite.db` file with sqlitebrowser.
+- go to the `user` table and set `email_verified` to `1` for your newly created user.
