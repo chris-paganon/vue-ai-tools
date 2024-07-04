@@ -20,6 +20,8 @@ These are the instructions to install the VueAI.tools web app locally, **includi
 6. Start the development server: `npm run dev`.
 7. Open your browser and navigate to `http://localhost:3000`
 
+This is it, you should now have the VueAI.tools web app running locally. You can start chatting with your fully local VueJS AI assistant. no data is sent to external servers.
+
 #### Optional: Build the index outside docker
 If you would like to build the local vector index from python directly instead of python inside docker (if you are having trouble with python & GPU inside docker for example).
 
@@ -36,9 +38,6 @@ Then to build the index outside docker, follow these steps:
 - Install the python dependencies: `poetry install`.
 - Run the index builder: `poetry run python src`.
 
-#### Where is the data stored?
-The chat history is stored in a SQLite database in the `db/sqlite.db` file.
-
 #### Optional: User creation
 To easily access existing chats, you may want to create a user. You can simply do so by using the sign up button. However, if you don't set a sendgrid API key, you won't be able to receive the confirmation email. This won't prevent you from using the app, but you will get a message in the top bar. 
 
@@ -46,3 +45,22 @@ If you want to get rid of the message without connecting to an external email AP
 - download sqlitebrowser: https://sqlitebrowser.org/
 - open the `db/sqlite.db` file with sqlitebrowser.
 - go to the `user` table and set `email_verified` to `1` for your newly created user.
+
+### Where is the data stored?
+The chat history is stored in a SQLite database in the `db/sqlite.db` file. Use sqlitebrowser or similar to view the data.
+
+### Use different AI models
+
+#### LLM
+You can simply change the environment variables in the `.env` file to use different AI models. The default LLM model is `llama3:instruct` and the default embedding model is `BAAI/bge-small-en-v1.5`.
+
+To use a different LLM model, make sure to pull the model with `ollama pull <model>` and then set the `NUXT_LOCAL_LLM_MODEL` environment variable to the model name in the `.env` file. The model should be one of the available models in the `ollama` tool: https://ollama.com/library. Otherwise follow Ollama instructions to add an other model.
+
+#### Embeddings
+To use a different embedding model, set the `NUXT_LOCAL_EMBEDDING_MODEL` environment variable to the model name in the `.env` file. The model should be one of the available `sentence-transformers` models in the Huggingface library: https://huggingface.co/models?library=sentence-transformers. Otherwise follow the LlamaIndex instructions to use an other model: https://docs.llamaindex.ai/en/stable/examples/embeddings/huggingface/.
+
+**Important**: You need to rebuild the index if you change the embedding model. To do so:
+- Make sure the Qdrant vector database is running: `docker-compose up -d`.
+- Open the Qdrant dashboard: `http://localhost:6333/dashboard`.
+- Delete the existing `vue-docs` index.
+- Rebuild the index, either by rebulding & restarting the `index-builder` service in the `docker-compose.yml` file or by running the index builder outside docker with python poetry.
