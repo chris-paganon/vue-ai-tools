@@ -5,7 +5,7 @@
       source AI assistant uses the Vue documentation to provide more helpful
       answers, <strong>links to the docs</strong> and to
       <strong>minimize errors and hallucinations</strong>. The perfect assistant
-      to <strong>help you start</strong> you VueJS journey.
+      to <strong>help you start</strong> your VueJS journey.
     </p>
     <Inplace
       class="my-4 flex justify-content-center"

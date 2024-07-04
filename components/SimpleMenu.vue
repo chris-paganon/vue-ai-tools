@@ -1,5 +1,11 @@
 <template>
-  <nav>
+  <nav class="flex flex-row gap-4">
+    <NuxtLink
+      to="https://github.com/chris-paganon/vue-ai-tools/"
+      target="_blank"
+    >
+      <Button icon="pi pi-github" rounded text size="large" />
+    </NuxtLink>
     <AuthLoginButtons />
     <div v-if="isSignedIn" class="flex align-items-center gap-4">
       <Button link class="px-0" @click="logout">Log out</Button>

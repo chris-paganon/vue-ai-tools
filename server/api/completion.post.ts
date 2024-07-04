@@ -1,5 +1,7 @@
 import OpenAI from 'openai';
-import { isChatCompletionMessages } from '~/types/types';
+import ollama from 'ollama';
+import { isChatCompletionMessages, type ChatCompletionMessage } from '~/types/types';
+import type { H3Event } from 'h3';
 
 export default defineEventHandler(async (event) => {
   console.log('completion request received');
@@ -20,27 +22,12 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  let model = 'deepseek-coder';
-  if (event.context.user && (await useIsSubscribed(event.context.user))) {
-    model = 'deepseek-coder';
-  }
-
-  const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
-    model,
-    temperature: 0.6,
-    messages,
-  };
-
-  const runtimeConfig = useRuntimeConfig();
-
   try {
-    const openai = new OpenAI({
-      apiKey: runtimeConfig.deepseekApiKey,
-      baseURL: 'https://api.deepseek.com/v1',
-    });
-    const completion = await openai.chat.completions.create(data);
-    if (completion.choices.length === 0) return;
-    return completion.choices[0].message.content;
+    const runtimeConfig = useRuntimeConfig();
+    if (runtimeConfig.aiEnvironment === 'local') {
+      return await localChatCompletion(messages);
+    }
+    return await remoteChatCompletion(event, messages);
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       console.log('error: ', error.error); // Error info
@@ -59,3 +46,33 @@ export default defineEventHandler(async (event) => {
     });
   }
 });
+
+async function remoteChatCompletion(event: H3Event, messages: ChatCompletionMessage[]) {
+  let model = 'deepseek-coder';
+  if (event.context.user && (await useIsSubscribed(event.context.user))) {
+    model = 'deepseek-coder';
+  }
+  const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
+    model,
+    temperature: 0.6,
+    messages,
+  };
+
+  const runtimeConfig = useRuntimeConfig()
+  const openai = new OpenAI({
+    apiKey: runtimeConfig.deepseekApiKey,
+    baseURL: 'https://api.deepseek.com/v1',
+  });
+  const completion = await openai.chat.completions.create(data);
+  if (completion.choices.length === 0) return;
+  return completion.choices[0].message.content;
+}
+
+async function localChatCompletion(messages: ChatCompletionMessage[]) {
+  const runtimeConfig = useRuntimeConfig()
+  const response = await ollama.chat({
+    model: runtimeConfig.localLlmModel,
+    messages,
+  })
+  return response.message.content;
+}

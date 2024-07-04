@@ -41,6 +41,7 @@
     "marked": "^5.1.2",
     "nuxt": "^3.11.2",
     "nuxt-security": "^1.4.3",
+    "ollama": "^0.5.2",
     "oslo": "^1.2.0",
     "pinia": "^2.1.7",
     "primeicons": "^6.0.1",
