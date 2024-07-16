@@ -1,6 +1,9 @@
 import OpenAI from 'openai';
 import ollama from 'ollama';
-import { isChatCompletionMessages, type ChatCompletionMessage } from '~/types/types';
+import {
+  isChatCompletionMessages,
+  type ChatCompletionMessage,
+} from '~/types/types';
 import type { H3Event } from 'h3';
 
 export default defineEventHandler(async (event) => {
@@ -47,7 +50,10 @@ export default defineEventHandler(async (event) => {
   }
 });
 
-async function remoteChatCompletion(event: H3Event, messages: ChatCompletionMessage[]) {
+async function remoteChatCompletion(
+  event: H3Event,
+  messages: ChatCompletionMessage[]
+) {
   let model = 'deepseek-coder';
   if (event.context.user && (await useIsSubscribed(event.context.user))) {
     model = 'deepseek-coder';
@@ -58,7 +64,7 @@ async function remoteChatCompletion(event: H3Event, messages: ChatCompletionMess
     messages,
   };
 
-  const runtimeConfig = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig();
   const openai = new OpenAI({
     apiKey: runtimeConfig.deepseekApiKey,
     baseURL: 'https://api.deepseek.com/v1',
@@ -69,10 +75,10 @@ async function remoteChatCompletion(event: H3Event, messages: ChatCompletionMess
 }
 
 async function localChatCompletion(messages: ChatCompletionMessage[]) {
-  const runtimeConfig = useRuntimeConfig()
+  const runtimeConfig = useRuntimeConfig();
   const response = await ollama.chat({
     model: runtimeConfig.localLlmModel,
     messages,
-  })
+  });
   return response.message.content;
 }
