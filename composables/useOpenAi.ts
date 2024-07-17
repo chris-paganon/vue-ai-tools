@@ -1,13 +1,11 @@
 import type { ChatCompletionMessage } from '@/types/types';
-
 export async function useCompletion(messages: ChatCompletionMessage[]) {
   // TODO: Add error handling. $fetch needs to be wrapped in a try/catch block. throw createError needs to be added in API. Do the same for all other API endpoints.
-  const response = await $fetch('/api/completion', {
+  const response = await $fetch<ReadableStream>('/api/completion', {
     method: 'POST',
     body: { messages },
+    responseType: 'stream',
   });
-
-  // TODO: handle errors
 
   if (!response) return;
   return response;

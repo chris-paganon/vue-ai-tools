@@ -58,10 +58,11 @@ async function remoteChatCompletion(
   if (event.context.user && (await useIsSubscribed(event.context.user))) {
     model = 'deepseek-coder';
   }
-  const data: OpenAI.Chat.ChatCompletionCreateParamsNonStreaming = {
+  const data: OpenAI.Chat.ChatCompletionCreateParamsStreaming = {
     model,
     temperature: 0.6,
     messages,
+    stream: true,
   };
 
   const runtimeConfig = useRuntimeConfig();
@@ -69,9 +70,24 @@ async function remoteChatCompletion(
     apiKey: runtimeConfig.deepseekApiKey,
     baseURL: 'https://api.deepseek.com/v1',
   });
-  const completion = await openai.chat.completions.create(data);
-  if (completion.choices.length === 0) return;
-  return completion.choices[0].message.content;
+  const response = await openai.chat.completions.create(data);
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const part of response) {
+        if (part.choices) {
+          for (const choice of part.choices) {
+            if (choice.delta.content === null) continue;
+            controller.enqueue(choice.delta.content);
+          }
+        }
+        if (part.choices.length === 0) {
+          controller.close();
+        }
+      }
+      controller.close();
+    },
+  });
+  return stream;
 }
 
 async function localChatCompletion(messages: ChatCompletionMessage[]) {
@@ -79,6 +95,20 @@ async function localChatCompletion(messages: ChatCompletionMessage[]) {
   const response = await ollama.chat({
     model: runtimeConfig.localLlmModel,
     messages,
+    stream: true,
   });
-  return response.message.content;
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const part of response) {
+        if (part.message?.content) {
+          controller.enqueue(part.message.content);
+        }
+        if (part.done) {
+          controller.close();
+        }
+      }
+      controller.close();
+    },
+  });
+  return stream;
 }
