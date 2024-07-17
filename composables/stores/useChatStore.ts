@@ -113,6 +113,34 @@ export const useChatStore = defineStore('chat', () => {
       content: message,
     });
   }
+  async function streamAssistantMessage(stream: ReadableStream) {
+    const chatMessagesLength = chats.value[
+      currentChatIndex.value
+    ].messages.push({ role: 'assistant', content: '' });
+
+    const decoder = new TextDecoder('utf-8');
+    const reader = stream.getReader();
+    const read = async (): Promise<void> => {
+      const { done, value } = await reader.read();
+      if (done) {
+        return;
+      }
+      chats.value[currentChatIndex.value].messages[
+        chatMessagesLength - 1
+      ].content += decoder.decode(value);
+      // We keep reading until the stream is done
+      return read();
+    };
+    await read();
+
+    useHandleChatDb(
+      chats.value[currentChatIndex.value].messages[chatMessagesLength - 1],
+      currentChatId.value,
+      currentChatName.value
+    ).then((id) => {
+      setCurrentChatId(id);
+    });
+  }
 
   const chatsLoaded = ref(false);
   function setChatsLoaded(value: boolean) {
@@ -146,6 +174,7 @@ export const useChatStore = defineStore('chat', () => {
     addUserMessage,
     setMessages,
     addAssistantMessage,
+    streamAssistantMessage,
     getChatsFromDb,
   };
 });

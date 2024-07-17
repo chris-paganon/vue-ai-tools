@@ -30,7 +30,7 @@ const props = defineProps({
 
 const toast = useToast();
 const { setIsChatOpened } = useUIStore();
-const { addUserMessage, addAssistantMessage } = useChatStore();
+const { addUserMessage, streamAssistantMessage } = useChatStore();
 const { inputQuestion, isWaitingAnswer, selectedInputOption } =
   storeToRefs(useChatInputStore());
 const { setInputQuestion, setIsWaitingAnswer } = useChatInputStore();
@@ -72,12 +72,11 @@ async function askQuestion(event?: KeyboardEvent) {
   setIsWaitingAnswer(true);
   setInputQuestion('');
   try {
-    const assistantAnswer = await askInputQuestion();
-    if (!assistantAnswer) {
+    const streamedAssistantAnswer = await askInputQuestion();
+    if (!streamedAssistantAnswer) {
       throw new Error('No answer from the assistant');
     }
-
-    addAssistantMessage(assistantAnswer);
+    streamAssistantMessage(streamedAssistantAnswer);
   } catch (_) {
     toast.add({
       severity: 'error',

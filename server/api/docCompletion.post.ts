@@ -6,6 +6,8 @@ import {
   Ollama,
   HuggingFaceEmbedding,
   SimilarityPostprocessor,
+  type NodeWithScore,
+  type Metadata,
 } from 'llamaindex';
 import { isChatMessageArray } from '@/types/types';
 import type { User } from 'lucia';
@@ -60,28 +62,30 @@ export default defineEventHandler(async (event) => {
     });
 
     const chatHistory = messages.filter((m) => m.role !== 'system');
-    const { response, sourceNodes } = await chatEngine.chat({
+    const chatResponse = await chatEngine.chat({
       message: chatHistory[chatHistory.length - 1].content,
       chatHistory,
-      stream: false,
+      stream: true,
     });
 
-    let responseMessage = response;
-    if (sourceNodes && sourceNodes.length > 0) {
-      responseMessage += '\n<p>References:<ul>';
-      const existingUrls: string[] = [];
-      sourceNodes.forEach((source) => {
-        if (
-          source.node.metadata.url &&
-          !existingUrls.includes(source.node.metadata.url)
-        ) {
-          responseMessage += `<li><a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a></li>`;
-          existingUrls.push(source.node.metadata.url);
+    const stream = new ReadableStream({
+      async start(controller) {
+        let sourcesHtml = '';
+        for await (const part of chatResponse) {
+          const sourceNodes = part.sourceNodes;
+          if (!sourcesHtml && sourceNodes && sourceNodes.length > 0) {
+            sourcesHtml = getSourcesHtml(sourceNodes);
+          }
+          controller.enqueue(part.response);
         }
-      });
-      responseMessage += '</ul></p>';
-    }
-    return responseMessage;
+        if (sourcesHtml) {
+          controller.enqueue(sourcesHtml);
+        }
+        controller.close();
+      },
+    });
+
+    return stream;
   } catch (error) {
     console.log('error: ', error);
     throw createError({
@@ -120,4 +124,21 @@ async function setLlamaindexSettings(user: User | null) {
   });
 
   return Settings;
+}
+
+function getSourcesHtml(sourceNodes: NodeWithScore<Metadata>[]) {
+  let sourcesHtml = '';
+  sourcesHtml += '\n<p>References:<ul>';
+  const existingUrls: string[] = [];
+  sourceNodes.forEach((source) => {
+    if (
+      source.node.metadata.url &&
+      !existingUrls.includes(source.node.metadata.url)
+    ) {
+      sourcesHtml += `<li><a href="${source.node.metadata.url}" target="_blank">${source.node.metadata.url}</a></li>`;
+      existingUrls.push(source.node.metadata.url);
+    }
+  });
+  sourcesHtml += '</ul></p>';
+  return sourcesHtml;
 }
