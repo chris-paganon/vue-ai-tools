@@ -76,7 +76,6 @@ async function askQuestion(event?: KeyboardEvent) {
     if (!streamedAssistantAnswer) {
       throw new Error('No answer from the assistant');
     }
-    // TODO: Fix useAskAssistant to also stream answers
     streamAssistantMessage(streamedAssistantAnswer);
   } catch (_) {
     toast.add({
