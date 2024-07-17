@@ -74,14 +74,9 @@ async function remoteChatCompletion(
   const stream = new ReadableStream({
     async start(controller) {
       for await (const part of response) {
-        if (part.choices) {
-          for (const choice of part.choices) {
-            if (choice.delta.content === null) continue;
-            controller.enqueue(choice.delta.content);
-          }
-        }
-        if (part.choices.length === 0) {
-          controller.close();
+        for (const choice of part.choices) {
+          if (choice.delta.content === null) continue;
+          controller.enqueue(choice.delta.content);
         }
       }
       controller.close();
@@ -102,9 +97,6 @@ async function localChatCompletion(messages: ChatCompletionMessage[]) {
       for await (const part of response) {
         if (part.message?.content) {
           controller.enqueue(part.message.content);
-        }
-        if (part.done) {
-          controller.close();
         }
       }
       controller.close();
