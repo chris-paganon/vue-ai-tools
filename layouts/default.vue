@@ -54,22 +54,9 @@
 </template>
 
 <script setup lang="ts">
-const { showSidebar, shownPaidFeatureToast } = storeToRefs(useUIStore());
-const { setShownPaidFeatureToast, setIsLoginModalOpened } = useUIStore();
-const { isSubscribed, isVerified, isSignedIn } = storeToRefs(useAuthStore());
-const toast = useToast();
-
-onMounted(() => {
-  if (!shownPaidFeatureToast.value && isSubscribed.value) {
-    toast.add({
-      severity: 'info',
-      summary: 'Thank you',
-      detail:
-        '128k context length will be available soon! Thank you for subscribing.',
-    });
-    setShownPaidFeatureToast(true);
-  }
-});
+const { showSidebar } = storeToRefs(useUIStore());
+const { setIsLoginModalOpened } = useUIStore();
+const { isVerified, isSignedIn } = storeToRefs(useAuthStore());
 
 async function verifyEmail() {
   await $fetch('/api/auth/send-email-code');

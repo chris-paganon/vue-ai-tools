@@ -4,12 +4,11 @@
     <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
       <p>
         <strong
-          >Subscribe to get futur access to Deepseek Coder 128k token context
-          length (currently limited to 32k).</strong
+          >Subscribe to get access to Deepseek Coder 128k token context.</strong
         >
       </p>
       <ul>
-        <li>More accurate answers</li>
+        <li>No rate limits</li>
         <li>Unlimited requests</li>
         <li>Access to future paid features</li>
       </ul>
@@ -23,8 +22,8 @@
     >
       <p>
         <strong>
-          Thank you for your subscription! All your requests are now
-          automatically using Command R+.
+          Thank you for your subscription! You now have access to Deepseek Coder
+          128k token context.
         </strong>
       </p>
       <template
