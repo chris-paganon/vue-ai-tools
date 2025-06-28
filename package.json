@@ -21,6 +21,7 @@
     "drizzle-kit": "^0.21.1",
     "eslint-config-prettier": "^9.1.0",
     "nuxt-primevue": "^0.3.1",
+    "pino-pretty": "^13.0.0",
     "prettier": "^3.2.5",
     "primeflex": "^3.3.1"
   },
@@ -44,6 +45,7 @@
     "ollama": "^0.5.2",
     "oslo": "^1.2.0",
     "pinia": "^2.1.7",
+    "pino": "^9.5.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.52.0",
     "sass": "^1.64.1",
