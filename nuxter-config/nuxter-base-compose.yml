@@ -11,8 +11,13 @@ services:
     volumes:
       - .output.${APP_ENV}/server/db:/opt/nuxter/.output/server/db
     networks:
-      - caddy_nuxt_app
-      - vector_db
+      - reverse_proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.rule=Host(`${APP_HOST}`)'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.entrypoints=websecure'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.tls=true'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.tls.certresolver=nuxter'
 
   vector-db:
     container_name: ${COMPOSE_PROJECT_NAME}-vector-db
@@ -21,15 +26,18 @@ services:
     volumes:
       - vector-db-data:/var/lib/qdrant
     networks:
-      - vector_db
+      - reverse_proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.rule=Host(`${VECTOR_DB_HOST}`)'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.entrypoints=websecure'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls=true'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls.certresolver=nuxter'
 
 volumes:
   vector-db-data:
 
 networks:
-  caddy_nuxt_app:
-    name: ${COMPOSE_PROJECT_NAME}_caddy_nuxt_app
-    external: true
-  vector_db:
-    name: ${COMPOSE_PROJECT_NAME}_vector_db
+  reverse_proxy:
+    name: reverse_proxy
     external: true

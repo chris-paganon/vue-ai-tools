@@ -1,0 +1,10 @@
+services:
+  nuxt-app:
+    labels:
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.entrypoints=web'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.tls=false'
+
+  vector-db:
+    labels:
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.entrypoints=web'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls=false'
