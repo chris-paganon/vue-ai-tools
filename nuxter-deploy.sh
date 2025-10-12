@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# TODO: This may not be necessary if rsync doesn't delete the DB. Rsync also doesn't seem to wait for this to complete
-ssh nuxter@77.37.87.199 \
-  "cd ~/nuxter/vue-ai-tools && mv .output.production .output.production.old && mv .output.staging .output.staging.old"
-
 rsync -avzre 'ssh' docker-compose.nuxter.yml Dockerfile nuxter-start.sh \
   .env.production .env.staging \
   .output.production .output.staging \
