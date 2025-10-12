@@ -3,7 +3,6 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}-nuxt-app
     build:
       context: .
-      dockerfile: nuxter-config/Dockerfile.nuxt-app
       args:
         APP_ENV: ${APP_ENV}
     restart: always
