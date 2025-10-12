@@ -32,6 +32,9 @@ services:
       - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls=true'
       - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls.certresolver=nuxter'
 
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.middlewares=vue-ai-tools_vetor-db-${APP_ENV}-auth@docker'
+      - 'traefik.http.middlewares.vue-ai-tools_vetor-db-${APP_ENV}-auth.basicauth.users=${BASIC_AUTH_HASH}'
+
 volumes:
   vector-db-data:
 
