@@ -5,8 +5,4 @@ rsync -avzre 'ssh' docker-compose.nuxter.yml Dockerfile nuxter-start.sh \
   .output.production .output.staging \
   nuxter@77.37.87.199:~/nuxter/vue-ai-tools
 
-ssh nuxter@77.37.87.199 \
-  "cd ~/nuxter/vue-ai-tools && \
-   cp .output.production.old/server/db/sqlite.db .output.production/server/db/sqlite.db && \
-   cp .output.staging.old/server/db/sqlite.db .output.staging/server/db/sqlite.db && \
-   ./nuxter-start.sh"
+ssh nuxter@77.37.87.199 "cd ~/nuxter/vue-ai-tools && ./nuxter-start.sh"
