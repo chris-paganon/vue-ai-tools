@@ -3,7 +3,6 @@ import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
 import { generateIdFromEntropySize } from 'lucia';
 import { eq } from 'drizzle-orm';
-import sgMail from '@sendgrid/mail';
 import { usersTable, passwordResetTable } from '@/db/schema/usersSchema';
 
 export default eventHandler(async (event) => {
@@ -58,19 +57,13 @@ async function createPasswordResetToken(userId: string): Promise<string> {
 }
 
 async function sendPasswordResetEmail(email: string, token: string) {
-  const sendgridApiKey = useRuntimeConfig().sendgridApiKey;
-  sgMail.setApiKey(sendgridApiKey);
-
-  const msg = {
-    to: email,
-    from: 'info@vueai.tools', // Change to your verified sender
-    subject: 'Verify your email',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: `
+  await sendEmail(
+    email,
+    'Verify your email',
+    `
       <h1>Go to the following link to set a new password</h1>
       <h2><a href="">https://vueai.tools/reset-password?token=${token}</a></h2>
       <p>This link will expire in 15 minutes.</p>
     `,
-  };
-  await sgMail.send(msg);
+  );
 }

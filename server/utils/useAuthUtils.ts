@@ -3,7 +3,6 @@ import { TimeSpan, createDate } from 'oslo';
 import { generateRandomString, alphabet } from 'oslo/crypto';
 import { eq } from 'drizzle-orm';
 import { verify } from '@node-rs/argon2';
-import sgMail from '@sendgrid/mail';
 import {
   dbAdapter,
   emailVerificationTable,
@@ -50,7 +49,7 @@ interface DatabaseUserAttributes {
 
 export async function generateEmailVerificationCode(
   userId: string,
-  email: string
+  email: string,
 ) {
   const db = getDrizzleDb();
   await db
@@ -69,21 +68,16 @@ export async function generateEmailVerificationCode(
 }
 
 export async function sendVerificationCode(email: string, code: string) {
-  const sendgridApiKey = useRuntimeConfig().sendgridApiKey;
-  sgMail.setApiKey(sendgridApiKey);
-  const msg = {
-    to: email, // Change to your recipient
-    from: 'info@vueai.tools', // Change to your verified sender
-    subject: 'Verify your email',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: `
+  await sendEmail(
+    email,
+    'Verify your email',
+    `
       <h1>Verify your email</h1>
       <p>Use the code below to verify your email address <a href="https://vueai.tools/email-verification">here</a>:</p>
       <h2>${code}</h2>
       <p>This code will expire in 15 minutes.</p>
     `,
-  };
-  await sgMail.send(msg);
+  );
 }
 
 export async function useVerifyPassword(email: string, password: string) {

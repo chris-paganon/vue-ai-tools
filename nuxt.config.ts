@@ -85,7 +85,7 @@ export default defineNuxtConfig({
     localEmbedModel: 'BAAI/bge-small-en-v1.5',
     lemonsqueezyWebhookSecret: 'ab12',
     lemonsqueezyApiKey: 'ab12',
-    sendgridApiKey: 'SG.12ab',
+    brevoApiKey: 'ab12',
     vueDocsIndexName: 'vue-docs',
     vectorStoreUrl: 'http://localhost:6333',
     public: {
