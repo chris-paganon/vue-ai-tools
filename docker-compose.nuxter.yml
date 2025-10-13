@@ -1,0 +1,46 @@
+services:
+  nuxt-app:
+    container_name: ${COMPOSE_PROJECT_NAME}-nuxt-app
+    build:
+      context: .
+      args:
+        APP_ENV: ${APP_ENV}
+    env_file:
+      - .env.${APP_ENV}
+    restart: always
+    volumes:
+      - .output.${APP_ENV}/server/db:/opt/nuxter/.output/server/db
+    networks:
+      - reverse_proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.rule=Host(`${APP_HOST}`)'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.entrypoints=websecure'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.tls=true'
+      - 'traefik.http.routers.vue-ai-tools_nuxt-app-${APP_ENV}-router.tls.certresolver=nuxter'
+
+  vector-db:
+    container_name: ${COMPOSE_PROJECT_NAME}-vector-db
+    image: qdrant/qdrant:v1.9.5
+    restart: always
+    volumes:
+      - vector-db-data:/var/lib/qdrant
+    networks:
+      - reverse_proxy
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.rule=Host(`${VECTOR_DB_HOST}`)'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.entrypoints=websecure'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls=true'
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.tls.certresolver=nuxter'
+
+      - 'traefik.http.routers.vue-ai-tools_vetor-db-${APP_ENV}-router.middlewares=vue-ai-tools_vetor-db-${APP_ENV}-auth@docker'
+      - 'traefik.http.middlewares.vue-ai-tools_vetor-db-${APP_ENV}-auth.basicauth.users=${BASIC_AUTH_HASH}'
+
+volumes:
+  vector-db-data:
+
+networks:
+  reverse_proxy:
+    name: reverse_proxy
+    external: true

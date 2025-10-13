@@ -1,4 +1,4 @@
-import { BaseEmbedding } from 'llamaindex';
+import { BaseEmbedding, type MessageContentTextDetail } from 'llamaindex';
 import type { EmbedFloatsResponse } from 'cohere-ai/api';
 import { CohereSession } from './useCohereLLM';
 
@@ -19,11 +19,11 @@ export class CohereEmbedding extends BaseEmbedding {
     this.session = new CohereSession(init);
   }
 
-  async getQueryEmbedding(input: string) {
+  async getQueryEmbedding(input: MessageContentTextDetail) {
     const client = await this.session.getClient();
     const response = (await client.embed({
       model: this.model,
-      texts: [input],
+      texts: [input.text],
       inputType: 'search_query',
     })) as EmbedFloatsResponse;
 
@@ -31,6 +31,6 @@ export class CohereEmbedding extends BaseEmbedding {
   }
 
   async getTextEmbedding(text: string): Promise<number[]> {
-    return this.getQueryEmbedding(text);
+    return this.getQueryEmbedding({ type: 'text', text });
   }
 }

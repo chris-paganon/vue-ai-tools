@@ -1,11 +1,16 @@
+#!/bin/bash
+
 projectName="vue-ai-tools"
 projectNameProduction="$projectName-production"
 projectNameStaging="$projectName-staging"
 
-docker network create ${projectNameProduction}_caddy_nuxt_app
-docker network create ${projectNameProduction}_vector_db
-docker network create ${projectNameStaging}_caddy_nuxt_app
-docker network create ${projectNameStaging}_vector_db
-
-docker compose -f ./nuxter-config/nuxter-base-compose.yml --env-file ./nuxter-config/production.env -p ${projectNameProduction} --project-directory ./ up --build --remove-orphans -d
-docker compose -f ./nuxter-config/nuxter-base-compose.yml --env-file ./nuxter-config/staging.env -p ${projectNameStaging} --project-directory ./ up --build --remove-orphans -d
+# Check if --local flag is provided
+if [[ "$*" == *"--local"* ]]; then
+    echo "Starting in local mode..."
+    docker compose -f ./docker-compose.nuxter.yml -f ./docker-compose.nuxter.override.yml --env-file ./.env.staging -p ${projectNameProduction} --project-directory ./ up --build --remove-orphans -d
+    docker compose -f ./docker-compose.nuxter.yml -f ./docker-compose.nuxter.override.yml --env-file ./.env.production -p ${projectNameStaging} --project-directory ./ up --build --remove-orphans -d
+else
+    echo "Starting production and staging environments..."
+    docker compose -f ./docker-compose.nuxter.yml --env-file ./.env.production -p ${projectNameProduction} --project-directory ./ up --build --remove-orphans -d
+    docker compose -f ./docker-compose.nuxter.yml --env-file ./.env.staging -p ${projectNameStaging} --project-directory ./ up --build --remove-orphans -d
+fi
