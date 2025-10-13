@@ -24,8 +24,8 @@ export async function sendEmail(
       email: 'info@vueai.tools',
     },
     replyTo = {
-      email: 'info@vueai.tools',
       name: 'Chris Paganon',
+      email: 'info@chrispaganon.com',
     },
     toName,
   } = options || {};
