@@ -21,7 +21,7 @@ services:
 
   vector-db:
     container_name: ${COMPOSE_PROJECT_NAME}-vector-db
-    image: qdrant/qdrant:v1.9.5
+    image: qdrant/qdrant
     restart: unless-stopped
     volumes:
       - vector-db-data:/var/lib/qdrant
