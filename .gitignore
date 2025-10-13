@@ -26,6 +26,9 @@ __pycache__
 !.env.*.example
 .venv
 
+# Docker images
+docker-images-*
+
 # Data
 sqlite.db
 storage
