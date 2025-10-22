@@ -54,5 +54,5 @@ const db = drizzle(sqliteDB);
 export const dbAdapter = new DrizzleSQLiteAdapter(
   db,
   sessionsTable,
-  usersTable
+  usersTable,
 );
