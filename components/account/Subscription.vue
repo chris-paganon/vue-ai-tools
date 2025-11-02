@@ -3,14 +3,11 @@
     <h2>Subscription</h2>
     <div v-if="!isSubscribed" class="flex flex-column align-items-start gap-3">
       <p>
-        <strong
-          >Subscribe to get access to Deepseek Coder 128k token context.</strong
-        >
+        <strong>Subscribe to help a fellow programmer!</strong>
       </p>
       <ul>
         <li>No rate limits</li>
         <li>Unlimited requests</li>
-        <li>Access to future paid features</li>
       </ul>
       <p>$10/month</p>
       <LemonSubscribe />
@@ -21,10 +18,7 @@
       class="flex flex-column align-items-start gap-3"
     >
       <p>
-        <strong>
-          Thank you for your subscription! You now have access to Deepseek Coder
-          128k token context.
-        </strong>
+        <strong> Thank you for your subscription! </strong>
       </p>
       <template
         v-for="(subscription, index) in subscriptions"
