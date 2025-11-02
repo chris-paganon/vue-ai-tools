@@ -37,7 +37,7 @@ const toast = useToast();
 const { messages } = storeToRefs(useChatStore());
 const {
   addUserMessage,
-  addAssistantMessage,
+  streamAssistantMessage,
   setPlainGptTplSystemMessage,
   setCompositionTplSystemMessage,
   setOptionsTplSystemMessage,
@@ -81,13 +81,13 @@ onMounted(() => {
 
 // Handle user input
 const templateGenerationIntro = ref(
-  'Use this JSON template to generate a Vue component:'
+  'Use this JSON template to generate a Vue component:',
 );
 async function generateComponent() {
   if (!view.value) return;
 
   addUserMessage(
-    `${templateGenerationIntro.value} ${view.value.state.doc.toString()}`
+    `${templateGenerationIntro.value} ${view.value.state.doc.toString()}`,
   );
   setIsWaitingAnswer(true);
   setTplSystemMessage();
@@ -98,7 +98,7 @@ async function generateComponent() {
       throw new Error('No answer from the assistant');
     }
 
-    addAssistantMessage(assistantAnswer);
+    streamAssistantMessage(assistantAnswer);
   } catch (error) {
     toast.add({
       severity: 'error',
