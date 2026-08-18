@@ -1,3 +1,5 @@
+
+
 # VueAI.tools
 
 Your go-to resource for AI tools tailored specifically for VueJS. The open source AI assistant uses the Vue documentation to provide more helpful answers, **links to the docs** and to **minimize errors and hallucinations**. The perfect assistant to **help you start** your VueJS journey.
@@ -87,7 +89,7 @@ In order to run in production, you will need to set up a few more things. The fo
 3. Install dependencies: `npm install`.
 4. Copy the `.env.example` file to `.env` and set the necessary environment variables. NUXT_AI_ENVIRONMENT needs to be set to `remote` and all other variables need to be set to the correct values.
 5. Build the app: `npm run build`.
-6. Run the app with node or node inside a docker container.
+6. Run the app with `npm run start` or node inside a docker container.
 7. Start the Qdrant vector database and build the index.
 8. Make sure the app & Qdrant are accessible to each other.
 9. Serve the app with a reverse proxy like Nginx or Caddy.
